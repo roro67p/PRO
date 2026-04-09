@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Romu · La caisse intelligente pour restaurants</title>
+<meta name="description" content="Logiciel de caisse pour restaurants, snacks et bars. Prise en main en 5 minutes. Essai gratuit."/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070605;--s1:#0d0c09;--s2:#141210;--s3:#1c1a14;
+  --border:rgba(255,255,255,.07);
+  --g1:#c9973a;--g2:#e8b84b;--g3:#f5d070;--glow:rgba(201,151,58,.35);
+  --txt:#f0ebe0;--sub:#8a8272;--dim:#4a4540;--green:#5fb87a;
+  --rad:16px;--font-sans:'DM Sans',sans-serif;--font-serif:'Cormorant Garamond',serif;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-sans);line-height:1.6;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");opacity:.45}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;background:rgba(7,6,5,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--border);transition:background .3s}
+nav.scrolled{background:rgba(7,6,5,.97)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--font-serif);font-size:20px;font-weight:700;color:var(--g2);letter-spacing:2.5px;text-transform:uppercase;text-decoration:none}
+.nav-pulse{width:7px;height:7px;border-radius:50%;background:var(--g1);box-shadow:0 0 10px var(--g1),0 0 20px var(--g1);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.6)}}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{color:var(--sub);font-size:13px;font-weight:500;text-decoration:none;transition:color .2s;letter-spacing:.2px}
+.nav-links a:hover{color:var(--txt)}
+.nav-cta{background:linear-gradient(110deg,#b8810e,#e8b84b,#f5d070,#c9973a);background-size:250% 100%;color:#0a0700;font-size:13px;font-weight:700;padding:9px 24px;border-radius:9px;text-decoration:none;letter-spacing:.3px;box-shadow:0 0 20px rgba(201,151,58,.3);transition:all .3s}
+.nav-cta:hover{background-position:70%;box-shadow:0 0 32px rgba(201,151,58,.55);transform:translateY(-1px)}
+@media(max-width:768px){.nav-links{display:none}}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 6% 80px;position:relative;overflow:hidden}
+.hero-aurora{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(201,151,58,.14) 0%,transparent 55%),radial-gradient(ellipse 50% 35% at 15% 90%,rgba(201,151,58,.06) 0%,transparent 50%),radial-gradient(ellipse 50% 35% at 85% 85%,rgba(201,151,58,.06) 0%,transparent 50%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(201,151,58,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(201,151,58,.035) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,black 20%,transparent 100%)}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(201,151,58,.09);border:1px solid rgba(201,151,58,.22);border-radius:40px;padding:6px 18px;font-size:11px;font-weight:600;color:var(--g2);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:32px;animation:fadeUp .5s ease both}
+.pill-dot{width:6px;height:6px;background:var(--g1);border-radius:50%;box-shadow:0 0 8px var(--g1);animation:pulse 1.8s infinite}
+.hero-h1{font-family:var(--font-serif);font-size:clamp(42px,6.5vw,86px);font-weight:700;line-height:1.05;color:var(--txt);max-width:820px;margin-bottom:24px;animation:fadeUp .6s .08s ease both}
+.hero-h1 .gold{background:linear-gradient(135deg,#f5d070 0%,#e8b84b 40%,#f5d070 70%,#c9973a 100%);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.hero-h1 .italic{font-style:italic}
+.hero-sub{font-size:clamp(15px,1.8vw,18px);color:var(--sub);max-width:500px;font-weight:300;line-height:1.75;margin-bottom:36px;animation:fadeUp .6s .16s ease both}
+.hero-trust{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;animation:fadeUp .6s .22s ease both}
+.trust-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:30px;padding:5px 14px;font-size:12px;color:var(--sub);font-weight:400}
+.trust-pill .ico{color:var(--green);font-size:11px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s .28s ease both}
+.btn-hero{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(110deg,#9a6010,#d4a030,#f5d070,#c9973a,#e8b84b);background-size:300% 100%;color:#080500;font-size:16px;font-weight:800;padding:17px 42px;border-radius:13px;text-decoration:none;letter-spacing:.2px;box-shadow:0 6px 30px rgba(201,151,58,.45),0 0 0 1px rgba(245,208,112,.15),inset 0 1px 0 rgba(255,255,255,.25);transition:all .3s cubic-bezier(.2,0,.2,1);position:relative;overflow:hidden}
+.btn-hero::before{content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transform:skewX(-15deg);transition:left .6s}
+.btn-hero:hover::before{left:150%}
+.btn-hero:hover{background-position:70%;box-shadow:0 12px 40px rgba(201,151,58,.6);transform:translateY(-3px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);color:var(--txt);font-size:15px;font-weight:500;padding:17px 36px;border-radius:13px;text-decoration:none;letter-spacing:.2px;backdrop-filter:blur(8px);transition:all .2s}
+.btn-ghost:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:0;margin-top:52px;background:var(--s1);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;animation:fadeUp .6s .4s ease both;max-width:700px;width:100%}
+.stat-item{flex:1;padding:20px 16px;text-align:center;border-right:1px solid var(--border);transition:background .2s}
+.stat-item:last-child{border-right:none}
+.stat-item:hover{background:rgba(201,151,58,.05)}
+.stat-val{font-family:var(--font-serif);font-size:30px;font-weight:700;color:var(--g2);line-height:1}
+.stat-lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1.2px;margin-top:5px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+/* MOCKUP */
+.hero-mockup-wrap{margin-top:60px;max-width:960px;width:100%;position:relative;animation:fadeUp .8s .5s ease both}
+.mockup-glow{position:absolute;inset:-40px;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(201,151,58,.1),transparent 70%);filter:blur(20px)}
+.mockup-frame{position:relative;z-index:1;background:var(--s1);border:1px solid rgba(201,151,58,.2);border-radius:18px;overflow:hidden;box-shadow:0 50px 100px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04)}
+.mf-bar{height:40px;background:#080706;display:flex;align-items:center;padding:0 16px;gap:8px;border-bottom:1px solid rgba(255,255,255,.05)}
+.mf-dot{width:11px;height:11px;border-radius:50%}
+.mf-dot.r{background:#ff5f57}.mf-dot.y{background:#febc2e}.mf-dot.g{background:#28c840}
+.mf-url{flex:1;margin:0 20px;height:22px;background:rgba(255,255,255,.06);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dim);gap:6px}
+.mf-url-dot{width:5px;height:5px;background:var(--green);border-radius:50%}
+.mf-body{display:grid;grid-template-columns:200px 1fr 320px;height:430px;overflow:hidden}
+@media(max-width:900px){.mf-body{grid-template-columns:1fr;height:auto}.mf-sidebar,.mf-ticket{display:none}}
+.mf-sidebar{background:#0a0908;border-right:1px solid rgba(255,255,255,.05);padding:14px 0;display:flex;flex-direction:column;gap:2px}
+.mf-brand{padding:10px 16px 18px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:8px}
+.mf-brand-name{font-family:var(--font-serif);font-size:14px;color:var(--g2);font-weight:600;letter-spacing:2px}
+.mf-brand-sub{font-size:8px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.mf-grp{padding:6px 16px 3px;font-size:7px;color:var(--dim);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
+.mf-nav{display:flex;align-items:center;gap:7px;padding:7px 16px;font-size:10px;color:var(--sub)}
+.mf-nav.on{background:rgba(201,151,58,.08);color:var(--g2);border-left:2px solid var(--g1)}
+.mf-nav-ico{width:12px;font-size:9px;opacity:.6}
+.mf-badge{background:var(--g1);color:#080500;border-radius:8px;padding:1px 5px;font-size:7px;font-weight:800;margin-left:auto}
+.mf-products{background:#0c0b08;display:flex;flex-direction:column;overflow:hidden}
+.mf-cats{display:flex;gap:5px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04);flex-shrink:0;overflow:hidden}
+.mf-cat{padding:4px 12px;border-radius:14px;font-size:9px;font-weight:600;background:rgba(255,255,255,.05);color:var(--sub);white-space:nowrap}
+.mf-cat.on{background:rgba(201,151,58,.18);color:var(--g3);border:1px solid rgba(201,151,58,.35)}
+.mf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:10px 12px;flex:1;overflow:hidden;align-content:start}
+.mf-prod{background:linear-gradient(160deg,#1e1b12,#151310);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:9px 7px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+.mf-prod.star{border-color:rgba(201,151,58,.28);background:linear-gradient(160deg,#221d0f,#191508)}
+.mf-prod-cat{font-size:7px;font-weight:800;padding:2px 5px;border-radius:3px;text-transform:uppercase}
+.mf-prod-cat.r{background:rgba(190,65,65,.2);color:#e88888}.mf-prod-cat.g{background:rgba(74,160,74,.2);color:#7dd87d}.mf-prod-cat.b{background:rgba(50,140,140,.2);color:#78d0d0}.mf-prod-cat.p{background:rgba(160,80,170,.2);color:#d088d8}
+.mf-prod-nom{font-size:8px;font-weight:700;color:#ede8de;line-height:1.25}
+.mf-prod-px{font-family:var(--font-serif);font-size:13px;color:var(--g3);font-weight:700}
+.mf-ticket{background:#090807;border-left:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;overflow:hidden}
+.mf-tk-head{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.04);flex-shrink:0}
+.mf-tk-row{display:flex;align-items:center;gap:7px}
+.mf-tk-badge{font-family:var(--font-serif);font-size:16px;font-weight:700;color:var(--g3);background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.28);border-radius:7px;padding:2px 10px}
+.mf-tk-sel{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:6px;height:22px;display:flex;align-items:center;padding:0 8px;font-size:8px;color:var(--sub)}
+.mf-tk-lines{flex:1;padding:8px 12px;display:flex;flex-direction:column;gap:5px;overflow:hidden}
+.mf-line{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:7px;border-left:2px solid rgba(190,65,65,.5)}
+.mf-line.g{border-left-color:rgba(74,160,74,.5)}.mf-line.b{border-left-color:rgba(50,140,140,.5)}
+.mf-line-ico{width:24px;height:24px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;background:rgba(190,65,65,.14);color:#e88888}
+.mf-line-ico.g{background:rgba(74,160,74,.14);color:#7dd87d}.mf-line-ico.b{background:rgba(50,140,140,.14);color:#78d0d0}
+.mf-line-info{flex:1;min-width:0}
+.mf-line-nom{font-size:8px;font-weight:700;color:#f0ebe0}
+.mf-line-pu{font-size:6px;color:var(--dim);margin-top:1px}
+.mf-line-ctrl{display:flex;align-items:center;gap:2px;background:rgba(0,0,0,.25);border-radius:5px;padding:1px}
+.mf-qbtn{width:16px;height:16px;border-radius:3px;background:rgba(255,255,255,.08);border:none;color:#f0ebe0;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-qnum{font-family:var(--font-serif);font-size:10px;color:var(--g3);width:12px;text-align:center;font-weight:700}
+.mf-line-px{font-family:var(--font-serif);font-size:12px;color:var(--g3);font-weight:700;margin-left:3px}
+.mf-sug{margin:0 12px 6px;background:rgba(201,151,58,.07);border:1px solid rgba(201,151,58,.18);border-radius:8px;padding:7px 9px;flex-shrink:0}
+.mf-sug-lbl{font-size:7px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(201,151,58,.5);margin-bottom:4px}
+.mf-sug-row{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.03);border-radius:6px;padding:5px 7px}
+.mf-sug-ico{width:20px;height:20px;background:rgba(201,151,58,.14);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--g3);font-weight:800;flex-shrink:0}
+.mf-sug-txt{flex:1;font-size:8px;color:#e8e4d8}
+.mf-sug-px{font-size:9px;color:var(--g3);font-weight:700}
+.mf-sug-add{width:16px;height:16px;background:rgba(201,151,58,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--g1);font-weight:900}
+.mf-tk-foot{padding:8px 12px 10px;background:#070605;border-top:1px solid rgba(255,255,255,.04);flex-shrink:0}
+.mf-total-wrap{background:rgba(201,151,58,.07);border:1px solid rgba(201,151,58,.18);border-radius:9px;padding:8px 11px;margin-bottom:7px;position:relative;overflow:hidden}
+.mf-total-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,151,58,.5),transparent)}
+.mf-total-lbl{font-size:6px;text-transform:uppercase;letter-spacing:2px;color:rgba(201,151,58,.45);margin-bottom:2px;display:flex;justify-content:space-between}
+.mf-total-val{font-family:var(--font-serif);font-size:30px;font-weight:700;color:var(--g3);line-height:1}
+.mf-pay{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px}
+.mf-pay-btn{padding:7px;border-radius:7px;font-size:8px;font-weight:700;text-align:center;border:1px solid}
+.mf-pay-btn.cb{background:rgba(45,95,138,.1);border-color:rgba(45,95,138,.3);color:#6aacda}
+.mf-pay-btn.esp{background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.3);color:#6fcf8a}
+.mf-enc{width:100%;padding:9px;border-radius:8px;background:linear-gradient(110deg,#9a6010,#d4a030,#f5d070);color:#080500;font-size:9px;font-weight:800;text-align:center;letter-spacing:.3px}
+
+/* SECTIONS */
+.section{padding:100px 6%;position:relative;z-index:1}
+.sdiv{height:1px;background:linear-gradient(90deg,transparent,rgba(201,151,58,.12),transparent)}
+.s-chip{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--g1);font-weight:600;margin-bottom:14px}
+.s-title{font-family:var(--font-serif);font-size:clamp(30px,4vw,54px);font-weight:700;line-height:1.1;color:var(--txt);margin-bottom:16px}
+.s-title em{font-style:italic;background:linear-gradient(135deg,#f5d070,#c9973a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.s-sub{font-size:16px;color:var(--sub);max-width:500px;line-height:1.75;font-weight:300}
+
+/* PROBLEM */
+.prob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;margin-top:48px;background:var(--s2);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden}
+.prob-item{padding:36px 28px;background:var(--s1);transition:background .25s}
+.prob-item:hover{background:var(--s2)}
+.prob-item+.prob-item{border-left:1px solid var(--border)}
+@media(max-width:700px){.prob-item+.prob-item{border-left:none;border-top:1px solid var(--border)}}
+.prob-cross{width:40px;height:40px;border-radius:10px;background:rgba(181,57,42,.12);border:1px solid rgba(181,57,42,.25);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:16px;color:#e06050}
+.prob-title{font-size:16px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.prob-desc{font-size:13px;color:var(--sub);line-height:1.65}
+.prob-after{padding:36px 28px;background:linear-gradient(135deg,rgba(201,151,58,.07),rgba(201,151,58,.02));border-left:1px solid rgba(201,151,58,.2) !important}
+.prob-check{width:40px;height:40px;border-radius:10px;background:rgba(61,122,78,.12);border:1px solid rgba(61,122,78,.25);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:16px;color:var(--green)}
+.prob-after .prob-title{color:var(--g2)}
+
+/* BENEFITS */
+.ben-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:52px}
+.ben-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--rad);padding:32px;position:relative;overflow:hidden;transition:all .3s cubic-bezier(.2,0,.2,1)}
+.ben-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g1),transparent);opacity:0;transition:opacity .3s}
+.ben-card:hover{transform:translateY(-8px);border-color:rgba(201,151,58,.28);box-shadow:0 24px 48px rgba(0,0,0,.4)}
+.ben-card:hover::after{opacity:1}
+.ben-ico{width:50px;height:50px;border-radius:13px;background:rgba(201,151,58,.09);border:1px solid rgba(201,151,58,.18);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px;transition:all .3s}
+.ben-card:hover .ben-ico{background:rgba(201,151,58,.17);box-shadow:0 0 20px rgba(201,151,58,.15)}
+.ben-title{font-size:16px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.ben-desc{font-size:13px;color:var(--sub);line-height:1.7}
+.ben-metric{margin-top:20px}
+.ben-val{font-family:var(--font-serif);font-size:34px;font-weight:700;color:var(--g2);line-height:1}
+.ben-lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:52px}
+@media(max-width:700px){.feat-grid{grid-template-columns:1fr}}
+.feat-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--rad);padding:30px 28px;display:flex;gap:20px;transition:all .25s}
+.feat-card:hover{border-color:rgba(201,151,58,.22);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.feat-card.wide{grid-column:1/-1;background:linear-gradient(135deg,#191610,#101009);border-color:rgba(201,151,58,.22)}
+@media(max-width:700px){.feat-card.wide{grid-column:auto}}
+.feat-ico{width:46px;height:46px;flex-shrink:0;border-radius:12px;background:rgba(201,151,58,.1);border:1px solid rgba(201,151,58,.18);display:flex;align-items:center;justify-content:center;font-size:18px}
+.feat-title{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:6px}
+.feat-desc{font-size:13px;color:var(--sub);line-height:1.65}
+.feat-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.feat-tag{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px;background:rgba(201,151,58,.08);border:1px solid rgba(201,151,58,.16);color:var(--g2)}
+
+/* PROOF */
+.proof-wrap{background:linear-gradient(135deg,#181510,#0f0d08);border:1px solid rgba(201,151,58,.18);border-radius:20px;padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;position:relative;overflow:hidden}
+.proof-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,151,58,.5),transparent)}
+.proof-wrap::after{content:'';position:absolute;top:-100px;right:-100px;width:350px;height:350px;background:radial-gradient(circle,rgba(201,151,58,.07),transparent 70%);pointer-events:none}
+@media(max-width:800px){.proof-wrap{grid-template-columns:1fr;padding:36px 28px;gap:36px}}
+.proof-quote{font-family:var(--font-serif);font-size:clamp(20px,2.8vw,32px);font-weight:600;font-style:italic;color:var(--txt);line-height:1.45;margin-bottom:28px}
+.proof-quote strong{color:var(--g2);font-style:normal}
+.proof-list{display:flex;flex-direction:column;gap:12px}
+.proof-li{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--sub)}
+.proof-li-ico{width:22px;height:22px;border-radius:50%;background:rgba(95,184,122,.15);border:1px solid rgba(95,184,122,.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);flex-shrink:0}
+.proof-kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.proof-kpi{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:22px;text-align:center;transition:border-color .2s}
+.proof-kpi:hover{border-color:rgba(201,151,58,.2)}
+.proof-kpi-val{font-family:var(--font-serif);font-size:40px;font-weight:700;color:var(--g2);line-height:1}
+.proof-kpi-lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-top:6px;line-height:1.4}
+
+/* PRICING */
+.pricing-wrap{max-width:800px;margin:0 auto}
+.pricing-head{text-align:center;margin-bottom:48px}
+.pricing-head .s-sub{margin:0 auto}
+.p-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.p-cards{grid-template-columns:1fr}}
+.p-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--rad);padding:38px;transition:border-color .25s}
+.p-card.featured{background:linear-gradient(155deg,#1c1910,#121009);border-color:rgba(201,151,58,.32);box-shadow:0 24px 60px rgba(0,0,0,.4);position:relative;overflow:hidden}
+.p-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g2),transparent)}
+.p-badge{display:inline-block;background:linear-gradient(135deg,rgba(201,151,58,.2),rgba(201,151,58,.08));border:1px solid rgba(201,151,58,.3);border-radius:20px;padding:3px 14px;font-size:9px;font-weight:700;color:var(--g2);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px}
+.p-plan{font-size:12px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.p-price{font-family:var(--font-serif);font-size:58px;font-weight:700;color:var(--txt);line-height:1;margin-bottom:4px}
+.p-price sub{font-size:18px;color:var(--sub);font-family:var(--font-sans);font-weight:400;vertical-align:baseline}
+.p-period{font-size:12px;color:var(--dim);margin-bottom:28px}
+.p-features{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:30px}
+.p-features li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--sub)}
+.p-features li::before{content:'✓';color:var(--green);font-weight:800;font-size:11px;width:18px;height:18px;border-radius:50%;background:rgba(95,184,122,.12);border:1px solid rgba(95,184,122,.28);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.p-btn{display:block;width:100%;text-align:center;padding:14px;border-radius:10px;font-size:14px;font-weight:700;letter-spacing:.3px;text-decoration:none;transition:all .25s}
+.p-btn.outline{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--txt)}
+.p-btn.outline:hover{background:rgba(255,255,255,.09);transform:translateY(-1px)}
+.p-btn.solid{background:linear-gradient(110deg,#9a6010,#d4a030,#f5d070,#c9973a);background-size:250% 100%;color:#080500;box-shadow:0 4px 20px rgba(201,151,58,.3)}
+.p-btn.solid:hover{background-position:70%;box-shadow:0 8px 30px rgba(201,151,58,.5);transform:translateY(-2px)}
+.p-guarantee{text-align:center;margin-top:24px;font-size:12px;color:var(--dim);display:flex;align-items:center;justify-content:center;gap:6px}
+
+/* CTA */
+#cta{padding:120px 6%;text-align:center;position:relative;overflow:hidden}
+.cta-aurora{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(201,151,58,.08),transparent 70%);filter:blur(10px)}
+.cta-inner{max-width:620px;margin:0 auto;position:relative}
+.cta-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--g1);font-weight:600;margin-bottom:16px}
+.cta-title{font-family:var(--font-serif);font-size:clamp(36px,5.5vw,68px);font-weight:700;line-height:1.06;color:var(--txt);margin-bottom:18px}
+.cta-title em{font-style:italic;color:var(--g2)}
+.cta-sub{font-size:16px;color:var(--sub);margin-bottom:36px;line-height:1.75}
+.cta-note{font-size:11px;color:var(--dim);margin-top:18px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.cta-note span{display:flex;align-items:center;gap:6px}
+.cta-note span::before{content:'·';opacity:.4}
+.cta-note span:first-child::before{display:none}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:36px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:var(--font-serif);font-size:17px;color:var(--g2);font-weight:600;letter-spacing:2px;text-transform:uppercase}
+.footer-copy{font-size:12px;color:var(--dim)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:var(--dim);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--sub)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s cubic-bezier(.2,0,.2,1),transform .7s cubic-bezier(.2,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.18s}.reveal.d3{transition-delay:.26s}.reveal.d4{transition-delay:.34s}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo"><div class="nav-pulse"></div>Romu</a>
+  <div class="nav-links">
+    <a href="#problem">Problème</a>
+    <a href="#features">Fonctionnalités</a>
+    <a href="#pricing">Tarifs</a>
+  </div>
+  <a href="app.html" class="nav-cta">Tester gratuitement →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-aurora"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-pill"><div class="pill-dot"></div>Logiciel de caisse · Restaurants &amp; Bars</div>
+  <h1 class="hero-h1">Gérez votre restaurant<br/><span class="italic gold">plus vite</span> et augmentez<br/>votre chiffre d'affaires</h1>
+  <p class="hero-sub">La caisse intelligente conçue pour les vrais restaurateurs. Suggestions automatiques, dashboard live, stocks en temps réel.</p>
+  <div class="hero-trust">
+    <div class="trust-pill"><span class="ico">✓</span>Prise en main en 5 minutes</div>
+    <div class="trust-pill"><span class="ico">✓</span>Aucune installation</div>
+    <div class="trust-pill"><span class="ico">✓</span>Restaurants, snacks &amp; bars</div>
+    <div class="trust-pill"><span class="ico">✓</span>Essai gratuit sans CB</div>
+  </div>
+  <div class="hero-btns">
+    <a href="app.html" class="btn-hero"><span>🚀</span>Tester gratuitement maintenant</a>
+    <a href="#features" class="btn-ghost">Voir les fonctionnalités</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-val">+23%</div><div class="stat-lbl">Ticket moyen</div></div>
+    <div class="stat-item"><div class="stat-val">&lt;5 min</div><div class="stat-lbl">Prise en main</div></div>
+    <div class="stat-item"><div class="stat-val">60+</div><div class="stat-lbl">Modules inclus</div></div>
+    <div class="stat-item"><div class="stat-val">0€</div><div class="stat-lbl">Pour démarrer</div></div>
+  </div>
+  <!-- MOCKUP -->
+  <div class="hero-mockup-wrap">
+    <div class="mockup-glow"></div>
+    <div class="mockup-frame">
+      <div class="mf-bar">
+        <div class="mf-dot r"></div><div class="mf-dot y"></div><div class="mf-dot g"></div>
+        <div class="mf-url"><div class="mf-url-dot"></div>romu.app · Caisse · Service en cours ⚡</div>
+      </div>
+      <div class="mf-body">
+        <div class="mf-sidebar">
+          <div class="mf-brand"><div class="mf-brand-name">Chez Romu</div><div class="mf-brand-sub">Gestion · Service</div></div>
+          <div class="mf-grp">Service</div>
+          <div class="mf-nav on"><span class="mf-nav-ico">◇</span>Caisse<span class="mf-badge">3</span></div>
+          <div class="mf-nav"><span class="mf-nav-ico">⬡</span>Plan de salle</div>
+          <div class="mf-nav"><span class="mf-nav-ico">◎</span>Commandes</div>
+          <div class="mf-nav"><span class="mf-nav-ico">◈</span>Dashboard</div>
+          <div class="mf-grp" style="margin-top:6px">Restaurant</div>
+          <div class="mf-nav"><span class="mf-nav-ico">≡</span>Menu &amp; Plats</div>
+          <div class="mf-nav"><span class="mf-nav-ico">📅</span>Réservations</div>
+          <div class="mf-grp" style="margin-top:6px">Gestion</div>
+          <div class="mf-nav"><span class="mf-nav-ico">▤</span>Stocks</div>
+          <div class="mf-nav"><span class="mf-nav-ico">💶</span>Finance</div>
+        </div>
+        <div class="mf-products">
+          <div class="mf-cats">
+            <div class="mf-cat">Tous</div><div class="mf-cat on">Viandes</div>
+            <div class="mf-cat">Entrées</div><div class="mf-cat">Desserts</div><div class="mf-cat">Boissons</div>
+          </div>
+          <div class="mf-grid">
+            <div class="mf-prod star"><div class="mf-prod-cat r">VIA</div><div class="mf-prod-nom">Entrecôte Charolaise</div><div class="mf-prod-px">28€</div></div>
+            <div class="mf-prod"><div class="mf-prod-cat r">VIA</div><div class="mf-prod-nom">Filet de bœuf</div><div class="mf-prod-px">32€</div></div>
+            <div class="mf-prod"><div class="mf-prod-cat r">VIA</div><div class="mf-prod-nom">Magret canard</div><div class="mf-prod-px">27€</div></div>
+            <div class="mf-prod"><div class="mf-prod-cat g">ENT</div><div class="mf-prod-nom">Soupe à l'oignon</div><div class="mf-prod-px">9,50€</div></div>
+            <div class="mf-prod"><div class="mf-prod-cat p">DES</div><div class="mf-prod-nom">Crème brûlée</div><div class="mf-prod-px">8€</div></div>
+            <div class="mf-prod"><div class="mf-prod-cat b">BOI</div><div class="mf-prod-nom">Bordeaux rouge</div><div class="mf-prod-px">6,50€</div></div>
+          </div>
+        </div>
+        <div class="mf-ticket">
+          <div class="mf-tk-head">
+            <div class="mf-tk-row"><div class="mf-tk-badge">T4</div><div class="mf-tk-sel">Table 4 — 3 couverts</div></div>
+          </div>
+          <div class="mf-tk-lines">
+            <div class="mf-line">
+              <div class="mf-line-ico">VIA</div>
+              <div class="mf-line-info"><div class="mf-line-nom">Entrecôte Charolaise</div><div class="mf-line-pu">28,00€ / unité</div></div>
+              <div class="mf-line-ctrl"><div class="mf-qbtn">−</div><div class="mf-qnum">2</div><div class="mf-qbtn">+</div></div>
+              <div class="mf-line-px">56€</div>
+            </div>
+            <div class="mf-line g">
+              <div class="mf-line-ico g">ENT</div>
+              <div class="mf-line-info"><div class="mf-line-nom">Soupe à l'oignon</div><div class="mf-line-pu">9,50€ / unité</div></div>
+              <div class="mf-line-ctrl"><div class="mf-qbtn">−</div><div class="mf-qnum">1</div><div class="mf-qbtn">+</div></div>
+              <div class="mf-line-px">9,50€</div>
+            </div>
+            <div class="mf-line b">
+              <div class="mf-line-ico b">BOI</div>
+              <div class="mf-line-info"><div class="mf-line-nom">Bordeaux rouge</div><div class="mf-line-pu">6,50€ · suggéré auto</div></div>
+              <div class="mf-line-ctrl"><div class="mf-qbtn">−</div><div class="mf-qnum">1</div><div class="mf-qbtn">+</div></div>
+              <div class="mf-line-px">6,50€</div>
+            </div>
+          </div>
+          <div class="mf-sug">
+            <div class="mf-sug-lbl">💡 Suggestion intelligente</div>
+            <div class="mf-sug-row">
+              <div class="mf-sug-ico">🔥</div>
+              <div class="mf-sug-txt">Crème brûlée — dessert star</div>
+              <div class="mf-sug-px">8€</div>
+              <div class="mf-sug-add">+</div>
+            </div>
+          </div>
+          <div class="mf-tk-foot">
+            <div class="mf-total-wrap">
+              <div class="mf-total-lbl"><span>Total à payer</span><span>3 articles</span></div>
+              <div class="mf-total-val" id="mock-total">72,00€</div>
+            </div>
+            <div class="mf-pay">
+              <div class="mf-pay-btn cb">💳 CB</div>
+              <div class="mf-pay-btn esp">💵 Espèces</div>
+            </div>
+            <div class="mf-enc">Encaisser · 72,00€</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- PROBLÈME -->
+<section class="section" id="problem">
+  <div class="s-chip reveal">Le problème</div>
+  <h2 class="s-title reveal">Fini les pertes de temps<br/><em>et d'argent</em></h2>
+  <p class="s-sub reveal">Chaque minute perdue en service, c'est du CA en moins. Romu règle ça.</p>
+  <div class="prob-grid reveal d1">
+    <div class="prob-item">
+      <div class="prob-cross">✕</div>
+      <div class="prob-title">Erreurs de commande</div>
+      <div class="prob-desc">Tickets illisibles, oublis de plats, articles mal saisis. Le service ralentit, les clients s'impatientent.</div>
+    </div>
+    <div class="prob-item">
+      <div class="prob-cross">✕</div>
+      <div class="prob-title">Encaissement lent</div>
+      <div class="prob-desc">Trop de clics, interfaces complexes, calculs manuels. Vous perdez des minutes précieuses à chaque table.</div>
+    </div>
+    <div class="prob-item">
+      <div class="prob-cross">✕</div>
+      <div class="prob-title">Ventes manquées</div>
+      <div class="prob-desc">Personne ne pense à proposer le dessert ou la boisson. Le ticket moyen reste bas sans effort de vente.</div>
+    </div>
+    <div class="prob-item prob-after">
+      <div class="prob-check">✓</div>
+      <div class="prob-title">Avec Romu, c'est résolu</div>
+      <div class="prob-desc">Caisse tactile ultra-rapide, suggestions automatiques, zéro erreur. Votre service tourne comme une horloge.</div>
+    </div>
+  </div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- BÉNÉFICES -->
+<section class="section" id="benefits">
+  <div class="s-chip reveal">Pourquoi Romu</div>
+  <h2 class="s-title reveal">4 raisons de <em>l'adopter</em><br/>dès ce soir</h2>
+  <div class="ben-grid">
+    <div class="ben-card reveal">
+      <div class="ben-ico">⚡</div>
+      <div class="ben-title">Service 2× plus rapide</div>
+      <div class="ben-desc">Interface plein écran optimisée tactile. Ajoutez un plat en 1 tap, encaissez en 3 secondes. Plus de queue, plus de stress.</div>
+      <div class="ben-metric"><div class="ben-val">−40%</div><div class="ben-lbl">Temps par table</div></div>
+    </div>
+    <div class="ben-card reveal d1">
+      <div class="ben-ico">💡</div>
+      <div class="ben-title">Ventes augmentées auto</div>
+      <div class="ben-desc">Le meilleur dessert, la boisson populaire — Romu les suggère en temps réel. Vos serveurs vendent plus sans effort.</div>
+      <div class="ben-metric"><div class="ben-val">+23%</div><div class="ben-lbl">Ticket moyen constaté</div></div>
+    </div>
+    <div class="ben-card reveal d2">
+      <div class="ben-ico">📊</div>
+      <div class="ben-title">Dashboard en temps réel</div>
+      <div class="ben-desc">CA du jour, tables occupées, stocks critiques, top plats. Tout ce qu'un patron doit savoir d'un seul coup d'œil.</div>
+      <div class="ben-metric"><div class="ben-val">60+</div><div class="ben-lbl">Indicateurs live</div></div>
+    </div>
+    <div class="ben-card reveal d3">
+      <div class="ben-ico">🧠</div>
+      <div class="ben-title">Assistant intelligent</div>
+      <div class="ben-desc">Alertes proactives sur les ruptures de stock, conseils pour booster le CA, détection automatique des heures de pointe.</div>
+      <div class="ben-metric"><div class="ben-val">24/7</div><div class="ben-lbl">Surveillance automatique</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- FONCTIONNALITÉS -->
+<section class="section" id="features">
+  <div class="s-chip reveal">Fonctionnalités</div>
+  <h2 class="s-title reveal">Tout ce dont vous avez<br/><em>vraiment</em> besoin</h2>
+  <p class="s-sub reveal">Un seul outil. Pas d'intégrations. Pas de modules payants en plus. Tout est inclus.</p>
+  <div class="feat-grid">
+    <div class="feat-card wide reveal">
+      <div class="feat-ico" style="width:54px;height:54px;font-size:22px">🖥️</div>
+      <div>
+        <div class="feat-title" style="font-size:17px">Caisse rapide &amp; intuitive</div>
+        <div class="feat-desc">Interface plein écran optimisée tactile. Grille produits visuelle avec couleurs par catégorie, mode Rush pour les services intenses, partage d'addition, remises rapides, programme fidélité et commande vocale.</div>
+        <div class="feat-tags"><span class="feat-tag">Mode Rush</span><span class="feat-tag">Tactile</span><span class="feat-tag">Remises</span><span class="feat-tag">Partage addition</span><span class="feat-tag">Fidélité</span><span class="feat-tag">Commande vocale</span></div>
+      </div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-ico">📈</div>
+      <div>
+        <div class="feat-title">Dashboard intelligent</div>
+        <div class="feat-desc">CA temps réel, ticket moyen, top plats, alertes stocks, réservations du soir. Vue d'ensemble instantanée depuis n'importe quel écran.</div>
+      </div>
+    </div>
+    <div class="feat-card reveal d1">
+      <div class="feat-ico">⬡</div>
+      <div>
+        <div class="feat-title">Plan de salle live</div>
+        <div class="feat-desc">Tables libre / occupée / réservée. Timer par table, total en cours, accès rapide aux commandes en 1 clic.</div>
+      </div>
+    </div>
+    <div class="feat-card reveal d2">
+      <div class="feat-ico">📦</div>
+      <div>
+        <div class="feat-title">Stocks &amp; Fournisseurs</div>
+        <div class="feat-desc">Suivi des stocks avec alertes automatiques, déduction par recette, gestion des fournisseurs et commandes automatisées.</div>
+      </div>
+    </div>
+    <div class="feat-card reveal d3">
+      <div class="feat-ico">📅</div>
+      <div>
+        <div class="feat-title">Réservations &amp; Personnel</div>
+        <div class="feat-desc">Agenda réservations, liste d'attente, planning visuel, congés, fiches de paie. La gestion RH simplifiée.</div>
+      </div>
+    </div>
+    <div class="feat-card reveal d1">
+      <div class="feat-ico">💶</div>
+      <div>
+        <div class="feat-title">Finance &amp; Comptabilité</div>
+        <div class="feat-desc">Journal des ventes, analyse des marges, suivi des charges, budget prévisionnel. Conforme NF525 loi anti-fraude TVA.</div>
+        <div class="feat-tags"><span class="feat-tag">Export CSV</span><span class="feat-tag">NF525</span><span class="feat-tag">TVA</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- PREUVE -->
+<section class="section" id="proof">
+  <div class="proof-wrap reveal">
+    <div>
+      <div class="s-chip">Ce que disent les restaurateurs</div>
+      <div class="proof-quote">"En <strong>moins de 5 minutes</strong>, la caisse était opérationnelle. Les suggestions automatiques ont fait grimper mon ticket moyen dès le premier service."</div>
+      <div class="proof-list">
+        <div class="proof-li"><div class="proof-li-ico">✓</div>Prise en main sans formation, sans technicien</div>
+        <div class="proof-li"><div class="proof-li-ico">✓</div>Fonctionne sur n'importe quelle tablette ou ordinateur</div>
+        <div class="proof-li"><div class="proof-li-ico">✓</div>Données sauvegardées en local + Google Drive</div>
+        <div class="proof-li"><div class="proof-li-ico">✓</div>Fonctionne hors-ligne pendant le service</div>
+        <div class="proof-li"><div class="proof-li-ico">✓</div>Conforme loi anti-fraude TVA française (NF525)</div>
+      </div>
+    </div>
+    <div class="proof-kpis">
+      <div class="proof-kpi"><div class="proof-kpi-val">5 min</div><div class="proof-kpi-lbl">Pour votre première commande</div></div>
+      <div class="proof-kpi"><div class="proof-kpi-val">0€</div><div class="proof-kpi-lbl">Pour commencer à tester</div></div>
+      <div class="proof-kpi"><div class="proof-kpi-val">60+</div><div class="proof-kpi-lbl">Modules inclus d'emblée</div></div>
+      <div class="proof-kpi"><div class="proof-kpi-val">100%</div><div class="proof-kpi-lbl">Web, aucune installation</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="pricing-wrap">
+    <div class="pricing-head">
+      <div class="s-chip reveal">Tarifs</div>
+      <h2 class="s-title reveal">Simple. <em>Sans surprise.</em></h2>
+      <p class="s-sub reveal">Un plan qui inclut tout. Aucun module en supplément, aucune limite d'utilisateurs.</p>
+    </div>
+    <div class="p-cards">
+      <div class="p-card reveal">
+        <div class="p-plan">Essai gratuit</div>
+        <div class="p-price">0<sub>€</sub></div>
+        <div class="p-period">Pour découvrir sans engagement</div>
+        <ul class="p-features">
+          <li>Accès complet à toutes les fonctionnalités</li>
+          <li>60+ modules disponibles immédiatement</li>
+          <li>Données d'exemple incluses</li>
+          <li>Aucune carte bancaire requise</li>
+        </ul>
+        <a href="app.html" class="p-btn outline">Commencer gratuitement</a>
+      </div>
+      <div class="p-card featured reveal d1">
+        <div class="p-badge">⭐ Recommandé</div>
+        <div class="p-plan">Pro</div>
+        <div class="p-price">20<sub>€/mois</sub></div>
+        <div class="p-period">Sans engagement · résiliable à tout moment</div>
+        <ul class="p-features">
+          <li>Tout l'essai gratuit inclus</li>
+          <li>Sauvegarde automatique Google Drive</li>
+          <li>Multi-établissements illimité</li>
+          <li>Mises à jour incluses à vie</li>
+          <li>Support prioritaire par message</li>
+          <li>Certification NF525 officielle</li>
+        </ul>
+        <a href="app.html" class="p-btn solid">Démarrer maintenant →</a>
+      </div>
+    </div>
+    <div class="p-guarantee reveal d2">🔒 Paiement sécurisé · Résiliation en 1 clic · Aucun engagement</div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta">
+  <div class="cta-aurora"></div>
+  <div class="cta-inner">
+    <div class="cta-eyebrow reveal">Prêt à transformer votre service ?</div>
+    <h2 class="cta-title reveal">Votre premier service<br/>avec <em>Romu</em> ce soir</h2>
+    <p class="cta-sub reveal">Ouvrez l'application. Ajoutez vos plats. Encaissez.<br/>Pas de formation, pas d'installation, pas de prise de tête.</p>
+    <div class="reveal d1">
+      <a href="app.html" class="btn-hero" style="font-size:17px;padding:20px 52px">🚀 Essayer gratuitement maintenant</a>
+    </div>
+    <div class="cta-note reveal d2">
+      <span>Aucune carte bancaire</span>
+      <span>Accès immédiat</span>
+      <span>Tablette &amp; ordinateur</span>
+      <span>Fonctionne hors-ligne</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">✦ Romu</div>
+  <div class="footer-copy">© 2025 Romu · Logiciel de caisse restaurant</div>
+  <div class="footer-links">
+    <a href="#">Confidentialité</a>
+    <a href="#">CGU</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold:.08, rootMargin:'0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
+}, { passive:true });
+
+// Mockup total animation vivante
+const totals = ['72,00€','80,50€','65,00€','91,50€','74,00€'];
+let ti = 0;
+setInterval(() => {
+  const el = document.getElementById('mock-total');
+  if(!el) return;
+  el.style.opacity = '.4'; el.style.transform = 'scale(.97)';
+  setTimeout(() => {
+    ti = (ti+1) % totals.length;
+    el.textContent = totals[ti];
+    el.style.opacity = '1'; el.style.transform = 'scale(1)';
+    el.style.transition = 'all .35s cubic-bezier(.2,0,.2,1)';
+  }, 250);
+}, 3500);
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  });
+});
+</script>
+</body>
+</html>
