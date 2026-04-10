@@ -18649,8 +18649,10 @@ function setStatutPlanning(empId, date, statut){
   btns.forEach(function(btn){
     btn.style.borderColor=btn.getAttribute('onclick').includes("'"+statut+"'")?'var(--gold)':'transparent';
   });
-  saveDB(); rPlanning();
-  toast(statut==='travail'?'Marqué travail 🟦':statut==='repos'?'Marqué repos 💤':statut==='absence'?'Marqué absent ❌':statut==='conge'?'Congé noté 🏖️':'Férié 🎉');
+  saveDB();
+  toast(statut==='travail'?'Travail enregistré ✅':statut==='repos'?'Repos noté 💤':statut==='absence'?'Absent enregistré ❌':statut==='conge'?'Congé enregistré 🏖️':'Férié enregistré 🎉');
+  // Rafraîchir le planning en arrière-plan sans fermer le popup
+  setTimeout(()=>rPlanning(), 300);
 }
 
 function saveCreneau(empId,date){
@@ -18659,7 +18661,7 @@ function saveCreneau(empId,date){
   let p=(DB.pointages||[]).find(x=>x.empId===empId&&x.date===date);
   if(p){p.arrivee=arr;p.depart=dep;}
   else{if(!DB.pointages)DB.pointages=[];DB.pointages.push({id:Date.now(),empId,date,arrivee:arr,depart:dep});}
-  saveDB();document.getElementById('planning-modal')?.remove();rPlanning();toast('Créneau enregistré ✅');
+  saveDB();document.getElementById('planning-popup')?.remove();rPlanning();toast('Créneau enregistré ✅');
 }
 
 // ═══════════════════════════════════════════
