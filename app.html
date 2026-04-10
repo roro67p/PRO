@@ -7935,6 +7935,7 @@ function prsSaveAbsence(){
   rPerso();
 }
 
+if(!window._prsStatuts) window._prsStatuts={};
 function rPerso(){
   const staff=DB.personnel||[];
   const today=td();
@@ -7963,6 +7964,9 @@ function rPerso(){
     const h=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
     g('prs-sub').textContent=`${presents.length} présent(s) · Mis à jour ${h}`;
   }
+
+  // Badge sidebar
+  const bPrs2=g('b-prs');if(bPrs2) bPrs2.textContent=presents.length||'';
 
   // KPIs
   const kpiEl=g('prs-kpis');
@@ -8457,6 +8461,10 @@ function rDash(){
   if(set('b-cmd')) set('b-cmd').textContent=actCmds;
   if(set('b-resa')) set('b-resa').textContent=resaSoir;
   if(set('b-stk')) set('b-stk').textContent=alrtStk;
+  const prsActifs=(DB.personnel||[]).filter(e=>e.stat==='actif');
+  const prsToday=td();const prsAbsIds=new Set((DB.absences||[]).filter(a=>a.date===prsToday).map(a=>a.empId));
+  const prsNb=prsActifs.filter(e=>!prsAbsIds.has(e.id)&&(window._prsStatuts?.[e.id]||'present')==='present').length;
+  if(set('b-prs')) set('b-prs').textContent=prsNb||'';
   if(set('k-tbl-total')) set('k-tbl-total').textContent=occ+'/'+totalTbl+' tables';
   if(set('k-cvt-lbl')) set('k-cvt-lbl').textContent=cvt+' couverts';
   if(set('k-act-lbl')) set('k-act-lbl').textContent=actCmds+' cmdes actives';
