@@ -15348,9 +15348,13 @@ function syncVinFournisseur(nomVin){
   if(!fourn.produits.includes(nomVin)) fourn.produits.push(nomVin);
 }
 function syncTousVinsFournisseur(){
-  // Synchronise tous les vins de la cave vers le fournisseur
+  // Synchronise tous les vins de la cave vers le fournisseur — force le reset complet
   initCave();
-  (DB.cave||[]).forEach(v=>syncVinFournisseur(v.millesime?v.nom+' '+v.millesime:v.nom));
+  if(!DB.fournisseurs) return;
+  const fourn=DB.fournisseurs.find(f=>f.id===4);
+  if(!fourn) return;
+  // Reconstruire la liste complète depuis la cave
+  fourn.produits=(DB.cave||[]).map(v=>v.millesime?v.nom+' '+v.millesime:v.nom);
   saveDB();
 }
 function saveCave(){
