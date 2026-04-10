@@ -14082,13 +14082,91 @@ document.addEventListener('keydown', function(e){
 document.addEventListener('DOMContentLoaded', function(){
   loadDB();
   if(!DB.tables||DB.tables.length===0) initData();
-  // Forcer reset cave si pas les bons vins (ancienne data localStorage)
+  // Forcer reset cave si pas les bons vins
   setTimeout(function(){
     if(!DB.cave||!DB.cave.length||!DB.cave.find(v=>v.nom&&v.nom.includes('Margaux'))){
       DB.cave=CAVE_DEFAUT.map(v=>({...v}));
       saveDB();
     }
     syncTousVinsFournisseur();
+    // Forcer reset stocks si moins de 20 références (ancienne data)
+    if(!DB.stocks||DB.stocks.length<20){
+      const s=DB.stocks||[];
+      // Récupérer les stocks par défaut depuis initData
+      const tmpDB={stocks:[]};
+      (function(){
+        tmpDB.stocks=[
+          {id:1,ico:'VIA',cat:'Viandes',nom:'Boeuf (filet)',qte:8,unit:'kg',seuil:2,pu:28},
+          {id:2,ico:'POI',cat:'Poissons',nom:'Filet de sole',qte:5,unit:'kg',seuil:2,pu:18},
+          {id:3,ico:'VIA',cat:'Viandes',nom:'Magret de canard',qte:12,unit:'unité',seuil:4,pu:8.50},
+          {id:4,ico:'ENT',cat:'Légumes',nom:'Champignons Paris',qte:4,unit:'kg',seuil:2,pu:4.50},
+          {id:5,ico:'ENT',cat:'Légumes',nom:'Oignons',qte:10,unit:'kg',seuil:3,pu:1.20},
+          {id:6,ico:'DES',cat:'Laitiers',nom:'Parmesan affiné',qte:3,unit:'kg',seuil:1,pu:22},
+          {id:7,ico:'🥚',cat:'Laitiers',nom:'Oeufs frais',qte:60,unit:'unité',seuil:24,pu:0.35},
+          {id:8,ico:'VIN',cat:'Boissons',nom:'Bordeaux rouge',qte:6,unit:'caisse',seuil:2,pu:45},
+          {id:9,ico:'🌿',cat:'Épicerie',nom:"Huile d'olive AOP",qte:5,unit:'L',seuil:2,pu:12},
+          {id:10,ico:'🧈',cat:'Laitiers',nom:'Beurre AOC',qte:4,unit:'kg',seuil:1,pu:8.50},
+          {id:11,ico:'DES',cat:'Épicerie',nom:'Chocolat Valrhona 70%',qte:3,unit:'kg',seuil:1,pu:18},
+          {id:12,ico:'VEG',cat:'Épicerie',nom:'Riz arborio',qte:5,unit:'kg',seuil:2,pu:3.50},
+          {id:13,ico:'🐄',cat:'Laitiers',nom:'Crème fraîche',qte:6,unit:'L',seuil:2,pu:4.50},
+          {id:14,ico:'BOI',cat:'Boissons',nom:'Café arabica',qte:4,unit:'kg',seuil:1,pu:28},
+          {id:15,ico:'POI',cat:'Poissons',nom:'Cabillaud',qte:3,unit:'kg',seuil:2,pu:16},
+          {id:16,ico:'🐟',cat:'Poissons',nom:'Saumon frais',qte:6,unit:'kg',seuil:2,pu:18},
+          {id:17,ico:'🍗',cat:'Viandes',nom:'Poulet fermier',qte:8,unit:'kg',seuil:3,pu:7},
+          {id:18,ico:'🥩',cat:'Viandes',nom:'Boeuf (paleron)',qte:5,unit:'kg',seuil:2,pu:14},
+          {id:19,ico:'🥩',cat:'Viandes',nom:'Boeuf (côte)',qte:4,unit:'kg',seuil:2,pu:32},
+          {id:20,ico:'🦆',cat:'Viandes',nom:'Foie gras de canard',qte:1.5,unit:'kg',seuil:0.5,pu:85},
+          {id:21,ico:'🐑',cat:'Viandes',nom:"Carré d'agneau",qte:3,unit:'kg',seuil:1,pu:28},
+          {id:22,ico:'🥓',cat:'Viandes',nom:'Lardons',qte:3,unit:'kg',seuil:0.5,pu:8},
+          {id:23,ico:'🥩',cat:'Viandes',nom:'Viande hachée',qte:4,unit:'kg',seuil:1,pu:9},
+          {id:24,ico:'🥛',cat:'Laitiers',nom:'Lait entier',qte:10,unit:'L',seuil:3,pu:1.2},
+          {id:25,ico:'🧀',cat:'Laitiers',nom:'Gruyère',qte:2,unit:'kg',seuil:0.5,pu:12},
+          {id:26,ico:'🫙',cat:'Épicerie',nom:'Truffe noire',qte:80,unit:'g',seuil:30,pu:3.5},
+          {id:27,ico:'🍷',cat:'Boissons',nom:'Vin blanc cuisine',qte:6,unit:'L',seuil:2,pu:5},
+          {id:28,ico:'🍷',cat:'Boissons',nom:'Vin rouge cuisine',qte:6,unit:'L',seuil:2,pu:5},
+          {id:29,ico:'🍋',cat:'Fruits',nom:'Citron',qte:25,unit:'u',seuil:8,pu:0.4},
+          {id:30,ico:'🍎',cat:'Fruits',nom:'Pommes',qte:5,unit:'kg',seuil:1,pu:2.5},
+          {id:31,ico:'🧅',cat:'Légumes',nom:'Échalotes',qte:2,unit:'kg',seuil:0.5,pu:3},
+          {id:32,ico:'🥕',cat:'Légumes',nom:'Carottes',qte:6,unit:'kg',seuil:1.5,pu:1.5},
+          {id:33,ico:'🫑',cat:'Légumes',nom:'Poivrons',qte:4,unit:'kg',seuil:1,pu:3},
+          {id:34,ico:'🍆',cat:'Légumes',nom:'Aubergines',qte:5,unit:'kg',seuil:1,pu:2.5},
+          {id:35,ico:'🥒',cat:'Légumes',nom:'Courgettes',qte:6,unit:'kg',seuil:1.5,pu:2},
+          {id:36,ico:'🍅',cat:'Légumes',nom:'Tomates',qte:8,unit:'kg',seuil:2,pu:2.5},
+          {id:37,ico:'🥬',cat:'Légumes',nom:'Laitue romaine',qte:10,unit:'u',seuil:4,pu:1.2},
+          {id:38,ico:'🌿',cat:'Légumes',nom:'Roquette',qte:1.5,unit:'kg',seuil:0.3,pu:8},
+          {id:39,ico:'🌿',cat:'Légumes',nom:'Épinards',qte:2.5,unit:'kg',seuil:0.5,pu:5},
+          {id:40,ico:'🧄',cat:'Légumes',nom:'Ail',qte:20,unit:'tête',seuil:6,pu:0.4},
+          {id:41,ico:'🌿',cat:'Légumes',nom:'Persil',qte:10,unit:'botte',seuil:4,pu:0.8},
+          {id:42,ico:'🌿',cat:'Épicerie',nom:'Thym',qte:8,unit:'botte',seuil:3,pu:0.8},
+          {id:43,ico:'🌿',cat:'Épicerie',nom:'Herbes de Provence',qte:0.5,unit:'kg',seuil:0.1,pu:12},
+          {id:44,ico:'🫙',cat:'Épicerie',nom:'Câpres',qte:0.6,unit:'kg',seuil:0.15,pu:15},
+          {id:45,ico:'🫙',cat:'Épicerie',nom:'Cornichons',qte:1.2,unit:'kg',seuil:0.3,pu:8},
+          {id:46,ico:'🫙',cat:'Poissons',nom:'Anchois',qte:0.4,unit:'kg',seuil:0.1,pu:25},
+          {id:47,ico:'🍯',cat:'Épicerie',nom:'Miel',qte:1.5,unit:'kg',seuil:0.3,pu:12},
+          {id:48,ico:'🧂',cat:'Épicerie',nom:'Sel fin',qte:4,unit:'kg',seuil:1,pu:1},
+          {id:49,ico:'🫙',cat:'Épicerie',nom:'Poivre noir',qte:0.6,unit:'kg',seuil:0.15,pu:20},
+          {id:50,ico:'🌸',cat:'Épicerie',nom:'Vanille',qte:24,unit:'gousse',seuil:6,pu:2},
+          {id:51,ico:'🍬',cat:'Épicerie',nom:'Sucre',qte:6,unit:'kg',seuil:1.5,pu:1.5},
+          {id:52,ico:'🌾',cat:'Épicerie',nom:'Farine T55',qte:10,unit:'kg',seuil:2,pu:1.2},
+          {id:53,ico:'🫙',cat:'Épicerie',nom:'Tomates concassées',qte:6,unit:'kg',seuil:1.5,pu:3},
+          {id:54,ico:'🫙',cat:'Épicerie',nom:'Vinaigre balsamique',qte:1.2,unit:'L',seuil:0.3,pu:15},
+          {id:55,ico:'🥖',cat:'Boulangerie',nom:'Pain de campagne',qte:4,unit:'kg',seuil:1,pu:4},
+          {id:56,ico:'🍞',cat:'Boulangerie',nom:'Croûtons',qte:1.2,unit:'kg',seuil:0.3,pu:5},
+          {id:57,ico:'🥐',cat:'Boulangerie',nom:'Pâte feuilletée',qte:2.5,unit:'kg',seuil:0.5,pu:8},
+          {id:58,ico:'🍝',cat:'Épicerie',nom:'Pâtes fraîches',qte:5,unit:'kg',seuil:1.5,pu:6},
+          {id:59,ico:'🫙',cat:'Épicerie',nom:'Bouillon boeuf',qte:6,unit:'L',seuil:1.5,pu:2},
+          {id:60,ico:'🥛',cat:'Laitiers',nom:'Béchamel maison',qte:4,unit:'L',seuil:0.5,pu:4},
+          {id:61,ico:'🥐',cat:'Boulangerie',nom:'Pâte brisée',qte:2,unit:'kg',seuil:0.5,pu:6},
+        ];
+      })();
+      // Fusionner : garder les stocks existants, ajouter les manquants
+      const existingIds=new Set((DB.stocks||[]).map(s=>s.id));
+      tmpDB.stocks.forEach(ns=>{
+        if(!existingIds.has(ns.id)) DB.stocks.push(ns);
+      });
+      DB.ids.s=62;
+      saveDB();
+    }
   }, 300);
   // Init écran PIN
   setTimeout(pinInit, 100);
