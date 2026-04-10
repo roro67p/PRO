@@ -2612,6 +2612,44 @@ tbody td { padding:13px 14px; font-size:13px; }
 .cf-tl-lbl{font-size:7px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 .cf-tl-line{flex:1;height:2px;background:var(--line);min-width:12px}
 .cf-tl-line.done{background:#6fcf8a}
+/* ══ FORMATION ÉQUIPE ══ */
+@keyframes frmIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.frm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.frm-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2)}
+.frm-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.frm-tabs{display:flex;gap:0;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.frm-tab{padding:9px 18px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;margin-bottom:-1px}
+.frm-tab.on{color:var(--gold2);border-bottom-color:var(--gold2)}
+.frm-tab:hover:not(.on){color:var(--txt)}
+.frm-list{display:flex;flex-direction:column;gap:8px}
+.frm-card{background:rgba(14,12,20,.92);border:1px solid rgba(120,100,255,.08);border-radius:16px;padding:16px 18px;position:relative;overflow:hidden;transition:all .25s;animation:frmIn .3s ease both;cursor:pointer}
+.frm-card::after{content:'';position:absolute;bottom:-30%;left:-10%;width:120%;height:60%;background:linear-gradient(135deg,rgba(60,40,200,.12),rgba(140,80,255,.08),rgba(200,100,255,.04));background-size:300% 300%;animation:glowShift 8s ease-in-out infinite;border-radius:50%;pointer-events:none;filter:blur(25px)}
+.frm-card:hover{transform:translateY(-2px);border-color:rgba(140,100,255,.2);box-shadow:0 8px 30px rgba(80,50,200,.1)}
+.frm-card-inner{position:relative;z-index:1}
+.frm-card-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.frm-card-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(120,100,255,.08);border:1px solid rgba(120,100,255,.12)}
+.frm-card-info{flex:1;min-width:0}
+.frm-card-nom{font-size:14px;font-weight:700;color:var(--txt)}
+.frm-card-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.frm-card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.frm-tag{font-size:9px;padding:3px 8px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--sub)}
+.frm-tag.important{background:rgba(240,160,96,.1);border-color:rgba(240,160,96,.2);color:#f0a060}
+.frm-tag.obligatoire{background:rgba(240,112,96,.1);border-color:rgba(240,112,96,.2);color:#f07060}
+.frm-tag.done{background:rgba(111,207,138,.1);border-color:rgba(111,207,138,.2);color:#6fcf8a}
+.frm-card-meta{display:flex;gap:12px;margin-top:8px;font-size:10px;color:var(--muted)}
+.frm-card-acts{display:flex;gap:4px;margin-top:10px;opacity:0;transition:opacity .15s}
+.frm-card:hover .frm-card-acts{opacity:1}
+.frm-act{padding:5px 12px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--sub);transition:all .1s}
+.frm-act:hover{background:rgba(255,255,255,.1);color:var(--txt)}
+.frm-act.gold{background:rgba(201,151,58,.08);border-color:rgba(201,151,58,.2);color:var(--gold2)}
+/* Checklist */
+.frm-check{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:var(--txt);cursor:pointer;transition:all .12s}
+.frm-check:hover{background:rgba(255,255,255,.02);padding-left:4px}
+.frm-check-box{width:18px;height:18px;border-radius:5px;border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s;flex-shrink:0}
+.frm-check.done .frm-check-box{background:#6fcf8a;border-color:#6fcf8a;color:#060300}
+.frm-check.done{color:var(--muted);text-decoration:line-through}
+.frm-progress{height:6px;border-radius:3px;background:rgba(255,255,255,.06);margin-top:8px;overflow:hidden}
+.frm-progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#6fcf8a,#6aacda);transition:width .6s ease;box-shadow:0 0 8px rgba(111,207,138,.2)}
 /* Alertes dashboard */
 .alerte-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .alerte-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
@@ -3119,6 +3157,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" onclick="nav('presence',this)"><span class="ni-ico">🕐</span>Présence & Pointage</div>
       <div class="nav-item" onclick="nav('conges',this)"><span class="ni-ico">🏖️</span>Congés & Absences</div>
       <div class="nav-item" onclick="nav('fiches-paie',this)"><span class="ni-ico">💼</span>Fiches de paie</div>
+      <div class="nav-item" onclick="nav('formation',this)"><span class="ni-ico">🎓</span>Formation</div>
     </div>
   </div>
 
@@ -5606,6 +5645,32 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
   </div>
 
+  <!-- FORMATION ÉQUIPE -->
+  <div id="page-formation" class="page">
+  <div>
+    <div class="frm-header">
+      <div>
+        <div class="frm-title">🎓 Formation & Équipe</div>
+        <div class="frm-sub">Fiches de poste · Procédures · Onboarding</div>
+      </div>
+      <div class="fn-actions">
+        <button class="fn-btn-new" onclick="openFrmModal()">+ Nouvelle fiche</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid-4" id="frm-kpis"></div>
+
+    <div class="frm-tabs">
+      <div class="frm-tab on" onclick="frmSetTab('postes',this)">📋 Fiches de poste</div>
+      <div class="frm-tab" onclick="frmSetTab('procedures',this)">📖 Procédures</div>
+      <div class="frm-tab" onclick="frmSetTab('onboarding',this)">🚀 Onboarding</div>
+      <div class="frm-tab" onclick="frmSetTab('hygiene',this)">🧼 Hygiène</div>
+    </div>
+
+    <div class="frm-list" id="frm-list"></div>
+  </div>
+  </div>
+
 </main>
 
 <!-- ═══ MODE SERVEUR (plein écran) ═══ -->
@@ -6613,7 +6678,7 @@ function renderEtabSelector(){
 }
 
 // ═══ NAV ═══
-const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients'};
+const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe'};
 function nav(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -6635,7 +6700,7 @@ function render(n){
     journal:rJournal,
     objectifs:rObjectifs, cmdFourn:rCmdFourn, params:rParams,
     fiches:rFiches, origine:rOrigine, marges:rMarges, avis:rAvis, acces:rAcces,
-    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients})[n]?.();
+    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation})[n]?.();
 }
 function openSB(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').style.display='block';}
 function closeSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').style.display='none';}
@@ -9224,6 +9289,151 @@ function rPerso(){
 }
 
 
+
+// ═══ FORMATION ÉQUIPE ═══
+let _frmTab='postes';
+function frmSetTab(tab,btn){
+  _frmTab=tab;
+  document.querySelectorAll('.frm-tab').forEach(t=>t.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  rFormation();
+}
+
+if(!DB.formation) DB.formation=[
+  // FICHES DE POSTE
+  {id:1,type:'postes',ico:'👨‍🍳',nom:'Chef cuisinier',desc:'Responsable de la cuisine, création des plats, gestion de la brigade',
+   contenu:['Élaborer la carte et les menus','Gérer les commandes fournisseurs','Superviser la brigade de cuisine','Contrôler la qualité des plats','Respecter les normes HACCP','Gérer les coûts matières (objectif 30%)','Former les commis et apprentis'],
+   tags:['CDI','Expérience 5 ans','CAP/BEP cuisine'],poste:'Chef cuisinier'},
+  {id:2,type:'postes',ico:'🍽️',nom:'Chef de rang',desc:'Accueil client, prise de commande, service en salle, conseil vins',
+   contenu:['Accueillir et installer les clients','Présenter la carte et conseiller','Prendre les commandes','Assurer le service à table','Gérer les encaissements','Fidéliser la clientèle','Maintenir la propreté de la salle'],
+   tags:['CDI','Expérience 2 ans','Anglais apprécié'],poste:'Chef de rang'},
+  {id:3,type:'postes',ico:'🧹',nom:'Plongeur / Commis',desc:'Nettoyage de la vaisselle, aide en cuisine, entretien des locaux',
+   contenu:['Assurer la plonge manuelle et machine','Ranger la vaisselle propre','Aider à la préparation en cuisine','Nettoyer les plans de travail','Gérer les poubelles et le tri','Entretenir les sols et équipements'],
+   tags:['CDD/CDI','Débutant accepté','Polyvalent'],poste:'Plongeur'},
+  {id:4,type:'postes',ico:'🍸',nom:'Barman',desc:'Préparation des boissons, cocktails, gestion du bar, conseil client',
+   contenu:['Préparer les boissons et cocktails','Gérer le stock du bar','Accueillir les clients au bar','Encaisser les consommations','Maintenir le bar propre et rangé','Créer de nouvelles recettes cocktails'],
+   tags:['CDI','Expérience 1 an','Créatif'],poste:'Barman'},
+
+  // PROCÉDURES
+  {id:10,type:'procedures',ico:'🔥',nom:'Ouverture du restaurant',desc:'Checklist complète à suivre chaque jour avant le service',
+   contenu:['Allumer les fours et plaques (préchauffage 30 min)','Vérifier les températures frigos (entre 0°C et 4°C)','Mettre en place les postes de travail','Sortir les produits du jour','Dresser les tables (couverts, verres, serviettes)','Vérifier la propreté des sanitaires','Allumer la caisse et vérifier le fond de caisse','Briefing équipe : plats du jour, allergènes, résas'],
+   tags:['obligatoire','quotidien']},
+  {id:11,type:'procedures',ico:'🌙',nom:'Fermeture du restaurant',desc:'Procédure de fin de service pour sécuriser le restaurant',
+   contenu:['Nettoyage complet de la cuisine','Rangement des aliments (FIFO)','Relevé des températures frigos','Clôture de caisse et comptage','Nettoyage de la salle et des sanitaires','Éteindre les équipements (sauf frigos)','Vérifier les fermetures (portes, fenêtres, gaz)','Activer l\'alarme'],
+   tags:['obligatoire','quotidien']},
+  {id:12,type:'procedures',ico:'🧯',nom:'Procédure incendie',desc:'Conduite à tenir en cas d\'incendie dans l\'établissement',
+   contenu:['Déclencher l\'alarme incendie','Appeler les pompiers (18 ou 112)','Évacuer les clients calmement vers le point de rassemblement','Utiliser l\'extincteur si le feu est maîtrisable','NE JAMAIS utiliser l\'ascenseur','Fermer les portes derrière soi','Compter les personnes au point de rassemblement','Attendre les secours, ne pas retourner à l\'intérieur'],
+   tags:['obligatoire','sécurité','important']},
+  {id:13,type:'procedures',ico:'🥗',nom:'Gestion des allergènes',desc:'Protocole pour informer les clients et éviter les contaminations croisées',
+   contenu:['Connaître les 14 allergènes majeurs','Afficher la liste des allergènes sur chaque plat','Demander systématiquement au client ses allergies','Utiliser des ustensiles dédiés si nécessaire','Informer la cuisine en cas d\'allergie déclarée','Ne JAMAIS improviser — en cas de doute, refuser le plat','Documenter tout incident allergène'],
+   tags:['obligatoire','HACCP']},
+
+  // ONBOARDING
+  {id:20,type:'onboarding',ico:'🚀',nom:'Onboarding nouveau serveur',desc:'Programme d\'intégration sur 2 semaines pour les nouveaux serveurs',
+   contenu:['Jour 1 : Visite du restaurant, présentation équipe','Jour 1 : Remise du livret d\'accueil et du tablier','Jour 2 : Formation carte — tous les plats et allergènes','Jour 3 : Formation caisse et encaissement','Jour 3 : Shadowing avec un serveur expérimenté','Jour 4-5 : Service accompagné (midi)','Semaine 2 : Service autonome avec supervision','Fin semaine 2 : Évaluation et feedback'],
+   tags:['2 semaines','serveur'],checklist:[1,1,1,0,0,0,0,0]},
+  {id:21,type:'onboarding',ico:'👨‍🍳',nom:'Onboarding nouveau cuisinier',desc:'Programme d\'intégration cuisine — 3 semaines',
+   contenu:['Jour 1 : Visite cuisine, présentation brigade','Jour 1 : Règles HACCP et sécurité','Jour 2 : Formation poste de travail attribué','Jour 3 : Apprentissage des recettes phares (fiches techniques)','Jour 4-5 : Travail en binôme sur le poste','Semaine 2 : Autonomie progressive sur le poste','Semaine 3 : Gestion d\'un service complet','Évaluation finale par le chef'],
+   tags:['3 semaines','cuisine'],checklist:[1,1,0,0,0,0,0,0]},
+
+  // HYGIÈNE
+  {id:30,type:'hygiene',ico:'🧼',nom:'Lavage des mains',desc:'Protocole de lavage des mains obligatoire — 30 secondes minimum',
+   contenu:['Mouiller les mains à l\'eau tiède','Appliquer le savon bactéricide','Frotter paumes, dos des mains, entre les doigts','Frotter les pouces et le bout des doigts','Frotter les poignets','Rincer abondamment','Sécher avec du papier jetable','Durée minimum : 30 secondes'],
+   tags:['obligatoire','HACCP','quotidien']},
+  {id:31,type:'hygiene',ico:'🌡️',nom:'Relevé des températures',desc:'Contrôle quotidien obligatoire des températures de stockage',
+   contenu:['Frigo positif : entre 0°C et +4°C','Frigo négatif : en dessous de -18°C','Chambre froide : entre +2°C et +4°C','Noter les relevés sur la fiche HACCP','Si température anormale : alerter le chef immédiatement','Vérifier 2 fois par jour (ouverture + fermeture)','Conserver les fiches 3 ans minimum'],
+   tags:['obligatoire','HACCP','2x/jour']},
+  {id:32,type:'hygiene',ico:'🧤',nom:'Port des EPI',desc:'Équipements de protection obligatoires en cuisine',
+   contenu:['Toque ou charlotte obligatoire en cuisine','Tablier propre à chaque service','Chaussures de sécurité antidérapantes','Gants jetables pour manipuler les aliments crus','Pas de bijoux (bagues, montres, bracelets)','Ongles courts et propres, pas de vernis','Tenue propre changée quotidiennement'],
+   tags:['obligatoire','cuisine']}
+];
+
+function rFormation(){
+  if(!DB.formation) DB.formation=[];
+  const fiches=DB.formation.filter(f=>f.type===_frmTab);
+  const all=DB.formation;
+  const g=id=>document.getElementById(id);
+
+  // KPIs
+  const kpiEl=g('frm-kpis');
+  if(kpiEl){
+    const postes=all.filter(f=>f.type==='postes').length;
+    const procs=all.filter(f=>f.type==='procedures').length;
+    const onb=all.filter(f=>f.type==='onboarding');
+    const onbDone=onb.filter(f=>f.checklist&&f.checklist.every(c=>c===1)).length;
+    const hyg=all.filter(f=>f.type==='hygiene').length;
+    kpiEl.innerHTML=
+      kpiCard('📋',postes,'Fiches de poste','blue',{delay:0})+
+      kpiCard('📖',procs,'Procédures','orange',{delay:60})+
+      kpiCard('🚀',onb.length,'Onboarding',onbDone===onb.length?'green':'purple',{delay:120,sub:onbDone+'/'+onb.length+' terminés'})+
+      kpiCard('🧼',hyg,'Hygiène & HACCP','red',{delay:180});
+  }
+
+  // Liste
+  const listEl=g('frm-list');
+  if(!listEl) return;
+  if(!fiches.length){
+    listEl.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)"><div style="font-size:42px;opacity:.15;margin-bottom:10px">🎓</div>Aucune fiche dans cette catégorie</div>';
+    return;
+  }
+
+  listEl.innerHTML=fiches.map((f,i)=>{
+    const hasChecklist=f.checklist&&f.checklist.length;
+    const checkDone=hasChecklist?f.checklist.filter(c=>c===1).length:0;
+    const checkTotal=hasChecklist?f.checklist.length:0;
+    const pct=hasChecklist?Math.round(checkDone/checkTotal*100):0;
+
+    let contenuHtml='';
+    if(hasChecklist){
+      contenuHtml=f.contenu.map((c,ci)=>`<div class="frm-check${f.checklist[ci]?' done':''}" onclick="event.stopPropagation();frmToggleCheck(${f.id},${ci})">
+        <div class="frm-check-box">${f.checklist[ci]?'✓':''}</div>
+        <span>${c}</span>
+      </div>`).join('')+
+      `<div class="frm-progress"><div class="frm-progress-fill" style="width:${pct}%"></div></div>
+       <div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">${checkDone}/${checkTotal} — ${pct}%</div>`;
+    } else {
+      contenuHtml=f.contenu.map((c,ci)=>`<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;color:var(--txt)">
+        <span style="color:var(--gold2);font-weight:700;min-width:16px">${ci+1}.</span>
+        <span>${c}</span>
+      </div>`).join('');
+    }
+
+    return `<div class="frm-card" style="animation-delay:${i*40}ms" onclick="this.querySelector('.frm-detail').style.display=this.querySelector('.frm-detail').style.display==='none'?'block':'none'">
+      <div class="frm-card-inner">
+        <div class="frm-card-top">
+          <div class="frm-card-ico">${f.ico}</div>
+          <div class="frm-card-info">
+            <div class="frm-card-nom">${f.nom}</div>
+            <div class="frm-card-desc">${f.desc}</div>
+          </div>
+          ${hasChecklist?`<div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:${pct===100?'#6fcf8a':pct>=50?'#f0a060':'#f07060'}">${pct}%</div>`:''}
+        </div>
+        <div class="frm-card-tags">
+          ${(f.tags||[]).map(t=>`<span class="frm-tag${t==='obligatoire'?' obligatoire':t==='important'?' important':''}">${t}</span>`).join('')}
+          ${f.poste?`<span class="frm-tag">${f.poste}</span>`:''}
+        </div>
+        <div class="frm-card-meta">
+          <span>📝 ${f.contenu.length} étape(s)</span>
+          ${hasChecklist?`<span>✅ ${checkDone}/${checkTotal} fait(s)</span>`:''}
+        </div>
+        <div class="frm-detail" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)" onclick="event.stopPropagation()">
+          ${contenuHtml}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function frmToggleCheck(ficheId,idx){
+  const f=(DB.formation||[]).find(x=>x.id===ficheId);
+  if(!f||!f.checklist) return;
+  f.checklist[idx]=f.checklist[idx]?0:1;
+  saveDB();rFormation();
+}
+
+function openFrmModal(){
+  toast('Modal création de fiche — à venir');
+}
 
 // ═══ CLIENTS ═══
 let _cliSel=null;
@@ -18912,7 +19122,7 @@ function openGrpFor(page){
   const map={
     dash:'service',salle:'service',commandes:'service',caisse:'service',ecranClient:'service',qrmenu:'service',histoTables:'service',modeServeur:'service',cloture:'service',vocale:'service',
     menu:'restaurant',menuJour:'restaurant',reservations:'restaurant',livraison:'restaurant',fiches:'restaurant',configCaisse:'restaurant',location:'restaurant',fidelite:'restaurant',vip:'restaurant',clients:'restaurant',
-    rh:'personnel',planning:'personnel',presence:'personnel',conges:'personnel','fiches-paie':'personnel',
+    rh:'personnel',planning:'personnel',presence:'personnel',conges:'personnel','fiches-paie':'personnel',formation:'personnel',
     stocks:'gestion',fournisseurs:'gestion',cmdFourn:'gestion',dechets:'gestion',todo:'gestion',
     finance:'finance',frais:'finance',stats:'finance',marges:'finance',rapports:'finance',banque:'finance',budget:'finance',pourboires:'finance',salaires:'finance',
     origine:'qualite',avis:'qualite',objectifs:'qualite',haccp:'qualite',allergenes:'qualite',carteOrigines:'qualite',
