@@ -3912,6 +3912,21 @@ tbody td { padding:13px 14px; font-size:13px; }
 
 
 
+
+/* ── STOCKS — panneau détail + tri ── */
+.stk2-detail-panel{
+  background:var(--ink2);border:1px solid var(--line);border-radius:14px;
+  padding:16px;min-height:200px;position:sticky;top:20px;
+  transition:all .2s;
+}
+.stk2-detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 16px;}
+.stk2-sort-sel{background:var(--ink3);border:1px solid var(--line2);border-radius:8px;padding:7px 11px;color:var(--txt);font-size:12px;font-family:'Outfit',sans-serif;cursor:pointer;flex-shrink:0;transition:border-color .2s;}
+.stk2-sort-sel:focus{outline:none;border-color:rgba(201,151,58,.4);}
+.stk2-sort-sel option{background:var(--ink3);}
+.stk2-row{cursor:pointer;transition:background .15s,border-color .15s,transform .15s;}
+.stk2-row:hover{transform:translateX(2px);}
+.stk2-row-selected{background:rgba(201,151,58,.06) !important;border-left:3px solid var(--gold) !important;}
+
 /* ── CF2 RECHERCHE + TRI ── */
 .cf2-search-row{display:flex;gap:8px;margin-bottom:10px;align-items:center;}
 .cf2-search-wrap{position:relative;flex:1;}
@@ -5359,20 +5374,29 @@ tbody td { padding:13px 14px; font-size:13px; }
     <!-- MAIN LAYOUT -->
     <div class="stk2-main">
       <div>
-        <!-- SUGGESTIONS AVEC BOUTON VALIDER TOUT -->
+        <!-- SUGGESTIONS -->
         <div class="stk2-sug-header">
           <div class="stk2-sug-title">💡 Commandes suggérées</div>
           <button class="stk2-sug-valider" onclick="stk2CommanderTout()">⚡ Valider toutes les suggestions</button>
         </div>
         <div class="stk2-sug-row" id="stk2-suggestions"></div>
 
-        <!-- SEARCH + FILTRES -->
+        <!-- SEARCH + FILTRES + TRI -->
         <div class="stk2-search">
-          <div class="stk2-search-wrap">
-            <span class="stk2-search-ico">🔍</span>
-            <input type="text" class="form-input" placeholder="Rechercher un produit…" id="stk2-q" oninput="stk2Render()"/>
+          <div style="display:flex;gap:8px;flex:1;align-items:center">
+            <div class="stk2-search-wrap" style="flex:1">
+              <span class="stk2-search-ico">🔍</span>
+              <input type="text" class="form-input" placeholder="Rechercher un produit…" id="stk2-q" oninput="stk2Render()"/>
+            </div>
+            <select class="stk2-sort-sel" id="stk2-sort" onchange="stk2Render()">
+              <option value="crit">Par criticité</option>
+              <option value="nom">Par nom</option>
+              <option value="qte_asc">Qté ↑</option>
+              <option value="qte_desc">Qté ↓</option>
+              <option value="val">Par valeur</option>
+            </select>
           </div>
-          <div id="stk2-cat-chips" style="display:flex;gap:5px;flex-wrap:wrap"></div>
+          <div id="stk2-cat-chips" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px"></div>
         </div>
 
         <!-- TABLEAU v4 -->
@@ -5387,13 +5411,24 @@ tbody td { padding:13px 14px; font-size:13px; }
         </div>
       </div>
 
-      <!-- ASSISTANT IA -->
-      <div class="stk2-assistant">
-        <div class="stk2-ai-head">
-          <div class="stk2-ai-dot"></div>
-          <div class="stk2-ai-lbl">Assistant IA</div>
+      <!-- COLONNE DROITE : Assistant + Fiche détail -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <!-- FICHE DÉTAIL PRODUIT -->
+        <div class="stk2-detail-panel" id="stk2-detail">
+          <div class="stk2-detail-empty">
+            <div style="font-size:32px;opacity:.15;margin-bottom:8px">📦</div>
+            <div style="font-size:12px;color:var(--muted);text-align:center">Cliquez sur un produit<br>pour voir sa fiche</div>
+          </div>
         </div>
-        <div id="stk2-tips"></div>
+
+        <!-- ASSISTANT IA -->
+        <div class="stk2-assistant">
+          <div class="stk2-ai-head">
+            <div class="stk2-ai-dot"></div>
+            <div class="stk2-ai-lbl">Assistant IA</div>
+          </div>
+          <div id="stk2-tips"></div>
+        </div>
       </div>
     </div>
 
@@ -10770,10 +10805,17 @@ function stk2Render(){
   let list=[...stks];
   if(_stk2Cat!=='Tous') list=list.filter(s=>s.cat===_stk2Cat);
   if(q) list=list.filter(s=>s.nom.toLowerCase().includes(q.toLowerCase()));
+  const sortMode=(document.getElementById('stk2-sort')?.value)||'crit';
   list.sort((a,b)=>{
-    const aw=a.qte<=a.seuil?2:a.qte<=(a.seuil||0)*2?1:0;
-    const bw=b.qte<=b.seuil?2:b.qte<=(b.seuil||0)*2?1:0;
-    return bw-aw;
+    if(sortMode==='crit'){
+      const aw=a.qte<=a.seuil?2:a.qte<=(a.seuil||0)*2?1:0;
+      const bw=b.qte<=b.seuil?2:b.qte<=(b.seuil||0)*2?1:0;
+      return bw-aw;
+    } else if(sortMode==='nom') return a.nom.localeCompare(b.nom);
+    else if(sortMode==='qte_asc') return a.qte-b.qte;
+    else if(sortMode==='qte_desc') return b.qte-a.qte;
+    else if(sortMode==='val') return (b.qte*b.pu||0)-(a.qte*a.pu||0);
+    return 0;
   });
 
   const catColor=cat=>{const m={'Viandes':'r','Poissons':'b','Légumes':'g','Laitiers':'a','Épicerie':'a','Boissons':'b','Surgelés':'b','Fruits':'g','Autre':'g'};return m[cat]||'a';};
@@ -10813,7 +10855,7 @@ function stk2Render(){
         btnHtml=`<button class="stk2-btn-ok" onclick="stk2Action(${s.id},this)">✓ OK</button>`;
       }
 
-      return `<div class="${rowCls}" style="animation-delay:${rowDelay}ms">
+      return `<div class="${rowCls}" style="animation-delay:${rowDelay}ms" onclick="stk2ShowDetail(${s.id})">
         <div class="stk2-prod-cell">
           <div class="stk2-prod-ico stk2-ico-${cc}">${catShort(s.cat)}</div>
           <div>
@@ -10897,6 +10939,110 @@ function stk2Render(){
     g('stk2-alerte-trend').textContent=alertTotal>0?'↑ Action requise maintenant':'✓ Aucune alerte active';
     g('stk2-alerte-trend').className='stk2-fkpi-trend '+(alertTotal>0?'stk2-dn':'stk2-up');
   }
+}
+
+// ═══ FICHE DÉTAIL STOCK ═══
+let _stkSelectedId=null;
+
+function stk2ShowDetail(id){
+  _stkSelectedId=id;
+  // Highlight ligne
+  document.querySelectorAll('.stk2-row').forEach(r=>{
+    r.classList.remove('stk2-row-selected');
+    if(r.getAttribute('onclick')?.includes('('+id+')')) r.classList.add('stk2-row-selected');
+  });
+
+  const s=( DB.stocks||[]).find(x=>x.id===id);
+  const panel=document.getElementById('stk2-detail');
+  if(!panel||!s) return;
+
+  const isCrit=s.qte<=s.seuil;
+  const isLow=!isCrit&&s.qte<=(s.seuil||0)*2;
+  const pct=s.seuil>0?Math.min(100,Math.round(s.qte/Math.max(s.qte,s.seuil*3)*100)):70;
+  const statTxt=isCrit?'🔴 Rupture critique':isLow?'🟠 Stock faible':'🟢 Stock OK';
+  const statCol=isCrit?'#e74c3c':isLow?'#f0a060':'#06d6a0';
+  const barCol=isCrit?'#e74c3c':isLow?'#f0a060':'#06d6a0';
+  const valStock=(+s.qte||0)*(+s.pu||0);
+  const qteCmd=Math.max((s.seuil||0)*3-s.qte,1);
+
+  // Fournisseur lié
+  const fourn=(DB.fournisseurs||[]).find(f=>(f.produits||[]).some(p=>p.toLowerCase().includes(s.nom.toLowerCase().substring(0,6))));
+
+  // Historique mouvements (simulé depuis cmdFourn)
+  const mvts=[];
+  (DB.cmdFourn||[]).filter(c=>c.stat==='reçue'||c.stat==='livré').forEach(c=>{
+    (c.articles||[]).forEach(a=>{
+      if(a.nom.toLowerCase().includes(s.nom.toLowerCase().substring(0,5))){
+        mvts.push({date:c.date,qte:'+'+a.qte,note:'Réception commande '+c.ref});
+      }
+    });
+  });
+
+  panel.innerHTML=`<div style="animation:fadeSlideIn .2s ease">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line)">
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${s.ico||'📦'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:14px;font-weight:700;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.nom}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:1px">${s.cat||'—'}</div>
+      </div>
+      <span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;background:${statCol}18;border:1px solid ${statCol}44;color:${statCol};white-space:nowrap">${statTxt}</span>
+    </div>
+
+    <!-- Jauge -->
+    <div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px">
+        <span>Niveau de stock</span><span style="color:${barCol};font-weight:700">${pct}%</span>
+      </div>
+      <div style="height:8px;background:var(--ink4);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${barCol};border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px">
+        <span>0</span><span>Seuil: ${s.seuil} ${s.unite||'u'}</span>
+      </div>
+    </div>
+
+    <!-- Infos grille -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px">
+      <div style="background:var(--ink3);border-radius:8px;padding:9px 11px">
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700">Quantité</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:${statCol}">${s.qte} <span style="font-size:12px;color:var(--sub)">${s.unite||'u'}</span></div>
+      </div>
+      <div style="background:var(--ink3);border-radius:8px;padding:9px 11px">
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700">Seuil alerte</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2)">${s.seuil} <span style="font-size:12px;color:var(--sub)">${s.unite||'u'}</span></div>
+      </div>
+      <div style="background:var(--ink3);border-radius:8px;padding:9px 11px">
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700">Prix unitaire</div>
+        <div style="font-size:15px;font-weight:700;color:var(--txt);margin-top:2px">${s.pu?eur(s.pu):'—'}</div>
+      </div>
+      <div style="background:var(--ink3);border-radius:8px;padding:9px 11px">
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700">Valeur stock</div>
+        <div style="font-size:15px;font-weight:700;color:var(--gold2);margin-top:2px">${valStock>0?eur(Math.round(valStock)):'—'}</div>
+      </div>
+    </div>
+
+    ${fourn?`<div style="background:rgba(201,151,58,.06);border:1px solid rgba(201,151,58,.15);border-radius:8px;padding:9px 12px;margin-bottom:12px;font-size:12px">
+      <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px">Fournisseur</div>
+      <div style="font-weight:600;color:var(--txt)">${fourn.ico||'📦'} ${fourn.nom}</div>
+      ${fourn.tel?`<div style="font-size:11px;color:var(--muted);margin-top:2px">📞 ${fourn.tel}</div>`:''}
+    </div>`:''}
+
+    ${mvts.length?`<div style="margin-bottom:12px">
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:6px">Derniers mouvements</div>
+      ${mvts.slice(-3).reverse().map(m=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px">
+        <span style="color:var(--sub)">${m.note}</span>
+        <span style="color:#06d6a0;font-weight:700">${m.qte}</span>
+      </div>`).join('')}
+    </div>`:''}
+
+    <!-- Actions -->
+    <div style="display:flex;flex-direction:column;gap:6px">
+      ${isCrit||isLow?`<button onclick="stk2QuickOrder(${s.id},this);event.stopPropagation()" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--ink);border:none;padding:9px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;width:100%">⚡ Commander ${qteCmd} ${s.unite||'u'}</button>`:''}
+      <button onclick="editStock(${s.id});event.stopPropagation()" style="background:var(--ink3);border:1px solid var(--line2);color:var(--sub);padding:7px;border-radius:8px;font-size:12px;cursor:pointer;width:100%;transition:all .15s" onmouseover="this.style.color='var(--txt)'" onmouseout="this.style.color='var(--sub)'">✏️ Modifier la fiche</button>
+      ${fourn?`<button onclick="nav('cmdFourn',null);event.stopPropagation()" style="background:rgba(106,172,218,.08);border:1px solid rgba(106,172,218,.2);color:#6aacda;padding:7px;border-radius:8px;font-size:12px;cursor:pointer;width:100%">📦 Aller aux commandes fournisseur</button>`:''}
+    </div>
+  </div>`;
 }
 
 function stk2SetCat(cat, el){
