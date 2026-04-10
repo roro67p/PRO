@@ -1745,15 +1745,16 @@ tbody td { padding:13px 14px; font-size:13px; }
 .sv3-table:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
 /* Libre = vert */
 .sv3-table.libre{border-color:rgba(61,122,78,.3)}
-.sv3-table.libre::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent)}
+@keyframes sv3bar{0%,100%{opacity:.6}50%{opacity:1}}
+.sv3-table.libre::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent);animation:sv3bar 3s ease-in-out infinite}
 .sv3-table.libre:hover{border-color:rgba(61,122,78,.5)}
 /* Occupée = rouge/orange */
 .sv3-table.occupée{background:rgba(181,57,42,.06);border-color:rgba(240,112,96,.3)}
-.sv3-table.occupée::before{background:linear-gradient(90deg,transparent,#f07060,transparent)}
+.sv3-table.occupée::before{background:linear-gradient(90deg,transparent,#f07060,transparent);animation:sv3bar 2s ease-in-out infinite}
 .sv3-table.occupée:hover{border-color:rgba(240,112,96,.5)}
 /* Réservée = bleu */
 .sv3-table.réservée{background:rgba(45,95,138,.06);border-color:rgba(106,172,218,.3)}
-.sv3-table.réservée::before{background:linear-gradient(90deg,transparent,#6aacda,transparent)}
+.sv3-table.réservée::before{background:linear-gradient(90deg,transparent,#6aacda,transparent);animation:sv3bar 3s ease-in-out infinite}
 .sv3-table.réservée:hover{border-color:rgba(106,172,218,.5)}
 /* Timer alertes */
 .sv3-table.t-warn{border-color:rgba(240,160,96,.45)!important;background:rgba(201,151,58,.06)!important}
@@ -1766,12 +1767,16 @@ tbody td { padding:13px 14px; font-size:13px; }
 /* Top de carte : numéro + pastille */
 .sv3-t-top{display:flex;align-items:center;justify-content:space-between}
 .sv3-t-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2)}
-.sv3-t-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;box-shadow:0 0 8px}
-.sv3-table.libre .sv3-t-dot{background:#6fcf8a;box-shadow:0 0 10px #6fcf8a}
-.sv3-table.occupée .sv3-t-dot{background:#f07060;box-shadow:0 0 10px #f07060;animation:sv3pulse 2s infinite}
-.sv3-table.réservée .sv3-t-dot{background:#6aacda;box-shadow:0 0 10px #6aacda}
-.sv3-table.t-warn .sv3-t-dot{background:#f0a060!important;box-shadow:0 0 10px #f0a060!important}
-.sv3-table.t-slow .sv3-t-dot{background:#f07060!important;box-shadow:0 0 12px #f07060!important;animation:sv3blink 1s infinite!important}
+.sv3-t-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+@keyframes sv3glow-green{0%,100%{box-shadow:0 0 6px #6fcf8a}50%{box-shadow:0 0 16px #6fcf8a,0 0 24px rgba(111,207,138,.3)}}
+@keyframes sv3glow-red{0%,100%{box-shadow:0 0 6px #f07060}50%{box-shadow:0 0 16px #f07060,0 0 24px rgba(240,112,96,.3)}}
+@keyframes sv3glow-blue{0%,100%{box-shadow:0 0 6px #6aacda}50%{box-shadow:0 0 16px #6aacda,0 0 24px rgba(106,172,218,.3)}}
+@keyframes sv3glow-orange{0%,100%{box-shadow:0 0 6px #f0a060}50%{box-shadow:0 0 18px #f0a060,0 0 28px rgba(240,160,96,.3)}}
+.sv3-table.libre .sv3-t-dot{background:#6fcf8a;animation:sv3glow-green 2.5s ease-in-out infinite}
+.sv3-table.occupée .sv3-t-dot{background:#f07060;animation:sv3glow-red 1.8s ease-in-out infinite}
+.sv3-table.réservée .sv3-t-dot{background:#6aacda;animation:sv3glow-blue 2.5s ease-in-out infinite}
+.sv3-table.t-warn .sv3-t-dot{background:#f0a060!important;animation:sv3glow-orange 1.2s ease-in-out infinite!important}
+.sv3-table.t-slow .sv3-t-dot{background:#f07060!important;animation:sv3glow-red .8s ease-in-out infinite!important}
 
 /* Infos table */
 .sv3-t-seats{font-size:11px;color:var(--muted)}
