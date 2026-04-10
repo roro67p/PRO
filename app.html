@@ -4106,9 +4106,177 @@ tbody td { padding:13px 14px; font-size:13px; }
 }
 
 
+
+/* ═══════════════════════════════════════════════════════════
+   ✦ ÉCRAN DE CONNEXION PIN
+═══════════════════════════════════════════════════════════ */
+#pin-screen{
+  position:fixed;inset:0;z-index:99999;
+  background:radial-gradient(ellipse at 40% 40%,#0e0c14 0%,#060504 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0;
+  animation:pinFadeIn .4s ease both;
+}
+@keyframes pinFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pinFadeOut{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(1.04)}}
+#pin-screen.out{animation:pinFadeOut .4s ease forwards}
+
+.pin-logo{
+  font-family:'Cormorant Garamond',serif;
+  text-align:center;margin-bottom:32px;
+}
+.pin-logo-name{
+  font-size:42px;font-weight:700;color:var(--gold2);letter-spacing:4px;
+  text-shadow:0 0 30px rgba(201,151,58,.3);
+}
+.pin-logo-sub{font-size:11px;color:var(--muted);letter-spacing:4px;text-transform:uppercase;margin-top:4px}
+.pin-logo-line{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);margin:10px auto 0}
+
+.pin-card{
+  background:rgba(14,12,10,.95);
+  border:1px solid rgba(201,151,58,.15);
+  border-radius:24px;padding:32px 28px;
+  width:320px;max-width:90vw;
+  box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(201,151,58,.08);
+  position:relative;overflow:hidden;
+}
+.pin-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold2),transparent);
+}
+
+.pin-title{
+  font-size:13px;font-weight:700;text-transform:uppercase;
+  letter-spacing:2px;color:var(--sub);text-align:center;margin-bottom:20px;
+}
+
+/* Grille employés */
+.pin-employees{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;
+}
+.pin-emp{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:12px 8px;border-radius:14px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);
+  transition:all .15s;
+}
+.pin-emp:hover{background:rgba(201,151,58,.08);border-color:rgba(201,151,58,.25);transform:translateY(-2px)}
+.pin-emp.selected{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.4);box-shadow:0 0 14px rgba(201,151,58,.1)}
+.pin-emp-avatar{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800;
+  border:2px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);
+}
+.pin-emp-name{font-size:10px;font-weight:700;color:var(--sub);text-align:center;line-height:1.2}
+.pin-emp.selected .pin-emp-name{color:var(--gold2)}
+
+/* Affichage PIN */
+.pin-display{
+  display:flex;justify-content:center;gap:10px;margin-bottom:20px;height:20px;
+}
+.pin-dot{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.2);
+  background:transparent;
+  transition:all .15s;
+}
+.pin-dot.filled{
+  background:var(--gold2);border-color:var(--gold2);
+  box-shadow:0 0 8px rgba(201,151,58,.5);
+  animation:pinDotIn .15s cubic-bezier(.34,1.5,.64,1) both;
+}
+.pin-dot.error{background:#f07060;border-color:#f07060}
+@keyframes pinDotIn{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes pinShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pin-display.shake{animation:pinShake .3s ease}
+
+/* Clavier PIN */
+.pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pin-key{
+  padding:16px;border-radius:14px;font-size:20px;font-weight:700;
+  cursor:pointer;border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.05);color:var(--txt);
+  transition:all .1s;text-align:center;
+  font-family:'Cormorant Garamond',serif;
+}
+.pin-key:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);transform:scale(1.04)}
+.pin-key:active{transform:scale(.93);background:rgba(201,151,58,.15)}
+.pin-key.del{font-size:16px;color:var(--muted)}
+.pin-key.del:hover{color:#f07060;border-color:rgba(240,80,80,.2)}
+.pin-key.empty{visibility:hidden}
+
+.pin-msg{
+  text-align:center;font-size:12px;color:var(--muted);
+  margin-top:14px;min-height:18px;
+}
+.pin-msg.error{color:#f07060}
+.pin-msg.ok{color:#6fcf8a}
+
+.pin-skip{
+  margin-top:16px;text-align:center;
+  font-size:11px;color:var(--muted);cursor:pointer;
+  transition:color .15s;
+}
+.pin-skip:hover{color:var(--sub)}
+
+/* Overlay de bienvenue */
+@keyframes welcomeIn{0%{opacity:0;transform:scale(.9)}60%{transform:scale(1.03)}100%{opacity:1;transform:scale(1)}}
+.pin-welcome{
+  position:fixed;inset:0;z-index:100000;
+  background:rgba(0,0,0,.85);
+  display:flex;align-items:center;justify-content:center;
+  animation:pinFadeIn .2s ease both;
+}
+.pin-welcome-card{
+  background:rgba(14,12,10,.98);border:1px solid rgba(201,151,58,.3);
+  border-radius:20px;padding:32px;text-align:center;
+  animation:welcomeIn .4s cubic-bezier(.34,1.2,.64,1) both;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.pin-welcome-emoji{font-size:48px;margin-bottom:12px}
+.pin-welcome-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold2)}
+.pin-welcome-role{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:1px}
+
 </style>
 </head>
 <body>
+
+<!-- ÉCRAN DE CONNEXION PIN -->
+<div id="pin-screen">
+  <div class="pin-logo">
+    <div class="pin-logo-name">CHEZ ROMU</div>
+    <div class="pin-logo-sub">✦ Restaurant ✦</div>
+    <div class="pin-logo-line"></div>
+  </div>
+  <div class="pin-card">
+    <div class="pin-title">Qui êtes-vous ?</div>
+    <div class="pin-employees" id="pin-employees"></div>
+    <div class="pin-display" id="pin-display">
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+    </div>
+    <div class="pin-keypad">
+      <div class="pin-key" onclick="pinKey(1)">1</div>
+      <div class="pin-key" onclick="pinKey(2)">2</div>
+      <div class="pin-key" onclick="pinKey(3)">3</div>
+      <div class="pin-key" onclick="pinKey(4)">4</div>
+      <div class="pin-key" onclick="pinKey(5)">5</div>
+      <div class="pin-key" onclick="pinKey(6)">6</div>
+      <div class="pin-key" onclick="pinKey(7)">7</div>
+      <div class="pin-key" onclick="pinKey(8)">8</div>
+      <div class="pin-key" onclick="pinKey(9)">9</div>
+      <div class="pin-key empty"></div>
+      <div class="pin-key" onclick="pinKey(0)">0</div>
+      <div class="pin-key del" onclick="pinDel()">⌫</div>
+    </div>
+    <div class="pin-msg" id="pin-msg"></div>
+    <div class="pin-skip" onclick="pinSkip()">Passer → accès direct</div>
+  </div>
+</div>
 
 <!-- SIDEBAR -->
 <aside id="sidebar">
@@ -12861,9 +13029,172 @@ function switchPlatTab(n){
 }
 
 // ═══ BOOT ═══
+
+// ═══════════════════════════════════════════════════════════
+// ✦ SYSTÈME CONNEXION PIN
+// ═══════════════════════════════════════════════════════════
+let _pinSelected = null;
+let _pinCode = '';
+let _pinCurrentUser = null;
+
+// PIN par défaut si l'employé n'en a pas
+const PIN_ADMIN = '1234';
+
+function pinInit(){
+  const screen = document.getElementById('pin-screen');
+  if(!screen) return;
+
+  // Construire la grille des employés
+  const emps = (DB.personnel||[]).filter(e=>e.stat==='actif');
+  const grid = document.getElementById('pin-employees');
+  if(!grid) return;
+
+  // Toujours ajouter le manager/admin
+  const allUsers = [
+    {id:0, nom:'Admin', prenom:'', poste:'Manager', pin:PIN_ADMIN, col:'#c9973a'},
+    ...emps.map(e=>({
+      id:e.id,
+      nom:e.nom,
+      prenom:e.prenom||'',
+      poste:e.poste||'Employé',
+      pin:e.pin||'0000',
+      col:'#6aacda'
+    }))
+  ];
+
+  window._pinUsers = allUsers;
+
+  grid.innerHTML = allUsers.slice(0,6).map((u,i)=>{
+    const initiales = ((u.prenom||'').charAt(0)+(u.nom||'').charAt(0)).toUpperCase()||'?';
+    return '<div class="pin-emp" onclick="pinSelectUser('+i+')" id="pin-emp-'+i+'">'
+      +'<div class="pin-emp-avatar" style="background:'+u.col+'22;border-color:'+u.col+'44;color:'+u.col+'">'+initiales+'</div>'
+      +'<div class="pin-emp-name">'+(u.prenom||u.nom)+'</div>'
+      +'</div>';
+  }).join('');
+
+  // Sélectionner le premier par défaut
+  if(allUsers.length) pinSelectUser(0);
+}
+
+function pinSelectUser(idx){
+  _pinSelected = idx;
+  _pinCode = '';
+  pinUpdateDisplay();
+  document.querySelectorAll('.pin-emp').forEach((el,i)=>{
+    el.classList.toggle('selected', i===idx);
+  });
+  const u = (window._pinUsers||[])[idx];
+  const msg = document.getElementById('pin-msg');
+  if(msg&&u) msg.textContent = 'Entrez votre PIN pour '+(u.prenom||u.nom);
+  if(msg) msg.className='pin-msg';
+}
+
+function pinKey(n){
+  if(_pinSelected===null){
+    const msg=document.getElementById('pin-msg');
+    if(msg){msg.textContent='Sélectionnez un employé';msg.className='pin-msg error';}
+    return;
+  }
+  if(_pinCode.length >= 4) return;
+  _pinCode += String(n);
+  pinUpdateDisplay();
+  if(_pinCode.length === 4) setTimeout(pinVerify, 120);
+}
+
+function pinDel(){
+  _pinCode = _pinCode.slice(0,-1);
+  pinUpdateDisplay();
+}
+
+function pinUpdateDisplay(){
+  const dots = document.querySelectorAll('#pin-display .pin-dot');
+  dots.forEach((d,i)=>{
+    d.classList.toggle('filled', i < _pinCode.length);
+    d.classList.remove('error');
+  });
+}
+
+function pinVerify(){
+  const users = window._pinUsers||[];
+  const u = users[_pinSelected];
+  if(!u) return;
+
+  const correctPin = u.pin||PIN_ADMIN;
+
+  if(_pinCode === correctPin){
+    // Succès !
+    _pinCurrentUser = u;
+    pinShowWelcome(u);
+  } else {
+    // Erreur
+    const dots = document.querySelectorAll('#pin-display .pin-dot');
+    dots.forEach(d=>d.classList.add('error'));
+    const display = document.getElementById('pin-display');
+    display.classList.add('shake');
+    setTimeout(()=>display.classList.remove('shake'),350);
+    const msg = document.getElementById('pin-msg');
+    if(msg){msg.textContent='PIN incorrect — réessayez';msg.className='pin-msg error';}
+    setTimeout(()=>{
+      _pinCode='';
+      pinUpdateDisplay();
+      if(msg) msg.className='pin-msg';
+    },800);
+  }
+}
+
+function pinShowWelcome(u){
+  // Overlay de bienvenue
+  const welcome = document.createElement('div');
+  welcome.className='pin-welcome';
+  const role = u.poste||'';
+  welcome.innerHTML='<div class="pin-welcome-card">'
+    +'<div class="pin-welcome-emoji">👋</div>'
+    +'<div class="pin-welcome-name">Bonjour '+(u.prenom||u.nom)+' !</div>'
+    +'<div class="pin-welcome-role">'+role+'</div>'
+    +'</div>';
+  document.body.appendChild(welcome);
+  setTimeout(()=>pinEnter(welcome), 1400);
+}
+
+function pinEnter(welcomeEl){
+  if(welcomeEl) welcomeEl.remove();
+  const screen = document.getElementById('pin-screen');
+  if(screen){
+    screen.classList.add('out');
+    setTimeout(()=>screen.remove(), 400);
+  }
+  // Mettre à jour le greeting avec le prénom
+  if(_pinCurrentUser){
+    const h=new Date().getHours();
+    const greet=h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
+    const gEl=document.getElementById('dash-greeting');
+    if(gEl) gEl.textContent=greet+' '+((_pinCurrentUser.prenom||_pinCurrentUser.nom)||'')+ ' 👋';
+  }
+}
+
+function pinSkip(){
+  const screen = document.getElementById('pin-screen');
+  if(screen){
+    screen.classList.add('out');
+    setTimeout(()=>screen.remove(), 400);
+  }
+}
+
+// Clavier physique
+document.addEventListener('keydown', function(e){
+  const screen = document.getElementById('pin-screen');
+  if(!screen) return;
+  if(e.key>='0'&&e.key<='9') pinKey(+e.key);
+  else if(e.key==='Backspace') pinDel();
+  else if(e.key==='Enter'&&_pinCode.length===4) pinVerify();
+});
+
+
 document.addEventListener('DOMContentLoaded', function(){
   loadDB();
   if(!DB.tables||DB.tables.length===0) initData();
+  // Init écran PIN
+  setTimeout(pinInit, 100);
   const rsDate = document.getElementById('rs-date');
   const rsHeure = document.getElementById('rs-heure');
   if(rsDate) rsDate.value=td();
