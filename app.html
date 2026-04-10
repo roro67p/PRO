@@ -838,6 +838,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 .cli-badge.fidele{background:rgba(181,57,42,.2);border:1px solid rgba(240,80,80,.3);color:#f07060}
 .cli-badge.regulier{background:rgba(130,80,10,.2);border:1px solid rgba(201,151,58,.35);color:var(--gold2)}
 .cli-badge.nouveau{background:rgba(45,95,138,.2);border:1px solid rgba(106,172,218,.3);color:#6aacda}
+.cli-badge.vip{background:rgba(120,60,180,.25);border:1px solid rgba(160,100,220,.4);color:#c89aff}
 .cli-col-vis{width:60px;text-align:center;font-size:14px;font-weight:700;color:var(--txt);flex-shrink:0}
 .cli-col-dep{width:90px;text-align:right;font-size:14px;font-weight:700;color:var(--gold2);flex-shrink:0;font-family:'Cormorant Garamond',serif}
 .cli-list-head{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:4px}
@@ -2742,6 +2743,11 @@ tbody td { padding:13px 14px; font-size:13px; }
           <div class="p3-timer" id="pos-timer">00:00</div>
         </div>
         <div class="p3-rush-bar" id="pos-rush-badge">⚡ MODE RUSH ACTIF</div>
+        <div style="padding:4px 8px 0">
+          <select class="p3-sel" id="pos-client" style="width:100%;font-size:11px;padding:5px 8px;border-radius:6px;background:var(--ink3);border:1px solid var(--line);color:var(--txt)">
+            <option value="">👤 Sans client</option>
+          </select>
+        </div>
       </div>
 
       <div class="p3-lines" id="ticket-lines">
@@ -5071,6 +5077,12 @@ tbody td { padding:13px 14px; font-size:13px; }
         <div class="form-group"><div class="form-label">Table *</div><select class="form-select" id="cmd-tbl"></select></div>
         <div class="form-group"><div class="form-label">Couverts</div><input class="form-input" id="cmd-cvt" type="number" placeholder="2"/></div>
         <div class="form-group"><div class="form-label">Serveur</div><select class="form-select" id="cmd-serv"></select></div>
+        <div class="form-group"><div class="form-label">Client</div>
+          <div style="display:flex;gap:4px">
+            <select class="form-select" id="cmd-client" style="flex:1"><option value="">— Sans client —</option></select>
+            <button class="btn btn-ghost btn-sm" onclick="openModal('mo-client')" title="Nouveau client" style="padding:0 10px;font-size:16px">+</button>
+          </div>
+        </div>
         <div class="form-group"><div class="form-label">Statut</div>
           <select class="form-select" id="cmd-stat">
             <option value="en-attente">En attente</option>
@@ -5761,6 +5773,9 @@ function loadDB(){
     currentEtabId=idx<DB_ETABS.length?idx:0;
     const d=localStorage.getItem(getEtabKey(currentEtabId));
     if(d){const p=JSON.parse(d);Object.keys(p).forEach(k=>DB[k]=p[k]);}
+    // Migration: clients pour utilisateurs existants
+    if(!DB.clients) DB.clients=[];
+    if(!DB.ids.cl) DB.ids.cl=1;
   }catch(e){}
 }
 function saveEtabs(){
@@ -5773,7 +5788,7 @@ function switchEtab(idx){
   currentEtabId=idx;
   saveEtabs();
   // Recharger les données du nouvel établissement
-  Object.assign(DB,{tables:[],plats:[],commandes:[],reservations:[],stocks:[],personnel:[],fournisseurs:[],ventes:[],ticket:[],filMenu:'Tous',ids:{t:1,p:1,c:1,r:1,s:1,e:1,f:1,v:1},params:{nom:'Chez Romu',tva:10,ticket:35}});
+  Object.assign(DB,{tables:[],plats:[],commandes:[],reservations:[],stocks:[],personnel:[],fournisseurs:[],ventes:[],clients:[],ticket:[],filMenu:'Tous',ids:{t:1,p:1,c:1,r:1,s:1,e:1,f:1,v:1,cl:1},params:{nom:'Chez Romu',tva:10,ticket:35}});
   const d=localStorage.getItem(getEtabKey(currentEtabId));
   if(d){const p=JSON.parse(d);Object.keys(p).forEach(k=>DB[k]=p[k]);}
   else initData();
@@ -5864,6 +5879,9 @@ function fillSels(){
   ['tk-table'].forEach(id=>{const s=document.getElementById(id);if(s)s.innerHTML='<option value="">— Table —</option>'+tOpts});
   const servOpts='<option value="">— Choisir —</option>'+DB.personnel.filter(e=>e.stat==='actif').map(e=>`<option value="${e.id}">${e.nom}</option>`).join('');
   const cs=document.getElementById('cmd-serv');if(cs)cs.innerHTML=servOpts;
+  // Clients
+  const cliOpts='<option value="">— Sans client —</option>'+(DB.clients||[]).map(c=>`<option value="${c.id}">${c.nom}${cliTotalDepense(c)>=500?' 💎':''}</option>`).join('');
+  const cc=document.getElementById('cmd-client');if(cc)cc.innerHTML=cliOpts;
   // cmd plats pick — liste avec recherche
   const pg=document.getElementById('cmd-plats-pick');
   const catsPick=document.getElementById('cmd-plat-cats');
@@ -5896,10 +5914,11 @@ function rCmdPlatsPick(){
     const inSel=cmdSel.find(x=>x.id===p.id);
     const qty=inSel?inSel.q:0;
     const ind=getPlatIndicateur(p);
-    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .12s;cursor:pointer${qty>0?';background:rgba(201,151,58,.06)':''}" onclick="pickPlat(${p.id})" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='${qty>0?'rgba(201,151,58,.06)':'transparent'}'">
+    const dispo=platDispo(p);
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .12s;${!dispo?'opacity:.4;pointer-events:none':'cursor:pointer'}${qty>0?';background:rgba(201,151,58,.06)':''}" ${dispo?`onclick="pickPlat(${p.id})"`:''} onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='${qty>0?'rgba(201,151,58,.06)':'transparent'}'">
       <div style="width:32px;min-width:32px;text-align:center;flex-shrink:0;font-size:${p.ico&&p.ico.length<=2?'20':'10'}px;font-weight:800;color:var(--gold2);letter-spacing:.3px;line-height:1">${p.ico||'🍽️'}</div>
       <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nom}${ind?` <span style="font-size:9px;padding:1px 5px;border-radius:6px;background:${ind.col}18;color:${ind.col};margin-left:4px">${ind.label}</span>`:''}</div>
+        <div style="font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nom}${!dispo?' <span style="font-size:9px;padding:1px 5px;border-radius:6px;background:rgba(181,57,42,.2);color:#f07060;margin-left:4px">Rupture</span>':''}${ind?` <span style="font-size:9px;padding:1px 5px;border-radius:6px;background:${ind.col}18;color:${ind.col};margin-left:4px">${ind.label}</span>`:''}</div>
         <div style="font-size:10px;color:var(--muted);margin-top:1px">${p.cat||''}${p.desc?' · '+p.desc.slice(0,30)+'…':''}</div>
       </div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold2);flex-shrink:0;margin-right:8px">${eur(p.prix)}</div>
@@ -6465,7 +6484,8 @@ function saveCmd(){
   const id=+document.getElementById('id-cmd').value;
   const items=cmdSel.map(x=>({pid:x.id,q:x.q,px:gP(x.id).prix}));
   const total=items.reduce((s,x)=>s+x.px*x.q,0);
-  const o={tbl,cvt:+document.getElementById('cmd-cvt').value||2,serv:+document.getElementById('cmd-serv').value||0,
+  const clientId=+document.getElementById('cmd-client').value||0;
+  const o={tbl,cvt:+document.getElementById('cmd-cvt').value||2,serv:+document.getElementById('cmd-serv').value||0,clientId,
     stat:document.getElementById('cmd-stat').value,note:document.getElementById('cmd-note').value||'',items,total,t:now(),date:td()};
   if(id){const i=DB.commandes.findIndex(c=>c.id===id);DB.commandes[i]={...DB.commandes[i],...o};toast('Commande modifiée');}
   else{o.id=DB.ids.c++;o.numTicket=genNumTicket();DB.commandes.push(o);setTblStat(tbl,'occupée');toast('Commande '+o.numTicket+' créée ✅');}
@@ -6477,6 +6497,7 @@ function editCmd(id){
   fillSels();document.getElementById('id-cmd').value=c.id;(document.getElementById('ttl-cmd')||{}).textContent='Modifier commande';
   document.getElementById('cmd-tbl').value=c.tbl;document.getElementById('cmd-cvt').value=c.cvt;
   document.getElementById('cmd-stat').value=c.stat;document.getElementById('cmd-note').value=c.note||'';
+  const cmdCli=document.getElementById('cmd-client');if(cmdCli)cmdCli.value=c.clientId||'';
   cmdSel=c.items.map(x=>({id:x.pid,q:x.q}));refreshCmdSel();openModal('mo-commande');
 }
 function updateCmdStat(id,stat){
@@ -6503,6 +6524,15 @@ function updateCmdStat(id,stat){
         }
       }
     });
+    // Auto-update visite client
+    if(cmd.clientId){
+      const cli=(DB.clients||[]).find(x=>x.id===cmd.clientId);
+      if(cli){
+        if(!cli.visites) cli.visites=[];
+        cli.visites.unshift({date:cmd.date||td(),montant:cmd.total,plats:(cmd.items||[]).map(x=>(gP(x.pid).nom||'?'))});
+        if(cliTotalDepense(cli)>=500) toast('💎 Client VIP : '+cli.nom,'ok');
+      }
+    }
   }
   saveDB();rCmds();rDash();toast('Mis à jour');
 }
@@ -6718,7 +6748,8 @@ function cmd3Select(id){
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
         <div class="cmd3-detail-num" style="color:${statColors[c.stat]||'var(--gold2)'}">#${c.numTicket?String(c.numTicket).slice(-4):c.id}</div>
-        <div class="cmd3-detail-meta">Table ${tbl.num||c.tbl} · ${c.cvt||1} couvert(s)<br>${c.t||'—'} ${c.note?'· 📝 '+c.note:''}</div>
+        <div class="cmd3-detail-meta">Table ${tbl.num||c.tbl} · ${c.cvt||1} couvert(s)${c.clientId?` · 👤 ${((DB.clients||[]).find(x=>x.id===c.clientId)||{}).nom||''}`:''}
+${c.t||'—'} ${c.note?'· 📝 '+c.note:''}</div>
         ${payHtml}
       </div>
       <button onclick="_cmd3Selected=null;document.getElementById('cmd3-detail').innerHTML='<div class=cmd3-detail-empty><div style=font-size:36px;opacity:.2;margin-bottom:10px>🧾</div><div style=font-size:12px>Cliquez sur une commande pour voir le détail</div></div>'" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:var(--sub);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:14px">✕</button>
@@ -6987,6 +7018,16 @@ function payer(mode){
     }
   });
   if(tblId)setTblStat(tblId,'libre');
+  // Auto-update visite client POS
+  const posCliId=+(document.getElementById('pos-client')||{}).value||0;
+  if(posCliId){
+    const cli=(DB.clients||[]).find(x=>x.id===posCliId);
+    if(cli){
+      if(!cli.visites) cli.visites=[];
+      cli.visites.unshift({date:td(),montant:total,plats:tkItems.filter(x=>x.type!=='remise').map(x=>(gP(x.id).nom||'?'))});
+      if(cliTotalDepense(cli)>=500) toast('💎 Client VIP : '+cli.nom,'ok');
+    }
+  }
   // Fidélité : attribuer des points (1 point par euro) et déduire si utilisé
   if(_tkFidelClient){
     const ci=DB.clients.findIndex(c=>c.id===_tkFidelClient.id);
@@ -8304,10 +8345,21 @@ function rPerso(){
 let _cliSel=null;
 
 function cliGetBadge(c){
+  const total=cliTotalDepense(c);
   const v=(c.visites||[]).length;
+  if(total>=500) return {cls:'vip',label:'💎 VIP'};
   if(v>=6) return {cls:'fidele',label:'🔥 Fidèle'};
   if(v>=3) return {cls:'regulier',label:'⭐ Régulier'};
   return {cls:'nouveau',label:'Nouveau'};
+}
+
+function platDispo(p){
+  if(p.dispo==='indispo') return false;
+  if(!p.recette||!p.recette.length) return true;
+  return p.recette.every(r=>{
+    const s=(DB.stocks||[]).find(x=>x.id===r.stkId);
+    return s&&s.qte>=r.qte;
+  });
 }
 
 function cliInitials(nom){
@@ -8452,6 +8504,7 @@ function cliOpenPanel(id){
     <div class="cli-panel-actions">
       <button class="cli-panel-btn gold" onclick="editClient(${c.id})">✏ Modifier</button>
       <button class="cli-panel-btn ghost" onclick="toggleImportant(${c.id})">${c.important?'★ Retirer important':'☆ Marquer important'}</button>
+      <button class="cli-panel-btn gold" onclick="cliCommander(${c.id})" style="grid-column:1/-1">🍽️ Nouvelle commande</button>
     </div>`;
 
   // Surligner la ligne sélectionnée
@@ -8505,6 +8558,14 @@ function toggleImportant(id){
   c.important=!c.important;
   saveDB();rClients();
   toast(c.important?'Client marqué important':'Marquage retiré');
+}
+
+function cliCommander(id){
+  nav('caisse',null);
+  setTimeout(()=>{
+    const posCli=document.getElementById('pos-client');
+    if(posCli) posCli.value=id;
+  },200);
 }
 
 // ═══ FOURNISSEURS ═══
@@ -9120,6 +9181,9 @@ function initPOS(){
       sel.appendChild(o);
     });
   }
+  // Clients POS
+  const posCli=document.getElementById('pos-client');
+  if(posCli) posCli.innerHTML='<option value="">👤 Sans client</option>'+(DB.clients||[]).map(c=>`<option value="${c.id}">${c.nom}${cliTotalDepense(c)>=500?' 💎':''}</option>`).join('');
   posBuildCats();
   posRenderGrid();
   posStartTimer();
@@ -9171,11 +9235,12 @@ function posRenderGrid(){
   }
   grid.innerHTML=plats.map((p,idx)=>{
     const stk=stkMap[p.nom.toLowerCase()];
+    const dispo=platDispo(p);
     const qte=qteMap[p.id]||0;
     const isTop=topIds.has(p.id);
     const isRentable=(margeMap[p.id]||0)>0.6;
-    return '<div class="p3-prod'+(stk?' rupture':'')+(isTop?' top-seller':'')+'" id="pp'+p.id+'" data-cat="'+(p.cat||'')+'" onclick="posClick(event,'+p.id+')" ondblclick="posDoubleClick(event,'+p.id+')" style="animation-delay:'+(idx*15)+'ms">'+
-      (stk?'<span class="p3-prod-stk">⚠</span>':'')+
+    return '<div class="p3-prod'+(stk||!dispo?' rupture':'')+(isTop?' top-seller':'')+'" id="pp'+p.id+'" data-cat="'+(p.cat||'')+'" '+(dispo?'onclick="posClick(event,'+p.id+')" ondblclick="posDoubleClick(event,'+p.id+')"':'style="opacity:.35;pointer-events:none"')+' style="animation-delay:'+(idx*15)+'ms">'+
+      (!dispo?'<span class="p3-prod-stk">🚫</span>':stk?'<span class="p3-prod-stk">⚠</span>':'')+
       (qte>0?'<span class="p3-prod-cnt">'+qte+'</span>':'')+
       (isTop?'<span style="position:absolute;top:5px;left:5px;font-size:9px;background:rgba(201,151,58,.2);border:1px solid rgba(201,151,58,.38);border-radius:4px;padding:1px 4px;color:#f5d070;font-weight:800">★</span>':'')+
       '<div class="p3-prod-cat '+(p.cat||'')+'">'+((p.cat||'').slice(0,3).toUpperCase()||'PLT')+'</div>'+
