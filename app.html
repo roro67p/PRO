@@ -15130,7 +15130,7 @@ const CAVE_DEFAUT=[
   {id:19,type:'autre',nom:'Banyuls Grand Cru',region:'Roussillon - Banyuls',millesime:2017,stock:4,seuil:2,prixBtl:28,prixVerre:8,cout:11,notes:'Chocolat, fromages bleus. Vin doux naturel, cerise confite.'},
   {id:20,type:'autre',nom:'Crémant d\'Alsace Brut',region:'Alsace',millesime:0,stock:11,seuil:4,prixBtl:18,prixVerre:5,cout:7,notes:'Apéritif festif. Bulles fines, pomme verte, frais et accessible.'},
 ];
-function initCave(){if(!DB.cave||!DB.cave.length)DB.cave=CAVE_DEFAUT.map(v=>({...v}));}
+function initCave(){if(!DB.cave||!Array.isArray(DB.cave)||!DB.cave.length){DB.cave=CAVE_DEFAUT.map(v=>({...v}));saveDB();}}
 let _caveTypeFilter='tous';
 function setCaveType(t,btn){
   _caveTypeFilter=t;
@@ -15139,54 +15139,151 @@ function setCaveType(t,btn){
   rCave();
 }
 function bottleSVG(type,stock,seuil){
+  const sc=stock===0?'#e74c3c':stock<=seuil?'#e6a326':'#06d6a0';
   const configs={
-    rouge:{body:'#8B1A1A',neck:'#6B1414',label:'#c0392b',labelTxt:'#fff',cap:'#5a0f0f',shine:'rgba(255,100,100,0.18)'},
-    blanc:{body:'#4a7c59',neck:'#3a6347',label:'#c8a84b',labelTxt:'#fff',cap:'#2d4e38',shine:'rgba(200,255,180,0.18)'},
-    rosé:{body:'#c0607a',neck:'#a04d64',label:'#e91e8c',labelTxt:'#fff',cap:'#7a2940',shine:'rgba(255,180,200,0.2)'},
-    champagne:{body:'#b5a642',neck:'#8f8230',label:'#f39c12',labelTxt:'#fff',cap:'#c0a800',shine:'rgba(255,240,150,0.2)'},
-    autre:{body:'#4a3728',neck:'#3a2a1e',label:'#6c757d',labelTxt:'#fff',cap:'#2a1e14',shine:'rgba(200,180,150,0.15)'},
+    rouge:{
+      body:'#6B0F1A',bodyMid:'#8B1A1A',bodyShadow:'#4a0a12',
+      neck:'#5a0f15',label:'#8B1A1A',labelBorder:'#c0392b',
+      cap:'#2d0508',capTop:'#3d0709',shine:'rgba(255,120,120,0.15)'
+    },
+    blanc:{
+      body:'#2d5a3d',bodyMid:'#3a7050',bodyShadow:'#1e3d2a',
+      neck:'#2d5a3d',label:'#4a8c5c',labelBorder:'#6ab87a',
+      cap:'#1a3322',capTop:'#243d2a',shine:'rgba(180,255,180,0.12)'
+    },
+    rosé:{
+      body:'#b5495a',bodyMid:'#d4607a',bodyShadow:'#8a2f3d',
+      neck:'#9e3f50',label:'#c0506a',labelBorder:'#e8799a',
+      cap:'#5a1f28',capTop:'#7a2f3a',shine:'rgba(255,180,200,0.15)'
+    },
+    champagne:{
+      body:'#8B7A1A',bodyMid:'#a89020',bodyShadow:'#5a4e0f',
+      neck:'#7a6a15',label:'#c0a820',labelBorder:'#e8c840',
+      cap:'#3d3208',capTop:'#5a4a10',shine:'rgba(255,240,120,0.18)'
+    },
+    autre:{
+      body:'#3a2820',bodyMid:'#4a3528',bodyShadow:'#251a15',
+      neck:'#3a2820',label:'#5a4535',labelBorder:'#8a6a55',
+      cap:'#1a1008',capTop:'#2a1a10',shine:'rgba(200,170,140,0.12)'
+    }
   };
   const c=configs[type]||configs.autre;
-  const sc=stock===0?'#c0392b':stock<=seuil?'#e6a326':'#06d6a0';
-  return `<svg width="70" height="120" viewBox="0 0 70 120" xmlns="http://www.w3.org/2000/svg">
+  // Champagne = flûte, autres = bordeaux/bourgogne
+  if(type==='champagne'){
+    return `<svg width="60" height="130" viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg${type}" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:${c.body};stop-opacity:0.7"/>
-      <stop offset="40%" style="stop-color:${c.body}"/>
-      <stop offset="75%" style="stop-color:${c.body}"/>
-      <stop offset="100%" style="stop-color:${c.body};stop-opacity:0.5"/>
+    <linearGradient id="cbody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${c.bodyShadow}"/>
+      <stop offset="35%" stop-color="${c.bodyMid}"/>
+      <stop offset="65%" stop-color="${c.bodyMid}"/>
+      <stop offset="100%" stop-color="${c.bodyShadow}"/>
     </linearGradient>
-    <linearGradient id="shine${type}" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:transparent"/>
-      <stop offset="30%" style="stop-color:${c.shine}"/>
-      <stop offset="60%" style="stop-color:rgba(255,255,255,0.12)"/>
-      <stop offset="100%" style="stop-color:transparent"/>
-    </linearGradient>
-    <linearGradient id="neck${type}" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:${c.neck};stop-opacity:0.7"/>
-      <stop offset="50%" style="stop-color:${c.neck}"/>
-      <stop offset="100%" style="stop-color:${c.neck};stop-opacity:0.5"/>
+    <linearGradient id="cneck" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${c.bodyShadow}"/>
+      <stop offset="50%" stop-color="${c.neck}"/>
+      <stop offset="100%" stop-color="${c.bodyShadow}"/>
     </linearGradient>
   </defs>
-  <!-- Corps bouteille -->
-  <path d="M18 95 Q14 90 14 75 L14 55 Q14 48 18 45 L18 30 Q18 27 21 26 L21 18 Q21 15 24 14 L46 14 Q49 15 49 18 L49 26 Q52 27 52 30 L52 45 Q56 48 56 55 L56 75 Q56 90 52 95 Q48 105 35 108 Q22 105 18 95 Z" fill="url(#bg${type})" rx="4"/>
-  <!-- Épaule (shoulder highlight) -->
-  <path d="M18 45 Q14 48 14 55 L56 55 Q56 48 52 45 L52 30 Q52 27 49 26 L21 26 Q18 27 18 30 Z" fill="${c.neck}" opacity="0.4"/>
-  <!-- Reflet brillant -->
-  <path d="M22 95 Q19 88 19 75 L19 55 L25 55 L25 75 Q25 88 27 94 Z" fill="url(#shine${type})" opacity="0.8"/>
+  <!-- Base évasée -->
+  <ellipse cx="30" cy="118" rx="16" ry="4" fill="${c.bodyShadow}" opacity="0.5"/>
+  <!-- Corps flûte - bas large -->
+  <path d="M14 118 Q13 105 16 90 L20 55 L22 30 L22 22 L38 22 L38 30 L40 55 L44 90 Q47 105 46 118 Z" fill="url(#cbody)"/>
+  <!-- Reflet côté gauche -->
+  <path d="M17 118 Q16 105 19 90 L22 55 L24 30 L24 22 L26 22 L26 30 L24 55 L21 90 Q20 105 20 118 Z" fill="${c.shine}" opacity="0.8"/>
+  <!-- Col étroit -->
+  <rect x="24" y="10" width="12" height="14" rx="2" fill="url(#cneck)"/>
+  <!-- Bouchon muselet doré -->
+  <rect x="23" y="5" width="14" height="7" rx="3" fill="${c.cap}"/>
+  <rect x="25" y="3" width="10" height="5" rx="2" fill="${c.capTop}"/>
+  <!-- Fil de fer muselet -->
+  <path d="M23 9 Q30 11 37 9" stroke="${c.labelBorder}" stroke-width="0.8" fill="none" opacity="0.6"/>
   <!-- Étiquette -->
-  <rect x="17" y="62" width="36" height="28" rx="3" fill="${c.label}" opacity="0.9"/>
-  <rect x="19" y="64" width="32" height="24" rx="2" fill="rgba(0,0,0,0.25)"/>
-  <line x1="21" y1="70" x2="49" y2="70" stroke="${c.labelTxt}" stroke-width="0.5" opacity="0.4"/>
-  <line x1="21" y1="82" x2="49" y2="82" stroke="${c.labelTxt}" stroke-width="0.5" opacity="0.4"/>
-  <!-- Bouchon/muselet -->
-  <rect x="28" y="8" width="14" height="8" rx="3" fill="${c.cap}"/>
-  <rect x="30" y="6" width="10" height="4" rx="2" fill="${c.cap}" opacity="0.8"/>
-  <!-- Capsule -->
-  <rect x="21" y="14" width="28" height="6" rx="1" fill="${c.cap}" opacity="0.7"/>
+  <rect x="17" y="72" width="26" height="22" rx="2" fill="${c.label}" opacity="0.9"/>
+  <rect x="19" y="74" width="22" height="18" rx="1" fill="rgba(0,0,0,0.3)"/>
+  <line x1="20" y1="79" x2="40" y2="79" stroke="${c.labelBorder}" stroke-width="0.6" opacity="0.5"/>
+  <line x1="20" y1="87" x2="40" y2="87" stroke="${c.labelBorder}" stroke-width="0.6" opacity="0.5"/>
   <!-- Indicateur stock -->
-  <circle cx="54" cy="14" r="6" fill="${sc}" opacity="0.9"/>
-  <text x="54" y="18" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">${stock}</text>
+  <circle cx="46" cy="10" r="7" fill="${sc}" opacity="0.95"/>
+  <text x="46" y="14" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">${stock}</text>
+</svg>`;
+  }
+  // Bordeaux shape pour rouge/rosé, Bourgogne (plus rond) pour blanc/autre
+  const isBourguignon=(type==='blanc'||type==='autre');
+  if(isBourguignon){
+    return `<svg width="60" height="130" viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bbody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${c.bodyShadow}"/>
+      <stop offset="30%" stop-color="${c.bodyMid}"/>
+      <stop offset="70%" stop-color="${c.bodyMid}"/>
+      <stop offset="100%" stop-color="${c.bodyShadow}"/>
+    </linearGradient>
+  </defs>
+  <!-- Ombre base -->
+  <ellipse cx="30" cy="120" rx="16" ry="3" fill="${c.bodyShadow}" opacity="0.4"/>
+  <!-- Corps bourgogne - épaules rondes -->
+  <path d="M14 120 L14 75 Q13 65 16 58 Q20 50 24 46 L24 28 Q24 24 26 23 L26 16 Q26 13 30 12 Q34 13 34 16 L34 23 Q36 24 36 28 L36 46 Q40 50 44 58 Q47 65 46 75 L46 120 Z" fill="url(#bbody)"/>
+  <!-- Épaules arrondies highlight -->
+  <path d="M16 58 Q20 50 24 46 L36 46 Q40 50 44 58 Q47 65 46 75 L14 75 Q13 65 16 58 Z" fill="${c.neck}" opacity="0.35"/>
+  <!-- Reflet brillant gauche -->
+  <path d="M17 120 L17 75 Q16 66 19 59 L21 55 L21 46 L23 46 L23 55 L21 59 Q19 66 19 75 L19 120 Z" fill="${c.shine}" opacity="0.9"/>
+  <!-- Col -->
+  <rect x="26" y="12" width="8" height="16" rx="2" fill="${c.neck}"/>
+  <!-- Bouchon -->
+  <rect x="25" y="6" width="10" height="8" rx="3" fill="${c.cap}"/>
+  <rect x="27" y="4" width="6" height="4" rx="2" fill="${c.capTop}"/>
+  <!-- Capsule col -->
+  <rect x="24" y="12" width="12" height="5" rx="1" fill="${c.cap}" opacity="0.7"/>
+  <!-- Étiquette -->
+  <rect x="15" y="78" width="30" height="24" rx="3" fill="${c.label}" opacity="0.9"/>
+  <rect x="17" y="80" width="26" height="20" rx="2" fill="rgba(0,0,0,0.25)"/>
+  <line x1="18" y1="86" x2="42" y2="86" stroke="${c.labelBorder}" stroke-width="0.7" opacity="0.5"/>
+  <line x1="18" y1="94" x2="42" y2="94" stroke="${c.labelBorder}" stroke-width="0.7" opacity="0.5"/>
+  <!-- Stock badge -->
+  <circle cx="46" cy="10" r="7" fill="${sc}" opacity="0.95"/>
+  <text x="46" y="14" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">${stock}</text>
+</svg>`;
+  }
+  // Bordeaux (rouge/rosé) - épaules droites carrées
+  return `<svg width="60" height="130" viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rdbody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${c.bodyShadow}"/>
+      <stop offset="30%" stop-color="${c.bodyMid}"/>
+      <stop offset="70%" stop-color="${c.bodyMid}"/>
+      <stop offset="100%" stop-color="${c.bodyShadow}"/>
+    </linearGradient>
+    <linearGradient id="rdneck" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${c.bodyShadow}"/>
+      <stop offset="50%" stop-color="${c.neck}"/>
+      <stop offset="100%" stop-color="${c.bodyShadow}"/>
+    </linearGradient>
+  </defs>
+  <!-- Ombre base -->
+  <ellipse cx="30" cy="120" rx="16" ry="3" fill="${c.bodyShadow}" opacity="0.4"/>
+  <!-- Corps bordeaux - cylindrique avec épaules droites -->
+  <path d="M14 120 L14 68 L14 62 Q14 54 18 50 L22 46 L22 28 Q22 24 24 23 L24 16 Q24 13 30 12 Q36 13 36 16 L36 23 Q38 24 38 28 L38 46 L42 50 Q46 54 46 62 L46 68 L46 120 Z" fill="url(#rdbody)"/>
+  <!-- Épaules droites - ligne marquée bordeaux -->
+  <path d="M14 68 L14 62 Q14 54 18 50 L22 46 L38 46 L42 50 Q46 54 46 62 L46 68 Z" fill="${c.neck}" opacity="0.4"/>
+  <!-- Reflet gauche -->
+  <path d="M17 120 L17 68 L17 62 Q17 55 20 51 L22 49 L22 46 L24 46 L24 49 L22 51 Q19 55 19 62 L19 68 L19 120 Z" fill="${c.shine}" opacity="0.9"/>
+  <!-- Col cylindrique -->
+  <rect x="24" y="12" width="12" height="16" rx="2" fill="url(#rdneck)"/>
+  <!-- Bouchon -->
+  <rect x="23" y="6" width="14" height="8" rx="3" fill="${c.cap}"/>
+  <rect x="25" y="4" width="10" height="5" rx="2" fill="${c.capTop}"/>
+  <!-- Capsule -->
+  <rect x="22" y="12" width="16" height="5" rx="1" fill="${c.cap}" opacity="0.6"/>
+  <!-- Étiquette principale -->
+  <rect x="15" y="72" width="30" height="28" rx="2" fill="${c.label}" opacity="0.9"/>
+  <rect x="17" y="74" width="26" height="24" rx="1" fill="rgba(0,0,0,0.3)"/>
+  <line x1="18" y1="81" x2="43" y2="81" stroke="${c.labelBorder}" stroke-width="0.7" opacity="0.5"/>
+  <line x1="18" y1="92" x2="43" y2="92" stroke="${c.labelBorder}" stroke-width="0.7" opacity="0.5"/>
+  <!-- Contre-étiquette bas -->
+  <rect x="18" y="108" width="24" height="9" rx="2" fill="${c.label}" opacity="0.5"/>
+  <!-- Stock badge -->
+  <circle cx="46" cy="10" r="7" fill="${sc}" opacity="0.95"/>
+  <text x="46" y="14" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">${stock}</text>
 </svg>`;
 }
 function rCave(){
@@ -15224,8 +15321,7 @@ function rCave(){
       '<div class="cave-bottle-price">'+eur(v.prixBtl)+'</div>'+
       '<span class="cave-bottle-stock" style="color:'+stockColor+';background:'+stockBg+'">'+v.stock+' btl</span>'+
       '<div class="cave-bottle-actions" onclick="event.stopPropagation()">'+
-        '<button onclick="caveAjuster('+v.id+',-1)" title="Retirer 1">−</button>'+
-        '<button onclick="caveAjuster('+v.id+',1)" title="Ajouter 1">+</button>'+
+        '<button onclick="editCave('+v.id+')" title="Modifier" style="color:var(--gold)">✏</button>'+
         '<button onclick="delCave('+v.id+')" title="Supprimer" style="color:var(--red)">✕</button>'+
       '</div>'+
     '</div>';
