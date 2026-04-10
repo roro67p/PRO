@@ -17955,45 +17955,54 @@ function switchHaccp(tab){
       </div>`;
 
   } else if(tab==='nettoyage'){
+    const today_nett=td();
     const planningHebdo=[
-      {zone:'Cuisine',ico:'🍳',freq:'Quotidien',resp:'Équipe cuisine',col:'#e8b84b'},
-      {zone:'Frigos & Chambres froides',ico:'❄️',freq:'Hebdomadaire',resp:'Responsable cuisine',col:'#6ba4d4'},
-      {zone:'Sol salle',ico:'🧹',freq:'Quotidien',resp:'Équipe salle',col:'#e8b84b'},
-      {zone:'Sanitaires',ico:'🚿',freq:'Quotidien',resp:'Équipe salle',col:'#e8b84b'},
-      {zone:'Hottes & Filtres',ico:'💨',freq:'Mensuel',resp:'Responsable',col:'#c89aff'},
-      {zone:'Plonge',ico:'🫧',freq:'Quotidien',resp:'Plongeur',col:'#e8b84b'},
+      {id:'cuisine',zone:'Cuisine',ico:'🍳',freq:'Quotidien',resp:'Équipe cuisine',col:'#e8b84b'},
+      {id:'frigos',zone:'Frigos & Chambres froides',ico:'❄️',freq:'Hebdomadaire',resp:'Responsable cuisine',col:'#6ba4d4'},
+      {id:'sol_salle',zone:'Sol salle',ico:'🧹',freq:'Quotidien',resp:'Équipe salle',col:'#e8b84b'},
+      {id:'sanitaires',zone:'Sanitaires',ico:'🚿',freq:'Quotidien',resp:'Équipe salle',col:'#e8b84b'},
+      {id:'hottes',zone:'Hottes & Filtres',ico:'💨',freq:'Mensuel',resp:'Responsable',col:'#c89aff'},
+      {id:'plonge',zone:'Plonge',ico:'🫧',freq:'Quotidien',resp:'Plongeur',col:'#e8b84b'},
     ];
     const freqCol={'Quotidien':'rgba(232,184,75,.1)','Hebdomadaire':'rgba(106,172,218,.1)','Mensuel':'rgba(200,154,255,.1)'};
     const freqBorder={'Quotidien':'rgba(232,184,75,.25)','Hebdomadaire':'rgba(106,172,218,.25)','Mensuel':'rgba(200,154,255,.25)'};
+    // Valider directement depuis le planning (sans modal)
     el.innerHTML=`
-      <div class="g2">
-        <div class="card">
-          <div class="card-title">📋 Planning nettoyage</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-          ${planningHebdo.map(p=>`
-            <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--ink3);border:1px solid var(--line);border-radius:9px">
-              <span style="font-size:20px;flex-shrink:0">${p.ico}</span>
-              <div style="flex:1">
-                <div style="font-size:13px;font-weight:600">${p.zone}</div>
-                <div style="font-size:11px;color:var(--muted);margin-top:1px">${p.resp}</div>
-              </div>
-              <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;background:${freqCol[p.freq]||'rgba(255,255,255,.05)'};border:1px solid ${freqBorder[p.freq]||'rgba(255,255,255,.1)'};color:${p.col};text-transform:uppercase;letter-spacing:.5px">${p.freq}</span>
-            </div>`).join('')}
+      <div style="display:flex;flex-direction:column;gap:10px">
+      ${planningHebdo.map(p=>{
+        const doneToday=DB.haccp.nettoyages.find(n=>n.zone===p.id&&n.date===today_nett);
+        const done=!!doneToday;
+        return `<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:${done?'rgba(6,214,160,.04)':'var(--ink2)'};border:1px solid ${done?'rgba(6,214,160,.25)':'var(--line)'};border-radius:12px;transition:all .2s">
+          <span style="font-size:22px;flex-shrink:0">${p.ico}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;color:var(--txt)">${p.zone}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${p.resp} · <span style="color:${p.col}">${p.freq}</span></div>
+            ${done?`<div style="font-size:11px;color:#06d6a0;margin-top:3px">✓ Fait à ${doneToday.heure}${doneToday.agent?' par '+doneToday.agent:''}</div>`:''}
           </div>
-        </div>
-        <div class="card">
-          <div class="card-title">✅ Validations enregistrées</div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-          ${DB.haccp.nettoyages.slice().reverse().slice(0,8).map(n=>`
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(6,214,160,.04);border:1px solid rgba(6,214,160,.2);border-radius:8px">
-              <span style="font-size:18px;flex-shrink:0">✅</span>
-              <div style="flex:1">
-                <div style="font-size:13px;font-weight:500">${n.zone}</div>
-                <div style="font-size:11px;color:var(--muted)">${n.date} à ${n.heure}${n.agent?' · '+n.agent:''}</div>
-              </div>
-              <button class="btn btn-danger btn-xs" onclick="delHaccp('nettoyages',${n.id})">✕</button>
-            </div>`).join('')||'<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px">Aucune validation aujourd\'hui</div>'}
-          </div>
+          ${done
+            ?`<div style="display:flex;align-items:center;gap:8px">
+                <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:4px 12px;border-radius:10px;background:rgba(6,214,160,.1);border:1px solid rgba(6,214,160,.2);color:#06d6a0">✓ Fait</span>
+                <button class="btn btn-danger btn-xs" onclick="delHaccpNettoyageZone('${p.id}')">✕</button>
+              </div>`
+            :`<button onclick="validerNettoyage('${p.id}','${p.zone}')" style="background:rgba(201,151,58,.1);border:1px solid rgba(201,151,58,.3);color:var(--gold2);border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;font-weight:600;transition:all .2s;white-space:nowrap" onmouseover="this.style.background='rgba(201,151,58,.25)'" onmouseout="this.style.background='rgba(201,151,58,.1)'">+ Valider</button>`
+          }
+        </div>`;
+      }).join('')}
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-title">📜 Historique nettoyages</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+        ${DB.haccp.nettoyages.slice().reverse().slice(0,10).map(n=>{
+          const pl=planningHebdo.find(x=>x.id===n.zone)||{zone:n.zone,ico:'🧹'};
+          return `<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(6,214,160,.04);border:1px solid rgba(6,214,160,.15);border-radius:8px">
+            <span style="font-size:16px;flex-shrink:0">${pl.ico}</span>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:500">${pl.zone}</div>
+              <div style="font-size:11px;color:var(--muted)">${n.date} à ${n.heure}${n.agent?' · '+n.agent:''}</div>
+            </div>
+            <button class="btn btn-danger btn-xs" onclick="delHaccp('nettoyages',${n.id})">✕</button>
+          </div>`;
+        }).join('')||'<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Aucune validation enregistrée</div>'}
         </div>
       </div>`;
 
@@ -18177,6 +18186,20 @@ function resoudreNonConf(id){
   if(action===null) return;
   n.resolue=true; n.action=action||n.action;
   saveDB(); rHaccp(); toast('Non-conformité résolue ✅');
+}
+function validerNettoyage(zoneId, zoneLabel){
+  if(!DB.haccp) DB.haccp={temperatures:[],nettoyages:[],receptions:[],nonconformites:[]};
+  const now=new Date();
+  const heure=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  DB.haccp.nettoyages.push({id:Date.now(),zone:zoneId,date:td(),heure,agent:'',produit:''});
+  saveDB(); rHaccp(); switchHaccp('nettoyage');
+  toast(zoneLabel+' — nettoyage validé ✅');
+}
+function delHaccpNettoyageZone(zoneId){
+  const today=td();
+  DB.haccp.nettoyages=DB.haccp.nettoyages.filter(n=>!(n.zone===zoneId&&n.date===today));
+  saveDB(); switchHaccp('nettoyage');
+  toast('Validation annulée','warn');
 }
 function delHaccp(cat,id){
   DB.haccp[cat]=DB.haccp[cat].filter(x=>x.id!==id);
