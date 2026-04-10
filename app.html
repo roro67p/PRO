@@ -10093,15 +10093,68 @@ function stk2SetCat(cat, el){
   stk2Render();
 }
 
+// ── Créer une vraie commande fournisseur depuis les stocks ──
+function stk2CreerCommande(stocks){
+  if(!DB.cmdFourn) DB.cmdFourn=[];
+  if(!stocks.length) return;
+
+  // Chercher un fournisseur par défaut
+  const fournisseurs=DB.fournisseurs||[];
+
+  // Regrouper par fournisseur si possible
+  const groupes={};
+  stocks.forEach(s=>{
+    const fournId=s.fournId||(fournisseurs[0]?.id)||0;
+    if(!groupes[fournId]) groupes[fournId]=[];
+    groupes[fournId].push(s);
+  });
+
+  let nbCreees=0;
+  Object.entries(groupes).forEach(([fournId,items])=>{
+    const fourn=fournisseurs.find(f=>f.id===+fournId);
+    const articles=items.map(s=>({
+      nom:s.nom,
+      qte:Math.max(1, Math.ceil((s.seuil*3 - s.qte))),
+      unit:s.unite||'kg',
+      pu:s.pu||0,
+      total:(s.pu||0)*Math.max(1,Math.ceil(s.seuil*3-s.qte))
+    }));
+    const total=articles.reduce((s,a)=>s+a.total,0);
+    const ref='CF-'+new Date().getFullYear()+'-'+String((DB.cmdFourn.length||0)+nbCreees+1).padStart(3,'0');
+    const cmd={
+      id:DB.cmdFourn.length?Math.max(...DB.cmdFourn.map(x=>x.id))+1+nbCreees:1,
+      fournId:+fournId||0,
+      fourn:fourn?.nom||'Fournisseur',
+      ref,
+      date:new Date().toISOString().slice(0,10),
+      articles,
+      stat:'brouillon',
+      statut:'brouillon',
+      notes:'Commande auto depuis stocks — '+items.map(s=>s.nom).join(', '),
+      total
+    };
+    DB.cmdFourn.push(cmd);
+    nbCreees++;
+  });
+
+  saveDB();
+  return nbCreees;
+}
+
 function stk2Action(id, btn){
   const s=DB.stocks.find(x=>x.id===id);
   if(!s) return;
-  const orig=btn.textContent;
   if(s.qte<=s.seuil||s.qte<=s.seuil*2){
-    btn.textContent='✓ Commandé !';
-    btn.className='stk2-btn-cmd stk2-btn-ok';
-    toast(`Commande envoyée pour ${s.nom} ✅`);
-    setTimeout(()=>{btn.textContent=orig;btn.className=s.qte<=s.seuil?'stk2-btn-cmd stk2-btn-crit':'stk2-btn-cmd stk2-btn-low';},2500);
+    // Créer une vraie commande fournisseur
+    const n=stk2CreerCommande([s]);
+    if(n>0){
+      btn.textContent='✓ Commande créée !';
+      btn.style.background='rgba(61,122,78,.2)';
+      btn.style.borderColor='rgba(61,122,78,.4)';
+      btn.style.color='#6fcf8a';
+      toast('📦 Commande fournisseur créée pour '+s.nom+' — voir Cmdes fournisseurs','ok');
+      setTimeout(()=>stk2Render(), 2000);
+    }
   } else {
     editStock(id);
   }
@@ -10110,22 +10163,27 @@ function stk2Action(id, btn){
 function stk2QuickOrder(id, el){
   const s=DB.stocks.find(x=>x.id===id);
   if(!s) return;
-  const txt=el.querySelector('.stk2-chip-txt');
-  const orig=txt.textContent;
-  txt.textContent='✓ Commandé !';
-  el.style.background='rgba(61,122,78,.2)';
-  el.style.borderColor='rgba(61,122,78,.5)';
-  toast(`Commande rapide : ${s.nom} ✅`);
-  setTimeout(()=>{
-    txt.textContent=orig;
-    el.style.background='';el.style.borderColor='';
-  },2500);
+  const n=stk2CreerCommande([s]);
+  if(n>0){
+    el.style.background='rgba(61,122,78,.2)';
+    el.style.borderColor='rgba(61,122,78,.4)';
+    const txt=el.querySelector('.stk2-chip-txt');
+    if(txt) txt.textContent='✓ Commandé';
+    toast('📦 Commande créée pour '+s.nom,'ok');
+    setTimeout(()=>stk2Render(), 2000);
+  }
 }
 
 function stk2CommanderTout(){
   const urgents=(DB.stocks||[]).filter(s=>s.qte<=(s.seuil||0)*2);
-  if(!urgents.length){toast('✅ Tous les stocks sont suffisants !');return;}
-  toast(`⚡ ${urgents.length} commandes envoyées aux fournisseurs ✅`);
+  if(!urgents.length){toast('✅ Tous les stocks sont suffisants !','ok');return;}
+  const n=stk2CreerCommande(urgents);
+  toast('⚡ '+n+' commande(s) fournisseur créée(s) — voir Cmdes fournisseurs','ok');
+  // Proposer de naviguer
+  setTimeout(()=>{
+    if(confirm('Voir les commandes fournisseurs ?')) nav('cmdFourn',null);
+  },500);
+  stk2Render();
 }
 
 function exportStocksCSV(){
