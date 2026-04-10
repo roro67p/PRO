@@ -2212,116 +2212,144 @@ tbody td { padding:13px 14px; font-size:13px; }
 .plat-desc{font-size:10px;color:var(--muted);margin-top:2px}
 .plat-allerg{font-size:9px;color:#f0a060;margin-top:2px}
 .plat-prix{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2);flex-shrink:0}
-/* ══ RÉSERVATIONS PRO ══ */
-@keyframes resaIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes resaPulse{0%,100%{box-shadow:0 0 0 rgba(201,151,58,0)}50%{box-shadow:0 0 16px rgba(201,151,58,.18)}}
-@keyframes resaDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
-@keyframes resaSlide{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
-.resa-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px}
-.resa-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);display:flex;align-items:center;gap:10px}
-.resa-sub{font-size:11px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:7px}
-.resa-live{width:6px;height:6px;border-radius:50%;background:#6fcf8a;box-shadow:0 0 8px #6fcf8a;animation:resaDot 2s infinite;display:inline-block}
-.resa-actions{display:flex;gap:7px;flex-wrap:wrap}
-/* KPIs */
-.resa-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-@media(max-width:700px){.resa-kpis{grid-template-columns:repeat(2,1fr)}}
-.resa-kpi{background:var(--ink2);border:1px solid var(--line);border-radius:13px;padding:16px 18px;position:relative;overflow:hidden;transition:all .2s;animation:resaIn .3s ease both}
-.resa-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:13px 13px 0 0}
-.resa-kpi:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.25)}
-.resa-kpi:nth-child(1)::before{background:linear-gradient(90deg,transparent,var(--gold2),transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
-.resa-kpi:nth-child(2)::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
-.resa-kpi:nth-child(3)::before{background:linear-gradient(90deg,transparent,#6aacda,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
-.resa-kpi:nth-child(4)::before{background:linear-gradient(90deg,transparent,#f0a060,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
-.resa-kpi-val{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;line-height:1;color:var(--gold2)}
-.resa-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-top:6px}
-.resa-kpi-sub{font-size:10px;color:var(--sub);margin-top:3px}
+/* ══ RÉSERVATIONS PREMIUM ══ */
+@keyframes rsIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes rsSlide{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes rsFade{from{opacity:0}to{opacity:1}}
+@keyframes rsGlow{0%,100%{box-shadow:0 0 0 rgba(201,151,58,0)}50%{box-shadow:0 0 14px rgba(201,151,58,.15)}}
+@keyframes rsDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.5)}}
+@keyframes rsBar{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes rsCount{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+/* Layout */
+.rs-page{display:flex;flex-direction:column;gap:0}
+.rs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.rs-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);display:flex;align-items:center;gap:10px}
+.rs-sub{font-size:11px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px}
+.rs-live{width:7px;height:7px;border-radius:50%;background:#6fcf8a;box-shadow:0 0 8px #6fcf8a;animation:rsDot 2s infinite;display:inline-block}
+.rs-actions{display:flex;gap:6px;flex-wrap:wrap}
+.rs-btn-new{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(108deg,#7a4a08,#c9973a,#f5d070,#c9973a);background-size:250% 100%;color:#060300;font-size:12px;font-weight:800;padding:10px 20px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(201,151,58,.4);transition:all .2s}
+.rs-btn-new:hover{background-position:70%;transform:translateY(-1px)}
+/* KPIs - 2 rangées */
+.rs-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:900px){.rs-kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.rs-kpis{grid-template-columns:1fr 1fr}}
+.rs-kpi{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;position:relative;overflow:hidden;animation:rsIn .3s ease both;transition:all .18s}
+.rs-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0;animation:rsBar 3s ease-in-out infinite}
+.rs-kpi:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.rs-kpi:nth-child(1)::before{background:linear-gradient(90deg,transparent,var(--gold2),transparent)}
+.rs-kpi:nth-child(2)::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent)}
+.rs-kpi:nth-child(3)::before{background:linear-gradient(90deg,transparent,#6aacda,transparent)}
+.rs-kpi:nth-child(4)::before{background:linear-gradient(90deg,transparent,#f0a060,transparent)}
+.rs-kpi:nth-child(5)::before{background:linear-gradient(90deg,transparent,#f07060,transparent)}
+.rs-kpi:nth-child(6)::before{background:linear-gradient(90deg,transparent,#c89aff,transparent)}
+.rs-kpi:nth-child(7)::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent)}
+.rs-kpi:nth-child(8)::before{background:linear-gradient(90deg,transparent,var(--gold2),transparent)}
+.rs-kpi-top{display:flex;align-items:center;gap:8px}
+.rs-kpi-ico{font-size:16px}
+.rs-kpi-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;line-height:1;color:var(--gold2)}
+.rs-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-top:4px}
+.rs-kpi-sub{font-size:10px;color:var(--sub);margin-top:2px}
 /* Alertes */
-.resa-alertes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.resa-alerte{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:30px;font-size:12px;font-weight:600;border:1px solid;animation:resaSlide .3s ease both;cursor:pointer;transition:all .15s}
-.resa-alerte:hover{transform:translateY(-1px)}
-.resa-alerte.warn{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.35);color:var(--gold2)}
-.resa-alerte.danger{background:rgba(181,57,42,.1);border-color:rgba(181,57,42,.4);color:#f07060}
-.resa-alerte.info{background:rgba(45,95,138,.1);border-color:rgba(45,95,138,.3);color:#6aacda}
-.resa-alerte.ok{background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.3);color:#6fcf8a}
-.resa-alerte-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;animation:resaDot 2s infinite}
-.resa-alerte.warn .resa-alerte-dot{background:var(--gold2)}
-.resa-alerte.danger .resa-alerte-dot{background:#f07060}
-.resa-alerte.info .resa-alerte-dot{background:#6aacda}
+.rs-alertes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.rs-alerte{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid;animation:rsSlide .25s ease both;cursor:pointer;transition:all .12s}
+.rs-alerte:hover{transform:translateY(-1px)}
+.rs-alerte-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;animation:rsDot 1.8s infinite}
+.rs-alerte.warn{background:rgba(201,151,58,.08);border-color:rgba(201,151,58,.3);color:var(--gold2)}
+.rs-alerte.warn .rs-alerte-dot{background:var(--gold2)}
+.rs-alerte.danger{background:rgba(181,57,42,.08);border-color:rgba(181,57,42,.35);color:#f07060}
+.rs-alerte.danger .rs-alerte-dot{background:#f07060}
+.rs-alerte.info{background:rgba(45,95,138,.08);border-color:rgba(45,95,138,.25);color:#6aacda}
+.rs-alerte.info .rs-alerte-dot{background:#6aacda}
+.rs-alerte.ok{background:rgba(61,122,78,.08);border-color:rgba(61,122,78,.25);color:#6fcf8a}
+.rs-alerte.ok .rs-alerte-dot{background:#6fcf8a}
+/* Onglets vue */
+.rs-tabs{display:flex;gap:0;margin-bottom:12px;border-bottom:1px solid var(--line)}
+.rs-tab{padding:9px 18px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;margin-bottom:-1px}
+.rs-tab.on{color:var(--gold2);border-bottom-color:var(--gold2)}
+.rs-tab:hover:not(.on){color:var(--txt)}
 /* Timeline */
-.resa-timeline{display:flex;gap:4px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
-.resa-slot{flex:0 0 auto;width:56px;text-align:center;padding:8px 4px;border-radius:10px;cursor:pointer;border:1px solid var(--line);background:var(--ink2);transition:all .15s;position:relative}
-.resa-slot:hover{border-color:rgba(201,151,58,.3);transform:translateY(-2px)}
-.resa-slot.has-resa{border-color:rgba(201,151,58,.3);background:rgba(201,151,58,.06)}
-.resa-slot.now{border-color:rgba(111,207,138,.4);background:rgba(61,122,78,.08)}
-.resa-slot-h{font-size:13px;font-weight:700;color:var(--txt)}
-.resa-slot-count{font-size:10px;color:var(--muted);margin-top:2px}
-.resa-slot-dots{display:flex;gap:3px;justify-content:center;margin-top:4px}
-.resa-slot-dot{width:6px;height:6px;border-radius:50%}
-.resa-slot-dot.confirmé{background:#6fcf8a}
-.resa-slot-dot.en-attente{background:#f0a060}
-.resa-slot-dot.arrivé{background:#6aacda}
-.resa-slot-dot.annulé{background:#f07060}
-/* Filtres */
-.resa-filtres{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap}
-.resa-f-btn{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:transparent;transition:all .15s}
-.resa-f-btn.on{background:rgba(201,151,58,.14);border-color:rgba(201,151,58,.35);color:var(--gold3)}
-.resa-f-btn:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
+.rs-timeline{display:flex;gap:3px;margin-bottom:14px;overflow-x:auto;padding:2px 0 6px;-webkit-overflow-scrolling:touch}
+.rs-slot{flex:0 0 auto;width:52px;text-align:center;padding:8px 4px;border-radius:10px;cursor:pointer;border:1px solid var(--line);background:var(--ink2);transition:all .15s;position:relative}
+.rs-slot:hover{border-color:rgba(201,151,58,.3);transform:translateY(-2px)}
+.rs-slot.active{border-color:rgba(201,151,58,.5);background:rgba(201,151,58,.1)}
+.rs-slot.has{border-color:rgba(201,151,58,.25);background:rgba(201,151,58,.04)}
+.rs-slot.now{border-color:rgba(111,207,138,.4);background:rgba(61,122,78,.06)}
+.rs-slot.full{border-color:rgba(240,112,96,.35);background:rgba(181,57,42,.06)}
+.rs-slot-h{font-size:12px;font-weight:700;color:var(--txt)}
+.rs-slot-n{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold2);line-height:1;margin-top:2px}
+.rs-slot-dots{display:flex;gap:2px;justify-content:center;margin-top:3px}
+.rs-slot-dot{width:5px;height:5px;border-radius:50%}
+.rs-slot-dot.confirmé{background:#6fcf8a}
+.rs-slot-dot.en-attente{background:#f0a060}
+.rs-slot-dot.arrivé,.rs-slot-dot.assis{background:#6aacda}
+.rs-slot-dot.no-show{background:#f07060}
 /* Calendrier */
-.resa-cal{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
-.resa-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.resa-cal-title{font-size:14px;font-weight:700;color:var(--txt)}
-.resa-cal-nav{display:flex;gap:6px}
-.resa-cal-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;font-size:12px}
-.resa-cal-btn:hover{background:rgba(255,255,255,.1);color:var(--txt)}
-.resa-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
-.resa-cal-day{font-size:9px;text-transform:uppercase;color:var(--muted);padding:4px;font-weight:600}
-.resa-cal-cell{padding:6px 2px;border-radius:8px;font-size:12px;cursor:pointer;transition:all .12s;position:relative;min-height:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid transparent}
-.resa-cal-cell:hover{background:rgba(255,255,255,.06)}
-.resa-cal-cell.today{border-color:rgba(201,151,58,.4);background:rgba(201,151,58,.06);font-weight:700;color:var(--gold2)}
-.resa-cal-cell.selected{background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.5);color:var(--gold3)}
-.resa-cal-cell.has-resa::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold2)}
-.resa-cal-cell.fermé{opacity:.3;pointer-events:none}
-/* Liste réservations */
-.resa-list{display:flex;flex-direction:column;gap:8px}
-.resa-card{display:flex;align-items:stretch;gap:0;background:var(--ink2);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:all .2s;animation:resaIn .25s ease both;cursor:pointer;position:relative}
-.resa-card:hover{border-color:rgba(201,151,58,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
-.resa-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
-.resa-card.st-confirmé::before{background:#6fcf8a}
-.resa-card.st-en-attente::before{background:#f0a060}
-.resa-card.st-arrivé::before{background:#6aacda}
-.resa-card.st-no-show::before{background:#f07060}
-.resa-card.st-annulé::before{background:rgba(255,255,255,.15)}
-.resa-card.st-annulé{opacity:.5}
-.resa-card-time{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 16px;min-width:70px;border-right:1px solid rgba(255,255,255,.05)}
-.resa-card-h{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);line-height:1}
-.resa-card-date{font-size:9px;color:var(--muted);margin-top:3px;text-transform:uppercase}
-.resa-card-body{flex:1;padding:12px 16px;min-width:0}
-.resa-card-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.resa-card-nom{font-size:14px;font-weight:700;color:var(--txt)}
-.resa-card-vip{font-size:10px}
-.resa-card-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
-.resa-card-badge.confirmé{background:rgba(61,122,78,.15);border:1px solid rgba(61,122,78,.3);color:#6fcf8a}
-.resa-card-badge.en-attente{background:rgba(240,160,96,.12);border:1px solid rgba(240,160,96,.3);color:#f0a060}
-.resa-card-badge.arrivé{background:rgba(45,95,138,.12);border:1px solid rgba(45,95,138,.3);color:#6aacda}
-.resa-card-badge.no-show{background:rgba(181,57,42,.12);border:1px solid rgba(181,57,42,.3);color:#f07060}
-.resa-card-badge.annulé{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--muted)}
-.resa-card-det{font-size:11px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;margin-top:2px}
-.resa-card-notes{font-size:10px;color:var(--sub);margin-top:4px;font-style:italic;display:flex;align-items:center;gap:4px}
-.resa-card-actions{display:flex;align-items:center;gap:4px;padding:8px 12px;flex-shrink:0;opacity:0;transition:opacity .15s}
-.resa-card:hover .resa-card-actions{opacity:1}
-.resa-act-btn{width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .12s}
-.resa-act-btn:hover{background:rgba(255,255,255,.12);color:var(--txt)}
-.resa-act-btn.confirm:hover{background:rgba(61,122,78,.15);color:#6fcf8a;border-color:rgba(61,122,78,.3)}
-.resa-act-btn.arrive:hover{background:rgba(45,95,138,.12);color:#6aacda;border-color:rgba(45,95,138,.3)}
-.resa-act-btn.cancel:hover{background:rgba(181,57,42,.12);color:#f07060;border-color:rgba(181,57,42,.3)}
-.resa-act-btn.edit:hover{background:rgba(201,151,58,.12);color:var(--gold2);border-color:rgba(201,151,58,.3)}
-/* Conflit */
-.resa-conflit{background:rgba(181,57,42,.08);border:1px solid rgba(181,57,42,.25);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:11px;color:#f07060;display:flex;align-items:center;gap:8px;animation:resaSlide .2s ease}
-.resa-conflit-ico{font-size:16px}
-/* Empty state */
-.resa-empty{text-align:center;padding:50px 20px;color:var(--muted);animation:resaIn .3s ease}
-.resa-empty-ico{font-size:48px;opacity:.2;margin-bottom:12px}
-.resa-empty-txt{font-size:13px;margin-bottom:16px}
+.rs-cal{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.rs-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.rs-cal-title{font-size:14px;font-weight:700;color:var(--txt)}
+.rs-cal-nav{display:flex;gap:4px}
+.rs-cal-btn{width:28px;height:28px;border-radius:7px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .1s}
+.rs-cal-btn:hover{background:rgba(255,255,255,.1);color:var(--txt)}
+.rs-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.rs-cal-day{font-size:8px;text-transform:uppercase;color:var(--muted);padding:3px;font-weight:700;letter-spacing:1px}
+.rs-cal-cell{padding:5px 2px;border-radius:7px;font-size:11px;cursor:pointer;transition:all .12s;position:relative;min-height:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1px solid transparent}
+.rs-cal-cell:hover{background:rgba(255,255,255,.06)}
+.rs-cal-cell.today{border-color:rgba(201,151,58,.4);background:rgba(201,151,58,.06);font-weight:700;color:var(--gold2)}
+.rs-cal-cell.sel{background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.5);color:var(--gold3)}
+.rs-cal-cell.has::after{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold2);animation:rsCount .2s ease}
+.rs-cal-cell.busy{background:rgba(201,151,58,.08)}
+.rs-cal-cell.busy::after{background:#f0a060}
+.rs-cal-cell.fermé{opacity:.25;pointer-events:none;text-decoration:line-through}
+/* Filtres */
+.rs-filtres{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+.rs-f{padding:5px 12px;border-radius:16px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:transparent;transition:all .12s;display:flex;align-items:center;gap:4px}
+.rs-f.on{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.35);color:var(--gold3)}
+.rs-f:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
+.rs-f-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* Cartes réservation */
+.rs-list{display:flex;flex-direction:column;gap:6px}
+.rs-card{display:flex;align-items:stretch;gap:0;background:var(--ink2);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .18s;animation:rsIn .2s ease both;cursor:pointer;position:relative}
+.rs-card:hover{border-color:rgba(201,151,58,.3);transform:translateX(3px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.rs-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.rs-card.st-confirmé::before{background:#6fcf8a}
+.rs-card.st-en-attente::before{background:#f0a060}
+.rs-card.st-arrivé::before,.rs-card.st-assis::before{background:#6aacda}
+.rs-card.st-terminé::before{background:var(--gold2)}
+.rs-card.st-no-show::before{background:#f07060}
+.rs-card.st-annulé::before{background:rgba(255,255,255,.12)}
+.rs-card.st-annulé{opacity:.45}
+.rs-card.st-no-show{opacity:.7}
+.rs-card.vip{animation:rsGlow 3s infinite}
+/* Heure */
+.rs-card-time{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 14px;min-width:62px;border-right:1px solid rgba(255,255,255,.04);flex-shrink:0}
+.rs-card-h{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2);line-height:1}
+.rs-card-day{font-size:8px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+/* Corps */
+.rs-card-body{flex:1;padding:10px 14px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.rs-card-row1{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rs-card-nom{font-size:13px;font-weight:700;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.rs-card-vip{font-size:10px}
+.rs-card-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.rs-card-badge.confirmé{background:rgba(61,122,78,.15);border:1px solid rgba(61,122,78,.25);color:#6fcf8a}
+.rs-card-badge.en-attente{background:rgba(240,160,96,.1);border:1px solid rgba(240,160,96,.25);color:#f0a060}
+.rs-card-badge.arrivé,.rs-card-badge.assis{background:rgba(45,95,138,.1);border:1px solid rgba(45,95,138,.25);color:#6aacda}
+.rs-card-badge.terminé{background:rgba(201,151,58,.1);border:1px solid rgba(201,151,58,.25);color:var(--gold2)}
+.rs-card-badge.no-show{background:rgba(181,57,42,.1);border:1px solid rgba(181,57,42,.25);color:#f07060}
+.rs-card-badge.annulé{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--muted)}
+.rs-card-row2{font-size:10px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.rs-card-note{font-size:9px;color:var(--sub);font-style:italic;display:flex;align-items:center;gap:3px}
+/* Actions */
+.rs-card-acts{display:flex;align-items:center;gap:3px;padding:6px 10px;flex-shrink:0;opacity:0;transition:opacity .12s}
+.rs-card:hover .rs-card-acts{opacity:1}
+.rs-act{width:28px;height:28px;border-radius:7px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .1s}
+.rs-act:hover{background:rgba(255,255,255,.1);color:var(--txt)}
+.rs-act.ok:hover{background:rgba(61,122,78,.12);color:#6fcf8a;border-color:rgba(61,122,78,.25)}
+.rs-act.go:hover{background:rgba(45,95,138,.1);color:#6aacda;border-color:rgba(45,95,138,.25)}
+.rs-act.del:hover{background:rgba(181,57,42,.1);color:#f07060;border-color:rgba(181,57,42,.25)}
+.rs-act.ed:hover{background:rgba(201,151,58,.1);color:var(--gold2);border-color:rgba(201,151,58,.25)}
+/* Empty */
+.rs-empty{text-align:center;padding:40px 20px;color:var(--muted);animation:rsFade .3s ease}
+.rs-empty-ico{font-size:42px;opacity:.15;margin-bottom:10px}
 /* Alertes dashboard */
 .alerte-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .alerte-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
@@ -3333,50 +3361,61 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- RÉSERVATIONS -->
   <div id="page-reservations" class="page">
-  <div>
+  <div class="rs-page">
     <!-- HEADER -->
-    <div class="resa-header">
+    <div class="rs-header">
       <div>
-        <div class="resa-title">📅 Réservations</div>
-        <div class="resa-sub"><span class="resa-live"></span><span id="resa-sub-txt">Service en cours</span></div>
+        <div class="rs-title">📅 Réservations</div>
+        <div class="rs-sub"><span class="rs-live"></span><span id="rs-sub-txt">Service en cours</span></div>
       </div>
-      <div class="resa-actions">
+      <div class="rs-actions">
         <button class="btn btn-ghost btn-sm" onclick="nav('resa-attente',this)">⏳ Attente<span id="b-attente" style="background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px"></span></button>
-        <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="voirBlacklist()">⛔ Blacklist</button>
-        <button class="sv3-btn-tout" onclick="openModal('mo-resa')">+ Nouvelle réservation</button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="voirBlacklist()">⛔</button>
+        <button class="rs-btn-new" onclick="openModal('mo-resa')">+ Nouvelle réservation</button>
       </div>
     </div>
 
-    <!-- KPIs -->
-    <div class="resa-kpis" id="resa-kpi"></div>
+    <!-- KPIs - 2 rangées de 4 -->
+    <div class="rs-kpis" id="resa-kpi"></div>
 
     <!-- Alertes -->
-    <div class="resa-alertes" id="resa-alertes"></div>
+    <div class="rs-alertes" id="resa-alertes"></div>
 
-    <!-- Timeline horaire -->
-    <div class="resa-timeline" id="resa-timeline"></div>
+    <!-- Onglets -->
+    <div class="rs-tabs">
+      <div class="rs-tab on" onclick="rsSetView('timeline',this)">⏰ Planning</div>
+      <div class="rs-tab" onclick="rsSetView('calendrier',this)">📅 Calendrier</div>
+    </div>
+
+    <!-- Timeline -->
+    <div id="rs-view-timeline">
+      <div class="rs-timeline" id="resa-timeline"></div>
+    </div>
 
     <!-- Calendrier -->
-    <div class="resa-cal">
-      <div class="resa-cal-head">
-        <button class="resa-cal-btn" onclick="resaCalNav(-1)">←</button>
-        <span class="resa-cal-title" id="resa-cal-titre"></span>
-        <button class="resa-cal-btn" onclick="resaCalNav(1)">→</button>
+    <div id="rs-view-calendrier" style="display:none">
+      <div class="rs-cal">
+        <div class="rs-cal-head">
+          <button class="rs-cal-btn" onclick="resaCalNav(-1)">←</button>
+          <span class="rs-cal-title" id="resa-cal-titre"></span>
+          <button class="rs-cal-btn" onclick="resaCalNav(1)">→</button>
+        </div>
+        <div class="rs-cal-grid" id="resa-calendrier"></div>
       </div>
-      <div class="resa-cal-grid" id="resa-calendrier"></div>
     </div>
 
     <!-- Filtres -->
-    <div class="resa-filtres">
-      <button class="resa-f-btn on" onclick="filterResaStatut('tous',this)" id="rs-f-tous">Tous</button>
-      <button class="resa-f-btn" onclick="filterResaStatut('confirmé',this)" id="rs-f-confirmé">🟢 Confirmé</button>
-      <button class="resa-f-btn" onclick="filterResaStatut('en-attente',this)" id="rs-f-en-attente">🟡 Attente</button>
-      <button class="resa-f-btn" onclick="filterResaStatut('no-show',this)" id="rs-f-no-show">🔴 No-show</button>
-      <button class="resa-f-btn" onclick="filterResaStatut('annulé',this)" id="rs-f-annulé">❌ Annulé</button>
+    <div class="rs-filtres">
+      <button class="rs-f on" onclick="filterResaStatut('tous',this)"><span class="rs-f-dot" style="background:var(--gold2)"></span>Tous</button>
+      <button class="rs-f" onclick="filterResaStatut('confirmé',this)"><span class="rs-f-dot" style="background:#6fcf8a"></span>Confirmé</button>
+      <button class="rs-f" onclick="filterResaStatut('en-attente',this)"><span class="rs-f-dot" style="background:#f0a060"></span>Attente</button>
+      <button class="rs-f" onclick="filterResaStatut('arrivé',this)"><span class="rs-f-dot" style="background:#6aacda"></span>Arrivé</button>
+      <button class="rs-f" onclick="filterResaStatut('no-show',this)"><span class="rs-f-dot" style="background:#f07060"></span>No-show</button>
+      <button class="rs-f" onclick="filterResaStatut('annulé',this)"><span class="rs-f-dot" style="background:var(--muted)"></span>Annulé</button>
     </div>
 
     <!-- Liste -->
-    <div class="resa-list" id="resa-liste"></div>
+    <div class="rs-list" id="resa-liste"></div>
   </div>
   </div>
 
@@ -7676,84 +7715,99 @@ function resaCalNav(dir){
 }
 function filterResaStatut(s,btn){
   resaStatutFilter=s;
-  document.querySelectorAll('.resa-f-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.rs-f').forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
-  else{const b=document.getElementById('rs-f-'+s);if(b)b.classList.add('on');}
   rRendreResaListe();
 }
 
+function rsSetView(v,btn){
+  document.querySelectorAll('.rs-tab').forEach(t=>t.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  document.getElementById('rs-view-timeline').style.display=v==='timeline'?'':'none';
+  document.getElementById('rs-view-calendrier').style.display=v==='calendrier'?'':'none';
+}
 function rResa(){
   const resas=DB.reservations||[];
   const now=new Date();
   const today=td();
+  const curH=now.getHours();const curM=now.getMinutes();
   const resasJ=resas.filter(r=>r.date===today);
-  const confirme=resasJ.filter(r=>r.stat==='confirmé').length;
-  const attente=resasJ.filter(r=>r.stat==='en-attente').length;
-  const cvtTotal=resasJ.reduce((s,r)=>s+(+r.cvt||0),0);
+  const actifs=resasJ.filter(r=>r.stat!=='annulé');
+  const confirme=actifs.filter(r=>r.stat==='confirmé').length;
+  const attente=actifs.filter(r=>r.stat==='en-attente').length;
+  const arrives=actifs.filter(r=>r.stat==='arrivé'||r.stat==='assis').length;
+  const noshow=resasJ.filter(r=>r.stat==='no-show').length;
+  const cvtTotal=actifs.reduce((s,r)=>s+(+r.cvt||0),0);
+  const tblTotal=(DB.tables||[]).length;
+  const tblLibre=(DB.tables||[]).filter(t=>t.stat==='libre').length;
+  const tauxRemp=tblTotal?Math.round((1-tblLibre/tblTotal)*100):0;
+  // Prochain créneau fort
+  let prochainFort='—';
+  for(let h=curH;h<=23;h++){
+    const hStr=String(h).padStart(2,'0');
+    const n=resasJ.filter(r=>r.h&&r.h.startsWith(hStr)&&r.stat!=='annulé').length;
+    if(n>=2){prochainFort=h+'h ('+n+')';break;}
+  }
   const g=id=>document.getElementById(id);
 
-  // Sous-titre
-  if(g('resa-sub-txt')){
-    if(resasJ.length) g('resa-sub-txt').textContent=`${resasJ.length} résa(s) aujourd'hui · ${cvtTotal} couverts prévus`;
-    else g('resa-sub-txt').textContent='Aucune réservation aujourd\'hui';
+  if(g('rs-sub-txt')){
+    if(actifs.length) g('rs-sub-txt').textContent=`${actifs.length} résa(s) · ${cvtTotal} couverts · ${arrives} arrivé(s)`;
+    else g('rs-sub-txt').textContent='Aucune réservation aujourd\'hui';
   }
 
-  // KPIs
+  // KPIs 8 cartes
   const kpiEl=g('resa-kpi');
   if(kpiEl) kpiEl.innerHTML=`
-    <div class="resa-kpi"><div class="resa-kpi-val" style="color:var(--gold2)">${resasJ.length}</div><div class="resa-kpi-lbl">Aujourd'hui</div><div class="resa-kpi-sub">${attente?attente+' en attente':'Tout confirmé'}</div></div>
-    <div class="resa-kpi"><div class="resa-kpi-val" style="color:#6fcf8a">${confirme}</div><div class="resa-kpi-lbl">Confirmées</div></div>
-    <div class="resa-kpi"><div class="resa-kpi-val" style="color:#6aacda">${cvtTotal}</div><div class="resa-kpi-lbl">Couverts prévus</div></div>
-    <div class="resa-kpi"><div class="resa-kpi-val" style="color:#f0a060">${resas.length}</div><div class="resa-kpi-lbl">Total résas</div></div>`;
+    <div class="rs-kpi" style="animation-delay:0ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">📅</span><span class="rs-kpi-val" style="color:var(--gold2)">${actifs.length}</span></div><div class="rs-kpi-lbl">Aujourd'hui</div></div>
+    <div class="rs-kpi" style="animation-delay:30ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">✅</span><span class="rs-kpi-val" style="color:#6fcf8a">${confirme}</span></div><div class="rs-kpi-lbl">Confirmées</div></div>
+    <div class="rs-kpi" style="animation-delay:60ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">👥</span><span class="rs-kpi-val" style="color:#6aacda">${cvtTotal}</span></div><div class="rs-kpi-lbl">Couverts prévus</div></div>
+    <div class="rs-kpi" style="animation-delay:90ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">⏳</span><span class="rs-kpi-val" style="color:#f0a060">${attente}</span></div><div class="rs-kpi-lbl">En attente</div></div>
+    <div class="rs-kpi" style="animation-delay:120ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">👻</span><span class="rs-kpi-val" style="color:#f07060">${noshow}</span></div><div class="rs-kpi-lbl">No-show</div></div>
+    <div class="rs-kpi" style="animation-delay:150ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">🏁</span><span class="rs-kpi-val" style="color:#6aacda">${arrives}</span></div><div class="rs-kpi-lbl">Arrivés</div></div>
+    <div class="rs-kpi" style="animation-delay:180ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">📊</span><span class="rs-kpi-val" style="color:${tauxRemp>80?'#f07060':tauxRemp>50?'#f0a060':'#6fcf8a'}">${tauxRemp}%</span></div><div class="rs-kpi-lbl">Remplissage</div></div>
+    <div class="rs-kpi" style="animation-delay:210ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">🔥</span><span class="rs-kpi-val" style="color:var(--gold2);font-size:16px">${prochainFort}</span></div><div class="rs-kpi-lbl">Prochain rush</div></div>`;
 
-  (g('b-resa')||{}).textContent=resasJ.filter(r=>r.stat!=='annulé').length;
+  (g('b-resa')||{}).textContent=actifs.length||'';
 
-  // Timeline horaire
+  // Timeline
   const tlEl=g('resa-timeline');
   if(tlEl){
-    const curH=now.getHours();
     let tlHtml='';
     for(let h=11;h<=23;h++){
       const hStr=String(h).padStart(2,'0');
-      const slotResas=resasJ.filter(r=>r.h&&r.h.startsWith(hStr));
+      const slotR=resasJ.filter(r=>r.h&&r.h.startsWith(hStr)&&r.stat!=='annulé');
       const isNow=h===curH;
-      const hasCls=slotResas.length?' has-resa':'';
-      const nowCls=isNow?' now':'';
-      const dots=slotResas.slice(0,3).map(r=>`<div class="resa-slot-dot ${r.stat}"></div>`).join('');
-      tlHtml+=`<div class="resa-slot${hasCls}${nowCls}" onclick="resaFilterHeure('${hStr}')">
-        <div class="resa-slot-h">${h}h</div>
-        <div class="resa-slot-count">${slotResas.length||'—'}</div>
-        <div class="resa-slot-dots">${dots}</div>
+      const isActive=window._resaHeureFilter===hStr;
+      const isFull=slotR.length>=3;
+      const cls=(isActive?' active':'')+(slotR.length?' has':'')+(isNow?' now':'')+(isFull?' full':'');
+      const dots=slotR.slice(0,4).map(r=>`<div class="rs-slot-dot ${r.stat}"></div>`).join('');
+      tlHtml+=`<div class="rs-slot${cls}" onclick="resaFilterHeure('${hStr}')">
+        <div class="rs-slot-h">${h}h</div>
+        <div class="rs-slot-n">${slotR.length||'·'}</div>
+        <div class="rs-slot-dots">${dots}</div>
       </div>`;
     }
     tlEl.innerHTML=tlHtml;
   }
 
   // Calendrier
-  const calEl=g('resa-calendrier');
-  const titreEl=g('resa-cal-titre');
+  const calEl=g('resa-calendrier');const titreEl=g('resa-cal-titre');
   if(calEl&&titreEl){
-    const moisNoms=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-    const joursNoms=['L','M','M','J','V','S','D'];
-    titreEl.textContent=moisNoms[resaCalMonth]+' '+resaCalYear;
+    const mois=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    titreEl.textContent=mois[resaCalMonth]+' '+resaCalYear;
     const firstDay=(new Date(resaCalYear,resaCalMonth,1).getDay()||7)-1;
-    const daysInMonth=new Date(resaCalYear,resaCalMonth+1,0).getDate();
-    let html=joursNoms.map(j=>`<div class="resa-cal-day">${j}</div>`).join('');
+    const dim=new Date(resaCalYear,resaCalMonth+1,0).getDate();
+    let html=['L','M','M','J','V','S','D'].map(j=>`<div class="rs-cal-day">${j}</div>`).join('');
     for(let i=0;i<firstDay;i++) html+='<div></div>';
-    for(let d=1;d<=daysInMonth;d++){
+    for(let d=1;d<=dim;d++){
       const ds=resaCalYear+'-'+String(resaCalMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-      const dayResas=resas.filter(r=>r.date===ds&&r.stat!=='annulé');
-      const isToday=ds===today;
-      const isSelected=ds===resaDateFilter;
-      const hasPeriode=(DB.periodes||[]).find(p=>ds>=p.debut&&ds<=p.fin);
-      const cls=(isSelected?' selected':'')+(isToday?' today':'')+(dayResas.length?' has-resa':'')+(hasPeriode?' fermé':'');
-      html+=`<div class="resa-cal-cell${cls}" onclick="resaSelectDay('${ds}')">${d}</div>`;
+      const dr=resas.filter(r=>r.date===ds&&r.stat!=='annulé');
+      const cls=(ds===resaDateFilter?' sel':'')+(ds===today?' today':'')+(dr.length>3?' busy':dr.length?' has':'')+((DB.periodes||[]).find(p=>ds>=p.debut&&ds<=p.fin)?' fermé':'');
+      html+=`<div class="rs-cal-cell${cls}" onclick="resaSelectDay('${ds}')">${d}</div>`;
     }
     calEl.innerHTML=html;
   }
-  rRendreResaListe();
-  rResaAlertes();
-  rListeAttente();
+  rRendreResaListe();rResaAlertes();rListeAttente();
 }
 function resaFilterHeure(h){
   resaDateFilter=td();
@@ -7777,43 +7831,51 @@ function rRendreResaListe(){
   const el=document.getElementById('resa-liste');
   if(!el) return;
   if(!list.length){
-    el.innerHTML=`<div class="resa-empty"><div class="resa-empty-ico">📅</div><div class="resa-empty-txt">Aucune réservation</div><button class="sv3-btn-tout" onclick="openModal('mo-resa')">+ Nouvelle réservation</button></div>`;
+    el.innerHTML=`<div class="rs-empty"><div class="rs-empty-ico">📅</div><div>Aucune réservation</div><button class="rs-btn-new" onclick="openModal('mo-resa')" style="margin-top:12px">+ Nouvelle réservation</button></div>`;
     return;
   }
-  // Chercher clients VIP
   const clients=DB.clients||[];
   el.innerHTML=list.map((r,i)=>{
-    const statLabel={'confirmé':'Confirmé','en-attente':'En attente','no-show':'No-show','annulé':'Annulé','arrivé':'Arrivé'}[r.stat]||r.stat;
-    const cli=clients.find(c=>c.nom===r.nom||c.tel===r.tel);
+    const sl={'confirmé':'Confirmé','en-attente':'Attente','no-show':'No-show','annulé':'Annulé','arrivé':'Arrivé','assis':'Assis','terminé':'Terminé'}[r.stat]||r.stat;
+    const cli=clients.find(c=>c.nom===r.nom||(c.tel&&r.tel&&c.tel===r.tel));
     const isVip=cli&&cliTotalDepense(cli)>=500;
-    return `<div class="resa-card st-${r.stat}" style="animation-delay:${i*40}ms">
-      <div class="resa-card-time">
-        <div class="resa-card-h">${r.h||'—'}</div>
-        <div class="resa-card-date">${['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][new Date(r.date+'T12:00').getDay()]} ${r.date.slice(8)}</div>
+    const isFidele=cli&&(cli.visites||[]).length>=6;
+    return `<div class="rs-card st-${r.stat}${isVip?' vip':''}" style="animation-delay:${i*30}ms" onclick="editResa(${r.id})">
+      <div class="rs-card-time">
+        <div class="rs-card-h">${r.h||'—'}</div>
+        <div class="rs-card-day">${['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][new Date(r.date+'T12:00').getDay()]} ${r.date.slice(8)}</div>
       </div>
-      <div class="resa-card-body">
-        <div class="resa-card-top">
-          <span class="resa-card-nom">${r.nom}</span>
-          ${isVip?'<span class="resa-card-vip">💎</span>':''}
-          <span class="resa-card-badge ${r.stat}">${statLabel}</span>
+      <div class="rs-card-body">
+        <div class="rs-card-row1">
+          <span class="rs-card-nom">${r.nom}</span>
+          ${isVip?'<span class="rs-card-vip">💎</span>':isFidele?'<span class="rs-card-vip">⭐</span>':''}
+          <span class="rs-card-badge ${r.stat}">${sl}</span>
         </div>
-        <div class="resa-card-det">
-          <span>👥 ${r.cvt} cvt${r.cvt>1?'s':''}</span>
-          ${r.tbl?`<span>🪑 Table ${gT(r.tbl).num}</span>`:''}
+        <div class="rs-card-row2">
+          <span>👥 ${r.cvt}</span>
+          ${r.tbl?`<span>🪑 T${gT(r.tbl).num}</span>`:''}
           ${r.tel?`<span>📞 ${r.tel}</span>`:''}
-          ${r.acompte>0?`<span style="color:${r.acompteStat==='oui'?'#6fcf8a':'#f0a060'}">💰 ${eur(r.acompte)} ${r.acompteStat==='oui'?'✓':''}</span>`:''}
+          ${r.acompte>0?`<span style="color:${r.acompteStat==='oui'?'#6fcf8a':'#f0a060'}">💰${r.acompteStat==='oui'?'✓':eur(r.acompte)}</span>`:''}
         </div>
-        ${r.notes?`<div class="resa-card-notes">📝 ${r.notes}</div>`:''}
+        ${r.notes?`<div class="rs-card-note">📝 ${r.notes}</div>`:''}
       </div>
-      <div class="resa-card-actions">
-        <button class="resa-act-btn edit" onclick="event.stopPropagation();editResa(${r.id})" title="Modifier">✏</button>
-        ${r.stat!=='annulé'&&r.stat!=='no-show'?`<button class="resa-act-btn confirm" onclick="event.stopPropagation();confirmerResa(${r.id})" title="Confirmer">✓</button>`:''}
-        ${r.stat==='confirmé'?`<button class="resa-act-btn arrive" onclick="event.stopPropagation();arriverResa(${r.id})" title="Marquer arrivé">🏁</button>`:''}
-        ${r.stat!=='annulé'&&r.stat!=='no-show'?`<button class="resa-act-btn cancel" onclick="event.stopPropagation();marquerNoShow(${r.id})" title="No-show">👻</button>`:''}
-        <button class="resa-act-btn cancel" onclick="event.stopPropagation();delResa(${r.id})" title="Supprimer">✕</button>
+      <div class="rs-card-acts">
+        <button class="rs-act ed" onclick="event.stopPropagation();editResa(${r.id})" title="Modifier">✏</button>
+        ${r.stat==='en-attente'?`<button class="rs-act ok" onclick="event.stopPropagation();confirmerResa(${r.id})" title="Confirmer">✓</button>`:''}
+        ${r.stat==='confirmé'?`<button class="rs-act go" onclick="event.stopPropagation();arriverResa(${r.id})" title="Arrivé">🏁</button>`:''}
+        ${r.stat==='arrivé'?`<button class="rs-act ok" onclick="event.stopPropagation();asseoirResa(${r.id})" title="Asseoir">🪑</button>`:''}
+        ${r.stat!=='annulé'&&r.stat!=='no-show'&&r.stat!=='terminé'?`<button class="rs-act del" onclick="event.stopPropagation();marquerNoShow(${r.id})" title="No-show">👻</button>`:''}
+        <button class="rs-act del" onclick="event.stopPropagation();delResa(${r.id})" title="Supprimer">✕</button>
       </div>
     </div>`;
   }).join('');
+}
+function asseoirResa(id){
+  const r=(DB.reservations||[]).find(x=>x.id===id);if(!r)return;
+  r.stat='assis';
+  if(r.tbl) setTblStat(r.tbl,'occupée');
+  saveDB();rResa();rSalle();
+  toast('🪑 Client assis — table ouverte');
 }
 function arriverResa(id){
   const r=(DB.reservations||[]).find(x=>x.id===id);if(!r)return;
@@ -8017,7 +8079,7 @@ function rResaAlertes(){
   if(retards.length) alertes.push({cls:'danger',txt:`🔴 ${retards.length} client(s) en retard (+15min)`});
   // Tout OK
   if(!alertes.length&&resas.filter(r=>r.date===today).length) alertes.push({cls:'ok',txt:'✅ Tout est en ordre — aucune alerte'});
-  el.innerHTML=alertes.map(a=>`<div class="resa-alerte ${a.cls}"><div class="resa-alerte-dot"></div>${a.txt}</div>`).join('');
+  el.innerHTML=alertes.map(a=>`<div class="rs-alerte ${a.cls}"><div class="rs-alerte-dot"></div>${a.txt}</div>`).join('');
 }
 function confirmerResa(id){
   const i=DB.reservations.findIndex(r=>r.id===id);
