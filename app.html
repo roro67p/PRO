@@ -4186,68 +4186,202 @@ tbody td { padding:13px 14px; font-size:13px; }
 .prs-day-count{font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0}
 
 /* ══ PLANNING v4 ══ */
-@keyframes plIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes plAbsent{0%,100%{box-shadow:0 0 0 rgba(240,112,96,0)}50%{box-shadow:0 0 16px rgba(240,112,96,.25)}}
-.pl4-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px}
-.pl4-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold2)}
-.pl4-date{font-size:13px;color:var(--sub);display:flex;align-items:center;gap:8px}
+/* ═══════════════════════════════════════
+   PLANNING VISUEL — PRO MAX
+═══════════════════════════════════════ */
+@keyframes plIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes plAbsent{0%,100%{box-shadow:0 0 0 rgba(240,112,96,0)}50%{box-shadow:0 0 20px rgba(240,112,96,.3)}}
+@keyframes plBarIn{from{width:0}to{}}
+@keyframes plPulseGreen{0%,100%{box-shadow:0 0 0 rgba(111,207,138,0)}50%{box-shadow:0 0 12px rgba(111,207,138,.3)}}
+
+/* Header */
+.pl4-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;flex-wrap:wrap;gap:12px;
+  padding-bottom:16px;border-bottom:1px solid var(--line);
+}
+.pl4-title{
+  font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;
+  color:var(--gold2);display:flex;align-items:center;gap:10px;
+}
+.pl4-title-sub{font-size:11px;color:var(--muted);font-family:'Outfit',sans-serif;font-weight:400;letter-spacing:1px;}
+.pl4-date{font-size:13px;color:var(--sub);margin-top:3px;}
 .pl4-nav{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.pl4-nav-btn{padding:8px 16px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--sub);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
-.pl4-nav-btn:hover{border-color:rgba(255,255,255,.18);color:var(--txt)}
-.pl4-nav-today{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.3);color:var(--gold2)}
-.pl4-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
-@media(max-width:600px){.pl4-kpis{grid-template-columns:repeat(2,1fr)}}
-.pl4-kpi{border-radius:13px;padding:14px 18px;border:1px solid;position:relative;overflow:hidden;transition:all .2s}
-.pl4-kpi.kq-total{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08)}
-.pl4-kpi.kq-present{background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.3)}
-.pl4-kpi.kq-absent{background:rgba(181,57,42,.1);border-color:rgba(181,57,42,.3)}
-.pl4-kpi.kq-cout{background:rgba(201,151,58,.08);border-color:rgba(201,151,58,.25)}
-.pl4-kpi-ico{font-size:18px;margin-bottom:6px}
-.pl4-kpi-val{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;line-height:1}
-.pl4-kpi.kq-total .pl4-kpi-val{color:var(--txt)}
-.pl4-kpi.kq-present .pl4-kpi-val{color:#6fcf8a}
-.pl4-kpi.kq-absent .pl4-kpi-val{color:#f07060}
-.pl4-kpi.kq-cout .pl4-kpi-val{color:var(--gold2);font-size:22px}
-.pl4-kpi-lbl{font-size:12px;color:var(--sub);margin-top:4px;font-weight:600}
-.pl4-wrap{display:flex;flex-direction:column;gap:8px}
-.pl4-axis{display:grid;grid-template-columns:220px 1fr;margin-bottom:2px}
-.pl4-axis-emp{padding:0 16px;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
-.pl4-axis-hours{position:relative;height:20px}
-.pl4-axis-hour{position:absolute;transform:translateX(-50%);font-size:9px;color:var(--muted);font-weight:600}
-.pl4-card{background:var(--ink2);border:1px solid var(--line);border-radius:14px;display:grid;grid-template-columns:220px 1fr;align-items:center;overflow:hidden;transition:all .2s;animation:plIn .25s ease both}
-.pl4-card:hover{border-color:rgba(201,151,58,.2);box-shadow:0 4px 20px rgba(0,0,0,.25)}
-.pl4-card.absent{border-color:rgba(181,57,42,.35);animation:plIn .25s ease both,plAbsent 2.5s infinite}
-.pl4-card.pause{border-color:rgba(201,120,48,.3)}
-.pl4-info{display:flex;align-items:center;gap:12px;padding:14px 16px;border-right:1px solid rgba(255,255,255,.06)}
-.pl4-avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid}
-.pl4-avatar img{width:100%;height:100%;object-fit:cover}
-.pl4-card.present .pl4-avatar{border-color:#6fcf8a}
-.pl4-card.absent .pl4-avatar{border-color:#f07060}
-.pl4-card.pause .pl4-avatar{border-color:#f0a060}
-.pl4-card.repos .pl4-avatar{border-color:rgba(255,255,255,.15)}
-.pl4-name{font-size:14px;font-weight:700;color:var(--txt);line-height:1.2}
-.pl4-card.absent .pl4-name{color:#f07060}
-.pl4-role{font-size:10px;margin-top:2px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.pl4-stat-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;padding:3px 9px;border-radius:20px;border:1px solid;margin-top:5px}
-.pl4-stat-badge.present{color:#6fcf8a;background:rgba(61,122,78,.12);border-color:rgba(61,122,78,.3)}
-.pl4-stat-badge.absent{color:#f07060;background:rgba(181,57,42,.12);border-color:rgba(181,57,42,.35)}
-.pl4-stat-badge.pause{color:#f0a060;background:rgba(201,120,48,.1);border-color:rgba(201,120,48,.3)}
-.pl4-stat-badge.repos{color:var(--muted);background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
-.pl4-stat-badge.conge{color:#6fcf8a;background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.25)}
-.pl4-timeline-zone{position:relative;padding:14px 16px;min-height:72px;display:flex;flex-direction:column;justify-content:center}
-.pl4-tl-track{position:relative;height:36px;background:rgba(255,255,255,.04);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.07)}
-.pl4-tl-bar{position:absolute;top:0;bottom:0;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .3s;cursor:pointer;overflow:hidden}
-.pl4-tl-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1),transparent);border-radius:inherit}
-.pl4-tl-bar:hover{filter:brightness(1.15);transform:scaleY(1.05)}
-.pl4-tl-bar.travail{background:linear-gradient(90deg,#1a4a6e,#2d7ab5,#3d9dd4);border:1px solid rgba(61,170,218,.4);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4)}
-.pl4-tl-bar.pause-bar{background:linear-gradient(90deg,#8a5a0a,#c97830,#f0a060);border:1px solid rgba(240,160,96,.4);color:#fff}
-.pl4-tl-bar.absent-bar{background:linear-gradient(90deg,#6e1a1a,#b53030,#f07060);border:1px solid rgba(240,112,96,.4);color:#fff;animation:plAbsent 2s infinite}
-.pl4-tl-bar.conge-bar{background:linear-gradient(90deg,#1a5a2e,#2d8a4e,#6fcf8a);border:1px solid rgba(111,207,138,.35);color:#fff}
-.pl4-tl-bar .pl4-bar-hours{position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 9px 9px;background:linear-gradient(90deg,rgba(255,255,255,.3),rgba(255,255,255,.6));transition:width .4s}
-.pl4-bar-txt{position:relative;z-index:1;font-size:10px;font-weight:700}
-.pl4-tl-hours{display:flex;justify-content:space-between;margin-top:4px;padding:0 2px}
-.pl4-tl-hour{font-size:8px;color:var(--muted)}
-.pl4-today-line{position:absolute;top:0;bottom:0;width:2px;background:rgba(201,151,58,.6);z-index:10;pointer-events:none}
+.pl4-nav-btn{
+  padding:8px 16px;border-radius:10px;border:1px solid var(--line2);
+  background:var(--ink3);color:var(--sub);font-size:12px;font-weight:600;
+  cursor:pointer;transition:all .18s;font-family:'Outfit',sans-serif;
+}
+.pl4-nav-btn:hover{border-color:var(--muted);color:var(--txt);background:var(--ink4);}
+.pl4-nav-btn:active{transform:scale(.96);}
+.pl4-nav-today{
+  background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.35);
+  color:var(--gold2);font-weight:700;
+}
+.pl4-nav-today:hover{background:rgba(201,151,58,.22);}
+
+/* KPIs premium */
+.pl4-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+@media(max-width:700px){.pl4-kpis{grid-template-columns:repeat(2,1fr);}}
+.pl4-kpi{
+  border-radius:18px;padding:18px 20px;border:1px solid;
+  position:relative;overflow:hidden;transition:all .22s;cursor:default;
+}
+.pl4-kpi::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+}
+.pl4-kpi:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.3);}
+.pl4-kpi.kq-total{background:linear-gradient(135deg,#1e1b4b,#2e2880);border-color:rgba(129,140,248,.5);box-shadow:0 6px 24px rgba(99,102,241,.2);}
+.pl4-kpi.kq-present{background:linear-gradient(135deg,#052e16,#065f30);border-color:rgba(34,197,94,.5);box-shadow:0 6px 24px rgba(34,197,94,.2);}
+.pl4-kpi.kq-absent{background:linear-gradient(135deg,#450a0a,#7f1d1d);border-color:rgba(239,68,68,.5);box-shadow:0 6px 24px rgba(239,68,68,.2);}
+.pl4-kpi.kq-cout{background:linear-gradient(135deg,#451a03,#78350f);border-color:rgba(245,158,11,.5);box-shadow:0 6px 24px rgba(245,158,11,.2);}
+.pl4-kpi-ico{font-size:22px;margin-bottom:10px;display:block;}
+.pl4-kpi-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;line-height:1;}
+.pl4-kpi.kq-total .pl4-kpi-val{color:#c4b5fd;}
+.pl4-kpi.kq-present .pl4-kpi-val{color:#6fcf8a;}
+.pl4-kpi.kq-absent .pl4-kpi-val{color:#f07060;}
+.pl4-kpi.kq-cout .pl4-kpi-val{color:var(--gold2);font-size:24px;}
+.pl4-kpi-lbl{font-size:10px;color:rgba(255,255,255,.35);margin-top:5px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;}
+
+/* Grille planning */
+.pl4-wrap{display:flex;flex-direction:column;gap:10px;}
+.pl4-grid-header{
+  display:grid;grid-template-columns:220px 1fr;
+  margin-bottom:6px;
+}
+.pl4-grid-header-emp{
+  padding:0 16px;font-size:9px;text-transform:uppercase;
+  letter-spacing:2px;color:var(--muted);font-weight:700;
+}
+.pl4-grid-header-hours{
+  position:relative;height:24px;
+  background:rgba(255,255,255,.02);border-radius:8px;
+}
+.pl4-axis-hour{
+  position:absolute;transform:translateX(-50%);
+  font-size:9px;color:var(--muted);font-weight:600;
+  top:50%;transform:translate(-50%,-50%);
+}
+
+/* Carte employé */
+.pl4-card{
+  background:var(--ink2);border:1px solid var(--line);
+  border-radius:16px;display:grid;grid-template-columns:220px 1fr;
+  align-items:stretch;overflow:hidden;
+  transition:all .22s cubic-bezier(.4,0,.2,1);
+  animation:plIn .3s ease both;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+.pl4-card:hover{
+  border-color:rgba(201,151,58,.25);
+  box-shadow:0 8px 32px rgba(0,0,0,.3),0 0 0 1px rgba(201,151,58,.08);
+  transform:translateY(-1px);
+}
+.pl4-card.absent{
+  border-color:rgba(181,57,42,.3);
+  animation:plIn .3s ease both, plAbsent 2.5s ease-in-out infinite;
+}
+.pl4-card.pause{border-color:rgba(201,120,48,.25);}
+.pl4-card.conge{border-color:rgba(99,102,241,.25);}
+
+/* Info employé */
+.pl4-info{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 18px;
+  border-right:1px solid rgba(255,255,255,.05);
+  position:relative;
+}
+.pl4-info::after{
+  content:'';position:absolute;right:0;top:20%;bottom:20%;
+  width:1px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.08),transparent);
+}
+.pl4-avatar{
+  width:46px;height:46px;border-radius:14px;overflow:hidden;
+  flex-shrink:0;border:2px solid;box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+.pl4-avatar img{width:100%;height:100%;object-fit:cover;}
+.pl4-card.present .pl4-avatar{border-color:#6fcf8a;box-shadow:0 0 12px rgba(111,207,138,.25);}
+.pl4-card.absent .pl4-avatar{border-color:#f07060;box-shadow:0 0 12px rgba(240,112,96,.25);}
+.pl4-card.pause .pl4-avatar{border-color:#f0a060;}
+.pl4-card.repos .pl4-avatar{border-color:rgba(255,255,255,.12);}
+.pl4-card.conge .pl4-avatar{border-color:#818cf8;}
+.pl4-name{font-size:14px;font-weight:700;color:var(--txt);line-height:1.2;letter-spacing:.1px;}
+.pl4-card.absent .pl4-name{color:#f07060;}
+.pl4-role{font-size:10px;margin-top:3px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;opacity:.8;}
+.pl4-stat-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:9px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.8px;padding:3px 9px;border-radius:20px;border:1px solid;
+  margin-top:6px;
+}
+.pl4-stat-badge.present{color:#6fcf8a;background:rgba(61,122,78,.12);border-color:rgba(61,122,78,.3);animation:plPulseGreen 3s infinite;}
+.pl4-stat-badge.absent{color:#f07060;background:rgba(181,57,42,.12);border-color:rgba(181,57,42,.35);}
+.pl4-stat-badge.pause{color:#f0a060;background:rgba(201,120,48,.1);border-color:rgba(201,120,48,.3);}
+.pl4-stat-badge.repos{color:var(--muted);background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);}
+.pl4-stat-badge.conge{color:#818cf8;background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.25);}
+
+/* Timeline */
+.pl4-timeline-zone{
+  position:relative;padding:14px 18px;
+  display:flex;flex-direction:column;justify-content:center;
+  background:rgba(255,255,255,.01);
+}
+.pl4-tl-track{
+  position:relative;height:40px;
+  background:rgba(255,255,255,.03);
+  border-radius:12px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.06);
+}
+.pl4-tl-bar{
+  position:absolute;top:3px;bottom:3px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  cursor:pointer;overflow:hidden;animation:plBarIn .5s ease both;
+}
+.pl4-tl-bar::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.15),transparent 50%);
+  border-radius:inherit;
+}
+.pl4-tl-bar:hover{filter:brightness(1.2);transform:scaleY(1.06);z-index:2;}
+.pl4-tl-bar.travail{
+  background:linear-gradient(90deg,#1e3a5f,#2563eb,#3b82f6);
+  border:1px solid rgba(59,130,246,.5);color:#fff;
+  text-shadow:0 1px 3px rgba(0,0,0,.5);
+  box-shadow:0 2px 12px rgba(37,99,235,.3);
+}
+.pl4-tl-bar.pause-bar{
+  background:linear-gradient(90deg,#78350f,#d97706,#f59e0b);
+  border:1px solid rgba(245,158,11,.4);color:#fff;
+  box-shadow:0 2px 8px rgba(217,119,6,.25);
+}
+.pl4-tl-bar.absent-bar{
+  background:linear-gradient(90deg,#7f1d1d,#dc2626,#ef4444);
+  border:1px solid rgba(239,68,68,.4);color:#fff;
+  animation:plBarIn .5s ease both, plAbsent 2s infinite;
+  box-shadow:0 2px 12px rgba(220,38,38,.3);
+}
+.pl4-tl-bar.conge-bar{
+  background:linear-gradient(90deg,#1e1b4b,#4f46e5,#818cf8);
+  border:1px solid rgba(129,140,248,.4);color:#fff;
+  box-shadow:0 2px 8px rgba(79,70,229,.25);
+}
+.pl4-bar-txt{position:relative;z-index:1;font-size:10px;font-weight:700;letter-spacing:.3px;}
+.pl4-tl-hours{display:flex;justify-content:space-between;margin-top:5px;padding:0 2px;}
+.pl4-tl-hour{font-size:8px;color:rgba(255,255,255,.2);font-weight:600;}
+.pl4-today-line{
+  position:absolute;top:0;bottom:0;width:2px;z-index:10;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(201,151,58,.8),transparent);
+  box-shadow:0 0 8px rgba(201,151,58,.4);
+}
+
+/* Ligne de séparation des heures */
+.pl4-hour-grid-line{
+  position:absolute;top:0;bottom:0;width:1px;
+  background:rgba(255,255,255,.04);pointer-events:none;z-index:1;
+}
 /* ══ TABLETTE SERVEUR v4 — SERVICE ULTRA RAPIDE ══ */
 @keyframes tsvIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes tsvSend{0%,100%{transform:scale(1)}40%{transform:scale(1.03)}}
@@ -6521,27 +6655,32 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- PLANNING VISUEL -->
   <div id="page-planning" class="page">
-
   <div>
-    <!-- HEADER -->
+    <!-- HEADER PRO MAX -->
     <div class="pl4-header">
       <div>
-        <div class="pl4-title">Planning du Personnel</div>
+        <div class="pl4-title">
+          📅 Planning
+          <span class="pl4-title-sub">Gestion du personnel · Semaine en cours</span>
+        </div>
         <div class="pl4-date" id="pl4-date-lbl">—</div>
       </div>
       <div class="pl4-nav">
-        <button class="pl4-nav-btn" onclick="planningWeek(-1)">← Préc.</button>
-        <button class="pl4-nav-btn pl4-nav-today" onclick="planningWeek(0)">Aujourd'hui</button>
-        <button class="pl4-nav-btn" onclick="planningWeek(1)">Suiv. →</button>
-        <button class="pl4-nav-btn" onclick="prsAddAbsence()" style="margin-left:4px">+ Absence</button>
-        <button class="pl4-nav-btn" onclick="exportPlanningPDF()">📄 PDF</button>
+        <button class="pl4-nav-btn" onclick="planningWeek(-1)">‹ Semaine préc.</button>
+        <button class="pl4-nav-btn pl4-nav-today" onclick="planningWeek(0)">◉ Aujourd'hui</button>
+        <button class="pl4-nav-btn" onclick="planningWeek(1)">Semaine suiv. ›</button>
+        <button class="pl4-nav-btn" onclick="prsAddAbsence()" style="background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.3);color:#818cf8">+ Absence</button>
+        <button class="pl4-nav-btn" onclick="exportPlanningPDF()" style="background:rgba(201,151,58,.08);border-color:rgba(201,151,58,.25);color:var(--gold2)">📄 Export</button>
       </div>
     </div>
 
-    <!-- KPIs -->
+    <!-- KPIs PREMIUM -->
     <div class="pl4-kpis" id="planning-kpi"></div>
 
-    <!-- TIMELINE -->
+    <!-- LÉGENDE POSTES -->
+    <div id="pl4-legende" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"></div>
+
+    <!-- TIMELINE GRID -->
     <div id="planning-grid"></div>
   </div>
   </div>
@@ -9056,12 +9195,13 @@ function renderEtabSelector(){
 
 // ═══ NAV ═══
 const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
-let _recentPages=[];
+let _recentPages=JSON.parse(localStorage.getItem('cr_recents')||'[]');
 function addRecent(name){
   if(name==='dash') return;
   _recentPages=_recentPages.filter(r=>r!==name);
   _recentPages.unshift(name);
   if(_recentPages.length>5) _recentPages=_recentPages.slice(0,5);
+  localStorage.setItem('cr_recents',JSON.stringify(_recentPages));
   renderRecents();
 }
 function renderRecents(){
@@ -11765,7 +11905,23 @@ function rh2OpenPanel(id){
   const p=document.getElementById('rh2-panel');
   if(!e||!p) return;
 
-  const POSTE_COL={'Serveur':'#6aacda','Chef':'#f07060','Cuisinier':'#f07060','Manager':'var(--gold2)','Barman':'#6fcf8a','Plongeur':'#a088d8','Hôte':'#78d0d0'};
+  const POSTE_COL={
+    'Cheffe de salle':'#a855f7',
+    'Serveur':'#3b82f6',
+    'Serveuse':'#ec4899',
+    'Chef cuisinier':'#ef4444',
+    'Sous-chef':'#f97316',
+    'Chef':'#ef4444',
+    'Cuisinier':'#f59e0b',
+    'Barman':'#10b981',
+    'Plongeur':'#8b5cf6',
+    'Caissière':'#06b6d4',
+    'Caissier':'#06b6d4',
+    'Manager':'#e8b84b',
+    'Hôte':'#84cc16',
+    'Responsable':'#e8b84b',
+    'Apprenti':'#64748b'
+  };
   const col=POSTE_COL[e.poste]||'var(--sub)';
 
   // Calculs paie
@@ -14411,6 +14567,8 @@ document.addEventListener('DOMContentLoaded', function(){
       saveDB();
     }
   }, 300);
+  // Init récents
+  setTimeout(renderRecents, 200);
   // Init écran PIN
   setTimeout(pinInit, 100);
   const rsDate = document.getElementById('rs-date');
@@ -18317,15 +18475,44 @@ function rPlanning(){
 
   const kpiEl=document.getElementById('planning-kpi');
   if(kpiEl) kpiEl.innerHTML=`
-    <div class="pl4-kpi kq-total"><div class="pl4-kpi-ico">👥</div><div class="pl4-kpi-val">${staff.length}</div><div class="pl4-kpi-lbl">${staff.length} employé(s) au total</div></div>
-    <div class="pl4-kpi kq-present"><div class="pl4-kpi-ico">●</div><div class="pl4-kpi-val">${presents}</div><div class="pl4-kpi-lbl">Présents</div></div>
-    <div class="pl4-kpi kq-absent"><div class="pl4-kpi-ico">⚠</div><div class="pl4-kpi-val">${absents}</div><div class="pl4-kpi-lbl">Absent${absents>1?'s':''}</div></div>
-    <div class="pl4-kpi kq-cout"><div class="pl4-kpi-ico">💶</div><div class="pl4-kpi-val">${eur(Math.round(coutJour))}</div><div class="pl4-kpi-lbl">Coût estimé jour</div></div>`;
+    <div class="pl4-kpi kq-total">
+      <span class="pl4-kpi-ico">👥</span>
+      <div class="pl4-kpi-val">${staff.length}</div>
+      <div class="pl4-kpi-lbl">Équipe totale</div>
+    </div>
+    <div class="pl4-kpi kq-present">
+      <span class="pl4-kpi-ico">🟢</span>
+      <div class="pl4-kpi-val">${presents}</div>
+      <div class="pl4-kpi-lbl">En service</div>
+    </div>
+    <div class="pl4-kpi kq-absent">
+      <span class="pl4-kpi-ico">⚠️</span>
+      <div class="pl4-kpi-val">${absents}</div>
+      <div class="pl4-kpi-lbl">Absent${absents>1?'s':''}</div>
+    </div>
+    <div class="pl4-kpi kq-cout">
+      <span class="pl4-kpi-ico">💶</span>
+      <div class="pl4-kpi-val">${eur(Math.round(coutJour))}</div>
+      <div class="pl4-kpi-lbl">Coût du jour</div>
+    </div>`;
 
   // Plage horaire : 8h → 24h = 16 heures
   const H_START=8, H_END=24, H_TOTAL=H_END-H_START;
   const HEURES=Array.from({length:H_TOTAL/2+1},(_,i)=>H_START+i*2);
   const POSTE_COL={'Serveur':'#6aacda','Chef':'#f07060','Cuisinier':'#f07060','Manager':'var(--gold2)','Barman':'#6fcf8a','Plongeur':'#a088d8','Hôte':'#78d0d0'};
+
+  // Légende postes
+  const legEl=document.getElementById('pl4-legende');
+  if(legEl){
+    const postes=[...new Set(staff.map(e=>e.poste).filter(Boolean))];
+    legEl.innerHTML=postes.map(p=>{
+      const c=POSTE_COL[p]||'#94a3b8';
+      return `<div style="display:flex;align-items:center;gap:6px;padding:5px 13px;background:${c}18;border:1px solid ${c}55;border-radius:20px;font-size:11px;color:${c};font-weight:600">
+        <div style="width:7px;height:7px;border-radius:50%;background:${c};box-shadow:0 0 6px ${c}88"></div>
+        ${p}
+      </div>`;
+    }).join('');
+  }
 
   // Trier absents en premier
   const sorted=[...staff].sort((a,b)=>{
@@ -18336,12 +18523,12 @@ function rPlanning(){
 
   // Axe heures
   let html=`<div class="pl4-wrap">
-    <div class="pl4-axis">
-      <div class="pl4-axis-emp"></div>
-      <div class="pl4-axis-hours" style="position:relative;height:20px;margin-bottom:4px">
+    <div style="display:grid;grid-template-columns:220px 1fr;margin-bottom:8px;align-items:center">
+      <div style="padding:0 18px;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:700">👤 Employé</div>
+      <div style="position:relative;height:28px;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid rgba(255,255,255,.05)">
         ${HEURES.map(h=>{
           const pct=(h-H_START)/H_TOTAL*100;
-          return `<div class="pl4-axis-hour" style="left:${pct}%">${h}h</div>`;
+          return `<div style="position:absolute;left:${pct}%;transform:translateX(-50%);top:50%;transform:translate(-50%,-50%);font-size:9px;color:rgba(255,255,255,.3);font-weight:700">${h}h</div>`;
         }).join('')}
       </div>
     </div>`;
@@ -18367,6 +18554,7 @@ function rPlanning(){
 
     // Couleur barre
     const barClass={present:'travail',absent:'absent-bar',pause:'pause-bar',conge:'conge-bar'}[statEff]||'travail';
+    const posteCol=POSTE_COL[e.poste]||'#3b82f6';
     const barTxt=statEff==='absent'?'Absent':statEff==='conge'?'Congé':statEff==='pause'?`${hDebut}h → Pause`:`${hDebut}h → ${Math.floor(hFin)}h`;
 
     html+=`<div class="pl4-card ${statEff}" style="animation-delay:${ei*.05}s">
@@ -18382,11 +18570,12 @@ function rPlanning(){
       </div>
       <div class="pl4-timeline-zone">
         <div class="pl4-tl-track">
+          ${HEURES.filter((h,i)=>i>0).map(h=>{const p=(h-H_START)/H_TOTAL*100;return `<div style="position:absolute;left:${p}%;top:0;bottom:0;width:1px;background:rgba(255,255,255,.04);z-index:1;pointer-events:none"></div>`;}).join('')}
           <div class="pl4-tl-bar ${barClass}"
-            style="left:${left}%;width:${statEff==='absent'?Math.min(60,width)||40:width}%"
+            style="left:${left}%;width:${statEff==='absent'?Math.min(60,width)||40:width}%;z-index:2;${statEff==='present'?`background:linear-gradient(90deg,${posteCol}aa,${posteCol});border-color:${posteCol}66;box-shadow:0 2px 12px ${posteCol}44`:''}"
             onclick="ouvrirMenuPlanning(${e.id},'${today}',event)"
             title="${e.prenom} · ${barTxt}">
-            ${barTxt}
+            <span class="pl4-bar-txt">${barTxt}</span>
           </div>
         </div>
         <div class="pl4-tl-hours">
