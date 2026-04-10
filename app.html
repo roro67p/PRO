@@ -2350,6 +2350,136 @@ tbody td { padding:13px 14px; font-size:13px; }
 /* Empty */
 .rs-empty{text-align:center;padding:40px 20px;color:var(--muted);animation:rsFade .3s ease}
 .rs-empty-ico{font-size:42px;opacity:.15;margin-bottom:10px}
+/* ══ FOURNISSEURS & COMMANDES FOURNISSEURS PREMIUM ══ */
+@keyframes fnIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes fnSlide{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+@keyframes fnGlow{0%,100%{box-shadow:0 0 0 rgba(201,151,58,0)}50%{box-shadow:0 0 14px rgba(201,151,58,.12)}}
+@keyframes fnDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.5)}}
+@keyframes fnBar{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes fnPulseRed{0%,100%{box-shadow:0 0 0 rgba(240,112,96,0)}50%{box-shadow:0 0 12px rgba(240,112,96,.15)}}
+@keyframes fnPulseOrange{0%,100%{box-shadow:0 0 0 rgba(240,160,96,0)}50%{box-shadow:0 0 12px rgba(240,160,96,.15)}}
+/* Layout */
+.fn-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.fn-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2)}
+.fn-sub{font-size:11px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px}
+.fn-live{width:7px;height:7px;border-radius:50%;background:#6fcf8a;box-shadow:0 0 8px #6fcf8a;animation:fnDot 2s infinite;display:inline-block}
+.fn-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fn-btn-new{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(108deg,#7a4a08,#c9973a,#f5d070,#c9973a);background-size:250% 100%;color:#060300;font-size:12px;font-weight:800;padding:10px 20px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(201,151,58,.4);transition:all .2s}
+.fn-btn-new:hover{background-position:70%;transform:translateY(-1px)}
+.fn-search{position:relative;min-width:160px}
+.fn-search input{width:100%;background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:8px 10px 8px 30px;color:var(--txt);font-size:12px;outline:none}
+.fn-search input:focus{border-color:rgba(201,151,58,.3)}
+.fn-search-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
+/* KPIs */
+.fn-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:900px){.fn-kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:500px){.fn-kpis{grid-template-columns:1fr 1fr}}
+.fn-kpi{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;position:relative;overflow:hidden;animation:fnIn .3s ease both;transition:all .18s}
+.fn-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0;animation:fnBar 3s ease-in-out infinite}
+.fn-kpi:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.fn-kpi:nth-child(1)::before{background:linear-gradient(90deg,transparent,var(--gold2),transparent)}
+.fn-kpi:nth-child(2)::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent)}
+.fn-kpi:nth-child(3)::before{background:linear-gradient(90deg,transparent,#f0a060,transparent)}
+.fn-kpi:nth-child(4)::before{background:linear-gradient(90deg,transparent,#6aacda,transparent)}
+.fn-kpi:nth-child(5)::before{background:linear-gradient(90deg,transparent,#f07060,transparent)}
+.fn-kpi-top{display:flex;align-items:center;gap:6px}
+.fn-kpi-ico{font-size:14px}
+.fn-kpi-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;line-height:1;color:var(--gold2)}
+.fn-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-top:4px}
+/* Alertes */
+.fn-alertes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.fn-alerte{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid;animation:fnSlide .25s ease both;cursor:pointer;transition:all .12s}
+.fn-alerte:hover{transform:translateY(-1px)}
+.fn-alerte-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;animation:fnDot 1.8s infinite}
+.fn-alerte.warn{background:rgba(201,151,58,.08);border-color:rgba(201,151,58,.3);color:var(--gold2)}
+.fn-alerte.warn .fn-alerte-dot{background:var(--gold2)}
+.fn-alerte.danger{background:rgba(181,57,42,.08);border-color:rgba(181,57,42,.35);color:#f07060}
+.fn-alerte.danger .fn-alerte-dot{background:#f07060}
+.fn-alerte.info{background:rgba(45,95,138,.08);border-color:rgba(45,95,138,.25);color:#6aacda}
+.fn-alerte.ok{background:rgba(61,122,78,.08);border-color:rgba(61,122,78,.25);color:#6fcf8a}
+/* Filtres */
+.fn-filtres{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+.fn-f{padding:5px 12px;border-radius:16px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:transparent;transition:all .12s;display:flex;align-items:center;gap:4px}
+.fn-f.on{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.35);color:var(--gold3)}
+.fn-f:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
+/* Cartes fournisseurs */
+.fn-list{display:flex;flex-direction:column;gap:8px}
+.fn-card{background:var(--ink2);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .18s;animation:fnIn .2s ease both;position:relative}
+.fn-card:hover{border-color:rgba(201,151,58,.25);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.fn-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.fn-card.note5::before{background:#6fcf8a}
+.fn-card.note4::before{background:#6aacda}
+.fn-card.note3::before{background:#f0a060}
+.fn-card.note2::before,.fn-card.note1::before{background:#f07060}
+.fn-card.alert{animation:fnPulseOrange 2.5s infinite}
+.fn-card-head{padding:12px 16px;display:flex;align-items:center;gap:12px}
+.fn-card-ico{font-size:28px;width:44px;height:44px;border-radius:10px;background:rgba(201,151,58,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fn-card-info{flex:1;min-width:0}
+.fn-card-nom{font-size:14px;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:6px}
+.fn-card-spec{font-size:10px;color:var(--gold2);background:rgba(201,151,58,.1);padding:1px 8px;border-radius:10px;display:inline-block;margin-top:2px}
+.fn-card-right{text-align:right;flex-shrink:0}
+.fn-card-stars{font-size:12px;letter-spacing:1px}
+.fn-card-body{padding:0 16px 12px;display:flex;flex-direction:column;gap:6px}
+.fn-card-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:11px}
+@media(max-width:700px){.fn-card-grid{grid-template-columns:1fr 1fr}}
+.fn-card-field{display:flex;align-items:center;gap:5px;color:var(--sub)}
+.fn-card-field a{color:var(--gold2);text-decoration:none}
+.fn-card-prods{background:var(--ink3);border-radius:8px;padding:6px 10px;font-size:10px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap}
+.fn-card-prod{background:rgba(255,255,255,.06);padding:2px 8px;border-radius:10px;font-size:9px}
+.fn-card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--line)}
+.fn-card-stat{font-size:11px;color:var(--sub)}
+.fn-card-total{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold2)}
+.fn-card-acts{display:flex;gap:4px;margin-top:6px}
+.fn-act{padding:5px 12px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--sub);transition:all .1s}
+.fn-act:hover{background:rgba(255,255,255,.1);color:var(--txt)}
+.fn-act.gold{background:rgba(201,151,58,.08);border-color:rgba(201,151,58,.25);color:var(--gold2)}
+.fn-act.gold:hover{background:rgba(201,151,58,.18)}
+.fn-act.del:hover{background:rgba(181,57,42,.1);color:#f07060;border-color:rgba(181,57,42,.25)}
+/* Commandes fournisseurs - cartes */
+.cf-list{display:flex;flex-direction:column;gap:6px}
+.cf-card{display:flex;align-items:stretch;gap:0;background:var(--ink2);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .18s;animation:fnIn .2s ease both;cursor:pointer;position:relative}
+.cf-card:hover{border-color:rgba(201,151,58,.25);transform:translateX(3px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.cf-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.cf-card.st-brouillon::before{background:var(--muted)}
+.cf-card.st-envoyée,.cf-card.st-commandé::before{background:#f0a060}
+.cf-card.st-confirmée::before{background:#6aacda}
+.cf-card.st-expédiée::before{background:#c89aff}
+.cf-card.st-reçue,.cf-card.st-livré::before{background:#6fcf8a}
+.cf-card.st-annulé::before{background:rgba(240,112,96,.4)}
+.cf-card.st-annulé{opacity:.45}
+.cf-card.retard{animation:fnPulseRed 2s infinite;border-color:rgba(240,112,96,.3)}
+.cf-card.urgent{animation:fnPulseOrange 2s infinite;border-color:rgba(240,160,96,.3)}
+.cf-card-left{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 14px;min-width:62px;border-right:1px solid rgba(255,255,255,.04);flex-shrink:0}
+.cf-card-ico{font-size:22px}
+.cf-card-ref{font-size:8px;color:var(--muted);margin-top:2px;letter-spacing:.5px}
+.cf-card-body{flex:1;padding:10px 14px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.cf-card-row1{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cf-card-nom{font-size:13px;font-weight:700;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+.cf-card-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.cf-card-badge.brouillon{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--muted)}
+.cf-card-badge.envoyée,.cf-card-badge.commandé{background:rgba(240,160,96,.1);border:1px solid rgba(240,160,96,.25);color:#f0a060}
+.cf-card-badge.confirmée{background:rgba(45,95,138,.1);border:1px solid rgba(45,95,138,.25);color:#6aacda}
+.cf-card-badge.expédiée{background:rgba(200,154,255,.1);border:1px solid rgba(200,154,255,.25);color:#c89aff}
+.cf-card-badge.reçue,.cf-card-badge.livré{background:rgba(61,122,78,.12);border:1px solid rgba(61,122,78,.25);color:#6fcf8a}
+.cf-card-badge.annulé{background:rgba(240,112,96,.08);border:1px solid rgba(240,112,96,.2);color:#f07060}
+.cf-card-badge.retard{background:rgba(240,112,96,.12);border:1px solid rgba(240,112,96,.3);color:#f07060;animation:fnDot 1.5s infinite}
+.cf-card-badge.urgent{background:rgba(240,160,96,.12);border:1px solid rgba(240,160,96,.3);color:#f0a060}
+.cf-card-row2{font-size:10px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.cf-card-arts{font-size:9px;color:var(--sub);margin-top:1px}
+.cf-card-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;padding:10px 14px;min-width:80px;flex-shrink:0}
+.cf-card-total{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2);line-height:1}
+.cf-card-nb{font-size:9px;color:var(--muted);margin-top:2px}
+.cf-card-acts{display:flex;gap:3px;padding:6px 8px;flex-shrink:0;opacity:0;transition:opacity .12s;align-items:center}
+.cf-card:hover .cf-card-acts{opacity:1}
+/* Timeline commande */
+.cf-timeline{display:flex;align-items:center;gap:0;margin:8px 0;padding:0 4px}
+.cf-tl-step{display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 0 auto}
+.cf-tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--line);background:var(--ink2);transition:all .2s}
+.cf-tl-dot.done{background:#6fcf8a;border-color:#6fcf8a;box-shadow:0 0 6px rgba(111,207,138,.3)}
+.cf-tl-dot.current{background:var(--gold2);border-color:var(--gold2);box-shadow:0 0 6px rgba(201,151,58,.3);animation:fnDot 2s infinite}
+.cf-tl-lbl{font-size:7px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.cf-tl-line{flex:1;height:2px;background:var(--line);min-width:12px}
+.cf-tl-line.done{background:#6fcf8a}
 /* Alertes dashboard */
 .alerte-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .alerte-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
@@ -4117,26 +4247,37 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- FOURNISSEURS -->
   <div id="page-fournisseurs" class="page">
-    <div class="page-header">
-      <h2>🏭 Fournisseurs</h2>
-      <div style="display:flex;gap:8px">
-        <input class="form-input" id="fourn-search" placeholder="🔍 Rechercher…" oninput="rFourn()" style="width:160px;font-size:13px"/>
-        <button class="btn btn-gold btn-sm" onclick="openModal('mo-fourn')">+ Fournisseur</button>
+  <div>
+    <!-- HEADER -->
+    <div class="fn-header">
+      <div>
+        <div class="fn-title">🏭 Fournisseurs</div>
+        <div class="fn-sub"><span class="fn-live"></span><span id="fn-sub-txt">Gestion des approvisionnements</span></div>
+      </div>
+      <div class="fn-actions">
+        <div class="fn-search"><span class="fn-search-ico">🔍</span><input id="fourn-search" placeholder="Rechercher..." oninput="rFourn()"/></div>
+        <button class="fn-btn-new" onclick="openModal('mo-fourn')">+ Nouveau fournisseur</button>
       </div>
     </div>
-    <div class="kpi-row" id="fourn-kpi" style="margin-bottom:16px"></div>
 
-    <!-- Filtres par spécialité -->
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="fourn-filtres"></div>
+    <!-- KPIs -->
+    <div class="fn-kpis" id="fourn-kpi"></div>
 
-    <!-- Grille fournisseurs en cards -->
-    <div id="fourn-cards" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px"></div>
+    <!-- Alertes -->
+    <div class="fn-alertes" id="fn-alertes"></div>
 
-    <!-- Historique commandes -->
-    <div class="card">
-      <div class="card-title">📦 Dernières commandes fournisseurs</div>
+    <!-- Filtres -->
+    <div class="fn-filtres" id="fourn-filtres"></div>
+
+    <!-- Liste -->
+    <div class="fn-list" id="fourn-cards"></div>
+
+    <!-- Recap commandes -->
+    <div style="margin-top:16px;background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:16px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px;font-weight:700">📦 Dernières commandes</div>
       <div id="fourn-cmds-recap"></div>
     </div>
+  </div>
   </div>
 
   <!-- FINANCE -->
@@ -5363,30 +5504,38 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- COMMANDES FOURNISSEURS -->
   <div id="page-cmdFourn" class="page">
-    <div class="page-header">
-      <h2>📦 Commandes fournisseurs</h2>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost" onclick="preFillFromStocks()">📉 Depuis stocks bas</button>
-        <button class="btn btn-gold" onclick="openModal('mo-cmdFourn')">+ Nouvelle commande</button>
+  <div>
+    <!-- HEADER -->
+    <div class="fn-header">
+      <div>
+        <div class="fn-title">📦 Commandes fournisseurs</div>
+        <div class="fn-sub"><span class="fn-live"></span><span id="cf-sub-txt">Pilotage des approvisionnements</span></div>
+      </div>
+      <div class="fn-actions">
+        <button class="btn btn-ghost btn-sm" onclick="preFillFromStocks()">📉 Stocks bas</button>
+        <button class="fn-btn-new" onclick="openModal('mo-cmdFourn')">+ Nouvelle commande</button>
       </div>
     </div>
-    <div class="kpi-row">
-      <div class="kpi-box kpi-gold"><div class="kpi-label">ENGAGÉ CE MOIS</div><div class="kpi-val" id="cf-total-mois">0 €</div></div>
-      <div class="kpi-box kpi-green"><div class="kpi-label">COMMANDES REÇUES</div><div class="kpi-val" id="cf-recues">0</div></div>
-      <div class="kpi-box kpi-red"><div class="kpi-label">EN ATTENTE</div><div class="kpi-val" id="cf-attente">0</div></div>
+
+    <!-- KPIs -->
+    <div class="fn-kpis" id="cf-kpis"></div>
+
+    <!-- Alertes -->
+    <div class="fn-alertes" id="cf-alertes"></div>
+
+    <!-- Filtres -->
+    <div class="fn-filtres" id="cf-filtres">
+      <button class="fn-f on" onclick="filterCF('tous',this)">Tous</button>
+      <button class="fn-f" onclick="filterCF('brouillon',this)"><span class="rs-f-dot" style="background:var(--muted)"></span>Brouillon</button>
+      <button class="fn-f" onclick="filterCF('envoyée',this)"><span class="rs-f-dot" style="background:#f0a060"></span>Envoyée</button>
+      <button class="fn-f" onclick="filterCF('confirmée',this)"><span class="rs-f-dot" style="background:#6aacda"></span>Confirmée</button>
+      <button class="fn-f" onclick="filterCF('expédiée',this)"><span class="rs-f-dot" style="background:#c89aff"></span>Expédiée</button>
+      <button class="fn-f" onclick="filterCF('reçue',this)"><span class="rs-f-dot" style="background:#6fcf8a"></span>Reçue</button>
     </div>
-    <div class="card">
-      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-sm" onclick="filterCF('tous')" id="cf-f-tous" style="border-color:var(--gold)">Tous</button>
-        <button class="btn btn-ghost btn-sm" onclick="filterCF('brouillon')" id="cf-f-brouillon">Brouillon</button>
-        <button class="btn btn-ghost btn-sm" onclick="filterCF('envoyée')" id="cf-f-envoyée">Envoyée</button>
-        <button class="btn btn-ghost btn-sm" onclick="filterCF('reçue')" id="cf-f-reçue">Reçue</button>
-      </div>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Réf.</th><th>Fournisseur</th><th>Date</th><th>Articles</th><th>Total</th><th>Statut</th><th>Actions</th></tr></thead>
-        <tbody id="tb-cmdFourn"></tbody>
-      </table></div>
-    </div>
+
+    <!-- Liste cartes -->
+    <div class="cf-list" id="cf-list"></div>
+  </div>
   </div>
 
 </main>
@@ -9201,6 +9350,13 @@ function editFourn(id){
 function delFourn(id){confirmSuppr('Supprimer ce fournisseur ?',()=>{DB.fournisseurs=DB.fournisseurs.filter(f=>f.id!==id);saveDB();rFourn();});}
 function clearFournSearch(){const el=document.getElementById("fourn-search");if(el)el.value="";rFourn();}
 function setFournSearch(btn){const el=document.getElementById("fourn-search");if(el)el.value=btn.textContent;rFourn();}
+let _fnFilter='tous';
+function fnSetFilter(f,btn){
+  _fnFilter=f;
+  document.querySelectorAll('#fourn-filtres .fn-f').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  rFourn();
+}
 function rFourn(){
   const q=(document.getElementById('fourn-search')?.value||'').toLowerCase();
   let fourns=(DB.fournisseurs||[]);
@@ -9213,25 +9369,43 @@ function rFourn(){
   const caTotal=cmds.reduce((s,c)=>s+(+c.total||0),0);
   const noteMoy=allFourns.length?(allFourns.reduce((s,f)=>s+(+f.note||0),0)/allFourns.length).toFixed(1):0;
   const cmdsMois=cmds.filter(c=>{const d=new Date(c.date||'');return d.getMonth()===new Date().getMonth();}).length;
+  const aSurveiller=allFourns.filter(f=>(+f.note||5)<=3).length;
+  const meilleur=allFourns.length?[...allFourns].sort((a,b)=>(+b.note||0)-(+a.note||0))[0]:null;
+  const enRetard=cmds.filter(c=>c.stat!=='reçue'&&c.stat!=='livré'&&c.stat!=='annulé'&&c.date&&c.date<td()).length;
+  const subEl=document.getElementById('fn-sub-txt');
+  if(subEl) subEl.textContent=`${allFourns.length} fournisseur(s) · ${cmds.length} commande(s) · ${eur(caMois)} ce mois`;
   const kpiEl=document.getElementById('fourn-kpi');
-  if(kpiEl) kpiEl.innerHTML=
-    '<div class="kpi-box kpi-gold"><div class="kpi-label">FOURNISSEURS</div><div class="kpi-val">'+allFourns.length+'</div></div>'+
-    '<div class="kpi-box kpi-green"><div class="kpi-label">NOTE MOYENNE</div><div class="kpi-val">'+noteMoy+'/5</div></div>'+
-    '<div class="kpi-box kpi-blue"><div class="kpi-label">COMMANDES CE MOIS</div><div class="kpi-val">'+cmdsMois+'</div></div>'+
-    '<div class="kpi-box kpi-amber"><div class="kpi-label">ACHATS CE MOIS</div><div class="kpi-val" style="font-size:16px">'+eur(caMois)+'</div></div>';
+  if(kpiEl) kpiEl.innerHTML=`
+    <div class="fn-kpi" style="animation-delay:0ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">🏭</span><span class="fn-kpi-val" style="color:var(--gold2)">${allFourns.length}</span></div><div class="fn-kpi-lbl">Fournisseurs</div></div>
+    <div class="fn-kpi" style="animation-delay:30ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">⭐</span><span class="fn-kpi-val" style="color:#6fcf8a">${noteMoy}/5</span></div><div class="fn-kpi-lbl">Note moyenne</div></div>
+    <div class="fn-kpi" style="animation-delay:60ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">⚠</span><span class="fn-kpi-val" style="color:#f0a060">${aSurveiller}</span></div><div class="fn-kpi-lbl">À surveiller</div></div>
+    <div class="fn-kpi" style="animation-delay:90ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">📦</span><span class="fn-kpi-val" style="color:#6aacda">${cmdsMois}</span></div><div class="fn-kpi-lbl">Ce mois</div></div>
+    <div class="fn-kpi" style="animation-delay:120ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">💰</span><span class="fn-kpi-val" style="color:var(--gold2);font-size:18px">${eur(caMois)}</span></div><div class="fn-kpi-lbl">Achats</div></div>`;
+  // Alertes fournisseurs
+  const alertesEl=document.getElementById('fn-alertes');
+  if(alertesEl){
+    const al=[];
+    if(enRetard) al.push({cls:'danger',txt:`🔴 ${enRetard} commande(s) en retard`});
+    if(aSurveiller) al.push({cls:'warn',txt:`⚠ ${aSurveiller} fournisseur(s) note ≤3`});
+    const critStk=(DB.stocks||[]).filter(s=>s.qte<=s.seuil);
+    if(critStk.length) al.push({cls:'danger',txt:`📉 ${critStk.length} stock(s) critique(s)`});
+    if(!al.length) al.push({cls:'ok',txt:'✅ Approvisionnements en ordre'});
+    alertesEl.innerHTML=al.map(a=>`<div class="fn-alerte ${a.cls}"><div class="fn-alerte-dot"></div>${a.txt}</div>`).join('');
+  }
 
   // Filtres spécialités
   const filtresEl=document.getElementById('fourn-filtres');
-  if(filtresEl){
-    const specs=[...new Set(allFourns.map(f=>f.spec||'Autre'))];
-    filtresEl.innerHTML='<span class="fchip active" onclick="clearFournSearch()">Tous</span>'+
-      specs.map(function(s){return '<span class="fchip" onclick="setFournSearch(this)">'+s+'</span>';}).join('');
+  if(filtresEl&&!filtresEl.dataset.built){
+    filtresEl.dataset.built='1';
+    const specs=['Tous',...new Set(allFourns.map(f=>f.spec||'Autre'))];
+    filtresEl.innerHTML=specs.map(s=>`<button class="fn-f${s==='Tous'?' on':''}" onclick="fnSetFilter('${s}',this)">${s}</button>`).join('');
   }
+  if(_fnFilter!=='tous'&&_fnFilter!=='Tous') fourns=fourns.filter(f=>(f.spec||'Autre')===_fnFilter);
 
-  // Cards fournisseurs — style pro
+  // Cards fournisseurs premium
   const cardsEl=document.getElementById('fourn-cards');
   if(!cardsEl) return;
-  if(!fourns.length){cardsEl.innerHTML='<div style="text-align:center;color:var(--muted);padding:30px">Aucun fournisseur trouvé</div>';return;}
+  if(!fourns.length){cardsEl.innerHTML='<div style="text-align:center;color:var(--muted);padding:40px"><div style="font-size:42px;opacity:.15;margin-bottom:10px">🏭</div>Aucun fournisseur</div>';return;}
 
   cardsEl.innerHTML=fourns.map(function(f){
     const note=+f.note||0;
