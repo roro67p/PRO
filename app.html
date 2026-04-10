@@ -1727,9 +1727,17 @@ tbody td { padding:13px 14px; font-size:13px; }
 /* ══ SALLE ══ */
 .sv3-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px}
 .sv3-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2)}
+.sv3-sub{font-size:11px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:7px}
+.sv3-live{width:6px;height:6px;border-radius:50%;background:#6fcf8a;box-shadow:0 0 8px #6fcf8a;display:inline-block}
+.sv3-actions{display:flex;gap:8px;flex-wrap:wrap}
 .sv3-zones{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .sv3-zone-btn{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:rgba(255,255,255,.04);transition:all .15s}
 .sv3-zone-btn.on{background:rgba(201,151,58,.16);border-color:rgba(201,151,58,.35);color:var(--gold3)}
+.sv3-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:640px){.sv3-kpis{grid-template-columns:repeat(2,1fr)}}
+.sv3-kpi{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-align:center}
+.sv3-kpi-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;line-height:1}
+.sv3-kpi-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-top:6px}
 .sv3-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .sv3-table{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;min-height:100px;display:flex;flex-direction:column;justify-content:space-between}
 .sv3-table:hover{border-color:rgba(201,151,58,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
