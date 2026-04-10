@@ -398,6 +398,220 @@ tbody td { padding:13px 14px; font-size:13px; }
 /* ── GRID 2 ── */
 .g2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 @media(max-width:860px) { .g2 { grid-template-columns:1fr; } }
+/* ═══════════════════════════════════════
+   AMÉLIORATIONS VISUELLES GLOBALES v4+
+═══════════════════════════════════════ */
+
+/* ── ANIMATIONS GLOBALES ── */
+@keyframes urgentPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,120,48,.4)}50%{box-shadow:0 0 0 6px rgba(201,120,48,.0)}}
+@keyframes retardBlink{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes statusChange{0%{transform:scale(1.05);filter:brightness(1.3)}100%{transform:scale(1);filter:brightness(1)}}
+@keyframes cardSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pressDown{0%{transform:scale(1)}50%{transform:scale(.96)}100%{transform:scale(1)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+
+/* ── BOUTONS — feedback press ── */
+.btn:active { transform:scale(.96) !important; transition:transform .08s !important; }
+.btn-gold:active { box-shadow:0 2px 8px rgba(201,151,58,.2) !important; }
+.btn:hover { filter:brightness(1.07); }
+
+/* ── CARDS — hover upgrade ── */
+.card {
+  transition:border-color .2s, box-shadow .2s, transform .2s;
+}
+.card:hover {
+  border-color:var(--line2);
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+}
+
+/* ── ALERTS/BADGES DYNAMIQUES ── */
+.badge-urgent {
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(201,120,48,.15);color:#f0a060;
+  border:1px solid rgba(201,120,48,.3);
+  border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;
+  letter-spacing:.4px;text-transform:uppercase;
+  animation:urgentPulse 2s ease-in-out infinite;
+}
+.badge-retard {
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(181,57,42,.15);color:#e06050;
+  border:1px solid rgba(181,57,42,.3);
+  border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;
+  letter-spacing:.4px;text-transform:uppercase;
+  animation:retardBlink 1.8s ease-in-out infinite;
+}
+.badge-livré {
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(61,122,78,.15);color:#5fb87a;
+  border:1px solid rgba(61,122,78,.3);
+  border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;
+  letter-spacing:.4px;
+}
+.badge-nouveau {
+  background:rgba(45,95,138,.15);color:#6ba4d4;
+  border:1px solid rgba(45,95,138,.3);
+  border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;
+}
+
+/* ── TOAST AMÉLIORÉ ── */
+#toast {
+  border-radius:10px !important;
+  padding:14px 22px !important;
+  font-size:13px !important;
+  box-shadow:0 16px 48px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.04) !important;
+  backdrop-filter:blur(12px) !important;
+  gap:12px !important;
+}
+#toast.ok { background:rgba(20,28,22,.97) !important; border-color:rgba(61,122,78,.5) !important; color:#7dd4a0 !important; }
+#toast.err { background:rgba(28,16,14,.97) !important; border-color:rgba(181,57,42,.5) !important; color:#e88070 !important; }
+#toast.warn { background:rgba(28,22,10,.97) !important; border-color:rgba(201,120,48,.5) !important; color:#f0a060 !important; }
+#toast.info { background:rgba(12,18,28,.97) !important; border-color:rgba(45,95,138,.5) !important; color:#6ba4d4 !important; }
+#toast { position:relative; }
+#toast::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent); border-radius:10px 10px 0 0; }
+
+/* ── SCROLLBAR PREMIUM ── */
+::-webkit-scrollbar { width:4px; height:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(201,151,58,.3); border-radius:4px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(201,151,58,.5); }
+
+/* ── TABLE hover amélioré ── */
+tbody tr:hover { background:var(--ink3); }
+tbody tr { transition:background .12s; }
+
+/* ── FORM INPUT amelioré ── */
+.form-input, .form-select { transition:border-color .15s, box-shadow .15s; }
+
+/* ── NAV ITEM transitions ── */
+.nav-item { transition:all .15s ease; }
+.nav-item:hover .ni-ico { transform:scale(1.1); transition:transform .15s; }
+
+/* ── PAGE fadeIn amélioré ── */
+.page.active { animation:fadeSlideIn .22s ease; }
+
+/* ── TITRE DE SECTION ── */
+.dash-section-title, .dlc-title {
+  font-size:11px !important;
+  text-transform:uppercase !important;
+  letter-spacing:2px !important;
+  color:var(--muted) !important;
+  font-weight:700 !important;
+  margin-bottom:12px !important;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.dash-section-title::after, .dlc-title::after {
+  content:'';flex:1;height:1px;background:var(--line);
+}
+
+/* ── INDICATEURS CRITIQUES ── */
+.kpi-urgent { animation:urgentPulse 2s infinite; }
+.kpi-retard { animation:retardBlink 1.8s infinite; }
+.dot-urgent { display:inline-block;width:7px;height:7px;border-radius:50%;background:#f0a060;animation:urgentPulse 2s infinite; }
+.dot-retard { display:inline-block;width:7px;height:7px;border-radius:50%;background:#e06050;animation:retardBlink 1.8s infinite; }
+.dot-ok { display:inline-block;width:7px;height:7px;border-radius:50%;background:#5fb87a; }
+
+/* ── COMMANDES FOURNISSEUR — cartes premium ── */
+.cf2-card {
+  background:var(--ink2);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px 18px;
+  cursor:pointer;
+  transition:all .22s cubic-bezier(.4,0,.2,1);
+  animation:cardSlideIn .25s ease both;
+  position:relative;
+  overflow:hidden;
+}
+.cf2-card::before {
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  border-radius:12px 0 0 12px;
+  background:var(--cf-accent,var(--line));
+  transition:width .2s;
+}
+.cf2-card:hover {
+  border-color:var(--line2);
+  box-shadow:0 8px 28px rgba(0,0,0,.3);
+  transform:translateY(-2px);
+}
+.cf2-card:hover::before { width:4px; }
+.cf2-card.selected {
+  border-color:rgba(201,151,58,.4);
+  background:rgba(201,151,58,.04);
+  box-shadow:0 0 0 1px rgba(201,151,58,.15), 0 8px 24px rgba(0,0,0,.25);
+}
+.cf2-card.is-urgent { --cf-accent:#f0a060; animation:cardSlideIn .25s ease both, urgentPulse 2.5s ease-in-out infinite; }
+.cf2-card.is-retard { --cf-accent:#e06050; border-color:rgba(181,57,42,.25); }
+.cf2-card.is-livré { --cf-accent:#5fb87a; opacity:.8; }
+.cf2-card.status-animating { animation:statusChange .35s ease; }
+
+/* ── PAGE HEADER AMÉLIORÉ ── */
+.page-header h2 {
+  font-size:24px !important;
+  letter-spacing:.3px !important;
+}
+
+/* ── INPUTS focus glow ── */
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  box-shadow:0 0 0 3px rgba(201,151,58,.12) !important;
+}
+
+/* ── LIENS DE NAVIGATION actif pulse ── */
+.nav-item.active .ni-ico { filter:drop-shadow(0 0 4px rgba(201,151,58,.5)); }
+
+/* ── KPI BOX amélioré ── */
+.kpi-box {
+  transition:transform .18s, box-shadow .18s;
+}
+.kpi-box:hover {
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(0,0,0,.25);
+}
+.kpi-box.alert { animation:urgentPulse 2s infinite; border-color:rgba(201,120,48,.3) !important; }
+.kpi-box.danger { animation:retardBlink 1.8s infinite; border-color:rgba(181,57,42,.3) !important; }
+
+/* ── SECTION séparateurs ── */
+.section-divider {
+  display:flex;align-items:center;gap:12px;margin:20px 0 14px;
+}
+.section-divider span {
+  font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;white-space:nowrap;
+}
+.section-divider::before,.section-divider::after {
+  content:'';flex:1;height:1px;background:var(--line);
+}
+
+/* ── DASHBOARD hero KPI ── */
+.dash-hero-kpi {
+  background:linear-gradient(135deg,rgba(201,151,58,.08),rgba(201,151,58,.02));
+  border:1px solid rgba(201,151,58,.2);
+  border-radius:16px;padding:24px 28px;
+  position:relative;overflow:hidden;
+  margin-bottom:16px;
+}
+.dash-hero-kpi::after {
+  content:'';position:absolute;top:-40%;right:-10%;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,151,58,.08),transparent 70%);
+  pointer-events:none;
+}
+.dash-hero-val {
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;font-weight:700;color:var(--gold2);
+  line-height:1;letter-spacing:-1px;
+}
+.dash-hero-lbl {
+  font-size:11px;text-transform:uppercase;letter-spacing:2.5px;
+  color:var(--sub);margin-top:6px;font-weight:600;
+}
+.dash-hero-sub {
+  font-size:12px;color:var(--muted);margin-top:4px;
+}
+
+
 
 /* ── TOAST ── */
 #toast {
@@ -8121,10 +8335,13 @@ function kpiCard(ico,val,lbl,color,opts={}){
   </div>`;
 }
 
-function toast(msg,type='ok'){
+function toast(msg,type='ok',duration=3200){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.className='show '+(type==='ok'?'ok':'err');
-  clearTimeout(t._t); t._t=setTimeout(()=>t.className='',3000);
+  const ico=type==='ok'?'✓':type==='err'?'✕':type==='warn'?'⚠':type==='info'?'ℹ':'✓';
+  const icoColor=type==='ok'?'#7dd4a0':type==='err'?'#e88070':type==='warn'?'#f0a060':'#6ba4d4';
+  t.innerHTML=`<span style="font-size:15px;color:${icoColor};font-weight:700;flex-shrink:0">${ico}</span><span>${msg}</span>`;
+  t.className='show '+(type==='err'?'err':type==='warn'?'warn':type==='info'?'info':'ok');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.className='',duration);
 }
 
 // ═══ PERSIST ═══
@@ -12148,17 +12365,37 @@ function rDash(){
   if(alertesEl){
     const alertes=[];
     const retard=DB.commandes.filter(c=>c.stat!=='payé'&&c.stat!=='servi');
-    if(retard.length>0) alertes.push({col:'#c97830',dot:'#f0a060',txt:`${retard.length} commande(s) en attente de service`});
-    stkAlerts.forEach(s=>alertes.push({col:'rgba(181,57,42,.1)',dot:'#f87171',txt:`Rupture imminente : ${s.nom} (${s.qte} ${s.unit})`}));
-    const enAttenteResa=DB.tables.filter(t=>t.stat==='réservée').length;
-    if(enAttenteResa>0) alertes.push({col:'rgba(45,95,138,.1)',dot:'#60a5fa',txt:`${enAttenteResa} table(s) réservée(s) ce soir`});
-    alertesEl.innerHTML=alertes.length>0?alertes.map(a=>`
-      <div class="alerte-item" style="background:${a.col};border:1px solid rgba(255,255,255,.04)">
-        <div class="alerte-dot" style="background:${a.dot};box-shadow:0 0 6px ${a.dot}"></div>
-        <span class="alerte-txt">${a.txt}</span>
-      </div>`).join('')
-    :`<div class="empty-state" style="padding:20px"><span class="ei">✅</span><p style="font-size:12px">Aucune alerte active</p></div>`;
+    if(retard.length>0) alertes.push({type:'urgent',txt:`${retard.length} commande(s) en attente`,sub:'Action requise immédiatement',ico:'⏳'});
+    stkAlerts.forEach(s=>alertes.push({type:'danger',txt:`Rupture : ${s.nom}`,sub:`${s.qte} ${s.unit} restant(s)`,ico:'📦'}));
+    const cmdFournUrgent=(DB.cmdFourn||[]).filter(c=>c.stat!=='reçue'&&c.stat!=='livré'&&c.stat!=='annulé'&&c.date&&c.date<td());
+    if(cmdFournUrgent.length>0) alertes.push({type:'danger',txt:`${cmdFournUrgent.length} commande(s) fournisseur en retard`,sub:'Vérifier les livraisons',ico:'🚚'});
+    const resaAttente=DB.reservations.filter(r=>r.date===today&&r.stat==='en-attente').length;
+    if(resaAttente>0) alertes.push({type:'warn',txt:`${resaAttente} réservation(s) à confirmer`,sub:'Répondre aux clients',ico:'📅'});
+    alertesEl.innerHTML=alertes.length>0?alertes.map(a=>{
+      const bg=a.type==='danger'?'rgba(181,57,42,.1)':a.type==='urgent'?'rgba(201,120,48,.1)':'rgba(201,151,58,.08)';
+      const border=a.type==='danger'?'rgba(181,57,42,.25)':a.type==='urgent'?'rgba(201,120,48,.25)':'rgba(201,151,58,.2)';
+      const col=a.type==='danger'?'#e88070':a.type==='urgent'?'#f0a060':'#e8b84b';
+      const anim=a.type==='danger'?'animation:retardBlink 1.8s infinite':a.type==='urgent'?'animation:urgentPulse 2s infinite':'';
+      return `<div style="display:flex;align-items:center;gap:10px;background:${bg};border:1px solid ${border};border-radius:9px;padding:11px 13px;margin-bottom:7px;${anim}">
+        <span style="font-size:18px;flex-shrink:0">${a.ico}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:600;color:${col}">${a.txt}</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:1px">${a.sub}</div>
+        </div>
+        <span style="font-size:16px;color:${col};flex-shrink:0">›</span>
+      </div>`;
+    }).join('')
+    :`<div style="text-align:center;padding:24px 16px"><div style="font-size:28px;opacity:.4;margin-bottom:8px">✅</div><div style="font-size:12px;color:var(--muted)">Aucune alerte active</div></div>`;
   }
+  // Appliquer classes d'alerte sur KPI cards
+  setTimeout(()=>{
+    const kpiCards=document.querySelectorAll('#dash-kpis .kpi-card');
+    if(kpiCards[2]&&actCmds>5) kpiCards[2].classList.add('kpi-urgent');
+    if(kpiCards[0]&&alrtStk>0){
+      const stkCard=document.getElementById('dash-stk-kpi');
+      if(stkCard) stkCard.classList.add('kpi-urgent');
+    }
+  },200);
 
   // ── TOP PLATS waouh ──
   const topEl=set('d-top');
@@ -13528,9 +13765,10 @@ function rCmdFourn(){
 
     // Badges
     let badges=`<span class="cf2-badge b-${stat}">${statLbl[stat]||stat}</span>`;
-    if(isRetard) badges+=`<span class="cf2-badge b-retard">⏱ Retard</span>`;
-    if(isUrgent) badges+=`<span class="cf2-badge b-urgent">⚡ Urgent</span>`;
-    if(isNew&&!isRetard&&!isUrgent) badges+=`<span class="cf2-badge b-nouveau">✦ Nouveau</span>`;
+    if(isRetard) badges+=`<span class="badge-retard">⏱ Retard</span>`;
+    if(isUrgent) badges+=`<span class="badge-urgent">⚡ Urgent</span>`;
+    if(isNew&&!isRetard&&!isUrgent) badges+=`<span class="badge-nouveau">✦ Nouveau</span>`;
+    if(stat==='reçue'||stat==='livré') badges+=`<span class="badge-livré">✓ Livré</span>`;
 
     // Actions selon statut
     let actions=`<button class="cf2-act ghost" onclick="event.stopPropagation();editCmdFourn(${c.id})">✏️ Modifier</button>`;
@@ -13540,7 +13778,7 @@ function rCmdFourn(){
     if(stat==='expédiée') actions+=`<button class="cf2-act success" onclick="event.stopPropagation();setCFStatut(${c.id},'reçue')">📦 Marquer reçue</button>`;
     actions+=`<button class="cf2-act danger" onclick="event.stopPropagation();delCmdFourn(${c.id})">🗑 Supprimer</button>`;
 
-    return `<div class="cf2-card st-${stat}${extraCls}" style="animation-delay:${delay}ms" onclick="cf2Select(${c.id})">
+    return `<div class="cf2-card st-${stat}${extraCls}" data-id="${c.id}" style="animation-delay:${delay}ms" onclick="cf2Select(${c.id})">
       <div class="cf2-card-top">
         <div class="cf2-card-ico">${f?.ico||'📦'}</div>
         <div class="cf2-card-info">
@@ -13827,8 +14065,12 @@ function setCFStatut(id,stat){
     });
     if(n) toast(n+' stock(s) mis à jour 📦');
   }
-  saveDB(); rCmdFourn();
-  const statToastsCF={'reçue':'📦 Commande reçue — stocks mis à jour','envoyée':'📤 Commande envoyée','confirmée':'✓ Commande confirmée','expédiée':'🚚 Commande expédiée','annulé':'Commande annulée'};
+  saveDB();
+  // Animation sur la carte avant refresh
+  const cardEl=document.querySelector(`.cf2-card[data-id="${id}"]`);
+  if(cardEl){ cardEl.classList.add('status-animating'); setTimeout(()=>rCmdFourn(),350); }
+  else rCmdFourn();
+  const statToastsCF={'reçue':'📦 Commande reçue — stocks mis à jour','envoyée':'📤 Commande envoyée au fournisseur','confirmée':'✓ Commande confirmée','expédiée':'🚚 En route — livraison prévue','annulé':'Commande annulée'};
   const statTypesCF={'reçue':'ok','annulé':'err','envoyée':'info','confirmée':'ok','expédiée':'info'};
   toast(statToastsCF[stat]||'Statut mis à jour', statTypesCF[stat]||'ok');
   if(typeof cf2Select==='function') cf2Select(id, true);
