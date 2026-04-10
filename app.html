@@ -3287,6 +3287,96 @@ tbody td { padding:13px 14px; font-size:13px; }
 .rs-f.on{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.35);color:var(--gold3)}
 .rs-f:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
 .rs-f-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* ═══════════════════════════════════
+   FINANCE — palette bleu nuit / cyan
+═══════════════════════════════════ */
+.fin-page { --fin-blue:#1a2a4a; --fin-cyan:#00d4ff; --fin-teal:#00b894; --fin-coral:#e17055; --fin-purple:#6c5ce7; }
+
+/* Header */
+.fin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.fin-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#e8f4fd;letter-spacing:.3px;}
+.fin-subtitle{font-size:11px;color:#4a7a9b;text-transform:uppercase;letter-spacing:2px;margin-top:3px;}
+
+/* Boutons Finance */
+.fin-btn-pri{background:linear-gradient(135deg,#00b894,#00d4ff);color:#0a1628;border:none;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.3px;}
+.fin-btn-pri:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,212,255,.3);}
+.fin-btn-sec{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:#00d4ff;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;}
+.fin-btn-sec:hover{background:rgba(0,212,255,.15);border-color:rgba(0,212,255,.4);}
+
+/* Hero metrics */
+.fin-hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;}
+@media(max-width:700px){.fin-hero-grid{grid-template-columns:1fr;}}
+.fin-hero-card{
+  border-radius:16px;padding:20px 22px;
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(10,22,44,.95),rgba(20,35,65,.9));
+  border:1px solid rgba(0,212,255,.12);
+  transition:transform .2s,box-shadow .2s;
+}
+.fin-hero-card:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,0,0,.4);}
+.fin-hero-card::before{content:'';position:absolute;top:-40%;right:-20%;width:180px;height:180px;border-radius:50%;pointer-events:none;opacity:.06;}
+.fin-ca{border-color:rgba(0,212,255,.2);}
+.fin-ca::before{background:#00d4ff;}
+.fin-charges{border-color:rgba(225,112,85,.2);}
+.fin-charges::before{background:#e17055;}
+.fin-resultat{border-color:rgba(0,184,148,.2);}
+.fin-resultat::before{background:#00b894;}
+.fin-hero-label{font-size:9px;text-transform:uppercase;letter-spacing:2.5px;color:#4a7a9b;font-weight:700;margin-bottom:10px;}
+.fin-hero-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;line-height:1;color:#e8f4fd;letter-spacing:-1px;}
+.fin-ca .fin-hero-val{color:#00d4ff;}
+.fin-charges .fin-hero-val{color:#e17055;}
+.fin-resultat .fin-hero-val{color:#00b894;}
+.fin-hero-sub{font-size:11px;color:#4a7a9b;margin-top:8px;}
+.fin-hero-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;margin-top:14px;overflow:hidden;}
+.fin-hero-bar-fill{height:100%;border-radius:3px;background:#00d4ff;transition:width .8s cubic-bezier(.4,0,.2,1);}
+.fin-bar-red{background:#e17055;}
+.fin-bar-green{background:#00b894;}
+
+/* Métriques secondaires */
+.fin-metrics-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;}
+@media(max-width:700px){.fin-metrics-row{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:400px){.fin-metrics-row{grid-template-columns:repeat(2,1fr);}}
+.fin-metric{background:rgba(10,22,44,.7);border:1px solid rgba(0,212,255,.08);border-radius:10px;padding:12px 14px;text-align:center;}
+.fin-metric-ico{font-size:18px;margin-bottom:6px;}
+.fin-metric-val{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#e8f4fd;}
+.fin-metric-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#4a7a9b;margin-top:3px;font-weight:600;}
+
+/* Mid grid */
+.fin-mid-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:700px){.fin-mid-grid{grid-template-columns:1fr;}}
+
+/* Sections */
+.fin-section{background:rgba(10,22,44,.7);border:1px solid rgba(0,212,255,.08);border-radius:14px;padding:20px 22px;}
+.fin-section-title{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#4a7a9b;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.fin-section-title::after{content:'';flex:1;height:1px;background:rgba(0,212,255,.08);}
+
+/* Compte de résultat */
+.fin-cr-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.fin-cr-produit{border-bottom:2px solid rgba(0,212,255,.15) !important;margin-bottom:8px;padding-bottom:10px;}
+.fin-cr-lbl{font-size:13px;color:#a0b8cc;}
+.fin-cr-val{font-size:13px;font-weight:700;}
+.fin-green{color:#00b894 !important;}
+.fin-red{color:#e17055 !important;}
+.fin-cr-sep{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#4a7a9b;padding:10px 0 4px;font-weight:700;}
+.fin-cr-total{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.15);border-radius:8px;margin-top:10px;font-size:14px;font-weight:700;color:#e8f4fd;}
+
+/* Répartition visuelle */
+.fin-repartition{display:flex;height:8px;border-radius:6px;overflow:hidden;margin-top:14px;gap:1px;}
+.fin-repartition-segment{height:100%;transition:width .6s cubic-bezier(.4,0,.2,1);}
+
+/* Inputs Finance */
+.fin-input{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.15);border-radius:8px;padding:9px 13px;color:#e8f4fd;font-size:13px;font-family:'Outfit',sans-serif;width:100%;box-sizing:border-box;transition:border-color .2s;}
+.fin-input:focus{outline:none;border-color:rgba(0,212,255,.4);box-shadow:0 0 0 3px rgba(0,212,255,.08);}
+.fin-input-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#4a7a9b;font-weight:600;margin-bottom:5px;}
+
+/* Total row */
+.fin-total-row{text-align:right;padding:12px 0;font-size:14px;font-weight:700;color:#00d4ff;border-top:1px solid rgba(0,212,255,.1);margin-top:8px;}
+
+/* Table Finance */
+.fin-page table thead th{color:#4a7a9b !important;border-bottom-color:rgba(0,212,255,.1) !important;}
+.fin-page tbody tr:hover{background:rgba(0,212,255,.04) !important;}
+.fin-page tbody tr{border-bottom-color:rgba(255,255,255,.03) !important;}
+
 /* ═══ HACCP ═══ */
 .haccp-tab-btn{background:var(--ink3);border:1px solid var(--line);color:var(--sub);border-radius:8px;padding:7px 16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;}
 .haccp-tab-btn:hover{border-color:var(--line2);color:var(--txt);}
@@ -5860,89 +5950,139 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- FINANCE -->
-  <div id="page-finance" class="page">
-    <div class="page-header">
-      <h2>💶 Comptabilité</h2>
+  <div id="page-finance" class="page fin-page">
+
+    <!-- HEADER FINANCE -->
+    <div class="fin-header">
+      <div>
+        <h2 class="fin-title">💶 Finance & Comptabilité</h2>
+        <div class="fin-subtitle">Vue consolidée de votre activité</div>
+      </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-sm" onclick="openSplit()">➗ Addition partagée</button>
-        <button class="btn btn-gold btn-sm" onclick="openZCaisse()">🗒 Z de caisse</button>
+        <button class="fin-btn-sec" onclick="openSplit()">➗ Addition partagée</button>
+        <button class="fin-btn-pri" onclick="openZCaisse()">🗒 Z de caisse</button>
       </div>
     </div>
 
-    <!-- KPIs principaux -->
-    <div class="kpi-row">
-      <div class="kpi-box kpi-gold"><span class="kpi-ico">📈</span><div class="kpi-val" id="f-ca">0 €</div><div class="kpi-lbl">CA total</div></div>
-      <div class="kpi-box kpi-red"><span class="kpi-ico">💸</span><div class="kpi-val" id="f-charges">0 €</div><div class="kpi-lbl">Charges totales</div></div>
-      <div class="kpi-box kpi-green"><span class="kpi-ico">💰</span><div class="kpi-val" id="f-resultat">0 €</div><div class="kpi-lbl">Résultat net</div></div>
-      <div class="kpi-box kpi-blue"><span class="kpi-ico">📊</span><div class="kpi-val" id="f-tva">0 €</div><div class="kpi-lbl">TVA collectée</div></div>
-      <div class="kpi-box kpi-amber"><span class="kpi-ico">🍽️</span><div class="kpi-val" id="f-tkt">—</div><div class="kpi-lbl">Ticket moyen</div></div>
-      <div class="kpi-box kpi-amber"><span class="kpi-ico">📉</span><div class="kpi-val" id="f-marge">—</div><div class="kpi-lbl">Marge nette</div></div>
-    </div>
-
-    <!-- Détail résultat -->
-    <div class="card" style="margin-bottom:14px">
-      <div class="card-title">📊 Compte de résultat simplifié</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div>
-          <div style="font-size:12px;color:var(--sub);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Produits</div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)">
-            <span style="font-size:13px">Ventes restaurant</span>
-            <span id="cr-ventes" style="font-weight:700;color:var(--green)">0 €</span>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:12px;color:var(--sub);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Charges</div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)">
-            <span style="font-size:13px">Achats fournisseurs</span>
-            <span id="cr-achats" style="color:var(--red)">0 €</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)">
-            <span style="font-size:13px">Masse salariale</span>
-            <span id="cr-salaires" style="color:var(--red)">0 €</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)">
-            <span style="font-size:13px">Frais & charges fixes</span>
-            <span id="cr-frais" style="color:var(--red)">0 €</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:8px 0;margin-top:4px;border-top:2px solid var(--line)">
-            <span style="font-size:14px;font-weight:700">RÉSULTAT NET</span>
-            <span id="cr-net" style="font-size:16px;font-weight:700">0 €</span>
-          </div>
-        </div>
+    <!-- HERO METRICS -->
+    <div class="fin-hero-grid">
+      <div class="fin-hero-card fin-ca">
+        <div class="fin-hero-label">CHIFFRE D'AFFAIRES</div>
+        <div class="fin-hero-val" id="f-ca">0 €</div>
+        <div class="fin-hero-sub" id="f-ca-sub">—</div>
+        <div class="fin-hero-bar"><div class="fin-hero-bar-fill" id="f-ca-bar" style="width:0%"></div></div>
+      </div>
+      <div class="fin-hero-card fin-charges">
+        <div class="fin-hero-label">CHARGES TOTALES</div>
+        <div class="fin-hero-val" id="f-charges">0 €</div>
+        <div class="fin-hero-sub" id="f-charges-sub">—</div>
+        <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-red" id="f-charges-bar" style="width:0%"></div></div>
+      </div>
+      <div class="fin-hero-card fin-resultat">
+        <div class="fin-hero-label">RÉSULTAT NET</div>
+        <div class="fin-hero-val" id="f-resultat">0 €</div>
+        <div class="fin-hero-sub"><span id="f-marge">—</span> de marge</div>
+        <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-green" id="f-resultat-bar" style="width:0%"></div></div>
       </div>
     </div>
 
-    <!-- Rapprochement banque -->
-    <div class="card" style="margin-bottom:14px">
-      <div class="card-title">🏦 Rapprochement bancaire</div>
-      <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
-        <input class="form-input" id="rappr-mois" type="month" style="width:160px" onchange="rRapprochement()"/>
-        <div style="display:flex;gap:6px;align-items:center">
-          <span style="font-size:13px;color:var(--sub)">Solde relevé bancaire :</span>
-          <input class="form-input" id="rappr-solde-banque" type="number" step="0.01" placeholder="0.00" style="width:120px" onchange="rRapprochement()"/>
-        </div>
-        <button class="btn btn-ghost btn-sm" onclick="rRapprochement()">🔄 Calculer</button>
+    <!-- MÉTRIQUES SECONDAIRES -->
+    <div class="fin-metrics-row">
+      <div class="fin-metric">
+        <div class="fin-metric-ico">🧾</div>
+        <div class="fin-metric-val" id="f-tva">0 €</div>
+        <div class="fin-metric-lbl">TVA collectée</div>
       </div>
-      <div id="rappr-result"></div>
+      <div class="fin-metric">
+        <div class="fin-metric-ico">🍽️</div>
+        <div class="fin-metric-val" id="f-tkt">—</div>
+        <div class="fin-metric-lbl">Ticket moyen</div>
+      </div>
+      <div class="fin-metric">
+        <div class="fin-metric-ico">💳</div>
+        <div class="fin-metric-val" id="f-nb">0</div>
+        <div class="fin-metric-lbl">Transactions</div>
+      </div>
+      <div class="fin-metric">
+        <div class="fin-metric-ico">📦</div>
+        <div class="fin-metric-val" id="f-achats-m">0 €</div>
+        <div class="fin-metric-lbl">Achats fourn.</div>
+      </div>
+      <div class="fin-metric">
+        <div class="fin-metric-ico">👥</div>
+        <div class="fin-metric-val" id="f-salaires-m">0 €</div>
+        <div class="fin-metric-lbl">Masse salariale</div>
+      </div>
     </div>
 
-    <!-- Journal des ventes -->
-    <div class="card">
-      <div class="card-title">📋 Journal des ventes</div>
-      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-        <input class="form-input" id="fin-filtre-date" type="month" style="width:150px" oninput="rFin()"/>
-        <select class="form-select" id="fin-filtre-mode" style="width:130px" onchange="rFin()">
-          <option value="">Tous modes</option>
-          <option value="CB">CB</option>
-          <option value="Espèces">Espèces</option>
-          <option value="Ticket Resto">Ticket Resto</option>
-        </select>
+    <!-- COMPTE DE RÉSULTAT + RAPPROCHEMENT -->
+    <div class="fin-mid-grid">
+
+      <!-- Compte de résultat -->
+      <div class="fin-section">
+        <div class="fin-section-title">📊 Compte de résultat</div>
+        <div class="fin-cr-row fin-cr-produit">
+          <span class="fin-cr-lbl">Ventes restaurant</span>
+          <span class="fin-cr-val fin-green" id="cr-ventes">0 €</span>
+        </div>
+        <div class="fin-cr-sep">Charges</div>
+        <div class="fin-cr-row">
+          <span class="fin-cr-lbl">Achats fournisseurs</span>
+          <span class="fin-cr-val fin-red" id="cr-achats">0 €</span>
+        </div>
+        <div class="fin-cr-row">
+          <span class="fin-cr-lbl">Masse salariale</span>
+          <span class="fin-cr-val fin-red" id="cr-salaires">0 €</span>
+        </div>
+        <div class="fin-cr-row">
+          <span class="fin-cr-lbl">Frais & charges fixes</span>
+          <span class="fin-cr-val fin-red" id="cr-frais">0 €</span>
+        </div>
+        <div class="fin-cr-total">
+          <span>RÉSULTAT NET</span>
+          <span id="cr-net">0 €</span>
+        </div>
+        <!-- Barre visuelle répartition -->
+        <div class="fin-repartition" id="fin-repartition"></div>
+      </div>
+
+      <!-- Rapprochement bancaire -->
+      <div class="fin-section">
+        <div class="fin-section-title">🏦 Rapprochement bancaire</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div>
+            <div class="fin-input-lbl">Mois</div>
+            <input class="fin-input" id="rappr-mois" type="month" onchange="rRapprochement()"/>
+          </div>
+          <div>
+            <div class="fin-input-lbl">Solde relevé bancaire (€)</div>
+            <input class="fin-input" id="rappr-solde-banque" type="number" step="0.01" placeholder="0.00" onchange="rRapprochement()"/>
+          </div>
+          <button class="fin-btn-sec" onclick="rRapprochement()" style="align-self:flex-start">🔄 Calculer</button>
+        </div>
+        <div id="rappr-result" style="margin-top:14px"></div>
+      </div>
+    </div>
+
+    <!-- JOURNAL DES VENTES -->
+    <div class="fin-section" style="margin-top:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+        <div class="fin-section-title" style="margin-bottom:0">📋 Journal des ventes</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input class="fin-input" id="fin-filtre-date" type="month" style="width:150px" oninput="rFin()"/>
+          <select class="fin-input" id="fin-filtre-mode" style="width:130px" onchange="rFin()">
+            <option value="">Tous modes</option>
+            <option value="CB">💳 CB</option>
+            <option value="Espèces">💵 Espèces</option>
+            <option value="Ticket Resto">🎫 Ticket Resto</option>
+          </select>
+        </div>
       </div>
       <div class="table-wrap"><table>
         <thead><tr><th>Date</th><th>Heure</th><th>Table</th><th>Cvts</th><th>HT</th><th>TTC</th><th>Paiement</th><th></th></tr></thead>
         <tbody id="tb-ventes"></tbody>
       </table></div>
-      <div id="fin-total-row" style="display:flex;justify-content:flex-end;padding:10px 0;font-size:14px;font-weight:700;color:var(--gold)"></div>
+      <div id="fin-total-row" class="fin-total-row"></div>
     </div>
   </div>
 
@@ -12053,24 +12193,51 @@ function rFin(){
   const resultat=ca-charges;
   const marge=ca>0?Math.round(resultat/ca*100):0;
 
-  // KPIs
-  (document.getElementById('f-ca')||{}).textContent=eur(ca);
-  (document.getElementById('f-nb')||{}).textContent=ventes.length;
-  (document.getElementById('f-tva')||{}).textContent=eur(tva);
-  (document.getElementById('f-tkt')||{}).textContent=ventes.length?eur(tkt):'—';
-  (document.getElementById('f-charges')||{}).textContent=eur(charges);
+  // KPIs hero
+  const set2=id=>document.getElementById(id);
+  (set2('f-ca')||{}).textContent=eur(Math.round(ca));
+  (set2('f-nb')||{}).textContent=ventes.length;
+  (set2('f-tva')||{}).textContent=eur(Math.round(tva));
+  (set2('f-tkt')||{}).textContent=ventes.length?eur(Math.round(tkt)):'—';
+  (set2('f-charges')||{}).textContent=eur(Math.round(charges));
+  (set2('f-achats-m')||{}).textContent=eur(Math.round(achats));
+  (set2('f-salaires-m')||{}).textContent=eur(Math.round(salaires));
+  // Sous-titres hero
+  if(set2('f-ca-sub')) set2('f-ca-sub').textContent=ventes.length+' transaction'+(ventes.length!==1?'s':'');
+  if(set2('f-charges-sub')) set2('f-charges-sub').textContent='sur '+eur(Math.round(ca))+' de CA';
+  // Barres hero
+  const maxRef=Math.max(ca,charges,1);
+  setTimeout(()=>{
+    if(set2('f-ca-bar')) set2('f-ca-bar').style.width=Math.min(100,Math.round(ca/maxRef*100))+'%';
+    if(set2('f-charges-bar')) set2('f-charges-bar').style.width=Math.min(100,Math.round(charges/maxRef*100))+'%';
+    if(set2('f-resultat-bar')) set2('f-resultat-bar').style.width=Math.min(100,Math.max(0,Math.round(resultat/ca*100)))+'%';
+  },200);
   const resEl=document.getElementById('f-resultat');
-  if(resEl){resEl.textContent=eur(resultat);resEl.style.color=resultat>=0?'var(--green)':'var(--red)';}
+  if(resEl) resEl.textContent=eur(Math.round(resultat));
   const margeEl=document.getElementById('f-marge');
-  if(margeEl){margeEl.textContent=marge+'%';margeEl.style.color=marge>=20?'var(--green)':marge>=10?'var(--amber)':'var(--red)';}
+  if(margeEl) margeEl.textContent=(marge>=0?'+':'')+marge+'%';
 
   // Compte de résultat
-  (document.getElementById('cr-ventes')||{}).textContent=eur(ca);
-  (document.getElementById('cr-achats')||{}).textContent='-'+eur(achats);
-  (document.getElementById('cr-salaires')||{}).textContent='-'+eur(salaires);
-  (document.getElementById('cr-frais')||{}).textContent='-'+eur(frais);
+  (set2('cr-ventes')||{}).textContent=eur(Math.round(ca));
+  (set2('cr-achats')||{}).textContent='- '+eur(Math.round(achats));
+  (set2('cr-salaires')||{}).textContent='- '+eur(Math.round(salaires));
+  (set2('cr-frais')||{}).textContent='- '+eur(Math.round(frais));
   const netEl=document.getElementById('cr-net');
-  if(netEl){netEl.textContent=eur(resultat);netEl.style.color=resultat>=0?'var(--green)':'var(--red)';}
+  if(netEl){netEl.textContent=eur(Math.round(resultat));netEl.style.color=resultat>=0?'#00b894':'#e17055';}
+
+  // Barre de répartition
+  const repEl=set2('fin-repartition');
+  if(repEl&&ca>0){
+    const pAchats=Math.round(achats/ca*100);
+    const pSal=Math.round(salaires/ca*100);
+    const pFrais=Math.round(frais/ca*100);
+    const pNet=Math.max(0,100-pAchats-pSal-pFrais);
+    repEl.innerHTML=
+      `<div class="fin-repartition-segment" style="width:${pAchats}%;background:#e17055" title="Achats ${pAchats}%"></div>`+
+      `<div class="fin-repartition-segment" style="width:${pSal}%;background:#6c5ce7" title="Salaires ${pSal}%"></div>`+
+      `<div class="fin-repartition-segment" style="width:${pFrais}%;background:#fdcb6e" title="Frais ${pFrais}%"></div>`+
+      `<div class="fin-repartition-segment" style="width:${pNet}%;background:#00b894" title="Résultat ${pNet}%"></div>`;
+  }
 
   // Journal filtré
   document.getElementById('tb-ventes').innerHTML=[...ventes].reverse().map(v=>`<tr>
