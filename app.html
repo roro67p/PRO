@@ -3288,6 +3288,64 @@ tbody td { padding:13px 14px; font-size:13px; }
 .rs-f:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
 .rs-f-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 /* ═══════════════════════════════════
+/* ═══════════════════════════════════
+   ADMINISTRATION — palette violet/rose
+═══════════════════════════════════ */
+.adm-page{--adm-purple:#7c3aed;--adm-pink:#db2777;--adm-violet:#a855f7;--adm-rose:#f43f5e;}
+.adm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
+.adm-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#f3e8ff;letter-spacing:.3px;}
+.adm-subtitle{font-size:11px;color:#9f7aea;text-transform:uppercase;letter-spacing:2px;margin-top:3px;}
+.adm-btn-pri{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border:none;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.3px;box-shadow:0 4px 16px rgba(124,58,237,.3);}
+.adm-btn-pri:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(124,58,237,.4);}
+.adm-status-bar{display:flex;gap:20px;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:10px;padding:12px 18px;margin-bottom:20px;flex-wrap:wrap;}
+.adm-status-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#c4b5fd;}
+.adm-status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.adm-status-dot.connected{background:#a855f7;box-shadow:0 0 8px rgba(168,85,247,.6);animation:urgentPulse 2s infinite;}
+.adm-status-dot.disconnected{background:#4b5563;}
+.adm-section{margin-bottom:22px;}
+.adm-section-title{font-size:10px;text-transform:uppercase;letter-spacing:2.5px;color:#9f7aea;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.adm-section-title::after{content:'';flex:1;height:1px;background:rgba(124,58,237,.15);}
+.adm-integ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.adm-integ-card{background:rgba(15,10,30,.7);border:1px solid rgba(124,58,237,.15);border-radius:14px;padding:16px;transition:all .22s;position:relative;overflow:hidden;}
+.adm-integ-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0;background:var(--integ-accent,rgba(124,58,237,.3));}
+.adm-integ-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.4);border-color:rgba(124,58,237,.3);}
+.adm-integ-card.connected{border-color:rgba(168,85,247,.3);--integ-accent:linear-gradient(90deg,#7c3aed,#a855f7);}
+.adm-integ-card.disconnected{opacity:.75;}
+.adm-integ-logo{font-size:28px;margin-bottom:10px;}
+.adm-integ-name{font-size:13px;font-weight:700;color:#f3e8ff;margin-bottom:3px;}
+.adm-integ-desc{font-size:11px;color:#9f7aea;line-height:1.4;margin-bottom:12px;}
+.adm-integ-status{display:flex;align-items:center;justify-content:space-between;}
+.adm-integ-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px;}
+.adm-integ-badge.on{background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.3);}
+.adm-integ-badge.off{background:rgba(75,85,99,.1);color:#6b7280;border:1px solid rgba(75,85,99,.2);}
+.adm-integ-btn{font-size:11px;font-weight:600;padding:4px 12px;border-radius:7px;cursor:pointer;border:none;transition:all .15s;}
+.adm-integ-btn.connect{background:rgba(124,58,237,.2);color:#c4b5fd;border:1px solid rgba(124,58,237,.3);}
+.adm-integ-btn.connect:hover{background:rgba(124,58,237,.4);color:#f3e8ff;}
+.adm-integ-btn.configure{background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.25);}
+.adm-integ-btn.configure:hover{background:rgba(168,85,247,.3);}
+.adm-doc-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:18px;}
+.adm-doc-kpi{background:rgba(15,10,30,.7);border:1px solid rgba(124,58,237,.15);border-radius:12px;padding:14px 16px;text-align:center;}
+.adm-doc-kpi-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#f3e8ff;}
+.adm-doc-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#9f7aea;margin-top:3px;font-weight:600;}
+.adm-filter-btn{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);color:#9f7aea;border-radius:20px;padding:5px 14px;font-size:12px;cursor:pointer;transition:all .18s;font-family:'Outfit',sans-serif;}
+.adm-filter-btn:hover{border-color:rgba(124,58,237,.4);color:#c4b5fd;}
+.adm-filter-btn.active{background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(219,39,119,.2));border-color:rgba(168,85,247,.5);color:#f3e8ff;font-weight:700;}
+.adm-doc-card{background:rgba(15,10,30,.7);border:1px solid rgba(124,58,237,.12);border-radius:12px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:all .2s;position:relative;overflow:hidden;}
+.adm-doc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--doc-accent,rgba(124,58,237,.4));border-radius:12px 0 0 12px;}
+.adm-doc-card:hover{border-color:rgba(124,58,237,.3);box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateX(2px);}
+.adm-doc-card.expire{--doc-accent:#f43f5e;border-color:rgba(244,63,94,.2);animation:retardBlink 2s infinite;}
+.adm-doc-card.valide{--doc-accent:#a855f7;}
+.adm-doc-card.attente{--doc-accent:#f59e0b;}
+.adm-doc-card.archive{--doc-accent:#4b5563;opacity:.6;}
+.adm-doc-ico{width:42px;height:42px;border-radius:10px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.adm-doc-name{font-size:14px;font-weight:600;color:#f3e8ff;}
+.adm-doc-meta{font-size:11px;color:#9f7aea;margin-top:2px;}
+.adm-doc-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.4px;border:1px solid;white-space:nowrap;}
+.adm-doc-badge.valide{background:rgba(168,85,247,.1);color:#a855f7;border-color:rgba(168,85,247,.3);}
+.adm-doc-badge.expire{background:rgba(244,63,94,.1);color:#f43f5e;border-color:rgba(244,63,94,.3);}
+.adm-doc-badge.attente{background:rgba(245,158,11,.1);color:#f59e0b;border-color:rgba(245,158,11,.3);}
+.adm-doc-badge.archive{background:rgba(75,85,99,.1);color:#6b7280;border-color:rgba(75,85,99,.2);}
+
    FINANCE — palette bleu nuit / cyan
 ═══════════════════════════════════ */
 .fin-page { --fin-blue:#1a2a4a; --fin-cyan:#00d4ff; --fin-teal:#00b894; --fin-coral:#e17055; --fin-purple:#6c5ce7; }
@@ -4793,6 +4851,8 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" onclick="nav('acces',this)"><span class="ni-ico">🔐</span>Accès &amp; Comptes</div>
       <div class="nav-item" onclick="nav('paramsAvances',this)"><span class="ni-ico">🎨</span>Paramètres avancés</div>
       <div class="nav-item" onclick="nav('periodes',this)"><span class="ni-ico">📆</span>Gestion des périodes</div>
+      <div class="nav-item" onclick="nav('integrations',this)"><span class="ni-ico">📡</span>Intégrations</div>
+      <div class="nav-item" onclick="nav('documents',this)"><span class="ni-ico">📋</span>Documents légaux</div>
       <div class="nav-item" onclick="nav('sauvegarde',this)"><span class="ni-ico">💾</span>Sauvegarde</div>
       <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
     </div>
@@ -6985,6 +7045,112 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
+  <!-- INTÉGRATIONS -->
+  <div id="page-integrations" class="page adm-page">
+    <div class="adm-header">
+      <div>
+        <h2 class="adm-title">📡 Intégrations</h2>
+        <div class="adm-subtitle">Connectez vos outils et plateformes</div>
+      </div>
+    </div>
+
+    <!-- Statut global -->
+    <div class="adm-status-bar">
+      <div class="adm-status-item">
+        <div class="adm-status-dot connected"></div>
+        <span id="integ-connected-count">0</span> connectée(s)
+      </div>
+      <div class="adm-status-item">
+        <div class="adm-status-dot disconnected"></div>
+        <span id="integ-disconnected-count">0</span> non connectée(s)
+      </div>
+    </div>
+
+    <!-- Catégories -->
+    <div class="adm-section">
+      <div class="adm-section-title">🍕 Plateformes de livraison</div>
+      <div class="adm-integ-grid" id="integ-livraison"></div>
+    </div>
+    <div class="adm-section">
+      <div class="adm-section-title">💳 Paiement & Caisse</div>
+      <div class="adm-integ-grid" id="integ-caisse"></div>
+    </div>
+    <div class="adm-section">
+      <div class="adm-section-title">📱 Réservation & Marketing</div>
+      <div class="adm-integ-grid" id="integ-marketing"></div>
+    </div>
+    <div class="adm-section">
+      <div class="adm-section-title">📊 Comptabilité & Gestion</div>
+      <div class="adm-integ-grid" id="integ-compta"></div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS LÉGAUX -->
+  <div id="page-documents" class="page adm-page">
+    <div class="adm-header">
+      <div>
+        <h2 class="adm-title">📋 Documents légaux</h2>
+        <div class="adm-subtitle">Contrats, attestations et documents officiels</div>
+      </div>
+      <button class="adm-btn-pri" onclick="openDocModal()">+ Ajouter document</button>
+    </div>
+
+    <!-- KPIs docs -->
+    <div class="adm-doc-kpis" id="doc-kpis"></div>
+
+    <!-- Filtres -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="adm-filter-btn active" onclick="filterDocs('tous',this)">Tous</button>
+      <button class="adm-filter-btn" onclick="filterDocs('contrat',this)">📝 Contrats</button>
+      <button class="adm-filter-btn" onclick="filterDocs('attestation',this)">✅ Attestations</button>
+      <button class="adm-filter-btn" onclick="filterDocs('fiscal',this)">🏛 Fiscal</button>
+      <button class="adm-filter-btn" onclick="filterDocs('hygiene',this)">🧼 Hygiène</button>
+      <button class="adm-filter-btn" onclick="filterDocs('autre',this)">📁 Autre</button>
+    </div>
+
+    <div id="docs-list"></div>
+  </div>
+
+  <!-- Modal document -->
+  <div class="modal-bg" id="mo-doc" onclick="closeModal('mo-doc')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-head"><span class="modal-title">📋 Document</span><button class="modal-close" onclick="closeModal('mo-doc')">✕</button></div>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:12px">
+        <input type="hidden" id="doc-id"/>
+        <div><div class="form-label">Titre du document</div><input class="form-input" id="doc-titre" placeholder="Ex: Contrat CDI Marie Dupont"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><div class="form-label">Catégorie</div>
+            <select class="form-select" id="doc-cat">
+              <option value="contrat">📝 Contrat</option>
+              <option value="attestation">✅ Attestation</option>
+              <option value="fiscal">🏛 Fiscal</option>
+              <option value="hygiene">🧼 Hygiène</option>
+              <option value="autre">📁 Autre</option>
+            </select>
+          </div>
+          <div><div class="form-label">Date document</div><input class="form-input" id="doc-date" type="date"/></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><div class="form-label">Statut</div>
+            <select class="form-select" id="doc-statut">
+              <option value="valide">✅ Valide</option>
+              <option value="expire">⚠️ Expiré</option>
+              <option value="attente">⏳ En attente</option>
+              <option value="archive">📦 Archivé</option>
+            </select>
+          </div>
+          <div><div class="form-label">Date d'expiration</div><input class="form-input" id="doc-expiration" type="date"/></div>
+        </div>
+        <div><div class="form-label">Référence / N° document</div><input class="form-input" id="doc-ref" placeholder="Ex: URSSAF-2026-001"/></div>
+        <div><div class="form-label">Notes</div><textarea class="form-input" id="doc-notes" rows="2" placeholder="Informations complémentaires..." style="resize:none"></textarea></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-ghost btn-sm" onclick="closeModal('mo-doc')">Annuler</button>
+          <button class="adm-btn-pri" onclick="saveDoc()">💾 Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SAUVEGARDE -->
   <div id="page-sauvegarde" class="page">
     <div class="page-header"><h2>💾 Sauvegarde & Restauration</h2></div>
@@ -8562,7 +8728,7 @@ function renderEtabSelector(){
 }
 
 // ═══ NAV ═══
-const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
+const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
 function nav(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -8584,7 +8750,7 @@ function render(n){
     journal:rJournal,
     objectifs:rObjectifs, cmdFourn:rCmdFourn, params:rParams,
     fiches:rFiches, origine:rOrigine, marges:rMarges, avis:rAvis, acces:rAcces,
-    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne})[n]?.();
+    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne})[n]?.();
 }
 function openSB(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').style.display='block';}
 function closeSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').style.display='none';}
@@ -21156,6 +21322,197 @@ async function restaurerDepuisDrive(fileId){
 // ═══════════════════════════════════════════
 // 💾 SAUVEGARDE & RESTAURATION
 // ═══════════════════════════════════════════
+// ═══ INTÉGRATIONS ═══
+const INTEGRATIONS={
+  livraison:[
+    {id:'ubereats',name:'Uber Eats',logo:'🛵',desc:'Commandes en ligne et livraison à domicile',connected:false},
+    {id:'deliveroo',name:'Deliveroo',logo:'🦘',desc:'Plateforme de livraison de repas',connected:false},
+    {id:'justeat',name:'Just Eat',logo:'🍔',desc:'Commande en ligne et click & collect',connected:false},
+    {id:'laddition',name:'L\'Addition',logo:'📱',desc:'Commande \u00e0 table via QR code',connected:false},
+  ],
+  caisse:[
+    {id:'sumup',name:'SumUp',logo:'💳',desc:'Terminal de paiement sans fil',connected:true},
+    {id:'stripe',name:'Stripe',logo:'🔷',desc:'Paiement en ligne et TPE connecté',connected:false},
+    {id:'zelty',name:'Zelty',logo:'🖥️',desc:'Logiciel de caisse iPad',connected:false},
+    {id:'lightspeed',name:'Lightspeed',logo:'⚡',desc:'Caisse et gestion avancée',connected:false},
+  ],
+  marketing:[
+    {id:'lafourchette',name:'TheFork',logo:'🍴',desc:'Réservation en ligne et marketing',connected:false},
+    {id:'google',name:'Google Business',logo:'🔍',desc:'Fiche établissement et avis Google',connected:true},
+    {id:'mailchimp',name:'Mailchimp',logo:'📧',desc:'Emailing et fidélisation clients',connected:false},
+    {id:'instagram',name:'Instagram',logo:'📸',desc:'Gestion des réseaux sociaux',connected:false},
+  ],
+  compta:[
+    {id:'pennylane',name:'Pennylane',logo:'🟢',desc:'Comptabilité et facturation en ligne',connected:false},
+    {id:'quickbooks',name:'QuickBooks',logo:'📊',desc:'Logiciel de comptabilité PME',connected:false},
+    {id:'urssaf',name:'Net-Entreprises',logo:'🏛️',desc:'Déclarations URSSAF en ligne',connected:false},
+    {id:'dropbox',name:'Dropbox',logo:'📦',desc:'Stockage et partage de documents',connected:false},
+  ]
+};
+if(!DB.integrations) DB.integrations={};
+
+function rIntegrations(){
+  const cats=['livraison','caisse','marketing','compta'];
+  let connected=0,disconnected=0;
+  cats.forEach(cat=>{
+    INTEGRATIONS[cat].forEach(i=>{
+      const state=DB.integrations[i.id]??i.connected;
+      if(state) connected++; else disconnected++;
+    });
+  });
+  const c=document.getElementById('integ-connected-count');
+  const d=document.getElementById('integ-disconnected-count');
+  if(c) c.textContent=connected;
+  if(d) d.textContent=disconnected;
+
+  cats.forEach(cat=>{
+    const el=document.getElementById('integ-'+cat);
+    if(!el) return;
+    el.innerHTML=INTEGRATIONS[cat].map(i=>{
+      const isOn=DB.integrations[i.id]??i.connected;
+      return `<div class="adm-integ-card ${isOn?'connected':'disconnected'}">
+        <div class="adm-integ-logo">${i.logo}</div>
+        <div class="adm-integ-name">${i.name}</div>
+        <div class="adm-integ-desc">${i.desc}</div>
+        <div class="adm-integ-status">
+          <span class="adm-integ-badge ${isOn?'on':'off'}">${isOn?'● Connecté':'○ Inactif'}</span>
+          <button class="adm-integ-btn ${isOn?'configure':'connect'}" onclick="toggleInteg('${i.id}',${!isOn})">${isOn?'⚙ Config':'+ Connecter'}</button>
+        </div>
+      </div>`;
+    }).join('');
+  });
+}
+function toggleInteg(id,state){
+  if(!DB.integrations) DB.integrations={};
+  DB.integrations[id]=state;
+  saveDB(); rIntegrations();
+  toast(state?'Intégration activée ✓':'Intégration désactivée','info');
+}
+
+// ═══ DOCUMENTS LÉGAUX ═══
+if(!DB.documents) DB.documents=[];
+let _docFilter='tous';
+
+const DOC_DEFAUT=[
+  {id:1,titre:'Contrat CDI — Julie Martin',cat:'contrat',date:'2024-01-15',expiration:'',statut:'valide',ref:'CDI-2024-001',notes:'Poste : Serveuse — 35h/semaine'},
+  {id:2,titre:'Contrat CDI — Pauline Durand',cat:'contrat',date:'2024-03-01',expiration:'',statut:'valide',ref:'CDI-2024-002',notes:'Poste : Serveuse — 35h/semaine'},
+  {id:3,titre:'Licence IV — Débit de boissons',cat:'fiscal',date:'2020-06-01',expiration:'',statut:'valide',ref:'LIC-IV-2020',notes:'Autorisation de vente d\'alcool'},
+  {id:4,titre:'Certificat hygiène alimentaire',cat:'hygiene',date:'2023-09-15',expiration:'2026-09-15',statut:'valide',ref:'HACCP-2023',notes:'Formation HACCP obligatoire'},
+  {id:5,titre:'Attestation assurance RC Pro',cat:'attestation',date:'2025-01-01',expiration:'2026-01-01',statut:'valide',ref:'ASSUR-RC-2025',notes:'AXA Assurances — Police n°789456'},
+  {id:6,titre:'Déclaration URSSAF T4 2025',cat:'fiscal',date:'2026-01-15',expiration:'',statut:'valide',ref:'URSSAF-T4-2025',notes:'Déclaration trimestrielle'},
+  {id:7,titre:'Bail commercial — Renouvellement',cat:'contrat',date:'2019-01-01',expiration:'2028-01-01',statut:'valide',ref:'BAIL-2019',notes:'9 ans ferme — Propriétaire : SCI Alpes'},
+  {id:8,titre:'Permis de terrasse',cat:'attestation',date:'2025-04-01',expiration:'2025-10-31',statut:'expire',ref:'TERR-2025',notes:'Mairie — Renouvellement annuel requis'},
+];
+
+function initDocuments(){
+  if(!DB.documents||!DB.documents.length) DB.documents=DOC_DEFAUT.map(d=>({...d}));
+}
+function filterDocs(f,btn){
+  _docFilter=f;
+  document.querySelectorAll('.adm-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderDocsList();
+}
+function rDocuments(){
+  initDocuments();
+  const today=td();
+  // Vérifier expirations
+  DB.documents.forEach(d=>{
+    if(d.expiration&&d.expiration<today&&d.statut==='valide') d.statut='expire';
+  });
+  const total=DB.documents.length;
+  const valides=DB.documents.filter(d=>d.statut==='valide').length;
+  const expires=DB.documents.filter(d=>d.statut==='expire').length;
+  const attentes=DB.documents.filter(d=>d.statut==='attente').length;
+  const kpiEl=document.getElementById('doc-kpis');
+  if(kpiEl) kpiEl.innerHTML=`
+    <div class="adm-doc-kpi"><div class="adm-doc-kpi-val">${total}</div><div class="adm-doc-kpi-lbl">Total docs</div></div>
+    <div class="adm-doc-kpi" style="${valides?'border-color:rgba(168,85,247,.3)':''}"><div class="adm-doc-kpi-val" style="color:#a855f7">${valides}</div><div class="adm-doc-kpi-lbl">Valides</div></div>
+    <div class="adm-doc-kpi" style="${expires?'border-color:rgba(244,63,94,.3);animation:retardBlink 2s infinite':''}"><div class="adm-doc-kpi-val" style="color:${expires?'#f43f5e':'#f3e8ff'}">${expires}</div><div class="adm-doc-kpi-lbl">Expirés ⚠️</div></div>
+    <div class="adm-doc-kpi"><div class="adm-doc-kpi-val" style="color:#f59e0b">${attentes}</div><div class="adm-doc-kpi-lbl">En attente</div></div>
+  `;
+  renderDocsList();
+}
+function renderDocsList(){
+  initDocuments();
+  const el=document.getElementById('docs-list'); if(!el) return;
+  const catIco={contrat:'📝',attestation:'✅',fiscal:'🏛️',hygiene:'🧼',autre:'📁'};
+  let docs=DB.documents.slice();
+  if(_docFilter!=='tous') docs=docs.filter(d=>d.cat===_docFilter);
+  // Trier : expirés en premier
+  docs.sort((a,b)=>{
+    const order={expire:0,attente:1,valide:2,archive:3};
+    return (order[a.statut]??4)-(order[b.statut]??4);
+  });
+  if(!docs.length){el.innerHTML='<div style="text-align:center;padding:40px;color:#9f7aea;font-size:13px">Aucun document dans cette catégorie</div>';return;}
+  el.innerHTML=docs.map(d=>`
+    <div class="adm-doc-card ${d.statut}">
+      <div class="adm-doc-ico">${catIco[d.cat]||'📁'}</div>
+      <div style="flex:1;min-width:0">
+        <div class="adm-doc-name">${d.titre}</div>
+        <div class="adm-doc-meta">Réf: ${d.ref||'—'}${d.date?' · '+d.date:''}${d.expiration?' · Exp: '+d.expiration:''}</div>
+        ${d.notes?`<div style="font-size:11px;color:#6b7280;margin-top:2px">${d.notes}</div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+        <span class="adm-doc-badge ${d.statut}">${d.statut==='valide'?'✓ Valide':d.statut==='expire'?'⚠ Expiré':d.statut==='attente'?'⏳ Attente':'📦 Archivé'}</span>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-xs" onclick="editDoc(${d.id})" style="color:#a855f7;border-color:rgba(168,85,247,.2)">✏️</button>
+          <button class="btn btn-danger btn-xs" onclick="delDoc(${d.id})">✕</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function openDocModal(){
+  document.getElementById('doc-id').value='';
+  document.getElementById('doc-titre').value='';
+  document.getElementById('doc-cat').value='contrat';
+  document.getElementById('doc-date').value=td();
+  document.getElementById('doc-statut').value='valide';
+  document.getElementById('doc-expiration').value='';
+  document.getElementById('doc-ref').value='';
+  document.getElementById('doc-notes').value='';
+  openModal('mo-doc');
+}
+function editDoc(id){
+  initDocuments();
+  const d=DB.documents.find(x=>x.id===id); if(!d) return;
+  document.getElementById('doc-id').value=d.id;
+  document.getElementById('doc-titre').value=d.titre||'';
+  document.getElementById('doc-cat').value=d.cat||'autre';
+  document.getElementById('doc-date').value=d.date||'';
+  document.getElementById('doc-statut').value=d.statut||'valide';
+  document.getElementById('doc-expiration').value=d.expiration||'';
+  document.getElementById('doc-ref').value=d.ref||'';
+  document.getElementById('doc-notes').value=d.notes||'';
+  openModal('mo-doc');
+}
+function saveDoc(){
+  const titre=document.getElementById('doc-titre')?.value.trim();
+  if(!titre){toast('Titre requis','err');return;}
+  initDocuments();
+  const id=document.getElementById('doc-id')?.value;
+  const obj={
+    id:id?+id:Date.now(),
+    titre,
+    cat:document.getElementById('doc-cat')?.value||'autre',
+    date:document.getElementById('doc-date')?.value||td(),
+    statut:document.getElementById('doc-statut')?.value||'valide',
+    expiration:document.getElementById('doc-expiration')?.value||'',
+    ref:document.getElementById('doc-ref')?.value.trim()||'',
+    notes:document.getElementById('doc-notes')?.value.trim()||''
+  };
+  if(id) DB.documents=DB.documents.map(d=>d.id===+id?obj:d);
+  else DB.documents.push(obj);
+  saveDB(); closeModal('mo-doc'); rDocuments();
+  toast(id?'Document modifié ✓':'Document ajouté ✓');
+}
+function delDoc(id){
+  confirmSuppr('Supprimer ce document ?',()=>{
+    DB.documents=DB.documents.filter(d=>d.id!==id);
+    saveDB(); rDocuments(); toast('Document supprimé','warn');
+  });
+}
+
 function rSauvegarde(){
   const info=document.getElementById('sauv-info');
   if(info){
