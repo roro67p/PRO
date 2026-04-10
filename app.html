@@ -4152,7 +4152,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
 /* Grille employés */
 .pin-employees{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(85px,1fr));gap:8px;margin-bottom:20px;
 }
 .pin-emp{
   display:flex;flex-direction:column;align-items:center;gap:6px;
@@ -13064,7 +13064,7 @@ function pinInit(){
 
   window._pinUsers = allUsers;
 
-  grid.innerHTML = allUsers.slice(0,6).map((u,i)=>{
+  grid.innerHTML = allUsers.map((u,i)=>{
     const initiales = ((u.prenom||'').charAt(0)+(u.nom||'').charAt(0)).toUpperCase()||'?';
     return '<div class="pin-emp" onclick="pinSelectUser('+i+')" id="pin-emp-'+i+'">'
       +'<div class="pin-emp-avatar" style="background:'+u.col+'22;border-color:'+u.col+'44;color:'+u.col+'">'+initiales+'</div>'
