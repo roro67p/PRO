@@ -3289,6 +3289,64 @@ tbody td { padding:13px 14px; font-size:13px; }
 .rs-f-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 /* ═══════════════════════════════════
 /* ═══════════════════════════════════
+/* ═══════════════════════════════════════
+   MAINTENANCE — palette vert technique
+   INCIDENTS — palette orange/rouge
+═══════════════════════════════════════ */
+
+/* MAINTENANCE */
+.mnt-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#d1fae5;letter-spacing:.3px;}
+.mnt-subtitle{font-size:11px;color:#6ee7b7;text-transform:uppercase;letter-spacing:2px;margin-top:3px;}
+.mnt-btn-pri{background:linear-gradient(135deg,#059669,#10b981);color:#fff;border:none;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(16,185,129,.3);}
+.mnt-btn-pri:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(16,185,129,.4);}
+.mnt-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:18px;}
+.mnt-kpi{background:rgba(5,150,105,.08);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:14px 16px;text-align:center;transition:all .2s;}
+.mnt-kpi:hover{border-color:rgba(16,185,129,.4);transform:translateY(-2px);}
+.mnt-kpi-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#d1fae5;}
+.mnt-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#6ee7b7;margin-top:3px;font-weight:600;}
+.mnt-filter{background:rgba(5,150,105,.08);border:1px solid rgba(16,185,129,.2);color:#6ee7b7;border-radius:20px;padding:5px 14px;font-size:12px;cursor:pointer;transition:all .18s;font-family:'Outfit',sans-serif;}
+.mnt-filter:hover{border-color:rgba(16,185,129,.4);color:#d1fae5;}
+.mnt-filter.active{background:linear-gradient(135deg,rgba(5,150,105,.3),rgba(16,185,129,.2));border-color:rgba(16,185,129,.5);color:#d1fae5;font-weight:700;}
+.mnt-card{background:rgba(5,20,15,.7);border:1px solid rgba(16,185,129,.12);border-radius:14px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:all .2s;position:relative;overflow:hidden;}
+.mnt-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mnt-accent,rgba(16,185,129,.4));border-radius:14px 0 0 14px;}
+.mnt-card:hover{border-color:rgba(16,185,129,.3);box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateX(2px);}
+.mnt-card.ok{--mnt-accent:#10b981;}
+.mnt-card.maintenance{--mnt-accent:#f59e0b;border-color:rgba(245,158,11,.15);}
+.mnt-card.alerte{--mnt-accent:#f97316;border-color:rgba(249,115,22,.2);animation:urgentPulse 2.5s infinite;}
+.mnt-card.panne{--mnt-accent:#ef4444;border-color:rgba(239,68,68,.25);animation:retardBlink 2s infinite;}
+.mnt-card-ico{width:44px;height:44px;border-radius:11px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.mnt-card-name{font-size:14px;font-weight:700;color:#d1fae5;}
+.mnt-card-meta{font-size:11px;color:#6ee7b7;margin-top:2px;}
+.mnt-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.4px;border:1px solid;white-space:nowrap;}
+.mnt-badge.ok{background:rgba(16,185,129,.1);color:#10b981;border-color:rgba(16,185,129,.3);}
+.mnt-badge.maintenance{background:rgba(245,158,11,.1);color:#f59e0b;border-color:rgba(245,158,11,.3);}
+.mnt-badge.alerte{background:rgba(249,115,22,.1);color:#f97316;border-color:rgba(249,115,22,.3);}
+.mnt-badge.panne{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3);}
+
+/* INCIDENTS */
+.inc-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#ffedd5;letter-spacing:.3px;}
+.inc-subtitle{font-size:11px;color:#fdba74;text-transform:uppercase;letter-spacing:2px;margin-top:3px;}
+.inc-btn-pri{background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;border:none;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(234,88,12,.3);}
+.inc-btn-pri:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(234,88,12,.4);}
+.inc-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:18px;}
+.inc-kpi{background:rgba(234,88,12,.08);border:1px solid rgba(249,115,22,.2);border-radius:12px;padding:14px 16px;text-align:center;transition:all .2s;}
+.inc-kpi:hover{border-color:rgba(249,115,22,.4);transform:translateY(-2px);}
+.inc-kpi-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#ffedd5;}
+.inc-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#fdba74;margin-top:3px;font-weight:600;}
+.inc-filter{background:rgba(234,88,12,.08);border:1px solid rgba(249,115,22,.2);color:#fdba74;border-radius:20px;padding:5px 14px;font-size:12px;cursor:pointer;transition:all .18s;font-family:'Outfit',sans-serif;}
+.inc-filter:hover{border-color:rgba(249,115,22,.4);color:#ffedd5;}
+.inc-filter.active{background:linear-gradient(135deg,rgba(234,88,12,.3),rgba(249,115,22,.2));border-color:rgba(249,115,22,.5);color:#ffedd5;font-weight:700;}
+.inc-card{background:rgba(20,10,5,.7);border:1px solid rgba(249,115,22,.12);border-radius:14px;padding:16px 18px;margin-bottom:10px;transition:all .2s;position:relative;overflow:hidden;}
+.inc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--inc-accent,rgba(249,115,22,.4));border-radius:14px 0 0 14px;}
+.inc-card:hover{border-color:rgba(249,115,22,.3);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.inc-card.faible{--inc-accent:#22c55e;}
+.inc-card.moyen{--inc-accent:#f97316;}
+.inc-card.grave{--inc-accent:#ef4444;animation:retardBlink 2.5s infinite;}
+.inc-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.4px;border:1px solid;white-space:nowrap;}
+.inc-badge.faible{background:rgba(34,197,94,.1);color:#22c55e;border-color:rgba(34,197,94,.3);}
+.inc-badge.moyen{background:rgba(249,115,22,.1);color:#f97316;border-color:rgba(249,115,22,.3);}
+.inc-badge.grave{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3);}
+
    ADMINISTRATION — palette violet/rose
 ═══════════════════════════════════ */
 .adm-page{--adm-purple:#7c3aed;--adm-pink:#db2777;--adm-violet:#a855f7;--adm-rose:#f43f5e;}
@@ -4882,6 +4940,8 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" onclick="nav('periodes',this)"><span class="ni-ico">📆</span>Gestion des périodes</div>
       <div class="nav-item" onclick="nav('integrations',this)"><span class="ni-ico">📡</span>Intégrations</div>
       <div class="nav-item" onclick="nav('documents',this)"><span class="ni-ico">📋</span>Documents légaux</div>
+      <div class="nav-item" onclick="nav('maintenance',this)"><span class="ni-ico">🔧</span>Maintenance</div>
+      <div class="nav-item" onclick="nav('incidents',this)"><span class="ni-ico">⚠️</span>Registre incidents</div>
       <div class="nav-item" onclick="nav('sauvegarde',this)"><span class="ni-ico">💾</span>Sauvegarde</div>
       <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
     </div>
@@ -7160,6 +7220,137 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div id="docs-list"></div>
   </div>
 
+  <!-- MAINTENANCE ÉQUIPEMENTS -->
+  <div id="page-maintenance" class="page adm-page">
+    <div class="adm-header">
+      <div>
+        <h2 class="mnt-title">🔧 Maintenance équipements</h2>
+        <div class="mnt-subtitle">Suivi des équipements · Alertes · Interventions</div>
+      </div>
+      <button class="mnt-btn-pri" onclick="openMntModal()">+ Ajouter équipement</button>
+    </div>
+
+    <!-- KPIs -->
+    <div class="mnt-kpis" id="mnt-kpis"></div>
+
+    <!-- Filtres -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="mnt-filter active" onclick="filterMnt('tous',this)">Tous</button>
+      <button class="mnt-filter" onclick="filterMnt('ok',this)">✅ OK</button>
+      <button class="mnt-filter" onclick="filterMnt('maintenance',this)">🔧 Maintenance</button>
+      <button class="mnt-filter" onclick="filterMnt('alerte',this)">⚠️ Alerte</button>
+      <button class="mnt-filter" onclick="filterMnt('panne',this)">🔴 Panne</button>
+    </div>
+
+    <div id="mnt-list"></div>
+  </div>
+
+  <!-- REGISTRE DES INCIDENTS -->
+  <div id="page-incidents" class="page adm-page">
+    <div class="adm-header">
+      <div>
+        <h2 class="inc-title">⚠️ Registre des incidents</h2>
+        <div class="inc-subtitle">Casse · Accidents · Plaintes · Incidents service</div>
+      </div>
+      <button class="inc-btn-pri" onclick="openIncModal()">+ Déclarer incident</button>
+    </div>
+
+    <!-- KPIs -->
+    <div class="inc-kpis" id="inc-kpis"></div>
+
+    <!-- Filtres -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="inc-filter active" onclick="filterInc('tous',this)">Tous</button>
+      <button class="inc-filter" onclick="filterInc('casse',this)">💥 Casse</button>
+      <button class="inc-filter" onclick="filterInc('accident',this)">🩹 Accident</button>
+      <button class="inc-filter" onclick="filterInc('plainte',this)">😠 Plainte</button>
+      <button class="inc-filter" onclick="filterInc('service',this)">🍽️ Service</button>
+      <button class="inc-filter" onclick="filterInc('hygiene',this)">🧼 Hygiène</button>
+    </div>
+
+    <div id="inc-list"></div>
+  </div>
+
+  <!-- Modal Maintenance -->
+  <div class="modal-bg" id="mo-mnt" onclick="closeModal('mo-mnt')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-head"><span class="modal-title">🔧 Équipement</span><button class="modal-close" onclick="closeModal('mo-mnt')">✕</button></div>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:12px">
+        <input type="hidden" id="mnt-id"/>
+        <div><div class="form-label">Nom de l'équipement</div><input class="form-input" id="mnt-nom" placeholder="Ex: Réfrigérateur principal"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><div class="form-label">Catégorie</div>
+            <select class="form-select" id="mnt-cat">
+              <option value="froid">❄️ Froid</option>
+              <option value="cuisson">🔥 Cuisson</option>
+              <option value="lavage">🫧 Lavage</option>
+              <option value="ventilation">💨 Ventilation</option>
+              <option value="securite">🔒 Sécurité</option>
+              <option value="autre">🔧 Autre</option>
+            </select>
+          </div>
+          <div><div class="form-label">Statut</div>
+            <select class="form-select" id="mnt-statut">
+              <option value="ok">✅ OK</option>
+              <option value="maintenance">🔧 Maintenance prévue</option>
+              <option value="alerte">⚠️ Alerte</option>
+              <option value="panne">🔴 En panne</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><div class="form-label">Dernière révision</div><input class="form-input" id="mnt-revision" type="date"/></div>
+          <div><div class="form-label">Prochaine révision</div><input class="form-input" id="mnt-prochaine" type="date"/></div>
+        </div>
+        <div><div class="form-label">Marque / Modèle</div><input class="form-input" id="mnt-modele" placeholder="Ex: Samsung RB38T776CS9"/></div>
+        <div><div class="form-label">Notes / Remarques</div><textarea class="form-input" id="mnt-notes" rows="2" style="resize:none" placeholder="Contrat maintenance, numéro SAV..."></textarea></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-ghost btn-sm" onclick="closeModal('mo-mnt')">Annuler</button>
+          <button class="mnt-btn-pri" onclick="saveMnt()">💾 Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Incident -->
+  <div class="modal-bg" id="mo-inc" onclick="closeModal('mo-inc')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-head"><span class="modal-title">⚠️ Incident</span><button class="modal-close" onclick="closeModal('mo-inc')">✕</button></div>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:12px">
+        <input type="hidden" id="inc-id"/>
+        <div><div class="form-label">Description de l'incident</div><textarea class="form-input" id="inc-desc" rows="2" style="resize:none" placeholder="Décrivez l'incident..."></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><div class="form-label">Type</div>
+            <select class="form-select" id="inc-type">
+              <option value="casse">💥 Casse matériel</option>
+              <option value="accident">🩹 Accident personnel</option>
+              <option value="plainte">😠 Plainte client</option>
+              <option value="service">🍽️ Incident service</option>
+              <option value="hygiene">🧼 Hygiène/Sécurité</option>
+              <option value="autre">📋 Autre</option>
+            </select>
+          </div>
+          <div><div class="form-label">Gravité</div>
+            <select class="form-select" id="inc-gravite">
+              <option value="faible">🟢 Faible</option>
+              <option value="moyen">🟠 Moyen</option>
+              <option value="grave">🔴 Grave</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><div class="form-label">Date</div><input class="form-input" id="inc-date" type="date"/></div>
+          <div><div class="form-label">Responsable</div><input class="form-input" id="inc-resp" placeholder="Nom de l'employé"/></div>
+        </div>
+        <div><div class="form-label">Action corrective prise</div><input class="form-input" id="inc-action" placeholder="Ex: Remplacement, remboursement client..."/></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-ghost btn-sm" onclick="closeModal('mo-inc')">Annuler</button>
+          <button class="inc-btn-pri" onclick="saveInc()">💾 Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal document -->
   <div class="modal-bg" id="mo-doc" onclick="closeModal('mo-doc')">
     <div class="modal" onclick="event.stopPropagation()">
@@ -8836,7 +9027,7 @@ function renderEtabSelector(){
 }
 
 // ═══ NAV ═══
-const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
+const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
 function nav(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -8858,7 +9049,7 @@ function render(n){
     journal:rJournal,
     objectifs:rObjectifs, cmdFourn:rCmdFourn, params:rParams,
     fiches:rFiches, origine:rOrigine, marges:rMarges, avis:rAvis, acces:rAcces,
-    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne})[n]?.();
+    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne})[n]?.();
 }
 function openSB(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').style.display='block';}
 function closeSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').style.display='none';}
@@ -21683,6 +21874,233 @@ async function restaurerDepuisDrive(fileId){
 // ═══════════════════════════════════════════
 // 💾 SAUVEGARDE & RESTAURATION
 // ═══════════════════════════════════════════
+// ═══ MAINTENANCE ÉQUIPEMENTS ═══
+if(!DB.maintenance) DB.maintenance=[];
+let _mntFilter='tous';
+
+const MNT_DEFAUT=[
+  {id:1,nom:'Réfrigérateur principal',cat:'froid',modele:'Samsung RB38T',statut:'ok',revision:'2026-01-15',prochaine:'2026-07-15',notes:'Contrat maintenance annuel — SAV: 04 72 XX XX XX'},
+  {id:2,nom:'Congélateur coffre',cat:'froid',modele:'Liebherr GT 4932',statut:'ok',revision:'2026-02-10',prochaine:'2026-08-10',notes:''},
+  {id:3,nom:'Chambre froide positive',cat:'froid',modele:'Friginox',statut:'maintenance',revision:'2025-11-20',prochaine:'2026-04-20',notes:'Révision à planifier — joint de porte à vérifier'},
+  {id:4,nom:'Four mixte cuisine',cat:'cuisson',modele:'Rational SCC WE 61',statut:'ok',revision:'2026-03-01',prochaine:'2026-09-01',notes:'Nettoyage automatique quotidien'},
+  {id:5,nom:'Plaque de cuisson gaz',cat:'cuisson',modele:'Bonnet 6 feux',statut:'alerte',revision:'2025-12-01',prochaine:'2026-04-01',notes:'Brûleur n°3 à remplacer — commander pièce'},
+  {id:6,nom:'Lave-vaisselle professionnel',cat:'lavage',modele:'Winterhalter UC-M',statut:'ok',revision:'2026-02-28',prochaine:'2026-08-28',notes:'Détartrage mensuel effectué'},
+  {id:7,nom:'Hottes d\'aspiration',cat:'ventilation',modele:'Halton KVF',statut:'ok',revision:'2026-01-10',prochaine:'2026-07-10',notes:'Filtres changés'},
+  {id:8,nom:'Système alarme incendie',cat:'securite',modele:'Daitem SA-141',statut:'ok',revision:'2026-03-15',prochaine:'2026-09-15',notes:'Vérification annuelle obligatoire'},
+];
+
+function initMaintenance(){if(!DB.maintenance||!DB.maintenance.length)DB.maintenance=MNT_DEFAUT.map(m=>({...m}));}
+
+function filterMnt(f,btn){
+  _mntFilter=f;
+  document.querySelectorAll('.mnt-filter').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderMntList();
+}
+
+function rMaintenance(){
+  initMaintenance();
+  const today=td();
+  const all=DB.maintenance||[];
+  // Auto-détecter alertes révision dépassée
+  all.forEach(m=>{if(m.prochaine&&m.prochaine<today&&m.statut==='ok') m.statut='alerte';});
+  const ok=all.filter(m=>m.statut==='ok').length;
+  const maint=all.filter(m=>m.statut==='maintenance').length;
+  const alerte=all.filter(m=>m.statut==='alerte').length;
+  const panne=all.filter(m=>m.statut==='panne').length;
+  const kpi=document.getElementById('mnt-kpis');
+  if(kpi) kpi.innerHTML=`
+    <div class="mnt-kpi"><div class="mnt-kpi-val" style="color:#10b981">${ok}</div><div class="mnt-kpi-lbl">✅ Opérationnels</div></div>
+    <div class="mnt-kpi"><div class="mnt-kpi-val" style="color:#f59e0b">${maint}</div><div class="mnt-kpi-lbl">🔧 Maintenance</div></div>
+    <div class="mnt-kpi"><div class="mnt-kpi-val" style="color:#f97316">${alerte}</div><div class="mnt-kpi-lbl">⚠️ Alertes</div></div>
+    <div class="mnt-kpi"><div class="mnt-kpi-val" style="color:#ef4444">${panne}</div><div class="mnt-kpi-lbl">🔴 Pannes</div></div>
+  `;
+  renderMntList();
+}
+
+function renderMntList(){
+  initMaintenance();
+  const el=document.getElementById('mnt-list'); if(!el) return;
+  const today=td();
+  const catIco={froid:'❄️',cuisson:'🔥',lavage:'🫧',ventilation:'💨',securite:'🔒',autre:'🔧'};
+  let list=DB.maintenance.slice();
+  if(_mntFilter!=='tous') list=list.filter(m=>m.statut===_mntFilter);
+  list.sort((a,b)=>{const o={panne:0,alerte:1,maintenance:2,ok:3};return (o[a.statut]??4)-(o[b.statut]??4);});
+  if(!list.length){el.innerHTML='<div style="text-align:center;padding:40px;color:#6ee7b7;font-size:13px">Aucun équipement dans cette catégorie</div>';return;}
+  const statLbl={ok:'✅ Opérationnel',maintenance:'🔧 Maintenance prévue',alerte:'⚠️ Alerte',panne:'🔴 En panne'};
+  el.innerHTML=list.map(m=>{
+    const daysNext=m.prochaine?Math.ceil((new Date(m.prochaine)-new Date())/86400000):null;
+    const revisionAlert=daysNext!==null&&daysNext<=30&&daysNext>0;
+    return `<div class="mnt-card ${m.statut}">
+      <div class="mnt-card-ico">${catIco[m.cat]||'🔧'}</div>
+      <div style="flex:1;min-width:0">
+        <div class="mnt-card-name">${m.nom}</div>
+        <div class="mnt-card-meta">${m.modele||'—'}${m.revision?' · Révision: '+m.revision:''}</div>
+        ${m.prochaine?`<div style="font-size:11px;color:${revisionAlert?'#f97316':'#6ee7b7'};margin-top:3px">${revisionAlert?'⚡ ':'📅 '}Prochaine révision: ${m.prochaine}${daysNext<=0?' (dépassée)':daysNext<=30?' (dans '+daysNext+'j)':''}</div>`:''}
+        ${m.notes?`<div style="font-size:11px;color:#6ee7b7;opacity:.7;margin-top:2px">📝 ${m.notes}</div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+        <span class="mnt-badge ${m.statut}">${statLbl[m.statut]||m.statut}</span>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-xs" onclick="editMnt(${m.id})" style="color:#10b981;border-color:rgba(16,185,129,.2)">✏️</button>
+          <button class="btn btn-danger btn-xs" onclick="delMnt(${m.id})">✕</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openMntModal(){
+  document.getElementById('mnt-id').value='';
+  ['mnt-nom','mnt-modele','mnt-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('mnt-cat').value='froid';
+  document.getElementById('mnt-statut').value='ok';
+  document.getElementById('mnt-revision').value=td();
+  document.getElementById('mnt-prochaine').value='';
+  openModal('mo-mnt');
+}
+function editMnt(id){
+  initMaintenance();
+  const m=DB.maintenance.find(x=>x.id===id);if(!m)return;
+  document.getElementById('mnt-id').value=m.id;
+  document.getElementById('mnt-nom').value=m.nom||'';
+  document.getElementById('mnt-cat').value=m.cat||'autre';
+  document.getElementById('mnt-statut').value=m.statut||'ok';
+  document.getElementById('mnt-modele').value=m.modele||'';
+  document.getElementById('mnt-revision').value=m.revision||'';
+  document.getElementById('mnt-prochaine').value=m.prochaine||'';
+  document.getElementById('mnt-notes').value=m.notes||'';
+  openModal('mo-mnt');
+}
+function saveMnt(){
+  const nom=document.getElementById('mnt-nom')?.value.trim();
+  if(!nom){toast('Nom requis','err');return;}
+  initMaintenance();
+  const id=document.getElementById('mnt-id')?.value;
+  const obj={id:id?+id:Date.now(),nom,cat:document.getElementById('mnt-cat')?.value||'autre',
+    statut:document.getElementById('mnt-statut')?.value||'ok',
+    modele:document.getElementById('mnt-modele')?.value.trim()||'',
+    revision:document.getElementById('mnt-revision')?.value||'',
+    prochaine:document.getElementById('mnt-prochaine')?.value||'',
+    notes:document.getElementById('mnt-notes')?.value.trim()||''};
+  if(id) DB.maintenance=DB.maintenance.map(m=>m.id===+id?obj:m); else DB.maintenance.push(obj);
+  saveDB(); closeModal('mo-mnt'); rMaintenance(); toast(id?'Équipement modifié ✓':'Équipement ajouté ✓');
+}
+function delMnt(id){confirmSuppr('Supprimer cet équipement ?',()=>{DB.maintenance=DB.maintenance.filter(m=>m.id!==id);saveDB();rMaintenance();toast('Supprimé','warn');});}
+
+// ═══ REGISTRE DES INCIDENTS ═══
+if(!DB.incidents) DB.incidents=[];
+let _incFilter='tous';
+
+const INC_DEFAUT=[
+  {id:1,desc:'Assiette cassée lors du service',type:'casse',gravite:'faible',date:'2026-04-08',resp:'Thomas Bernard',action:'Assiette remplacée, coût: 12€',resolu:true},
+  {id:2,desc:'Plainte client — steak trop cuit',type:'plainte',gravite:'moyen',date:'2026-04-09',resp:'Marie Dupont',action:'Excuse présentée, dessert offert',resolu:true},
+  {id:3,desc:'Coupure main plongeur (couteau)',type:'accident',gravite:'faible',date:'2026-04-07',resp:'Hugo Petit',action:'Soin infirmier, déclaration AT',resolu:true},
+  {id:4,desc:'Retard service table 5 — 40 min d\'attente',type:'service',gravite:'moyen',date:'2026-04-10',resp:'Équipe soir',action:'En cours — discussion équipe',resolu:false},
+];
+
+function initIncidents(){if(!DB.incidents||!DB.incidents.length)DB.incidents=INC_DEFAUT.map(i=>({...i}));}
+
+function filterInc(f,btn){
+  _incFilter=f;
+  document.querySelectorAll('.inc-filter').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderIncList();
+}
+
+function rIncidents(){
+  initIncidents();
+  const all=DB.incidents||[];
+  const graves=all.filter(i=>i.gravite==='grave').length;
+  const moyens=all.filter(i=>i.gravite==='moyen').length;
+  const nonResolus=all.filter(i=>!i.resolu).length;
+  const kpi=document.getElementById('inc-kpis');
+  if(kpi) kpi.innerHTML=`
+    <div class="inc-kpi"><div class="inc-kpi-val">${all.length}</div><div class="inc-kpi-lbl">📋 Total</div></div>
+    <div class="inc-kpi"><div class="inc-kpi-val" style="color:#ef4444">${nonResolus}</div><div class="inc-kpi-lbl">⏳ Non résolus</div></div>
+    <div class="inc-kpi"><div class="inc-kpi-val" style="color:#f97316">${moyens}</div><div class="inc-kpi-lbl">🟠 Moyens</div></div>
+    <div class="inc-kpi"><div class="inc-kpi-val" style="color:#ef4444">${graves}</div><div class="inc-kpi-lbl">🔴 Graves</div></div>
+  `;
+  renderIncList();
+}
+
+function renderIncList(){
+  initIncidents();
+  const el=document.getElementById('inc-list');if(!el)return;
+  const typeIco={casse:'💥',accident:'🩹',plainte:'😠',service:'🍽️',hygiene:'🧼',autre:'📋'};
+  let list=DB.incidents.slice();
+  if(_incFilter!=='tous') list=list.filter(i=>i.type===_incFilter);
+  list.sort((a,b)=>{
+    if(!a.resolu&&b.resolu) return -1; if(a.resolu&&!b.resolu) return 1;
+    const g={grave:0,moyen:1,faible:2};return (g[a.gravite]??3)-(g[b.gravite]??3);
+  });
+  if(!list.length){el.innerHTML='<div style="text-align:center;padding:40px;color:#fdba74;font-size:13px">Aucun incident dans cette catégorie</div>';return;}
+  el.innerHTML=list.map(i=>`
+    <div class="inc-card ${i.gravite}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${typeIco[i.type]||'📋'}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;color:#ffedd5">${i.desc}</div>
+            <div style="font-size:11px;color:#fdba74;margin-top:2px">📅 ${i.date} · 👤 ${i.resp||'—'}</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">
+          <span class="inc-badge ${i.gravite}">${i.gravite==='grave'?'🔴 Grave':i.gravite==='moyen'?'🟠 Moyen':'🟢 Faible'}</span>
+          <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:${i.resolu?'rgba(34,197,94,.1)':'rgba(239,68,68,.1)'};color:${i.resolu?'#22c55e':'#ef4444'};border:1px solid ${i.resolu?'rgba(34,197,94,.2)':'rgba(239,68,68,.2)'}">${i.resolu?'✓ Résolu':'⏳ En cours'}</span>
+        </div>
+      </div>
+      ${i.action?`<div style="margin-top:10px;font-size:12px;color:#22c55e;background:rgba(34,197,94,.06);padding:8px 12px;border-radius:7px;border-left:2px solid #22c55e">↩ ${i.action}</div>`:''}
+      <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:10px">
+        ${!i.resolu?`<button class="btn btn-success btn-xs" onclick="resolveInc(${i.id})">✅ Résolu</button>`:''}
+        <button class="btn btn-ghost btn-xs" onclick="editInc(${i.id})" style="color:#fdba74;border-color:rgba(249,115,22,.2)">✏️</button>
+        <button class="btn btn-danger btn-xs" onclick="delInc(${i.id})">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function openIncModal(){
+  document.getElementById('inc-id').value='';
+  ['inc-desc','inc-resp','inc-action'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('inc-type').value='casse';
+  document.getElementById('inc-gravite').value='faible';
+  document.getElementById('inc-date').value=td();
+  openModal('mo-inc');
+}
+function editInc(id){
+  initIncidents();
+  const i=DB.incidents.find(x=>x.id===id);if(!i)return;
+  document.getElementById('inc-id').value=i.id;
+  document.getElementById('inc-desc').value=i.desc||'';
+  document.getElementById('inc-type').value=i.type||'autre';
+  document.getElementById('inc-gravite').value=i.gravite||'faible';
+  document.getElementById('inc-date').value=i.date||td();
+  document.getElementById('inc-resp').value=i.resp||'';
+  document.getElementById('inc-action').value=i.action||'';
+  openModal('mo-inc');
+}
+function saveInc(){
+  const desc=document.getElementById('inc-desc')?.value.trim();
+  if(!desc){toast('Description requise','err');return;}
+  initIncidents();
+  const id=document.getElementById('inc-id')?.value;
+  const obj={id:id?+id:Date.now(),desc,type:document.getElementById('inc-type')?.value||'autre',
+    gravite:document.getElementById('inc-gravite')?.value||'faible',
+    date:document.getElementById('inc-date')?.value||td(),
+    resp:document.getElementById('inc-resp')?.value.trim()||'',
+    action:document.getElementById('inc-action')?.value.trim()||'',
+    resolu:false};
+  if(id){const existing=DB.incidents.find(x=>x.id===+id);obj.resolu=existing?.resolu||false;DB.incidents=DB.incidents.map(i=>i.id===+id?obj:i);}
+  else DB.incidents.push(obj);
+  saveDB(); closeModal('mo-inc'); rIncidents(); toast(id?'Incident modifié ✓':'Incident déclaré ✓');
+}
+function resolveInc(id){
+  initIncidents();
+  const i=DB.incidents.find(x=>x.id===id);if(!i)return;
+  i.resolu=true; saveDB(); rIncidents(); toast('Incident résolu ✅');
+}
+function delInc(id){confirmSuppr('Supprimer cet incident ?',()=>{DB.incidents=DB.incidents.filter(i=>i.id!==id);saveDB();rIncidents();toast('Supprimé','warn');});}
+
 // ═══ INTÉGRATIONS ═══
 const INTEGRATIONS={
   livraison:[
