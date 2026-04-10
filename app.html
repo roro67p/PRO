@@ -6432,21 +6432,56 @@ function pill(txt,cls){return`<span class="pill p-${cls}">${txt}</span>`}
 function statPill(s){const m={libre:'green',occupée:'red',réservée:'blue',confirmé:'green','en-attente':'amber',annulé:'red',dispo:'green',indispo:'muted','en-cuisine':'amber',servi:'blue',payé:'green'};return pill(s,m[s]||'muted')}
 
 // KPI Card builder - SaaS Premium style
+// SVG donut chart pour KPI
+function svgDonut(pct,color,size=56){
+  const r=22;const c=2*Math.PI*r;const dash=c*pct/100;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 56 56" style="flex-shrink:0">
+    <circle cx="28" cy="28" r="${r}" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="4"/>
+    <circle cx="28" cy="28" r="${r}" fill="none" stroke="${color}" stroke-width="4" stroke-dasharray="${dash} ${c-dash}" stroke-linecap="round" transform="rotate(-90 28 28)" style="transition:stroke-dasharray .8s ease"/>
+    <text x="28" y="31" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="${color}">${pct}%</text>
+  </svg>`;
+}
+// Mini sparkline bars
+function miniSparkBars(values,color,h=28){
+  const max=Math.max(...values,1);
+  return `<div style="display:flex;align-items:flex-end;gap:2px;height:${h}px">${values.map(v=>`<div style="flex:1;min-width:4px;border-radius:2px 2px 0 0;background:${color};opacity:${v>0?.3+.7*(v/max):.1};height:${Math.max(2,Math.round(v/max*h))}px;transition:height .4s ease"></div>`).join('')}</div>`;
+}
 function kpiCard(ico,val,lbl,color,opts={}){
   const delay=opts.delay||0;
   const sub=opts.sub||'';
   const trend=opts.trend||'';
-  const bar=opts.bar; // {pct, color}
+  const bar=opts.bar;
+  const donut=opts.donut; // {pct}
+  const spark=opts.spark; // [values]
   let trendHtml='';
-  if(trend==='up') trendHtml='<div class="kpi-card-trend up">↑</div>';
+  if(trend==='up') trendHtml='<div class="kpi-card-trend up">↑ </div>';
   else if(trend==='dn') trendHtml='<div class="kpi-card-trend dn">↓</div>';
+  const colorMap={gold:'var(--gold2)',green:'#6fcf8a',blue:'#6aacda',orange:'#f0a060',red:'#f07060',purple:'#c89aff'};
+  const accentCol=colorMap[color]||'#6fcf8a';
+  // Layout: donut à droite OU sparkline en bas
+  if(donut){
+    return `<div class="kpi-card ${color}" style="animation-delay:${delay}ms">
+      <div class="kpi-card-inner">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div>
+            <div class="kpi-card-lbl" style="margin-bottom:8px">${lbl}</div>
+            <div class="kpi-card-val">${val}</div>
+            ${sub?`<div class="kpi-card-sub">${sub}</div>`:''}
+            ${trendHtml}
+          </div>
+          ${svgDonut(donut.pct,accentCol)}
+        </div>
+      </div>
+    </div>`;
+  }
   return `<div class="kpi-card ${color}" style="animation-delay:${delay}ms">
     <div class="kpi-card-inner">
       <div class="kpi-card-top"><div class="kpi-card-ico">${ico}</div>${trendHtml}</div>
       <div class="kpi-card-val">${val}</div>
       <div class="kpi-card-lbl">${lbl}</div>
       ${sub?`<div class="kpi-card-sub">${sub}</div>`:''}
-      ${bar?`<div class="kpi-card-bar"><div class="kpi-card-bar-fill" style="width:${bar.pct}%;background:var(--kpi-accent)"></div></div>`:''}
+      ${spark?`<div style="margin-top:10px">${miniSparkBars(spark,accentCol)}</div>`:''}
+      ${bar?`<div class="kpi-card-bar"><div class="kpi-card-bar-fill" style="width:${bar.pct}%"></div></div>`:''}
     </div>
   </div>`;
 }
@@ -9749,7 +9784,12 @@ function rDash(){
   const libre=DB.tables.filter(t=>t.stat==='libre').length;
   const reservee=DB.tables.filter(t=>t.stat==='réservée').length;
   const totalTbl=DB.tables.length;
-  const resaSoir=DB.reservations.filter(r=>r.date===today&&r.stat!=='annulé').length;
+  const resaToday=DB.reservations.filter(r=>r.date===today&&r.stat!=='annulé');
+  const resaSoir=resaToday.length;
+  const confirme=resaToday.filter(r=>r.stat==='confirmé').length;
+  const attente=resaToday.filter(r=>r.stat==='en-attente').length;
+  const arrives=resaToday.filter(r=>r.stat==='arrivé'||r.stat==='assis').length;
+  const noshow=resaToday.filter(r=>r.stat==='no-show').length;
   const alrtStk=DB.stocks.filter(s=>s.qte<=s.seuil).length;
   const obj=DB.params.ticket*cvt||DB.params.ticket*20||800;
 
@@ -9767,13 +9807,21 @@ function rDash(){
   if(set('b-stk')) set('b-stk').textContent=alrtStk;
   if(set('b-prs')) set('b-prs').textContent=prsNb||'';
 
-  // Dashboard KPI Cards
+  // Dashboard KPI Cards Premium avec donuts + sparklines
   const dkEl=set('dash-kpis');
+  // Sparkline CA des 7 derniers jours
+  const caWeek=[];
+  for(let d=6;d>=0;d--){
+    const dd=new Date();dd.setDate(dd.getDate()-d);
+    const ds=dd.toISOString().slice(0,10).replace(/-/g,'-');
+    caWeek.push(DB.ventes.filter(v=>v.date===ds).reduce((s,v)=>s+v.ttc,0));
+  }
+  const tblPct=totalTbl?Math.round(occ/totalTbl*100):0;
   if(dkEl) dkEl.innerHTML=
-    kpiCard('💰',eur(ca),"CA aujourd'hui",'gold',{delay:0,sub:cvt+' couverts · Obj. '+pct+'%',bar:{pct:pct}})+
-    kpiCard('🪑',occ+'/'+totalTbl,'Tables occupées','red',{delay:50,sub:libre+' libres · '+reservee+' réservées'})+
-    kpiCard('🧾',cvt?eur(tkt):'—','Ticket moyen','green',{delay:100,sub:actCmds+' cmdes actives',trend:cvt&&tkt>=(DB.params.ticket||35)?'up':cvt?'dn':''})+
-    kpiCard('📅',resaSoir,'Résas ce soir','blue',{delay:150,sub:alrtStk?'⚠ '+alrtStk+' alerte(s) stock':'Service fluide'});
+    kpiCard('💰',eur(ca),"CA aujourd'hui",'gold',{delay:0,sub:cvt+' couverts',donut:{pct:pct}})+
+    kpiCard('🪑',occ+'/'+totalTbl,'Tables','red',{delay:60,sub:libre+' libres · '+reservee+' résas',donut:{pct:tblPct}})+
+    kpiCard('🧾',cvt?eur(tkt):'—','Ticket moyen','green',{delay:120,sub:actCmds+' cmdes actives',trend:cvt&&tkt>=(DB.params.ticket||35)?'up':cvt?'dn':'',spark:caWeek})+
+    kpiCard('📅',resaSoir,'Résas ce soir','blue',{delay:180,sub:alrtStk?'⚠ '+alrtStk+' alertes stock':'Fluide',spark:[resaSoir,confirme,attente,arrives,noshow||0,0,0].slice(0,5)});
 
   // ── ASSISTANT IA TIPS ──
   const tips=[];
