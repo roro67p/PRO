@@ -13287,6 +13287,8 @@ document.addEventListener('keydown', function(e){
 document.addEventListener('DOMContentLoaded', function(){
   loadDB();
   if(!DB.tables||DB.tables.length===0) initData();
+  // Sync tous les vins de la cave vers le fournisseur cave
+  setTimeout(syncTousVinsFournisseur, 300);
   // Init écran PIN
   setTimeout(pinInit, 100);
   const rsDate = document.getElementById('rs-date');
@@ -13716,15 +13718,25 @@ function chargerProduitsFourn(){
   const f=(DB.fournisseurs||[]).find(x=>x.id===fournId);
   if(!f||!f.produits||!f.produits.length){zone.style.display='none';return;}
   zone.style.display='block';
+  const isCave=(fournId===4);
   cat.innerHTML=f.produits.map(function(p,i){
-    // Trouver le prix dans les stocks
-    const stk=(DB.stocks||[]).find(s=>s.nom.toLowerCase().includes(p.toLowerCase().substring(0,8)));
-    const pu=stk?stk.pu:0;
-    const unit=stk?stk.unit:'kg';
+    // Pour la cave : chercher le vin par nom, sinon stocks
+    let pu=0, unit='btl', stockInfo='';
+    if(isCave){
+      initCave();
+      const vin=(DB.cave||[]).find(v=>{
+        const nomComplet=v.millesime?v.nom+' '+v.millesime:v.nom;
+        return nomComplet===p||v.nom===p;
+      });
+      if(vin){pu=vin.cout||0;unit='btl';stockInfo=' <span style="font-size:10px;color:var(--sub)">stock: '+vin.stock+'</span>';}
+    } else {
+      const stk=(DB.stocks||[]).find(s=>s.nom.toLowerCase().includes(p.toLowerCase().substring(0,8)));
+      pu=stk?stk.pu:0; unit=stk?stk.unit:'kg';
+    }
     return '<div data-nom="'+p.replace(/"/g,'&quot;')+'" style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:var(--ink2);border-radius:8px;border:1px solid var(--line)">'+
-      '<span style="flex:1;font-size:13px;color:var(--txt)">'+p+'</span>'+
-      '<input type="number" id="cat-qte-'+i+'" placeholder="Qté" step="0.1" min="0" style="width:60px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--ink3);color:var(--txt);font-size:12px"/>'+
-      '<input type="text" id="cat-unit-'+i+'" value="'+unit+'" style="width:50px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--ink3);color:var(--txt);font-size:12px"/>'+
+      '<span style="flex:1;font-size:13px;color:var(--txt)">'+p+(stockInfo||'')+'</span>'+
+      '<input type="number" id="cat-qte-'+i+'" placeholder="Qté" step="1" min="0" style="width:55px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--ink3);color:var(--txt);font-size:12px"/>'+
+      '<input type="text" id="cat-unit-'+i+'" value="'+unit+'" style="width:45px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--ink3);color:var(--txt);font-size:12px"/>'+
       '<input type="number" id="cat-pu-'+i+'" value="'+pu+'" step="0.01" style="width:60px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--ink3);color:var(--txt);font-size:12px" placeholder="€/u"/>'+
       '<button onclick="ajouterDepuisCatalogue('+i+')" style="background:rgba(201,151,58,.15);border:1px solid rgba(201,151,58,.3);color:var(--gold);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px;font-weight:700">+</button>'+
     '</div>';
@@ -15203,8 +15215,8 @@ function bottleSVG(type,stock,seuil){
   <line x1="20" y1="79" x2="40" y2="79" stroke="${c.labelBorder}" stroke-width="0.6" opacity="0.5"/>
   <line x1="20" y1="87" x2="40" y2="87" stroke="${c.labelBorder}" stroke-width="0.6" opacity="0.5"/>
   <!-- Indicateur stock -->
-  <circle cx="46" cy="10" r="7" fill="${sc}" opacity="0.95"/>
-  <text x="46" y="14" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">${stock}</text>
+  <circle cx="46" cy="18" r="15" fill="${sc}" opacity="0.95"/>
+  <text x="46" y="24" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">${stock}</text>
 </svg>`;
   }
   // Bordeaux shape pour rouge/rosé, Bourgogne (plus rond) pour blanc/autre
@@ -15240,8 +15252,8 @@ function bottleSVG(type,stock,seuil){
   <line x1="18" y1="86" x2="42" y2="86" stroke="${c.labelBorder}" stroke-width="0.7" opacity="0.5"/>
   <line x1="18" y1="94" x2="42" y2="94" stroke="${c.labelBorder}" stroke-width="0.7" opacity="0.5"/>
   <!-- Stock badge -->
-  <circle cx="46" cy="10" r="7" fill="${sc}" opacity="0.95"/>
-  <text x="46" y="14" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">${stock}</text>
+  <circle cx="46" cy="18" r="15" fill="${sc}" opacity="0.95"/>
+  <text x="46" y="24" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">${stock}</text>
 </svg>`;
   }
   // Bordeaux (rouge/rosé) - épaules droites carrées
@@ -15282,8 +15294,8 @@ function bottleSVG(type,stock,seuil){
   <!-- Contre-étiquette bas -->
   <rect x="18" y="108" width="24" height="9" rx="2" fill="${c.label}" opacity="0.5"/>
   <!-- Stock badge -->
-  <circle cx="46" cy="10" r="7" fill="${sc}" opacity="0.95"/>
-  <text x="46" y="14" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">${stock}</text>
+  <circle cx="46" cy="18" r="15" fill="${sc}" opacity="0.95"/>
+  <text x="46" y="24" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">${stock}</text>
 </svg>`;
 }
 function rCave(){
@@ -15327,6 +15339,20 @@ function rCave(){
     '</div>';
   }).join('');
 }
+function syncVinFournisseur(nomVin){
+  // Trouve le fournisseur cave (id:4) et ajoute le vin dans sa liste produits
+  if(!DB.fournisseurs) return;
+  const fourn=DB.fournisseurs.find(f=>f.id===4);
+  if(!fourn) return;
+  if(!fourn.produits) fourn.produits=[];
+  if(!fourn.produits.includes(nomVin)) fourn.produits.push(nomVin);
+}
+function syncTousVinsFournisseur(){
+  // Synchronise tous les vins de la cave vers le fournisseur
+  initCave();
+  (DB.cave||[]).forEach(v=>syncVinFournisseur(v.millesime?v.nom+' '+v.millesime:v.nom));
+  saveDB();
+}
 function saveCave(){
   const nom=document.getElementById('cave-nom')?.value.trim();
   if(!nom){toast('Nom requis','err');return;}
@@ -15342,6 +15368,9 @@ function saveCave(){
     cout:+document.getElementById('cave-cout')?.value||0,
     notes:document.getElementById('cave-notes')?.value.trim()||''};
   if(id) DB.cave=DB.cave.map(v=>v.id===+id?obj:v); else DB.cave.push(obj);
+  // Sync automatique avec le fournisseur cave
+  const nomComplet=obj.millesime?obj.nom+' '+obj.millesime:obj.nom;
+  syncVinFournisseur(nomComplet);
   saveDB(); closeModal('mo-cave'); rCave(); toast(id?'Modifié ✓':'Ajouté 🍷');
 }
 function editCave(id){
