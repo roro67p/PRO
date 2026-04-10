@@ -10863,42 +10863,98 @@ let cfFilterCurrent = 'tous';
 
 function rCmdFourn(){
   if(!DB.cmdFourn) DB.cmdFourn=[];
-  const now = new Date();
-  const mois = String(now.getMonth()+1).padStart(2,'0');
-  const annee = now.getFullYear();
-  const thisMonth = annee+'-'+mois;
-  const moisCmds = DB.cmdFourn.filter(c=>(c.date||'').startsWith(thisMonth));
-  const totalMois = moisCmds.reduce((s,c)=>s+(+c.total||0),0);
-  const recues = DB.cmdFourn.filter(c=>c.stat==='livré'||c.stat==='reçue').length;
-  const attente = DB.cmdFourn.filter(c=>c.stat==='commandé'||c.stat==='brouillon'||c.stat==='envoyée').length;
-  const el1=document.getElementById('cf-total-mois'); if(el1) el1.textContent=eur(totalMois);
-  const el2=document.getElementById('cf-recues'); if(el2) el2.textContent=recues;
-  const el3=document.getElementById('cf-attente'); if(el3) el3.textContent=attente;
-  const tb=document.getElementById('tb-cmdFourn'); if(!tb) return;
-  const list = cfFilterCurrent==='tous' ? DB.cmdFourn : DB.cmdFourn.filter(c=>(c.stat||c.statut)===cfFilterCurrent);
-  const statCols = {brouillon:'var(--muted)',envoyée:'var(--amber)',reçue:'var(--green)',commandé:'var(--amber)',livré:'var(--green)'};
-  tb.innerHTML = list.length ? [...list].reverse().map(c=>`
-    <tr>
-      <td style="font-size:12px;color:var(--muted)">#${c.id}</td>
-      <td style="font-weight:500">${(DB.fournisseurs||[]).find(f=>f.id===c.fournId)?.nom||c.fourn||'—'}</td>
-      <td style="font-size:12px">${c.date||'—'}</td>
-      <td style="font-size:12px;max-width:160px">${(c.articles||[]).map(a=>a.nom).join(', ')||'—'}</td>
-      <td style="color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:16px">${eur(+c.total||0)}</td>
-      <td><span style="color:${statCols[c.stat||c.statut]||'var(--sub)'};font-size:12px;font-weight:600">${c.stat||c.statut||'—'}</span></td>
-      <td style="display:flex;gap:5px">
-        <button class="btn btn-ghost btn-xs" onclick="editCmdFourn(${c.id})">✎</button>
-        ${c.statut==='envoyée'?`<button class="btn btn-success btn-xs" onclick="setCFStatut(${c.id},'reçue')">✓ Reçue</button>`:''}
-        <button class="btn btn-danger btn-xs" onclick="delCmdFourn(${c.id})">✕</button>
-      </td>
-    </tr>`).join('') : '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:20px">Aucune commande</td></tr>';
+  const today=td();
+  const now=new Date();
+  const thisMonth=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const cmds=DB.cmdFourn;
+  const moisCmds=cmds.filter(c=>(c.date||'').startsWith(thisMonth));
+  const totalMois=moisCmds.reduce((s,c)=>s+(+c.total||0),0);
+  const recues=cmds.filter(c=>c.stat==='livré'||c.stat==='reçue').length;
+  const attente=cmds.filter(c=>c.stat!=='reçue'&&c.stat!=='livré'&&c.stat!=='annulé').length;
+  const enRetard=cmds.filter(c=>c.stat!=='reçue'&&c.stat!=='livré'&&c.stat!=='annulé'&&c.date&&c.date<today).length;
+  const livrAuj=cmds.filter(c=>c.date===today&&c.stat!=='annulé').length;
+  const urgentes=cmds.filter(c=>{
+    if(c.stat==='reçue'||c.stat==='livré'||c.stat==='annulé') return false;
+    return (c.articles||[]).some(a=>{const s=(DB.stocks||[]).find(x=>x.nom.toLowerCase().includes((a.nom||'').toLowerCase().substring(0,6)));return s&&s.qte<=s.seuil;});
+  }).length;
+
+  const subEl=document.getElementById('cf-sub-txt');
+  if(subEl) subEl.textContent=`${cmds.length} commande(s) · ${attente} en cours · ${eur(totalMois)} ce mois`;
+
+  // KPIs
+  const kpiEl=document.getElementById('cf-kpis');
+  if(kpiEl) kpiEl.innerHTML=`
+    <div class="fn-kpi" style="animation-delay:0ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">📦</span><span class="fn-kpi-val" style="color:var(--gold2)">${attente}</span></div><div class="fn-kpi-lbl">En cours</div></div>
+    <div class="fn-kpi" style="animation-delay:30ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">🔴</span><span class="fn-kpi-val" style="color:#f07060">${enRetard}</span></div><div class="fn-kpi-lbl">En retard</div></div>
+    <div class="fn-kpi" style="animation-delay:60ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">🚚</span><span class="fn-kpi-val" style="color:#6aacda">${livrAuj}</span></div><div class="fn-kpi-lbl">Livr. aujourd'hui</div></div>
+    <div class="fn-kpi" style="animation-delay:90ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">💰</span><span class="fn-kpi-val" style="color:var(--gold2);font-size:18px">${eur(totalMois)}</span></div><div class="fn-kpi-lbl">Engagé ce mois</div></div>
+    <div class="fn-kpi" style="animation-delay:120ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">⚡</span><span class="fn-kpi-val" style="color:#f0a060">${urgentes}</span></div><div class="fn-kpi-lbl">Urgentes</div></div>`;
+
+  // Alertes
+  const alEl=document.getElementById('cf-alertes');
+  if(alEl){
+    const al=[];
+    if(enRetard) al.push({cls:'danger',txt:`🔴 ${enRetard} commande(s) en retard de livraison`});
+    if(urgentes) al.push({cls:'warn',txt:`⚡ ${urgentes} commande(s) urgente(s) — stocks critiques`});
+    if(livrAuj) al.push({cls:'info',txt:`🚚 ${livrAuj} livraison(s) prévue(s) aujourd'hui`});
+    if(!al.length) al.push({cls:'ok',txt:'✅ Tous les approvisionnements sont en ordre'});
+    alEl.innerHTML=al.map(a=>`<div class="fn-alerte ${a.cls}"><div class="fn-alerte-dot"></div>${a.txt}</div>`).join('');
+  }
+
+  // Liste cartes
+  const listEl=document.getElementById('cf-list');
+  if(!listEl) return;
+  let list=cfFilterCurrent==='tous'?[...cmds]:cmds.filter(c=>(c.stat||c.statut)===cfFilterCurrent);
+  list=[...list].reverse();
+  if(!list.length){listEl.innerHTML='<div style="text-align:center;color:var(--muted);padding:40px"><div style="font-size:42px;opacity:.15;margin-bottom:10px">📦</div>Aucune commande</div>';return;}
+
+  listEl.innerHTML=list.map((c,i)=>{
+    const f=(DB.fournisseurs||[]).find(x=>x.id===c.fournId);
+    const stat=c.stat||c.statut||'brouillon';
+    const isRetard=stat!=='reçue'&&stat!=='livré'&&stat!=='annulé'&&c.date&&c.date<today;
+    const isUrgent=(c.articles||[]).some(a=>{const s=(DB.stocks||[]).find(x=>x.nom.toLowerCase().includes((a.nom||'').toLowerCase().substring(0,6)));return s&&s.qte<=s.seuil;});
+    const statLbl={'brouillon':'Brouillon','envoyée':'Envoyée','commandé':'Envoyée','confirmée':'Confirmée','expédiée':'Expédiée','reçue':'Reçue','livré':'Livré','annulé':'Annulé'}[stat]||stat;
+    const arts=(c.articles||[]).slice(0,3).map(a=>a.nom).join(' · ');
+    const extraCls=isRetard?' retard':isUrgent?' urgent':'';
+    // Statut progression
+    const steps=['brouillon','envoyée','confirmée','expédiée','reçue'];
+    const curStep=steps.indexOf(stat==='commandé'?'envoyée':stat==='livré'?'reçue':stat);
+
+    return `<div class="cf-card st-${stat}${extraCls}" style="animation-delay:${i*30}ms">
+      <div class="cf-card-left">
+        <div class="cf-card-ico">${f?.ico||'📦'}</div>
+        <div class="cf-card-ref">${c.ref||'#'+c.id}</div>
+      </div>
+      <div class="cf-card-body">
+        <div class="cf-card-row1">
+          <span class="cf-card-nom">${f?.nom||c.fourn||'—'}</span>
+          <span class="cf-card-badge ${stat}">${statLbl}</span>
+          ${isRetard?'<span class="cf-card-badge retard">⏰ Retard</span>':''}
+          ${isUrgent?'<span class="cf-card-badge urgent">⚡ Urgent</span>':''}
+        </div>
+        <div class="cf-card-row2">
+          <span>📅 ${c.date||'—'}</span>
+          <span>📋 ${(c.articles||[]).length} article(s)</span>
+        </div>
+        ${arts?`<div class="cf-card-arts">${arts}</div>`:''}
+      </div>
+      <div class="cf-card-right">
+        <div class="cf-card-total">${eur(+c.total||0)}</div>
+        <div class="cf-card-nb">${(c.articles||[]).length} art.</div>
+      </div>
+      <div class="cf-card-acts">
+        <button class="fn-act" onclick="event.stopPropagation();editCmdFourn(${c.id})" title="Modifier">✏</button>
+        ${stat==='envoyée'||stat==='commandé'||stat==='expédiée'?`<button class="fn-act gold" onclick="event.stopPropagation();setCFStatut(${c.id},'reçue')" title="Marquer reçue">✓</button>`:''}
+        <button class="fn-act del" onclick="event.stopPropagation();delCmdFourn(${c.id})" title="Supprimer">✕</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
-function filterCF(f){
+function filterCF(f,btn){
   cfFilterCurrent=f;
-  ['tous','brouillon','envoyée','reçue'].forEach(s=>{
-    const el=document.getElementById('cf-f-'+s); if(!el) return;
-    el.style.borderColor = s===f?'var(--gold)':'var(--line2)';
-  });
+  document.querySelectorAll('#cf-filtres .fn-f').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
   rCmdFourn();
 }
 
