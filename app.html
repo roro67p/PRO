@@ -13287,8 +13287,14 @@ document.addEventListener('keydown', function(e){
 document.addEventListener('DOMContentLoaded', function(){
   loadDB();
   if(!DB.tables||DB.tables.length===0) initData();
-  // Sync tous les vins de la cave vers le fournisseur cave
-  setTimeout(syncTousVinsFournisseur, 300);
+  // Forcer reset cave si pas les bons vins (ancienne data localStorage)
+  setTimeout(function(){
+    if(!DB.cave||!DB.cave.length||!DB.cave.find(v=>v.nom&&v.nom.includes('Margaux'))){
+      DB.cave=CAVE_DEFAUT.map(v=>({...v}));
+      saveDB();
+    }
+    syncTousVinsFournisseur();
+  }, 300);
   // Init écran PIN
   setTimeout(pinInit, 100);
   const rsDate = document.getElementById('rs-date');
