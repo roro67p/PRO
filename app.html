@@ -75,6 +75,7 @@
 .kpi-grid-8{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
 @media(max-width:900px){.kpi-grid-4,.kpi-grid-5,.kpi-grid-8{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:500px){.kpi-grid-4,.kpi-grid-5,.kpi-grid-8{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){#dash-mid-zone{grid-template-columns:1fr!important}}
 
 html { scroll-behavior:smooth; overflow-x:hidden; }
 body { background:var(--ink); color:var(--txt); font-family:'Outfit',sans-serif; min-height:100vh; overflow-x:hidden; }
@@ -3207,7 +3208,6 @@ tbody td { padding:13px 14px; font-size:13px; }
         </div>
       </div>
     </div>
-    @media(max-width:900px){#dash-mid-zone{grid-template-columns:1fr!important}}
 
     <!-- BAS: Commandes récentes + Alertes + Résas -->
     <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:14px">
