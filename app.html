@@ -3073,6 +3073,37 @@ tbody td { padding:13px 14px; font-size:13px; }
 .rs-f.on{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.35);color:var(--gold3)}
 .rs-f:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
 .rs-f-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* ═══ RESA ONLINE ═══ */
+.rol-section{background:var(--ink2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+.rol-section-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;gap:12px;flex-wrap:wrap;}
+.rol-section-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),#c8960c);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.rol-section-title{font-size:15px;font-weight:600;color:var(--txt);}
+.rol-section-sub{font-size:12px;color:var(--sub);margin-top:2px;}
+.rol-chevron{color:var(--gold);font-size:18px;transition:transform .25s;}
+.rol-chevron.closed{transform:rotate(-90deg);}
+.rol-section-body{padding:0 18px 18px;}
+.rol-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.rol-field{display:flex;flex-direction:column;gap:5px;}
+.rol-label{font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--sub);text-transform:uppercase;}
+.rol-input{background:var(--ink3);border:1px solid var(--line);border-radius:9px;color:var(--txt);padding:10px 13px;font-size:14px;width:100%;box-sizing:border-box;transition:border-color .2s;}
+.rol-input:focus{outline:none;border-color:var(--gold);}
+.rol-filter-btn{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:20px;padding:4px 12px;font-size:11px;cursor:pointer;transition:all .2s;}
+.rol-filter-btn.active{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700;}
+.rol-card{background:var(--ink3);border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:8px;transition:border-color .2s;}
+.rol-card:hover{border-color:rgba(212,175,55,.3);}
+.rol-card-name{font-weight:600;color:var(--txt);font-size:14px;}
+.rol-card-meta{font-size:12px;color:var(--sub);margin-top:3px;}
+.rol-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:.04em;border:1px solid;}
+.rol-badge-attente{color:var(--amber);border-color:var(--amber);background:rgba(230,163,38,.1);}
+.rol-badge-confirmee{color:var(--green);border-color:var(--green);background:rgba(6,214,160,.1);}
+.rol-badge-annulee{color:var(--red);border-color:var(--red);background:rgba(181,57,42,.1);}
+.rol-action-btn{border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600;border:1px solid;transition:all .2s;}
+.rol-action-confirm{background:rgba(6,214,160,.1);border-color:var(--green);color:var(--green);}
+.rol-action-confirm:hover{background:var(--green);color:#000;}
+.rol-action-cancel{background:rgba(181,57,42,.1);border-color:var(--red);color:var(--red);}
+.rol-action-cancel:hover{background:var(--red);color:#fff;}
+@media(max-width:480px){.rol-grid2{grid-template-columns:1fr;}}
+
 /* Cartes réservation */
 .rs-list{display:flex;flex-direction:column;gap:6px}
 .rs-card{display:flex;align-items:stretch;gap:0;background:var(--ink2);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .18s;animation:rsIn .2s ease both;cursor:pointer;position:relative}
@@ -6309,32 +6340,55 @@ tbody td { padding:13px 14px; font-size:13px; }
       <button class="btn btn-gold btn-sm" onclick="copierLienResa()">🔗 Copier le lien</button>
     </div>
     <div class="kpi-row" id="resa-ol-kpi"></div>
-    <div class="card" style="margin-bottom:14px">
-      <div class="card-title">⚙️ Configuration</div>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div><div class="form-label">Nom du restaurant</div>
-          <input class="form-input" id="rol-nom" placeholder="Chez Romu"/>
-        </div>
-        <div><div class="form-label">Téléphone</div>
-          <input class="form-input" id="rol-tel" placeholder="04 XX XX XX XX"/>
-        </div>
-        <div><div class="form-label">Message d'accueil</div>
-          <input class="form-input" id="rol-msg" placeholder="Bienvenue !"/>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div><div class="form-label">Midi</div>
-            <input class="form-input" id="rol-midi" type="time" value="12:00"/>
-          </div>
-          <div><div class="form-label">Soir</div>
-            <input class="form-input" id="rol-soir" type="time" value="19:30"/>
+
+    <!-- CONFIG SECTION -->
+    <div class="rol-section" style="margin-bottom:16px">
+      <div class="rol-section-header" onclick="toggleRolConfig()">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="rol-section-icon">⚙️</div>
+          <div>
+            <div class="rol-section-title">Configuration</div>
+            <div class="rol-section-sub">Paramètres du formulaire en ligne</div>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div><div class="form-label">Couverts max</div>
-            <input class="form-input" id="rol-max" type="number" value="40"/>
+        <div class="rol-chevron" id="rol-chevron">▾</div>
+      </div>
+      <div class="rol-section-body" id="rol-config-body">
+        <div class="rol-grid2">
+          <div class="rol-field">
+            <label class="rol-label">Nom du restaurant</label>
+            <input class="rol-input" id="rol-nom" placeholder="Chez Romu"/>
           </div>
-          <div><div class="form-label">Délai min.</div>
-            <select class="form-select" id="rol-delai">
+          <div class="rol-field">
+            <label class="rol-label">Téléphone</label>
+            <input class="rol-input" id="rol-tel" placeholder="04 XX XX XX XX"/>
+          </div>
+        </div>
+        <div class="rol-field" style="margin-top:12px">
+          <label class="rol-label">Message d'accueil</label>
+          <input class="rol-input" id="rol-msg" placeholder="Bienvenue !"/>
+        </div>
+        <div class="rol-grid2" style="margin-top:12px">
+          <div class="rol-field">
+            <label class="rol-label">🌞 Service du midi</label>
+            <input class="rol-input" id="rol-midi" type="time" value="12:00"/>
+          </div>
+          <div class="rol-field">
+            <label class="rol-label">🌙 Service du soir</label>
+            <input class="rol-input" id="rol-soir" type="time" value="19:30"/>
+          </div>
+        </div>
+        <div class="rol-grid2" style="margin-top:12px">
+          <div class="rol-field">
+            <label class="rol-label">Couverts max</label>
+            <div style="position:relative">
+              <input class="rol-input" id="rol-max" type="number" value="40" style="padding-right:36px"/>
+              <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--sub);font-size:13px">🪑</span>
+            </div>
+          </div>
+          <div class="rol-field">
+            <label class="rol-label">Délai minimum</label>
+            <select class="rol-input" id="rol-delai">
               <option value="0">Sans délai</option>
               <option value="2">2h avant</option>
               <option value="24" selected>24h avant</option>
@@ -6342,12 +6396,31 @@ tbody td { padding:13px 14px; font-size:13px; }
             </select>
           </div>
         </div>
-        <button class="btn btn-gold btn-sm" style="align-self:flex-start" onclick="saveResaOnline()">💾 Enregistrer</button>
+        <div style="margin-top:16px;display:flex;justify-content:flex-end">
+          <button class="btn btn-gold btn-sm" onclick="saveResaOnline()">💾 Enregistrer</button>
+        </div>
       </div>
     </div>
-    <div class="card" style="margin-bottom:14px">
-      <div class="card-title">📥 Demandes reçues</div>
-      <div id="resa-ol-list" style="margin-top:8px"></div>
+
+    <!-- DEMANDES SECTION -->
+    <div class="rol-section">
+      <div class="rol-section-header" style="cursor:default">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="rol-section-icon">📥</div>
+          <div>
+            <div class="rol-section-title">Demandes reçues</div>
+            <div class="rol-section-sub" id="rol-demandes-sub">Chargement...</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px" id="rol-filtres">
+          <button class="rol-filter-btn active" onclick="filterResaOnline('toutes',this)">Toutes</button>
+          <button class="rol-filter-btn" onclick="filterResaOnline('attente',this)">⏳ Attente</button>
+          <button class="rol-filter-btn" onclick="filterResaOnline('confirmée',this)">✓ Conf.</button>
+        </div>
+      </div>
+      <div class="rol-section-body" style="padding-top:0">
+        <div id="resa-ol-list"></div>
+      </div>
     </div>
   </div>
 
@@ -15154,35 +15227,60 @@ function saveResaOnline(){
     delai:document.getElementById('rol-delai')?.value||'24'};
   saveDB(); toast('Sauvegardé ✓');
 }
+let _rolFilter='toutes';
+function filterResaOnline(f,btn){
+  _rolFilter=f;
+  document.querySelectorAll('.rol-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderResaOnlineList();
+}
+function toggleRolConfig(){
+  const body=document.getElementById('rol-config-body');
+  const chev=document.getElementById('rol-chevron');
+  if(!body) return;
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  if(chev) chev.classList.toggle('closed',open);
+}
 function renderResaOnlineList(){
   const el=document.getElementById('resa-ol-list');
+  const subEl=document.getElementById('rol-demandes-sub');
   if(!el) return;
-  if(!DB.resaOnline||!DB.resaOnline.length){
-    el.innerHTML='<div style="text-align:center;color:var(--muted);padding:20px">Aucune demande</div>';
+  const all=DB.resaOnline||[];
+  const enAttente=all.filter(r=>r.stat==='attente').length;
+  if(subEl) subEl.textContent=all.length+' demande'+(all.length!==1?'s':'')+' · '+enAttente+' en attente';
+  let list=[...all].reverse();
+  if(_rolFilter!=='toutes') list=list.filter(r=>r.stat===_rolFilter);
+  if(!list.length){
+    el.innerHTML='<div style="text-align:center;color:var(--sub);padding:28px 0;font-size:13px">Aucune demande'+((_rolFilter!=='toutes')?' dans ce filtre':'')+'</div>';
     return;
   }
-  const statCols={attente:'var(--amber)'};
-  statCols['confirmee']='var(--green)';
-  statCols['annulee']='var(--red)';
   const rows=[];
-  const list=[...DB.resaOnline].reverse();
   for(let i=0;i<list.length;i++){
     const r=list[i];
     const statKey=r.stat==='confirmée'?'confirmee':r.stat==='annulée'?'annulee':'attente';
-    const col=statCols[statKey]||'var(--muted)';
-    let btns='';
-    if(r.stat==='attente'){
-      btns='<button onclick="validerResa('+r.id+',1)" style="background:rgba(6,214,160,.15);border:1px solid var(--green);color:var(--green);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px">✓</button> '+
-           '<button onclick="validerResa('+r.id+',0)" style="background:rgba(181,57,42,.1);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px">✕</button>';
-    }
-    const service=r.service==='midi'?'Midi':'Soir';
-    rows.push('<div style="background:var(--ink3);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:8px">'+
-      '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">'+
-      '<div><div style="font-weight:600;color:var(--txt)">'+r.nom+' - '+r.couverts+' pers.</div>'+
-      '<div style="font-size:12px;color:var(--sub)">'+r.date+' - '+service+(r.tel?' - '+r.tel:'')+'</div></div>'+
-      '<div style="display:flex;gap:6px;align-items:center">'+
-      '<span style="font-size:11px;color:'+col+';border:1px solid '+col+';padding:2px 10px;border-radius:10px">'+r.stat+'</span>'+
-      btns+'</div></div></div>');
+    const badgeCls='rol-badge rol-badge-'+statKey;
+    const statLabel=r.stat==='confirmée'?'✓ Confirmée':r.stat==='annulée'?'✕ Annulée':'⏳ Attente';
+    const btns=r.stat==='attente'
+      ?'<button class="rol-action-btn rol-action-confirm" onclick="validerResa('+r.id+',1)">✓ Confirmer</button>'+
+        '<button class="rol-action-btn rol-action-cancel" onclick="validerResa('+r.id+',0)">✕ Refuser</button>'
+      :'';
+    const service=r.service==='midi'?'🌞 Midi':'🌙 Soir';
+    const couverts='🪑 '+r.couverts+' pers.';
+    rows.push(
+      '<div class="rol-card">'+
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">'+
+          '<div>'+
+            '<div class="rol-card-name">'+r.nom+'</div>'+
+            '<div class="rol-card-meta">'+r.date+' · '+service+' · '+couverts+(r.tel?' · 📞 '+r.tel:'')+'</div>'+
+          '</div>'+
+          '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">'+
+            '<span class="'+badgeCls+'">'+statLabel+'</span>'+
+            (btns?'<div style="display:flex;gap:6px">'+btns+'</div>':'')+
+          '</div>'+
+        '</div>'+
+      '</div>'
+    );
   }
   el.innerHTML=rows.join('');
 }
