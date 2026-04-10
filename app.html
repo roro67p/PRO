@@ -3132,6 +3132,7 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div class="sb-group-body" id="body-restaurant">
       <div class="nav-item" onclick="nav('menu',this)"><span class="ni-ico">≡</span>Menu &amp; Plats</div>
       <div class="nav-item" onclick="nav('menuJour',this)"><span class="ni-ico">☀</span>Menu du jour</div>
+      <div class="nav-item" onclick="nav('carteEnLigne',this)"><span class="ni-ico">🌐</span>Carte en ligne</div>
       <div class="nav-item" onclick="nav('reservations',this)"><span class="ni-ico">◷</span>Réservations<span class="ni-badge g" id="b-resa">0</span></div>
       <div class="nav-item" onclick="nav('livraison',this)"><span class="ni-ico">🛵</span>Livraison<span class="ni-badge a" id="b-liv">0</span></div>
       <div class="nav-item" onclick="nav('fiches',this)"><span class="ni-ico">📋</span>Fiches techniques</div>
@@ -5453,6 +5454,117 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
+  <!-- CARTE & MENU EN LIGNE -->
+  <div id="page-carteEnLigne" class="page">
+    <div class="page-header">
+      <div>
+        <h2>🌐 Carte & Menu en ligne</h2>
+        <div style="font-size:12px;color:var(--sub);margin-top:2px">Prévisualisez votre menu tel que le client le voit</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="carteEnLigneFullscreen()">🖥️ Plein écran</button>
+        <button class="btn btn-ghost btn-sm" onclick="dlCarteEnLigne()">💾 Télécharger</button>
+        <button class="btn btn-gold btn-sm" onclick="saveCarteConfig()">💾 Sauvegarder</button>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px">
+      <div class="kpi-box kpi-gold" style="border-top:3px solid var(--gold)"><span class="kpi-ico">🍽️</span><div class="kpi-val" id="cel-nb-plats">0</div><div class="kpi-lbl">Plats affichés</div></div>
+      <div class="kpi-box kpi-green" style="border-top:3px solid var(--green)"><span class="kpi-ico">📂</span><div class="kpi-val" id="cel-nb-cats">0</div><div class="kpi-lbl">Catégories</div></div>
+      <div class="kpi-box kpi-blue" style="border-top:3px solid var(--blue)"><span class="kpi-ico">📷</span><div class="kpi-val" id="cel-nb-photos">0</div><div class="kpi-lbl">Avec photo</div></div>
+      <div class="kpi-box kpi-amber" style="border-top:3px solid var(--amber)"><span class="kpi-ico">☀️</span><div class="kpi-val" id="cel-menu-jour">—</div><div class="kpi-lbl">Menu du jour</div></div>
+    </div>
+
+    <!-- CONTENU : Config + Preview -->
+    <div class="g2" style="align-items:flex-start">
+
+      <!-- COLONNE GAUCHE : Configuration -->
+      <div class="card">
+        <div class="card-title">⚙️ Configuration de la carte</div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div class="form-label">Nom du restaurant</div>
+            <input class="form-input" id="cel-nom" placeholder="Chez Romu" oninput="updateCartePreview()"/>
+          </div>
+          <div>
+            <div class="form-label">Slogan / Tagline</div>
+            <input class="form-input" id="cel-tagline" placeholder="Cuisine française raffinée" oninput="updateCartePreview()"/>
+          </div>
+          <div>
+            <div class="form-label">Message d'accueil</div>
+            <input class="form-input" id="cel-msg" placeholder="Bienvenue ! Découvrez notre carte." oninput="updateCartePreview()"/>
+          </div>
+
+          <div>
+            <div class="form-label">Thème visuel</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap" id="cel-themes">
+              <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--ink3);border:2px solid var(--gold);border-radius:8px;cursor:pointer;font-size:12px;color:var(--txt)">
+                <input type="radio" name="cel-theme" value="sombre" checked onchange="updateCartePreview()" style="accent-color:var(--gold)"/> 🌙 Sombre
+              </label>
+              <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--ink3);border:2px solid var(--line);border-radius:8px;cursor:pointer;font-size:12px;color:var(--txt)">
+                <input type="radio" name="cel-theme" value="clair" onchange="updateCartePreview()" style="accent-color:var(--gold)"/> ☀️ Clair
+              </label>
+              <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--ink3);border:2px solid var(--line);border-radius:8px;cursor:pointer;font-size:12px;color:var(--txt)">
+                <input type="radio" name="cel-theme" value="bistrot" onchange="updateCartePreview()" style="accent-color:var(--gold)"/> 🍷 Bistrot
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-label">Catégories à afficher</div>
+            <div id="cel-cats" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px"></div>
+          </div>
+
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--txt);cursor:pointer">
+              <input type="checkbox" id="cel-menuJour" checked onchange="updateCartePreview()" style="accent-color:var(--gold)"/> Afficher le menu du jour
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--txt);cursor:pointer">
+              <input type="checkbox" id="cel-photos" checked onchange="updateCartePreview()" style="accent-color:var(--gold)"/> Afficher les photos
+            </label>
+          </div>
+
+          <div>
+            <div class="form-label">Informations en pied de page</div>
+            <input class="form-input" id="cel-footer" placeholder="Fait maison · Produits frais · Ouvert du mardi au samedi" oninput="updateCartePreview()"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLONNE DROITE : Prévisualisation -->
+      <div class="card" style="display:flex;flex-direction:column;align-items:center;padding:20px">
+        <div class="card-title" style="align-self:flex-start">📱 Prévisualisation client</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:14px;align-self:flex-start">Vue telle que le client la voit sur mobile</div>
+
+        <!-- Cadre smartphone -->
+        <div style="position:relative;width:375px;max-width:100%;background:#1a1a1a;border-radius:40px;padding:12px;border:3px solid #3a3a3a;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 0 0 2px #2a2a2a">
+          <!-- Encoche -->
+          <div style="width:120px;height:24px;background:#1a1a1a;border-radius:0 0 16px 16px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;border-bottom:2px solid #2a2a2a"></div>
+          <!-- Barre de statut -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 20px 6px;font-size:10px;color:#888">
+            <span>12:30</span>
+            <span>●●● WiFi 🔋</span>
+          </div>
+          <!-- Écran -->
+          <div style="border-radius:24px;overflow:hidden;background:#0c0b09;height:600px">
+            <iframe id="cel-preview-iframe" style="width:100%;height:100%;border:none;border-radius:24px" sandbox="allow-same-origin"></iframe>
+          </div>
+          <!-- Barre home -->
+          <div style="width:100px;height:4px;background:#555;border-radius:2px;margin:8px auto 4px"></div>
+        </div>
+
+        <!-- Actions sous le téléphone -->
+        <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;justify-content:center">
+          <button class="btn btn-gold btn-sm" onclick="carteEnLigneFullscreen()">🖥️ Plein écran</button>
+          <button class="btn btn-ghost btn-sm" onclick="dlCarteEnLigne()">💾 Télécharger HTML</button>
+          <button class="btn btn-ghost btn-sm" onclick="printCarteEnLigne()">🖨️ Imprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PARAMÈTRES AVANCÉS -->
   <div id="page-paramsAvances" class="page">
     <div class="page-header"><h2>🎨 Paramètres avancés</h2></div>
@@ -6678,7 +6790,7 @@ function renderEtabSelector(){
 }
 
 // ═══ NAV ═══
-const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe'};
+const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
 function nav(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -6700,7 +6812,7 @@ function render(n){
     journal:rJournal,
     objectifs:rObjectifs, cmdFourn:rCmdFourn, params:rParams,
     fiches:rFiches, origine:rOrigine, marges:rMarges, avis:rAvis, acces:rAcces,
-    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation})[n]?.();
+    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne})[n]?.();
 }
 function openSB(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').style.display='block';}
 function closeSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').style.display='none';}
@@ -18684,6 +18796,262 @@ function dlMenu(){
 }
 
 // ═══════════════════════════════════════════
+// 🌐 CARTE & MENU EN LIGNE
+// ═══════════════════════════════════════════
+
+function rCarteEnLigne(){
+  const cats=[...new Set((DB.plats||[]).map(p=>p.cat))];
+  const el=document.getElementById('cel-cats');
+  if(el) el.innerHTML=cats.map(c=>`
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:4px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:20px">
+      <input type="checkbox" class="cel-cat-cb" value="${c}" checked onchange="updateCartePreview()" style="accent-color:var(--gold)"/> ${c}
+    </label>`).join('');
+
+  // Charger config sauvegardee
+  const cfg=DB.carteEnLigne||{};
+  const nomEl=document.getElementById('cel-nom');
+  const tagEl=document.getElementById('cel-tagline');
+  const msgEl=document.getElementById('cel-msg');
+  const footEl=document.getElementById('cel-footer');
+  if(nomEl) nomEl.value=cfg.nom||DB.params?.nom||'';
+  if(tagEl) tagEl.value=cfg.tagline||'';
+  if(msgEl) msgEl.value=cfg.msg||'Bienvenue ! Découvrez notre carte.';
+  if(footEl) footEl.value=cfg.footer||'';
+  if(cfg.theme){
+    const r=document.querySelector(`input[name="cel-theme"][value="${cfg.theme}"]`);
+    if(r) r.checked=true;
+  }
+  if(cfg.menuJour===false){
+    const cb=document.getElementById('cel-menuJour');
+    if(cb) cb.checked=false;
+  }
+  if(cfg.photos===false){
+    const cb=document.getElementById('cel-photos');
+    if(cb) cb.checked=false;
+  }
+  // Restaurer les categories desactivees
+  if(cfg.disabledCats&&cfg.disabledCats.length){
+    document.querySelectorAll('.cel-cat-cb').forEach(cb=>{
+      if(cfg.disabledCats.includes(cb.value)) cb.checked=false;
+    });
+  }
+
+  updateCartePreview();
+}
+
+function getCelConfig(){
+  const nom=document.getElementById('cel-nom')?.value||DB.params?.nom||'Maison';
+  const tagline=document.getElementById('cel-tagline')?.value||'';
+  const msg=document.getElementById('cel-msg')?.value||'';
+  const footer=document.getElementById('cel-footer')?.value||'';
+  const theme=document.querySelector('input[name="cel-theme"]:checked')?.value||'sombre';
+  const showMenuJour=document.getElementById('cel-menuJour')?.checked!==false;
+  const showPhotos=document.getElementById('cel-photos')?.checked!==false;
+  const cats=[...document.querySelectorAll('.cel-cat-cb:checked')].map(cb=>cb.value);
+  return {nom,tagline,msg,footer,theme,showMenuJour,showPhotos,cats};
+}
+
+function updateCartePreview(){
+  const cfg=getCelConfig();
+  const plats=(DB.plats||[]).filter(p=>cfg.cats.includes(p.cat)&&p.dispo==='dispo');
+  const catsUsed=[...new Set(plats.map(p=>p.cat))];
+  const withPhoto=plats.filter(p=>p.photo).length;
+
+  // MAJ KPIs
+  const e1=document.getElementById('cel-nb-plats');if(e1)e1.textContent=plats.length;
+  const e2=document.getElementById('cel-nb-cats');if(e2)e2.textContent=catsUsed.length;
+  const e3=document.getElementById('cel-nb-photos');if(e3)e3.textContent=withPhoto;
+  const e4=document.getElementById('cel-menu-jour');if(e4)e4.textContent=cfg.showMenuJour?'Oui':'Non';
+
+  // Generer le HTML
+  const html=genMenuHTMLEnLigne(cfg);
+  window._carteEnLigneHTML=html;
+
+  // Injecter dans l'iframe
+  const iframe=document.getElementById('cel-preview-iframe');
+  if(iframe) iframe.srcdoc=html;
+}
+
+function genMenuHTMLEnLigne(cfg){
+  const plats=(DB.plats||[]).filter(p=>cfg.cats.includes(p.cat)&&p.dispo==='dispo');
+  const byCat={};
+  const ORDRE=['Entrées','Viandes','Poissons','Végétarien','Plats','Formules','Desserts','Boissons','Vins','Apéritifs'];
+  plats.forEach(p=>{if(!byCat[p.cat]) byCat[p.cat]=[];byCat[p.cat].push(p);});
+
+  // Themes
+  const themes={
+    sombre:{
+      bg:'#0c0b09',bg2:'#141210',txt:'#f0ebe0',sub:'#9a9180',muted:'#5c5648',
+      accent:'#c9973a',accent2:'#e8b84b',line:'rgba(201,151,58,.15)',
+      headerBg:'linear-gradient(135deg,#1c1a14,#0c0b09)',headerBorder:'#c9973a',
+      catBg:'rgba(201,151,58,.08)',platBorder:'rgba(255,255,255,.05)',
+      footerCol:'#2e2b24',photoBorder:'#2e2b24',prixCol:'#c9973a',allergCol:'#8a5c2d'
+    },
+    clair:{
+      bg:'#faf8f4',bg2:'#ffffff',txt:'#2c2a26',sub:'#6b6860',muted:'#9a9590',
+      accent:'#8b6914',accent2:'#a67c1a',line:'rgba(139,105,20,.15)',
+      headerBg:'linear-gradient(135deg,#f5f0e6,#faf8f4)',headerBorder:'#c9973a',
+      catBg:'rgba(139,105,20,.06)',platBorder:'rgba(0,0,0,.06)',
+      footerCol:'#ccc8c0',photoBorder:'#e8e4dc',prixCol:'#8b6914',allergCol:'#a67c1a'
+    },
+    bistrot:{
+      bg:'#1a1210',bg2:'#221a14',txt:'#f0e6d8',sub:'#a89080',muted:'#6a5a4a',
+      accent:'#d4853a',accent2:'#e8a050',line:'rgba(212,133,58,.15)',
+      headerBg:'linear-gradient(135deg,#2a1e14,#1a1210)',headerBorder:'#d4853a',
+      catBg:'rgba(212,133,58,.08)',platBorder:'rgba(255,255,255,.05)',
+      footerCol:'#3a2e24',photoBorder:'#3a2e24',prixCol:'#d4853a',allergCol:'#c87830'
+    }
+  };
+  const t=themes[cfg.theme]||themes.sombre;
+
+  let html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>${cfg.nom}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:${t.bg};color:${t.txt};min-height:100vh}
+.header{background:${t.headerBg};padding:32px 20px 24px;text-align:center;border-bottom:2px solid ${t.headerBorder}}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:${t.accent2};letter-spacing:2px}
+.tagline{font-size:11px;color:${t.muted};letter-spacing:3px;text-transform:uppercase;margin-top:6px}
+.welcome{font-size:13px;color:${t.sub};margin-top:10px;line-height:1.5}
+.section{padding:20px 16px 0}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:14px;text-transform:uppercase;letter-spacing:3px;color:${t.accent};font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid ${t.line};display:flex;align-items:center;gap:8px}
+.plat{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid ${t.platBorder}}
+.plat:last-child{border-bottom:none}
+.plat-photo{width:70px;height:70px;border-radius:10px;object-fit:cover;border:1px solid ${t.photoBorder};flex-shrink:0}
+.plat-ico{font-size:18px;flex-shrink:0;width:28px;text-align:center;padding-top:2px}
+.plat-info{flex:1;min-width:0}
+.plat-nom{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:${t.txt};line-height:1.3}
+.plat-desc{font-size:11px;color:${t.muted};margin-top:3px;line-height:1.4}
+.plat-allerg{font-size:10px;color:${t.allergCol};margin-top:4px}
+.plat-prix{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:${t.prixCol};flex-shrink:0;align-self:center}
+.formule{background:${t.catBg};border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.formule-nom{font-size:13px;font-weight:600;color:${t.txt}}
+.formule-prix{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:${t.accent2}}
+.formule-desc{font-size:10px;color:${t.sub};margin-top:2px}
+.footer{text-align:center;padding:28px 16px;font-size:11px;color:${t.footerCol};border-top:1px solid ${t.line};margin-top:20px}
+.footer .nom{font-family:'Cormorant Garamond',serif;font-size:14px;color:${t.accent};font-weight:600;margin-bottom:4px}
+.mj-badge{display:inline-block;background:${t.accent};color:${t.bg};font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:1px;text-transform:uppercase;margin-left:6px}
+</style></head><body>`;
+
+  // Header
+  html+=`<div class="header"><div class="logo">${cfg.nom}</div>`;
+  if(cfg.tagline) html+=`<div class="tagline">${cfg.tagline}</div>`;
+  if(cfg.msg) html+=`<div class="welcome">${cfg.msg}</div>`;
+  html+=`</div>`;
+
+  // Menu du jour
+  if(cfg.showMenuJour){
+    const mj=DB.menuJour;
+    if(mj&&mj.plats){
+      const hasMJ=(mj.plats.entrees?.length||0)+(mj.plats.plats?.length||0)+(mj.plats.desserts?.length||0)>0;
+      if(hasMJ){
+        html+=`<div class="section"><div class="section-title">⭐ Menu du jour<span class="mj-badge">Aujourd'hui</span></div>`;
+        // Formules
+        if(mj.formuleEP||mj.formulePD||mj.formule){
+          if(mj.formule) html+=`<div class="formule"><div><div class="formule-nom">Formule complète</div><div class="formule-desc">Entrée + Plat + Dessert</div></div><div class="formule-prix">${mj.formule}€</div></div>`;
+          if(mj.formuleEP) html+=`<div class="formule"><div><div class="formule-nom">Entrée + Plat</div></div><div class="formule-prix">${mj.formuleEP}€</div></div>`;
+          if(mj.formulePD) html+=`<div class="formule"><div><div class="formule-nom">Plat + Dessert</div></div><div class="formule-prix">${mj.formulePD}€</div></div>`;
+        }
+        // Items du menu du jour
+        const mjCats=[{key:'entrees',label:'Entrées',ico:'🥗'},{key:'plats',label:'Plats',ico:'🍽️'},{key:'fromages',label:'Fromages',ico:'🧀'},{key:'desserts',label:'Desserts',ico:'🍮'},{key:'boissons',label:'Boissons',ico:'🍷'}];
+        mjCats.forEach(mc=>{
+          const items=mj.plats[mc.key]||[];
+          if(items.length){
+            items.forEach(it=>{
+              const p=typeof it==='string'?(DB.plats||[]).find(pl=>pl.nom===it||pl.id===it):it;
+              if(p){
+                html+=`<div class="plat">`;
+                if(cfg.showPhotos&&p.photo) html+=`<img class="plat-photo" src="${p.photo}" alt="${p.nom||''}"/>`;
+                else html+=`<div class="plat-ico">${p.ico||mc.ico}</div>`;
+                html+=`<div class="plat-info"><div class="plat-nom">${p.nom||it}</div>`;
+                if(p.desc) html+=`<div class="plat-desc">${p.desc}</div>`;
+                html+=`</div>`;
+                if(p.prix) html+=`<div class="plat-prix">${p.prix}€</div>`;
+                html+=`</div>`;
+              }
+            });
+          }
+        });
+        if(mj.chef) html+=`<div style="font-size:11px;color:${t.sub};font-style:italic;padding:10px 0;text-align:center">👨‍🍳 ${mj.chef}</div>`;
+        html+=`</div>`;
+      }
+    }
+  }
+
+  // Par categorie (ordre defini)
+  const sortedCats=Object.keys(byCat).sort((a,b)=>(ORDRE.indexOf(a)===-1?99:ORDRE.indexOf(a))-(ORDRE.indexOf(b)===-1?99:ORDRE.indexOf(b)));
+  sortedCats.forEach(cat=>{
+    const items=byCat[cat];
+    const catIcos={Entrées:'🥗',Viandes:'🥩',Poissons:'🐟',Végétarien:'🥬',Plats:'🍽️',Formules:'📋',Desserts:'🍮',Boissons:'🥤',Vins:'🍷',Apéritifs:'🍸'};
+    html+=`<div class="section"><div class="section-title">${catIcos[cat]||'🍽️'} ${cat}</div>`;
+    items.forEach(p=>{
+      html+=`<div class="plat">`;
+      if(cfg.showPhotos&&p.photo) html+=`<img class="plat-photo" src="${p.photo}" alt="${p.nom}"/>`;
+      else html+=`<div class="plat-ico">${p.ico||'🍽️'}</div>`;
+      html+=`<div class="plat-info"><div class="plat-nom">${p.nom}</div>`;
+      if(p.desc) html+=`<div class="plat-desc">${p.desc}</div>`;
+      if(p.allerg) html+=`<div class="plat-allerg">⚠️ ${p.allerg}</div>`;
+      html+=`</div><div class="plat-prix">${p.prix}€</div></div>`;
+    });
+    html+=`</div>`;
+  });
+
+  // Footer
+  html+=`<div class="footer">`;
+  html+=`<div class="nom">${cfg.nom}</div>`;
+  if(cfg.footer) html+=`<div>${cfg.footer}</div>`;
+  else html+=`<div>Carte générée avec ❤️</div>`;
+  html+=`</div></body></html>`;
+  return html;
+}
+
+function saveCarteConfig(){
+  const cfg=getCelConfig();
+  const allCats=[...new Set((DB.plats||[]).map(p=>p.cat))];
+  const disabledCats=allCats.filter(c=>!cfg.cats.includes(c));
+  DB.carteEnLigne={
+    nom:cfg.nom, tagline:cfg.tagline, msg:cfg.msg, footer:cfg.footer,
+    theme:cfg.theme, menuJour:cfg.showMenuJour, photos:cfg.showPhotos,
+    disabledCats:disabledCats
+  };
+  saveDB();
+  toast('Configuration de la carte sauvegardée');
+}
+
+function carteEnLigneFullscreen(){
+  const html=window._carteEnLigneHTML;
+  if(!html){toast('Générez d\'abord la preview','err');return;}
+  const modal=document.createElement('div');
+  modal.id='cel-fullscreen';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:600;display:flex;flex-direction:column;align-items:center';
+  modal.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;width:100%;flex-shrink:0">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#e8b84b;letter-spacing:1px">🌐 Prévisualisation client</div>
+      <button onclick="document.getElementById('cel-fullscreen').remove()" style="background:rgba(181,57,42,.3);border:1px solid #e06050;color:#e06050;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12px">✕ Fermer</button>
+    </div>
+    <div style="flex:1;width:100%;max-width:430px;overflow:hidden;border-radius:12px;margin-bottom:16px">
+      <iframe srcdoc="${html.replace(/"/g,'&quot;')}" style="width:100%;height:100%;border:none"></iframe>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+function dlCarteEnLigne(){
+  const cfg=getCelConfig();
+  const html=window._carteEnLigneHTML;
+  if(!html){toast('Générez d\'abord la preview','err');return;}
+  telechargerHTML(html, (cfg.nom||'carte').replace(/\s/g,'_')+'_carte.html');
+  toast('Carte téléchargée ! Partagez le fichier HTML avec vos clients');
+}
+
+function printCarteEnLigne(){
+  const html=window._carteEnLigneHTML;
+  if(!html) return;
+  const win=window.open('','_blank');
+  if(win){win.document.write(html);win.document.close();setTimeout(()=>win.print(),300);}
+}
+
+// ═══════════════════════════════════════════
 // 🏢 MULTI-ÉTABLISSEMENTS
 // ═══════════════════════════════════════════
 function toggleEtabPanel(){
@@ -19121,7 +19489,7 @@ function toggleGrp(id){
 function openGrpFor(page){
   const map={
     dash:'service',salle:'service',commandes:'service',caisse:'service',ecranClient:'service',qrmenu:'service',histoTables:'service',modeServeur:'service',cloture:'service',vocale:'service',
-    menu:'restaurant',menuJour:'restaurant',reservations:'restaurant',livraison:'restaurant',fiches:'restaurant',configCaisse:'restaurant',location:'restaurant',fidelite:'restaurant',vip:'restaurant',clients:'restaurant',
+    menu:'restaurant',menuJour:'restaurant',carteEnLigne:'restaurant',reservations:'restaurant',livraison:'restaurant',fiches:'restaurant',configCaisse:'restaurant',location:'restaurant',fidelite:'restaurant',vip:'restaurant',clients:'restaurant',
     rh:'personnel',planning:'personnel',presence:'personnel',conges:'personnel','fiches-paie':'personnel',formation:'personnel',
     stocks:'gestion',fournisseurs:'gestion',cmdFourn:'gestion',dechets:'gestion',todo:'gestion',
     finance:'finance',frais:'finance',stats:'finance',marges:'finance',rapports:'finance',banque:'finance',budget:'finance',pourboires:'finance',salaires:'finance',
