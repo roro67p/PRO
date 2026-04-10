@@ -5147,25 +5147,39 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- BUDGET PRÉVISIONNEL -->
   <div id="page-budget" class="page">
-    <div class="page-header">
-      <h2>🎯 Budget prévisionnel</h2>
-      <button class="btn btn-gold btn-sm" onclick="openBudgetModal()">✏️ Définir objectifs</button>
-    </div>
-    <div id="budget-alert"></div><div class="kpi-row" id="budget-kpi"></div>
-    <div class="g2">
-      <div class="card">
-        <div class="card-title">📊 Avancement du mois</div>
-        <div id="budget-barres"></div>
+  <div>
+    <div class="fn-header">
+      <div>
+        <div class="fn-title">🎯 Budget prévisionnel</div>
+        <div class="fn-sub"><span class="fn-live"></span><span id="bud-sub">Suivi mensuel</span></div>
       </div>
-      <div class="card">
-        <div class="card-title">📅 Objectifs mensuels</div>
-        <div id="budget-objectifs"></div>
+      <div class="fn-actions">
+        <button class="fn-btn-new" onclick="openBudgetModal()">✏️ Définir objectifs</button>
       </div>
     </div>
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">📈 Historique vs Objectifs</div>
-      <div id="budget-historique"></div>
+    <div id="budget-alert"></div>
+    <div class="kpi-grid-4" id="budget-kpi"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div class="kpi-card gold" style="padding:16px">
+        <div class="kpi-card-inner">
+          <div class="kpi-card-lbl" style="margin-bottom:12px">📊 Avancement du mois</div>
+          <div id="budget-barres"></div>
+        </div>
+      </div>
+      <div class="kpi-card green" style="padding:16px">
+        <div class="kpi-card-inner">
+          <div class="kpi-card-lbl" style="margin-bottom:12px">📅 Objectifs mensuels</div>
+          <div id="budget-objectifs"></div>
+        </div>
+      </div>
     </div>
+    <div class="kpi-card blue" style="padding:16px">
+      <div class="kpi-card-inner">
+        <div class="kpi-card-lbl" style="margin-bottom:12px">📈 Répartition budget</div>
+        <div id="budget-historique"></div>
+      </div>
+    </div>
+  </div>
   </div>
 
   <!-- POURBOIRES -->
@@ -17120,18 +17134,17 @@ function rAllergenes(){
 // ═══════════════════════════════════════════
 // 🎯 BUDGET PRÉVISIONNEL
 // ═══════════════════════════════════════════
-if(!DB.budget) DB.budget={objectifs:{ca:0,couverts:0,ticket:0,charges:0},historique:[]};
+if(!DB.budget) DB.budget={objectifs:{ca:35000,couverts:800,ticket:38,charges:22000,loyer:3500,salaires:12000,matieres:10500,energie:1200,divers:1800},historique:[]};
 
 function rBudget(){
-  const alertEl=document.getElementById('budget-alert');
-  if(alertEl){
-    const obj=DB.budget?.objectifs||{};
-    const hasObj=obj.ca||obj.couverts||obj.ticket||obj.charges;
-    alertEl.innerHTML=hasObj?'':`<div class="alert alert-warn">⚠️ Aucun objectif défini — cliquez sur "Définir objectifs" pour commencer le suivi.</div>`;
-  }
-
-  if(!DB.budget) DB.budget={objectifs:{ca:0,couverts:0,ticket:0,charges:0},historique:[]};
+  if(!DB.budget) DB.budget={objectifs:{ca:35000,couverts:800,ticket:38,charges:22000,loyer:3500,salaires:12000,matieres:10500,energie:1200,divers:1800},historique:[]};
   const obj=DB.budget.objectifs;
+  // Si pas d'objectifs définis, mettre des valeurs réalistes restaurant classique
+  if(!obj.ca){obj.ca=35000;obj.couverts=800;obj.ticket=38;obj.charges=22000;obj.loyer=3500;obj.salaires=12000;obj.matieres=10500;obj.energie=1200;obj.divers=1800;}
+  const alertEl=document.getElementById('budget-alert');
+  if(alertEl) alertEl.innerHTML='';
+
+  const obj2=DB.budget.objectifs;
   const now=new Date();
   const mois=now.getMonth()+1; const an=now.getFullYear();
 
@@ -17147,27 +17160,17 @@ function rBudget(){
   const pctTicket=obj.ticket?Math.round((ticketReel/obj.ticket)*100):0;
   const pctCharges=obj.charges?Math.round((chargesReel/obj.charges)*100):0;
 
+  const resultat=caReel-chargesReel;
+  const margeNette=caReel>0?Math.round(resultat/caReel*100):0;
+  const budSub=document.getElementById('bud-sub');
+  if(budSub) budSub.textContent=`${pctCA}% objectif CA · résultat ${eur(resultat)}`;
+
   const kpi=document.getElementById('budget-kpi');
-  if(kpi) kpi.innerHTML=`
-    <div class="kpi-box kpi-${pctCA>=100?'green':pctCA>=75?'gold':'red'}">
-      <div class="kpi-label">CA RÉALISÉ</div>
-      <div class="kpi-val">${eur(caReel)}</div>
-      <div style="font-size:11px;color:var(--sub)">${pctCA}% de l'objectif</div>
-    </div>
-    <div class="kpi-box kpi-${pctCvt>=100?'green':pctCvt>=75?'gold':'red'}">
-      <div class="kpi-label">COUVERTS</div>
-      <div class="kpi-val">${cvtReel}</div>
-      <div style="font-size:11px;color:var(--sub)">${pctCvt}% de l'objectif</div>
-    </div>
-    <div class="kpi-box kpi-${pctCharges<=100?'green':'red'}">
-      <div class="kpi-label">CHARGES</div>
-      <div class="kpi-val">${eur(chargesReel)}</div>
-      <div style="font-size:11px;color:var(--sub)">${pctCharges}% du budget</div>
-    </div>
-    <div class="kpi-box kpi-${caReel-chargesReel>=0?'green':'red'}">
-      <div class="kpi-label">RÉSULTAT NET</div>
-      <div class="kpi-val">${eur(caReel-chargesReel)}</div>
-    </div>`;
+  if(kpi) kpi.innerHTML=
+    kpiCard('💰',eur(caReel),'CA réalisé',pctCA>=100?'green':pctCA>=75?'gold':'red',{delay:0,sub:'Objectif : '+eur(obj.ca),donut:{pct:pctCA}})+
+    kpiCard('👥',cvtReel,'Couverts',pctCvt>=100?'green':pctCvt>=75?'gold':'orange',{delay:60,sub:'Objectif : '+obj.couverts,donut:{pct:pctCvt}})+
+    kpiCard('📉',eur(chargesReel),'Charges',pctCharges<=100?'green':'red',{delay:120,sub:'Budget : '+eur(obj.charges),donut:{pct:Math.min(pctCharges,100)}})+
+    kpiCard('📊',eur(resultat),'Résultat net',resultat>=0?'green':'red',{delay:180,sub:'Marge nette : '+margeNette+'%',donut:{pct:Math.max(0,Math.min(100,margeNette+50))}});
 
   // Barres de progression
   const barres=document.getElementById('budget-barres');
@@ -17205,6 +17208,50 @@ function rBudget(){
         </div>`).join('')}
     </div>
     <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:12px" onclick="openBudgetModal()">✏️ Modifier les objectifs</button>`;
+
+  // Répartition budget — postes de dépenses réalistes
+  const histEl=document.getElementById('budget-historique');
+  if(histEl){
+    const postes=[
+      {label:'Matières premières',val:obj.matieres||10500,col:'#f0a060',pct:30,desc:'30% du CA — achats alimentaires'},
+      {label:'Salaires & charges',val:obj.salaires||12000,col:'#6aacda',pct:34,desc:'34% du CA — personnel'},
+      {label:'Loyer & charges locatives',val:obj.loyer||3500,col:'#c89aff',pct:10,desc:'10% du CA — location'},
+      {label:'Énergie & fluides',val:obj.energie||1200,col:'#f07060',pct:3.5,desc:'3.5% du CA — électricité, gaz, eau'},
+      {label:'Divers & imprévus',val:obj.divers||1800,col:'var(--muted)',pct:5,desc:'5% du CA — marketing, entretien, assurances'},
+    ];
+    const totalCharges=postes.reduce((s,p)=>s+p.val,0);
+    const benefice=obj.ca-totalCharges;
+    const margePct=obj.ca?Math.round(benefice/obj.ca*100):0;
+    histEl.innerHTML=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+        <div>
+          ${postes.map(p=>`<div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+              <span style="color:var(--txt);font-weight:600">${p.label}</span>
+              <span style="color:${p.col};font-weight:700">${eur(p.val)}</span>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border-radius:3px;height:6px;overflow:hidden">
+              <div style="height:100%;width:${Math.round(p.val/obj.ca*100)}%;background:${p.col};border-radius:3px"></div>
+            </div>
+            <div style="font-size:9px;color:var(--muted);margin-top:2px">${p.desc}</div>
+          </div>`).join('')}
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+          ${svgDonut(margePct>0?margePct:0,'#6fcf8a',120)}
+          <div style="text-align:center">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)">Bénéfice prévisionnel</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:${benefice>=0?'#6fcf8a':'#f07060'}">${eur(benefice)}</div>
+            <div style="font-size:10px;color:var(--sub)">sur ${eur(obj.ca)} de CA</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding-top:12px;border-top:1px solid rgba(255,255,255,.04)">
+        ${postes.map(p=>`<div style="text-align:center">
+          <div style="font-size:18px;font-weight:700;color:${p.col};font-family:'Cormorant Garamond',serif">${p.pct}%</div>
+          <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">${p.label.split(' ')[0]}</div>
+        </div>`).join('')}
+      </div>`;
+  }
 }
 
 function openBudgetModal(){
@@ -17212,11 +17259,17 @@ function openBudgetModal(){
   const html=`<div id="budget-modal" onclick="if(event.target===this)this.remove()" style="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:flex-end;justify-content:center">
     <div style="background:var(--ink2);border-radius:14px 14px 0 0;padding:20px;width:100%;max-width:480px;border-top:1px solid var(--line)">
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold2);margin-bottom:14px">🎯 Objectifs mensuels</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div><div class="form-label">CA mensuel objectif (€)</div><input class="form-input" id="bud-ca" type="number" value="${obj.ca||''}"/></div>
-        <div><div class="form-label">Nombre de couverts objectif</div><input class="form-input" id="bud-cvt" type="number" value="${obj.couverts||''}"/></div>
-        <div><div class="form-label">Ticket moyen objectif (€)</div><input class="form-input" id="bud-tkt" type="number" value="${obj.ticket||''}"/></div>
-        <div><div class="form-label">Budget charges mensuel (€)</div><input class="form-input" id="bud-chg" type="number" value="${obj.charges||''}"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><div class="form-label">CA mensuel (€)</div><input class="form-input" id="bud-ca" type="number" value="${obj.ca||35000}"/></div>
+        <div><div class="form-label">Couverts / mois</div><input class="form-input" id="bud-cvt" type="number" value="${obj.couverts||800}"/></div>
+        <div><div class="form-label">Ticket moyen (€)</div><input class="form-input" id="bud-tkt" type="number" value="${obj.ticket||38}"/></div>
+        <div><div class="form-label">Budget charges total (€)</div><input class="form-input" id="bud-chg" type="number" value="${obj.charges||22000}"/></div>
+        <div style="grid-column:1/-1;border-top:1px solid var(--line);padding-top:10px;margin-top:4px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px">Détail des charges</div></div>
+        <div><div class="form-label">Loyer (€)</div><input class="form-input" id="bud-loyer" type="number" value="${obj.loyer||3500}"/></div>
+        <div><div class="form-label">Salaires (€)</div><input class="form-input" id="bud-sal" type="number" value="${obj.salaires||12000}"/></div>
+        <div><div class="form-label">Matières premières (€)</div><input class="form-input" id="bud-mat" type="number" value="${obj.matieres||10500}"/></div>
+        <div><div class="form-label">Énergie (€)</div><input class="form-input" id="bud-nrj" type="number" value="${obj.energie||1200}"/></div>
+        <div><div class="form-label">Divers (€)</div><input class="form-input" id="bud-div" type="number" value="${obj.divers||1800}"/></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
           <button class="btn btn-ghost" onclick="document.getElementById('budget-modal').remove()">Annuler</button>
           <button class="btn btn-gold" onclick="saveBudget()">Enregistrer</button>
@@ -17232,9 +17285,14 @@ function saveBudget(){
     ca:+document.getElementById('bud-ca')?.value||0,
     couverts:+document.getElementById('bud-cvt')?.value||0,
     ticket:+document.getElementById('bud-tkt')?.value||0,
-    charges:+document.getElementById('bud-chg')?.value||0
+    charges:+document.getElementById('bud-chg')?.value||0,
+    loyer:+document.getElementById('bud-loyer')?.value||0,
+    salaires:+document.getElementById('bud-sal')?.value||0,
+    matieres:+document.getElementById('bud-mat')?.value||0,
+    energie:+document.getElementById('bud-nrj')?.value||0,
+    divers:+document.getElementById('bud-div')?.value||0
   };
-  saveDB();document.getElementById('budget-modal')?.remove();rBudget();toast('Objectifs enregistrés ✅');
+  saveDB();document.getElementById('budget-modal')?.remove();rBudget();toast('Budget enregistré ✅');
 }
 
 // ═══════════════════════════════════════════
