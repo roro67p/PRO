@@ -2268,6 +2268,21 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
+  <!-- PERSONNEL -->
+  <div class="sb-group" id="grp-personnel">
+    <div class="sb-group-hd" onclick="toggleGrp('personnel')" style="--grp-col:#5a7a9a">
+      <span class="sb-grp-ico">👥</span><span class="sb-grp-lbl">Personnel</span>
+      <span class="sb-grp-arrow" id="arr-personnel">▸</span>
+    </div>
+    <div class="sb-group-body" id="body-personnel" style="display:none">
+      <div class="nav-item" onclick="nav('rh',this)"><span class="ni-ico">👥</span>Personnel & Paie<span class="ni-badge g" id="b-prs">0</span></div>
+      <div class="nav-item" onclick="nav('planning',this)"><span class="ni-ico">📅</span>Planning visuel</div>
+      <div class="nav-item" onclick="nav('presence',this)"><span class="ni-ico">🕐</span>Présence & Pointage</div>
+      <div class="nav-item" onclick="nav('conges',this)"><span class="ni-ico">🏖️</span>Congés & Absences</div>
+      <div class="nav-item" onclick="nav('fiches-paie',this)"><span class="ni-ico">💼</span>Fiches de paie</div>
+    </div>
+  </div>
+
   <!-- GESTION -->
   <div class="sb-group" id="grp-gestion">
     <div class="sb-group-hd" onclick="toggleGrp('gestion')" style="--grp-col:#2d5f8a">
@@ -2276,12 +2291,6 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
     <div class="sb-group-body" id="body-gestion" style="display:none">
       <div class="nav-item" onclick="nav('stocks',this)"><span class="ni-ico">▤</span>Stocks<span class="ni-badge" id="b-stk">0</span></div>
-      <div class="nav-item" onclick="nav('rh',this)"><span class="ni-ico">👥</span>Personnel & Paie</div>
-      <div class="nav-item" onclick="nav('personnel',this)"><span class="ni-ico">◉</span>Personnel</div>
-      <div class="nav-item" onclick="nav('planning',this)"><span class="ni-ico">📅</span>Planning visuel</div>
-      <div class="nav-item" onclick="nav('presence',this)"><span class="ni-ico">🕐</span>Présence</div>
-      <div class="nav-item" onclick="nav('conges',this)"><span class="ni-ico">🏖️</span>Congés & Absences</div>
-      <div class="nav-item" onclick="nav('fiches-paie',this)"><span class="ni-ico">💼</span>Fiches de paie</div>
       <div class="nav-item" onclick="nav('todo',this)"><span class="ni-ico">✅</span>Tâches & TODO<span class="ni-badge" id="b-todo">0</span></div>
       <div class="nav-item" onclick="nav('fournisseurs',this)"><span class="ni-ico">◫</span>Fournisseurs</div>
       <div class="nav-item" onclick="nav('cmdFourn',this)"><span class="ni-ico">📦</span>Cmdes fournisseurs</div>
@@ -7768,6 +7777,8 @@ function rRh(){
   if(g('rh2-nb-abs')){g('rh2-nb-abs').textContent=absToday.length;g('rh2-lbl-abs').textContent=absToday.length+' Absent'+(absToday.length>1?'s':'');}
   if(g('rh2-cout')) g('rh2-cout').textContent=eur(Math.round(coutJour));
   if(g('rh2-heures')) g('rh2-heures').textContent=Math.round(heuresJour)+'h';
+  const nbPrs=actifs.filter(e=>rh2GetStat(e)==='present').length;
+  const bPrs=g('b-prs');if(bPrs) bPrs.textContent=nbPrs||'';
 
   const q=(g('rh2-q')||{}).value||'';
   const listEl=g('rh2-list');
@@ -17395,7 +17406,8 @@ function openGrpFor(page){
   const map={
     dash:'service',salle:'service',commandes:'service',caisse:'service',ecranClient:'service',qrmenu:'service',histoTables:'service',modeServeur:'service',cloture:'service',vocale:'service',
     menu:'restaurant',menuJour:'restaurant',reservations:'restaurant',livraison:'restaurant',fiches:'restaurant',configCaisse:'restaurant',location:'restaurant',fidelite:'restaurant',vip:'restaurant',
-    stocks:'gestion',personnel:'gestion',presence:'gestion',planning:'gestion',fournisseurs:'gestion',cmdFourn:'gestion',dechets:'gestion',conges:'gestion','fiches-paie':'gestion',todo:'gestion',
+    rh:'personnel',planning:'personnel',presence:'personnel',conges:'personnel','fiches-paie':'personnel',
+    stocks:'gestion',fournisseurs:'gestion',cmdFourn:'gestion',dechets:'gestion',todo:'gestion',
     finance:'finance',frais:'finance',stats:'finance',marges:'finance',rapports:'finance',banque:'finance',budget:'finance',pourboires:'finance',salaires:'finance',
     origine:'qualite',avis:'qualite',objectifs:'qualite',haccp:'qualite',allergenes:'qualite',carteOrigines:'qualite',
     acces:'admin',params:'admin',etabs:'admin',sauvegarde:'admin',paramsAvances:'admin',periodes:'admin'
