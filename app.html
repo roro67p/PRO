@@ -1875,11 +1875,14 @@ tbody td { padding:13px 14px; font-size:13px; }
 .cmd3-kpi{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;transition:all .22s;position:relative;overflow:hidden}
 .cmd3-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transition:opacity .3s;opacity:.7}
 .cmd3-kpi:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.3)}
+@keyframes cmdIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes cmdPulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 18px rgba(201,151,58,.15)}}
+@keyframes cmd3kpiFade{0%,100%{opacity:.7}50%{opacity:1}}
 .cmd3-kpi.kpi-ca{border-color:rgba(201,151,58,.2)}
-.cmd3-kpi.kpi-ca::before{background:linear-gradient(90deg,transparent,var(--gold2),transparent)}
-.cmd3-kpi.kpi-cmds::before{background:linear-gradient(90deg,transparent,#6aacda,transparent)}
-.cmd3-kpi.kpi-ticket::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent)}
-.cmd3-kpi.kpi-annul::before{background:linear-gradient(90deg,transparent,#f07060,transparent)}
+.cmd3-kpi.kpi-ca::before{background:linear-gradient(90deg,transparent,var(--gold2),transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
+.cmd3-kpi.kpi-cmds::before{background:linear-gradient(90deg,transparent,#6aacda,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
+.cmd3-kpi.kpi-ticket::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
+.cmd3-kpi.kpi-annul::before{background:linear-gradient(90deg,transparent,#f07060,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
 .cmd3-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px}
 .cmd3-kpi-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;line-height:1;color:var(--gold2)}
 .cmd3-kpi-val.big{font-size:44px}
@@ -1959,6 +1962,19 @@ tbody td { padding:13px 14px; font-size:13px; }
 .cmd3-insight.r{border-color:rgba(181,57,42,.2);background:rgba(181,57,42,.06)}
 .cmd3-insight.a{border-color:rgba(201,151,58,.2);background:rgba(201,151,58,.06)}
 .cmd3-insight.b{border-color:rgba(45,95,138,.2);background:rgba(45,95,138,.06)}
+/* Graphique activité */
+.cmd3-chart{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.cmd3-chart-title{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;font-weight:700}
+.cmd3-bars{display:flex;align-items:flex-end;gap:4px;height:60px;padding-bottom:18px;position:relative}
+.cmd3-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.cmd3-bar{width:100%;border-radius:4px 4px 0 0;transition:height .3s ease;min-height:3px}
+.cmd3-bar:hover{filter:brightness(1.3);box-shadow:0 0 8px rgba(201,151,58,.3)}
+.cmd3-bar-lbl{font-size:9px;color:var(--muted);white-space:nowrap}
+/* Boutons insights */
+.cmd3-insight-btns{display:flex;gap:6px;margin-bottom:14px}
+.cmd3-insight-btn{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--sub);transition:all .15s;display:flex;align-items:center;gap:5px}
+.cmd3-insight-btn.on{background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.35);color:var(--gold3)}
+.cmd3-insight-btn:hover{border-color:rgba(201,151,58,.3);color:var(--txt)}
 .cmd3-insight-ico{font-size:16px;text-align:center}
 .cmd3-insight-txt{font-size:11px;font-weight:600;color:var(--txt)}
 .cmd3-insight-val{font-size:10px;color:var(--sub);text-align:right}
