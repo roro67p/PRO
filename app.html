@@ -3287,6 +3287,11 @@ tbody td { padding:13px 14px; font-size:13px; }
 .rs-f.on{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.35);color:var(--gold3)}
 .rs-f:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
 .rs-f-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* ═══ HACCP ═══ */
+.haccp-tab-btn{background:var(--ink3);border:1px solid var(--line);color:var(--sub);border-radius:8px;padding:7px 16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;}
+.haccp-tab-btn:hover{border-color:var(--line2);color:var(--txt);}
+.haccp-tab-btn.active{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.4);color:var(--gold2);font-weight:600;}
+
 /* ═══ CAVE À VINS ═══ */
 .cave-type-btn{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:20px;padding:5px 13px;font-size:12px;cursor:pointer;transition:all .2s;}
 .cave-type-btn.active{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700;}
@@ -6242,20 +6247,21 @@ tbody td { padding:13px 14px; font-size:13px; }
   <!-- HACCP -->
   <div id="page-haccp" class="page">
     <div class="page-header">
-      <h2>🧼 HACCP</h2>
-      <div style="font-size:11px;color:var(--muted)">Hazard Analysis Critical Control Points</div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost btn-sm" onclick="openHaccpModal('nettoyage')">+ Nettoyage</button>
-        <button class="btn btn-ghost btn-sm" onclick="openHaccpModal('reception')">+ Réception</button>
-        <button class="btn btn-gold btn-sm" onclick="openHaccpModal('temperature')">+ Température</button>
+      <div>
+        <h2 style="display:flex;align-items:center;gap:10px">🧼 HACCP <span style="font-size:11px;color:var(--muted);font-family:'Outfit',sans-serif;font-weight:400;letter-spacing:1px">Hygiène & Sécurité Alimentaire</span></h2>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="openHaccpModal('nettoyage')">🧹 Nettoyage</button>
+        <button class="btn btn-ghost btn-sm" onclick="openHaccpModal('reception')">📦 Réception</button>
+        <button class="btn btn-gold btn-sm" onclick="openHaccpModal('temperature')">🌡️ + Température</button>
       </div>
     </div>
     <div class="kpi-row" id="haccp-kpi"></div>
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap" id="haccp-tabs">
-      <button class="btn btn-ghost btn-sm" onclick="switchHaccp('temperatures')" id="ht-temperatures" style="border-color:var(--gold)">🌡️ Températures</button>
-      <button class="btn btn-ghost btn-sm" onclick="switchHaccp('nettoyage')" id="ht-nettoyage">🧹 Nettoyage</button>
-      <button class="btn btn-ghost btn-sm" onclick="switchHaccp('reception')" id="ht-reception">📦 Réceptions</button>
-      <button class="btn btn-ghost btn-sm" onclick="switchHaccp('nonconf')" id="ht-nonconf">⚠️ Non-conformités</button>
+    <div style="display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap" id="haccp-tabs">
+      <button class="haccp-tab-btn active" onclick="switchHaccp('temperatures')" id="ht-temperatures">🌡️ Températures</button>
+      <button class="haccp-tab-btn" onclick="switchHaccp('nettoyage')" id="ht-nettoyage">🧹 Nettoyage</button>
+      <button class="haccp-tab-btn" onclick="switchHaccp('reception')" id="ht-reception">📦 Réceptions</button>
+      <button class="haccp-tab-btn" onclick="switchHaccp('nonconf')" id="ht-nonconf">⚠️ Non-conformités</button>
     </div>
     <div id="haccp-content"></div>
   </div>
@@ -17865,9 +17871,13 @@ function rHaccp(){
   const nonconf=DB.haccp.nonconformites.filter(n=>!n.resolue).length;
   const nett=DB.haccp.nettoyages.filter(n=>n.date===today).length;
   const kpi=document.getElementById('haccp-kpi');
+  // Statut global
+  const totalZones=ZONES_TEMP.length;
+  const zonesOk=ZONES_TEMP.filter(z=>{const last=tempsJ.filter(r=>r.zone===z.id).slice(-1)[0];return last&&(+last.temp>=z.min&&+last.temp<=z.max);}).length;
+  const zonesReleve=ZONES_TEMP.filter(z=>tempsJ.some(r=>r.zone===z.id)).length;
   if(kpi) kpi.innerHTML=`
-    <div class="kpi-box kpi-green"><div class="kpi-label">RELEVÉS AUJOURD'HUI</div><div class="kpi-val">${tempsJ.length}</div></div>
-    <div class="kpi-box kpi-${nonconf>0?'red':'green'}"><div class="kpi-label">NON-CONFORMITÉS</div><div class="kpi-val">${nonconf}</div></div>
+    <div class="kpi-box ${zonesReleve<totalZones?'kpi-amber':'kpi-green'}${zonesReleve<totalZones?' alert':''}"><div class="kpi-label">RELEVÉS AUJOURD'HUI</div><div class="kpi-val">${zonesReleve}/${totalZones}</div></div>
+    <div class="kpi-box kpi-${nonconf>0?'red':'green'}${nonconf>0?' danger':''}"><div class="kpi-label">NON-CONFORMITÉS</div><div class="kpi-val">${nonconf}</div></div>
     <div class="kpi-box kpi-gold"><div class="kpi-label">NETTOYAGES AUJOURD'HUI</div><div class="kpi-val">${nett}</div></div>
     <div class="kpi-box kpi-blue"><div class="kpi-label">RÉCEPTIONS CE MOIS</div><div class="kpi-val">${DB.haccp.receptions.length}</div></div>`;
   switchHaccp(haccpTab);
@@ -17875,82 +17885,114 @@ function rHaccp(){
 
 function switchHaccp(tab){
   haccpTab=tab;
-  document.querySelectorAll('[id^="ht-"]').forEach(b=>b.style.borderColor='var(--line2)');
+  document.querySelectorAll('.haccp-tab-btn').forEach(b=>b.classList.remove('active'));
   const bt=document.getElementById('ht-'+tab);
-  if(bt) bt.style.borderColor='var(--gold)';
+  if(bt) bt.classList.add('active');
   const el=document.getElementById('haccp-content');
   if(!el) return;
 
   if(tab==='temperatures'){
     const today=td();
     const relevesJ=DB.haccp.temperatures.filter(t=>t.date===today);
+
+    // Fonction thermomètre SVG
+    function thermometre(temp, min, max, ok){
+      if(temp===null) return `<svg width="28" height="70" viewBox="0 0 28 70"><rect x="10" y="8" width="8" height="42" rx="4" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.1)" stroke-width="1"/><circle cx="14" cy="58" r="8" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.1)" stroke-width="1"/><text x="14" y="35" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="7">?</text></svg>`;
+      const range=max-min; const normalized=Math.max(0,Math.min(1,(temp-min)/range));
+      const fillH=Math.round(36*normalized); const fillY=44-fillH;
+      const col=ok?'#06d6a0':'#e74c3c';
+      const glow=ok?'rgba(6,214,160,.4)':'rgba(231,76,60,.4)';
+      return `<svg width="28" height="70" viewBox="0 0 28 70">
+        <rect x="10" y="8" width="8" height="38" rx="4" fill="rgba(255,255,255,.06)" stroke="${col}" stroke-width="1" opacity=".4"/>
+        <rect x="11" y="${fillY+8}" width="6" height="${fillH}" rx="3" fill="${col}" opacity=".9"/>
+        <circle cx="14" cy="58" r="8" fill="${col}" opacity=".9"/>
+        <circle cx="14" cy="58" r="5" fill="${col}" filter="url(#glow)"/>
+        <text x="14" y="62" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">${temp>0?'+':''}${temp}</text>
+      </svg>`;
+    }
+
     el.innerHTML=`
-      <div class="g2">
-        <div class="card">
-          <div class="card-title">🌡️ Relevés du jour — ${today}</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-          ${ZONES_TEMP.map(z=>{
-            const last=relevesJ.filter(r=>r.zone===z.id).slice(-1)[0];
-            const ok=last?(+last.temp>=z.min&&+last.temp<=z.max):null;
-            return `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--ink3);border:1px solid ${ok===false?'var(--red)':ok===true?'var(--green)':'var(--line)'};border-radius:8px">
-              <div style="flex:1">
-                <div style="font-size:13px;font-weight:500">${z.label}</div>
-                <div style="font-size:11px;color:var(--muted)">Cible : ${z.min}°C → ${z.max}°C</div>
-              </div>
-              ${last?`<div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:${ok?'var(--green)':'var(--red)'}">${last.temp}°C</div>`:'<div style="font-size:12px;color:var(--muted)">Non relevé</div>'}
-              ${last&&!ok?'<span style="font-size:18px">⚠️</span>':''}
-              <button onclick="ouvrirReleve('${z.id}')" style="background:rgba(201,151,58,.1);border:1px solid var(--gold);color:var(--gold2);border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer">+ Relever</button>
-            </div>`;
-          }).join('')}
-          </div>
+      <div style="margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
+        ${ZONES_TEMP.map(z=>{
+          const last=relevesJ.filter(r=>r.zone===z.id).slice(-1)[0];
+          const temp=last?+last.temp:null;
+          const ok=temp!==null?(temp>=z.min&&temp<=z.max):null;
+          const borderCol=ok===false?'rgba(231,76,60,.4)':ok===true?'rgba(6,214,160,.25)':'rgba(255,255,255,.06)';
+          const bgCol=ok===false?'rgba(231,76,60,.06)':ok===true?'rgba(6,214,160,.04)':'var(--ink3)';
+          const statusTxt=ok===false?'⚠️ HORS NORME':ok===true?'✅ CONFORME':'— Non relevé';
+          const statusCol=ok===false?'#e74c3c':ok===true?'#06d6a0':'var(--muted)';
+          return `<div style="background:${bgCol};border:1px solid ${borderCol};border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;${ok===false?'animation:retardBlink 2s infinite':''}">
+            <div style="flex-shrink:0">${thermometre(temp,z.min,z.max,ok)}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:600;color:var(--txt)">${z.label}</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">Plage : ${z.min}°C → ${z.max}°C</div>
+              ${temp!==null?`<div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:${statusCol};line-height:1.1;margin-top:4px">${temp>0?'+':''}${temp}°C</div>`:'<div style="font-size:22px;color:var(--muted);margin-top:4px">—</div>'}
+              <div style="font-size:10px;font-weight:700;color:${statusCol};margin-top:3px;text-transform:uppercase;letter-spacing:.5px">${statusTxt}</div>
+            </div>
+            <button onclick="ouvrirReleve('${z.id}')" style="background:rgba(201,151,58,.1);border:1px solid rgba(201,151,58,.3);color:var(--gold2);border-radius:8px;padding:7px 12px;font-size:11px;cursor:pointer;font-weight:600;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='rgba(201,151,58,.25)'" onmouseout="this.style.background='rgba(201,151,58,.1)'">+ Relever</button>
+          </div>`;
+        }).join('')}
         </div>
-        <div class="card">
-          <div class="card-title">📅 Historique températures</div>
-          <div class="table-wrap"><table>
-            <thead><tr><th>Zone</th><th>Temp.</th><th>Date</th><th>Heure</th><th>Statut</th><th></th></tr></thead>
-            <tbody>${DB.haccp.temperatures.slice().reverse().slice(0,15).map(r=>{
-              const z=ZONES_TEMP.find(x=>x.id===r.zone)||{label:r.zone,min:0,max:100};
-              const ok=+r.temp>=z.min&&+r.temp<=z.max;
-              return `<tr>
-                <td style="font-size:12px">${z.label}</td>
-                <td style="font-weight:700;color:${ok?'var(--green)':'var(--red)'}">${r.temp}°C</td>
-                <td style="font-size:12px;color:var(--sub)">${r.date}</td>
-                <td style="font-size:12px;color:var(--sub)">${r.heure}</td>
-                <td><span style="font-size:11px;color:${ok?'var(--green)':'var(--red)'}">${ok?'✅ OK':'❌ Hors norme'}</span></td>
-                <td><button class="btn btn-danger btn-xs" onclick="delHaccp('temperatures',${r.id})">✕</button></td>
-              </tr>`;
-            }).join('')||'<tr><td colspan="6" style="color:var(--muted);padding:16px">Aucun relevé</td></tr>'}</tbody>
-          </table></div>
-        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📅 Historique températures</div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Zone</th><th>Temp.</th><th>Date</th><th>Heure</th><th>Statut</th><th></th></tr></thead>
+          <tbody>${DB.haccp.temperatures.slice().reverse().slice(0,15).map(r=>{
+            const z=ZONES_TEMP.find(x=>x.id===r.zone)||{label:r.zone,min:0,max:100};
+            const ok=+r.temp>=z.min&&+r.temp<=z.max;
+            return `<tr>
+              <td style="font-size:12px">${z.label}</td>
+              <td><span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:${ok?'#06d6a0':'#e74c3c'}">${r.temp>0?'+':''}${r.temp}°C</span></td>
+              <td style="font-size:12px;color:var(--sub)">${r.date}</td>
+              <td style="font-size:12px;color:var(--sub)">${r.heure}</td>
+              <td><span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:${ok?'rgba(6,214,160,.1)':'rgba(231,76,60,.1)'};color:${ok?'#06d6a0':'#e74c3c'};border:1px solid ${ok?'rgba(6,214,160,.2)':'rgba(231,76,60,.2)'}">${ok?'✓ OK':'✕ Hors norme'}</span></td>
+              <td><button class="btn btn-danger btn-xs" onclick="delHaccp('temperatures',${r.id})">✕</button></td>
+            </tr>`;
+          }).join('')||'<tr><td colspan="6" style="color:var(--muted);padding:20px;text-align:center">Aucun relevé pour le moment</td></tr>'}</tbody>
+        </table></div>
       </div>`;
 
   } else if(tab==='nettoyage'){
     const planningHebdo=[
-      {zone:'Cuisine',freq:'Quotidien',resp:'Équipe cuisine'},
-      {zone:'Frigos & Chambres froides',freq:'Hebdomadaire',resp:'Responsable cuisine'},
-      {zone:'Sol salle',freq:'Quotidien',resp:'Équipe salle'},
-      {zone:'Sanitaires',freq:'Quotidien',resp:'Équipe salle'},
-      {zone:'Hottes & Filtres',freq:'Mensuel',resp:'Responsable'},
-      {zone:'Plonge',freq:'Quotidien',resp:'Plongeur'},
+      {zone:'Cuisine',ico:'🍳',freq:'Quotidien',resp:'Équipe cuisine',col:'#e8b84b'},
+      {zone:'Frigos & Chambres froides',ico:'❄️',freq:'Hebdomadaire',resp:'Responsable cuisine',col:'#6ba4d4'},
+      {zone:'Sol salle',ico:'🧹',freq:'Quotidien',resp:'Équipe salle',col:'#e8b84b'},
+      {zone:'Sanitaires',ico:'🚿',freq:'Quotidien',resp:'Équipe salle',col:'#e8b84b'},
+      {zone:'Hottes & Filtres',ico:'💨',freq:'Mensuel',resp:'Responsable',col:'#c89aff'},
+      {zone:'Plonge',ico:'🫧',freq:'Quotidien',resp:'Plongeur',col:'#e8b84b'},
     ];
+    const freqCol={'Quotidien':'rgba(232,184,75,.1)','Hebdomadaire':'rgba(106,172,218,.1)','Mensuel':'rgba(200,154,255,.1)'};
+    const freqBorder={'Quotidien':'rgba(232,184,75,.25)','Hebdomadaire':'rgba(106,172,218,.25)','Mensuel':'rgba(200,154,255,.25)'};
     el.innerHTML=`
       <div class="g2">
         <div class="card">
           <div class="card-title">📋 Planning nettoyage</div>
-          ${planningHebdo.map(p=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)">
-            <div><div style="font-size:13px;font-weight:500">${p.zone}</div><div style="font-size:11px;color:var(--muted)">${p.resp}</div></div>
-            <span style="font-size:11px;background:rgba(201,151,58,.1);color:var(--gold2);padding:2px 8px;border-radius:10px">${p.freq}</span>
-          </div>`).join('')}
+          <div style="display:flex;flex-direction:column;gap:8px">
+          ${planningHebdo.map(p=>`
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--ink3);border:1px solid var(--line);border-radius:9px">
+              <span style="font-size:20px;flex-shrink:0">${p.ico}</span>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600">${p.zone}</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:1px">${p.resp}</div>
+              </div>
+              <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;background:${freqCol[p.freq]||'rgba(255,255,255,.05)'};border:1px solid ${freqBorder[p.freq]||'rgba(255,255,255,.1)'};color:${p.col};text-transform:uppercase;letter-spacing:.5px">${p.freq}</span>
+            </div>`).join('')}
+          </div>
         </div>
         <div class="card">
-          <div class="card-title">✅ Validations du jour</div>
+          <div class="card-title">✅ Validations enregistrées</div>
           <div style="display:flex;flex-direction:column;gap:6px">
-          ${DB.haccp.nettoyages.slice().reverse().slice(0,10).map(n=>`
-            <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--ink3);border:1px solid var(--green);border-radius:6px">
-              <span style="font-size:16px">✅</span>
-              <div style="flex:1"><div style="font-size:13px">${n.zone}</div><div style="font-size:11px;color:var(--sub)">${n.date} ${n.heure} · ${n.agent||'—'}</div></div>
+          ${DB.haccp.nettoyages.slice().reverse().slice(0,8).map(n=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(6,214,160,.04);border:1px solid rgba(6,214,160,.2);border-radius:8px">
+              <span style="font-size:18px;flex-shrink:0">✅</span>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:500">${n.zone}</div>
+                <div style="font-size:11px;color:var(--muted)">${n.date} à ${n.heure}${n.agent?' · '+n.agent:''}</div>
+              </div>
               <button class="btn btn-danger btn-xs" onclick="delHaccp('nettoyages',${n.id})">✕</button>
-            </div>`).join('')||'<div style="color:var(--muted);font-size:13px;padding:12px">Aucune validation aujourd\'hui</div>'}
+            </div>`).join('')||'<div style="text-align:center;padding:28px;color:var(--muted);font-size:13px">Aucune validation aujourd\'hui</div>'}
           </div>
         </div>
       </div>`;
@@ -17964,39 +18006,42 @@ function switchHaccp(tab){
           <tbody>${DB.haccp.receptions.slice().reverse().map(r=>`<tr>
             <td style="font-weight:500">${r.produit}</td>
             <td style="font-size:12px;color:var(--sub)">${r.fournisseur||'—'}</td>
-            <td style="font-weight:600;color:${r.tempOk?'var(--green)':'var(--red)'}">${r.temp?r.temp+'°C':'—'}</td>
+            <td><span style="font-weight:700;color:${r.tempOk?'#06d6a0':'#e74c3c'}">${r.temp?r.temp+'°C':'—'}</span></td>
             <td style="font-size:12px">${r.dlc||'—'}</td>
-            <td><span style="color:${r.emballageOk?'var(--green)':'var(--red)'}">${r.emballageOk?'✅':'❌'}</span></td>
+            <td style="text-align:center">${r.emballageOk?'<span style="color:#06d6a0;font-size:16px">✓</span>':'<span style="color:#e74c3c;font-size:16px">✕</span>'}</td>
             <td style="font-size:12px;color:var(--sub)">${r.date}</td>
-            <td><span style="font-size:11px;font-weight:600;color:${r.conforme?'var(--green)':'var(--red)'}">${r.conforme?'✅ Conforme':'❌ Refusé'}</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;background:${r.conforme?'rgba(6,214,160,.1)':'rgba(231,76,60,.1)'};color:${r.conforme?'#06d6a0':'#e74c3c'};border:1px solid ${r.conforme?'rgba(6,214,160,.2)':'rgba(231,76,60,.2)'}">${r.conforme?'✓ Conforme':'✕ Refusé'}</span></td>
             <td><button class="btn btn-danger btn-xs" onclick="delHaccp('receptions',${r.id})">✕</button></td>
-          </tr>`).join('')||'<tr><td colspan="8" style="color:var(--muted);padding:16px">Aucune réception enregistrée</td></tr>'}</tbody>
+          </tr>`).join('')||'<tr><td colspan="8" style="color:var(--muted);padding:24px;text-align:center">Aucune réception enregistrée</td></tr>'}</tbody>
         </table></div>
       </div>`;
 
   } else if(tab==='nonconf'){
+    const nonconfs=DB.haccp.nonconformites;
     el.innerHTML=`
-      <div class="card">
-        <div class="card-title">⚠️ Non-conformités & Actions correctives</div>
-        <button class="btn btn-danger btn-sm" style="margin-bottom:14px" onclick="openHaccpModal('nonconf')">+ Déclarer non-conformité</button>
-        <div style="display:flex;flex-direction:column;gap:10px">
-        ${DB.haccp.nonconformites.slice().reverse().map(n=>`
-          <div style="background:var(--ink3);border:1px solid ${n.resolue?'var(--green)':'var(--red)'};border-radius:8px;padding:14px">
-            <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-              <span style="font-weight:600;font-size:14px">${n.type}</span>
-              <span style="font-size:11px;color:${n.resolue?'var(--green)':'var(--red)'};font-weight:600">${n.resolue?'✅ Résolu':'⚠️ En cours'}</span>
-            </div>
-            <div style="font-size:12px;color:var(--sub);margin-bottom:8px">${n.description}</div>
-            ${n.action?`<div style="font-size:12px;color:var(--green);background:rgba(61,122,78,.08);padding:6px 10px;border-radius:6px;border-left:2px solid var(--green)">↩ ${n.action}</div>`:''}
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-              <span style="font-size:11px;color:var(--muted)">${n.date}</span>
-              <div style="display:flex;gap:6px">
-                ${!n.resolue?`<button class="btn btn-success btn-xs" onclick="resoudreNonConf(${n.id})">✅ Résoudre</button>`:''}
-                <button class="btn btn-danger btn-xs" onclick="delHaccp('nonconformites',${n.id})">✕</button>
+      <div style="margin-bottom:14px;display:flex;justify-content:flex-end">
+        <button class="btn btn-danger btn-sm" onclick="openHaccpModal('nonconf')">⚠️ Déclarer non-conformité</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+      ${nonconfs.slice().reverse().map(n=>`
+        <div style="background:var(--ink2);border:1px solid ${n.resolue?'rgba(6,214,160,.2)':'rgba(231,76,60,.3)'};border-radius:12px;padding:16px;${!n.resolue?'animation:urgentPulse 3s infinite':''}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:36px;height:36px;border-radius:10px;background:${n.resolue?'rgba(6,214,160,.1)':'rgba(231,76,60,.1)'};border:1px solid ${n.resolue?'rgba(6,214,160,.2)':'rgba(231,76,60,.2)'};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${n.resolue?'✅':'⚠️'}</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--txt)">${n.type}</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:2px">${n.date}</div>
               </div>
             </div>
-          </div>`).join('')||'<div style="color:var(--green);font-size:13px;padding:12px">✅ Aucune non-conformité en cours — excellent !</div>'}
-        </div>
+            <span style="font-size:10px;font-weight:700;padding:3px 12px;border-radius:12px;background:${n.resolue?'rgba(6,214,160,.1)':'rgba(231,76,60,.1)'};color:${n.resolue?'#06d6a0':'#e74c3c'};border:1px solid ${n.resolue?'rgba(6,214,160,.2)':'rgba(231,76,60,.2)'};text-transform:uppercase;letter-spacing:.5px">${n.resolue?'Résolu':'En cours'}</span>
+          </div>
+          <div style="font-size:12px;color:var(--sub);margin-top:10px;line-height:1.5">${n.description}</div>
+          ${n.action?`<div style="margin-top:8px;font-size:12px;color:#06d6a0;background:rgba(6,214,160,.06);padding:8px 12px;border-radius:7px;border-left:2px solid #06d6a0">↩ Action corrective : ${n.action}</div>`:''}
+          <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:10px">
+            ${!n.resolue?`<button class="btn btn-success btn-xs" onclick="resoudreNonConf(${n.id})">✅ Marquer résolu</button>`:''}
+            <button class="btn btn-danger btn-xs" onclick="delHaccp('nonconformites',${n.id})">✕</button>
+          </div>
+        </div>`).join('')||'<div style="text-align:center;padding:40px;background:rgba(6,214,160,.04);border:1px solid rgba(6,214,160,.15);border-radius:12px"><div style="font-size:32px;margin-bottom:8px">✅</div><div style="font-size:13px;color:#06d6a0;font-weight:600">Aucune non-conformité en cours</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Excellent niveau d\'hygiène !</div></div>'}
       </div>`;
   }
 }
