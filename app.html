@@ -3300,28 +3300,43 @@ tbody td { padding:13px 14px; font-size:13px; }
 .mnt-btn-pri{background:linear-gradient(135deg,#059669,#10b981);color:#fff;border:none;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(16,185,129,.3);}
 .mnt-btn-pri:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(16,185,129,.4);}
 .mnt-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:18px;}
-.mnt-kpi{background:rgba(5,150,105,.08);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:14px 16px;text-align:center;transition:all .2s;}
-.mnt-kpi:hover{border-color:rgba(16,185,129,.4);transform:translateY(-2px);}
+.mnt-kpi{border-radius:20px;padding:22px 18px;text-align:center;transition:all .25s;cursor:default;}
+.mnt-kpi:hover{transform:translateY(-4px);filter:brightness(1.1);}
 .mnt-kpi-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#d1fae5;}
 .mnt-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#6ee7b7;margin-top:3px;font-weight:600;}
 .mnt-filter{background:rgba(5,150,105,.08);border:1px solid rgba(16,185,129,.2);color:#6ee7b7;border-radius:20px;padding:5px 14px;font-size:12px;cursor:pointer;transition:all .18s;font-family:'Outfit',sans-serif;}
 .mnt-filter:hover{border-color:rgba(16,185,129,.4);color:#d1fae5;}
 .mnt-filter.active{background:linear-gradient(135deg,rgba(5,150,105,.3),rgba(16,185,129,.2));border-color:rgba(16,185,129,.5);color:#d1fae5;font-weight:700;}
-.mnt-card{background:rgba(5,20,15,.7);border:1px solid rgba(16,185,129,.12);border-radius:14px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:all .2s;position:relative;overflow:hidden;}
-.mnt-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mnt-accent,rgba(16,185,129,.4));border-radius:14px 0 0 14px;}
-.mnt-card:hover{border-color:rgba(16,185,129,.3);box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateX(2px);}
+.mnt-card{
+  background:linear-gradient(135deg,rgba(5,30,20,.95),rgba(5,20,15,.85));
+  border:1px solid rgba(16,185,129,.1);
+  border-radius:18px;padding:18px 20px;margin-bottom:12px;
+  display:flex;align-items:center;gap:16px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.mnt-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--mnt-accent,rgba(16,185,129,.3)),transparent);opacity:.6;}
+.mnt-card:hover{border-color:rgba(16,185,129,.25);box-shadow:0 8px 32px rgba(0,0,0,.35);transform:translateY(-2px);}
 .mnt-card.ok{--mnt-accent:#10b981;}
-.mnt-card.maintenance{--mnt-accent:#f59e0b;border-color:rgba(245,158,11,.15);}
-.mnt-card.alerte{--mnt-accent:#f97316;border-color:rgba(249,115,22,.2);animation:urgentPulse 2.5s infinite;}
-.mnt-card.panne{--mnt-accent:#ef4444;border-color:rgba(239,68,68,.25);animation:retardBlink 2s infinite;}
-.mnt-card-ico{width:44px;height:44px;border-radius:11px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.mnt-card-name{font-size:14px;font-weight:700;color:#d1fae5;}
-.mnt-card-meta{font-size:11px;color:#6ee7b7;margin-top:2px;}
-.mnt-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.4px;border:1px solid;white-space:nowrap;}
-.mnt-badge.ok{background:rgba(16,185,129,.1);color:#10b981;border-color:rgba(16,185,129,.3);}
-.mnt-badge.maintenance{background:rgba(245,158,11,.1);color:#f59e0b;border-color:rgba(245,158,11,.3);}
-.mnt-badge.alerte{background:rgba(249,115,22,.1);color:#f97316;border-color:rgba(249,115,22,.3);}
-.mnt-badge.panne{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3);}
+.mnt-card.maintenance{--mnt-accent:#f59e0b;border-color:rgba(245,158,11,.12);}
+.mnt-card.alerte{--mnt-accent:#f97316;border-color:rgba(249,115,22,.18);animation:urgentPulse 2.5s infinite;}
+.mnt-card.panne{--mnt-accent:#ef4444;border-color:rgba(239,68,68,.2);animation:retardBlink 2s infinite;}
+.mnt-card-ico{
+  width:48px;height:48px;border-radius:14px;
+  background:rgba(16,185,129,.08);
+  border:1px solid rgba(16,185,129,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+.mnt-card-name{font-size:15px;font-weight:700;color:#ecfdf5;letter-spacing:.2px;}
+.mnt-card-meta{font-size:11px;color:#6ee7b7;margin-top:3px;opacity:.8;}
+.mnt-badge{font-size:10px;font-weight:700;padding:5px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.6px;border:1px solid;white-space:nowrap;}
+.mnt-badge.ok{background:rgba(16,185,129,.15);color:#6ee7b7;border-color:rgba(16,185,129,.3);}
+.mnt-badge.maintenance{background:rgba(245,158,11,.15);color:#fde68a;border-color:rgba(245,158,11,.3);}
+.mnt-badge.alerte{background:rgba(249,115,22,.15);color:#fed7aa;border-color:rgba(249,115,22,.3);}
+.mnt-badge.panne{background:rgba(239,68,68,.15);color:#fecaca;border-color:rgba(239,68,68,.3);}
 
 /* INCIDENTS */
 .inc-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#ffedd5;letter-spacing:.3px;}
@@ -3329,16 +3344,23 @@ tbody td { padding:13px 14px; font-size:13px; }
 .inc-btn-pri{background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;border:none;padding:9px 18px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(234,88,12,.3);}
 .inc-btn-pri:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(234,88,12,.4);}
 .inc-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:18px;}
-.inc-kpi{background:rgba(234,88,12,.08);border:1px solid rgba(249,115,22,.2);border-radius:12px;padding:14px 16px;text-align:center;transition:all .2s;}
-.inc-kpi:hover{border-color:rgba(249,115,22,.4);transform:translateY(-2px);}
+.inc-kpi{border-radius:20px;padding:22px 18px;text-align:center;transition:all .25s;cursor:default;}
+.inc-kpi:hover{transform:translateY(-4px);filter:brightness(1.1);}
 .inc-kpi-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#ffedd5;}
 .inc-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#fdba74;margin-top:3px;font-weight:600;}
 .inc-filter{background:rgba(234,88,12,.08);border:1px solid rgba(249,115,22,.2);color:#fdba74;border-radius:20px;padding:5px 14px;font-size:12px;cursor:pointer;transition:all .18s;font-family:'Outfit',sans-serif;}
 .inc-filter:hover{border-color:rgba(249,115,22,.4);color:#ffedd5;}
 .inc-filter.active{background:linear-gradient(135deg,rgba(234,88,12,.3),rgba(249,115,22,.2));border-color:rgba(249,115,22,.5);color:#ffedd5;font-weight:700;}
-.inc-card{background:rgba(20,10,5,.7);border:1px solid rgba(249,115,22,.12);border-radius:14px;padding:16px 18px;margin-bottom:10px;transition:all .2s;position:relative;overflow:hidden;}
-.inc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--inc-accent,rgba(249,115,22,.4));border-radius:14px 0 0 14px;}
-.inc-card:hover{border-color:rgba(249,115,22,.3);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.inc-card{
+  background:linear-gradient(135deg,rgba(20,10,5,.95),rgba(15,8,3,.85));
+  border:1px solid rgba(249,115,22,.1);
+  border-radius:18px;padding:18px 20px;margin-bottom:12px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.inc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--inc-accent,rgba(249,115,22,.3)),transparent);opacity:.6;}
+.inc-card:hover{border-color:rgba(249,115,22,.25);box-shadow:0 8px 32px rgba(0,0,0,.35);transform:translateY(-2px);}
 .inc-card.faible{--inc-accent:#22c55e;}
 .inc-card.moyen{--inc-accent:#f97316;}
 .inc-card.grave{--inc-accent:#ef4444;animation:retardBlink 2.5s infinite;}
@@ -4805,6 +4827,12 @@ tbody td { padding:13px 14px; font-size:13px; }
       <span id="etab-nom-mini" style="font-size:11px;color:var(--gold2);flex:1">Chez Romu</span>
       <span style="font-size:10px;color:var(--muted)">▾</span>
     </div>
+  </div>
+
+  <!-- ONGLETS RÉCENTS -->
+  <div id="sb-recents" style="padding:10px 12px 4px;border-bottom:1px solid var(--line)">
+    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:7px;padding:0 4px">⏱ Récents</div>
+    <div id="sb-recents-list" style="display:flex;flex-direction:column;gap:2px"></div>
   </div>
 
   <!-- Panel établissements -->
@@ -9028,6 +9056,29 @@ function renderEtabSelector(){
 
 // ═══ NAV ═══
 const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
+let _recentPages=[];
+function addRecent(name){
+  if(name==='dash') return;
+  _recentPages=_recentPages.filter(r=>r!==name);
+  _recentPages.unshift(name);
+  if(_recentPages.length>5) _recentPages=_recentPages.slice(0,5);
+  renderRecents();
+}
+function renderRecents(){
+  const el=document.getElementById('sb-recents-list'); if(!el) return;
+  const icons={commandes:'🧾',caisse:'💳',stocks:'📦',reservations:'📅',salle:'🗺️',fournisseurs:'🤝',cmdFourn:'📦',finance:'💶',personnel:'👥',haccp:'🧼',maintenance:'🔧',incidents:'⚠️',cave:'🍷',clients:'👤',planning:'📅',rapports:'📊',frais:'💸',documents:'📋',integrations:'📡'};
+  if(!_recentPages.length){
+    el.innerHTML='<div style="font-size:10px;color:var(--muted);padding:2px 6px">Aucun onglet récent</div>';
+    return;
+  }
+  el.innerHTML=_recentPages.map(name=>`
+    <div onclick="nav('${name}',null)" style="display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;cursor:pointer;transition:background .15s;font-size:12px;color:var(--sub)"
+    onmouseover="this.style.background='var(--ink3)';this.style.color='var(--txt)'"
+    onmouseout="this.style.background='';this.style.color='var(--sub)'">
+      <span style="font-size:13px;width:16px;text-align:center">${icons[name]||'◦'}</span>
+      <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${TITLES[name]||name}</span>
+    </div>`).join('');
+}
 function nav(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -9036,6 +9087,7 @@ function nav(name,el){
   (document.getElementById('pt')||{}).textContent=TITLES[name]||name;
   openGrpFor(name);
   closeSB(); render(name);
+  addRecent(name);
   if(name==='caisse') setTimeout(initPOS,50);
 }
 function render(n){
@@ -21910,25 +21962,25 @@ function rMaintenance(){
   const panne=all.filter(m=>m.statut==='panne').length;
   const kpi=document.getElementById('mnt-kpis');
   if(kpi) kpi.innerHTML=`
-    <div class="mnt-kpi" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);box-shadow:0 4px 20px rgba(16,185,129,.15)">
-      <div style="font-size:22px;margin-bottom:6px">✅</div>
-      <div class="mnt-kpi-val" style="color:#10b981">${ok}</div>
-      <div class="mnt-kpi-lbl" style="color:#6ee7b7">Opérationnels</div>
+    <div class="mnt-kpi" style="background:#064e3b;border:2px solid #10b981;box-shadow:0 6px 24px rgba(16,185,129,.25)">
+      <div style="font-size:24px;margin-bottom:8px">✅</div>
+      <div class="mnt-kpi-val" style="color:#6ee7b7;font-size:36px">${ok}</div>
+      <div class="mnt-kpi-lbl" style="color:#a7f3d0;font-size:10px">OPÉRATIONNELS</div>
     </div>
-    <div class="mnt-kpi" style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);box-shadow:0 4px 20px rgba(245,158,11,.12)">
-      <div style="font-size:22px;margin-bottom:6px">🔧</div>
-      <div class="mnt-kpi-val" style="color:#fbbf24">${maint}</div>
-      <div class="mnt-kpi-lbl" style="color:#fde68a">Maintenance</div>
+    <div class="mnt-kpi" style="background:#451a03;border:2px solid #f59e0b;box-shadow:0 6px 24px rgba(245,158,11,.25)">
+      <div style="font-size:24px;margin-bottom:8px">🔧</div>
+      <div class="mnt-kpi-val" style="color:#fde68a;font-size:36px">${maint}</div>
+      <div class="mnt-kpi-lbl" style="color:#fde68a;font-size:10px">MAINTENANCE</div>
     </div>
-    <div class="mnt-kpi${alerte>0?' kpi-urgent':''}" style="background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.4);box-shadow:0 4px 20px rgba(249,115,22,.15)">
-      <div style="font-size:22px;margin-bottom:6px">⚠️</div>
-      <div class="mnt-kpi-val" style="color:#fb923c">${alerte}</div>
-      <div class="mnt-kpi-lbl" style="color:#fed7aa">Alertes</div>
+    <div class="mnt-kpi${alerte>0?' kpi-urgent':''}" style="background:#431407;border:2px solid #f97316;box-shadow:0 6px 24px rgba(249,115,22,.25)">
+      <div style="font-size:24px;margin-bottom:8px">⚠️</div>
+      <div class="mnt-kpi-val" style="color:#fed7aa;font-size:36px">${alerte}</div>
+      <div class="mnt-kpi-lbl" style="color:#fed7aa;font-size:10px">ALERTES</div>
     </div>
-    <div class="mnt-kpi${panne>0?' kpi-urgent':''}" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);box-shadow:0 4px 20px rgba(239,68,68,.15)">
-      <div style="font-size:22px;margin-bottom:6px">🔴</div>
-      <div class="mnt-kpi-val" style="color:#f87171">${panne}</div>
-      <div class="mnt-kpi-lbl" style="color:#fecaca">Pannes</div>
+    <div class="mnt-kpi${panne>0?' kpi-urgent':''}" style="background:#450a0a;border:2px solid #ef4444;box-shadow:0 6px 24px rgba(239,68,68,.25)">
+      <div style="font-size:24px;margin-bottom:8px">🔴</div>
+      <div class="mnt-kpi-val" style="color:#fecaca;font-size:36px">${panne}</div>
+      <div class="mnt-kpi-lbl" style="color:#fecaca;font-size:10px">PANNES</div>
     </div>
   `;
   renderMntList();
@@ -21944,23 +21996,65 @@ function renderMntList(){
   list.sort((a,b)=>{const o={panne:0,alerte:1,maintenance:2,ok:3};return (o[a.statut]??4)-(o[b.statut]??4);});
   if(!list.length){el.innerHTML='<div style="text-align:center;padding:40px;color:#6ee7b7;font-size:13px">Aucun équipement dans cette catégorie</div>';return;}
   const statLbl={ok:'✅ Opérationnel',maintenance:'🔧 Maintenance prévue',alerte:'⚠️ Alerte',panne:'🔴 En panne'};
+  const statGrad={ok:'linear-gradient(135deg,#064e3b,#065f46)',maintenance:'linear-gradient(135deg,#451a03,#78350f)',alerte:'linear-gradient(135deg,#431407,#7c2d12)',panne:'linear-gradient(135deg,#450a0a,#7f1d1d)'};
+  const statGlow={ok:'rgba(16,185,129,.25)',maintenance:'rgba(245,158,11,.2)',alerte:'rgba(249,115,22,.25)',panne:'rgba(239,68,68,.3)'};
+  const statBorder={ok:'rgba(16,185,129,.5)',maintenance:'rgba(245,158,11,.45)',alerte:'rgba(249,115,22,.5)',panne:'rgba(239,68,68,.55)'};
+  const statColor={ok:'#6ee7b7',maintenance:'#fde68a',alerte:'#fed7aa',panne:'#fecaca'};
+  el.style.display='grid';
+  el.style.gridTemplateColumns='repeat(auto-fill,minmax(280px,1fr))';
+  el.style.gap='14px';
   el.innerHTML=list.map(m=>{
     const daysNext=m.prochaine?Math.ceil((new Date(m.prochaine)-new Date())/86400000):null;
-    const revisionAlert=daysNext!==null&&daysNext<=30&&daysNext>0;
-    return `<div class="mnt-card ${m.statut}">
-      <div class="mnt-card-ico">${catIco[m.cat]||'🔧'}</div>
-      <div style="flex:1;min-width:0">
-        <div class="mnt-card-name">${m.nom}</div>
-        <div class="mnt-card-meta">${m.modele||'—'}${m.revision?' · Révision: '+m.revision:''}</div>
-        ${m.prochaine?`<div style="font-size:11px;color:${revisionAlert?'#f97316':'#6ee7b7'};margin-top:3px">${revisionAlert?'⚡ ':'📅 '}Prochaine révision: ${m.prochaine}${daysNext<=0?' (dépassée)':daysNext<=30?' (dans '+daysNext+'j)':''}</div>`:''}
-        ${m.notes?`<div style="font-size:11px;color:#6ee7b7;opacity:.7;margin-top:2px">📝 ${m.notes}</div>`:''}
+    const revisionAlert=daysNext!==null&&daysNext<=30;
+    const pctHealth=m.statut==='ok'?100:m.statut==='maintenance'?65:m.statut==='alerte'?35:10;
+    const barCol=m.statut==='ok'?'#10b981':m.statut==='maintenance'?'#f59e0b':m.statut==='alerte'?'#f97316':'#ef4444';
+    return `<div onclick="editMnt(${m.id})" style="
+      background:${statGrad[m.statut]||statGrad.ok};
+      border:1px solid ${statBorder[m.statut]||statBorder.ok};
+      border-radius:20px;padding:20px;cursor:pointer;
+      transition:all .25s cubic-bezier(.4,0,.2,1);
+      box-shadow:0 4px 24px ${statGlow[m.statut]||statGlow.ok};
+      position:relative;overflow:hidden;
+    "
+    onmouseover="this.style.transform='translateY(-4px) scale(1.01)';this.style.boxShadow='0 12px 40px ${statGlow[m.statut]||statGlow.ok}'"
+    onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px ${statGlow[m.statut]||statGlow.ok}'">
+
+      <!-- Glow bg -->
+      <div style="position:absolute;top:-30%;right:-20%;width:160px;height:160px;border-radius:50%;background:${barCol};opacity:.06;pointer-events:none;filter:blur(30px)"></div>
+
+      <!-- Header -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div style="width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.3)">${catIco[m.cat]||'🔧'}</div>
+        <span style="font-size:10px;font-weight:800;padding:5px 12px;border-radius:20px;background:rgba(0,0,0,.3);border:1px solid ${statBorder[m.statut]||statBorder.ok};color:${statColor[m.statut]||statColor.ok};letter-spacing:.8px;text-transform:uppercase">${statLbl[m.statut]||m.statut}</span>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
-        <span class="mnt-badge ${m.statut}">${statLbl[m.statut]||m.statut}</span>
-        <div style="display:flex;gap:4px">
-          <button class="btn btn-ghost btn-xs" onclick="editMnt(${m.id})" style="color:#10b981;border-color:rgba(16,185,129,.2)">✏️</button>
-          <button class="btn btn-danger btn-xs" onclick="delMnt(${m.id})">✕</button>
+
+      <!-- Nom -->
+      <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:.2px">${m.nom}</div>
+      <div style="font-size:11px;color:${statColor[m.statut]||statColor.ok};opacity:.7;margin-bottom:14px">${m.modele||'—'}</div>
+
+      <!-- Barre santé -->
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.5);margin-bottom:5px">
+          <span>État général</span><span style="color:${barCol};font-weight:700">${pctHealth}%</span>
         </div>
+        <div style="height:6px;background:rgba(0,0,0,.3);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${pctHealth}%;background:${barCol};border-radius:3px;box-shadow:0 0 8px ${barCol}88;transition:width .6s ease"></div>
+        </div>
+      </div>
+
+      <!-- Révision -->
+      ${m.prochaine?`<div style="display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.25);border-radius:10px;padding:7px 10px;margin-bottom:10px">
+        <span style="font-size:13px">${revisionAlert?'⚡':'📅'}</span>
+        <div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px">Prochaine révision</div>
+          <div style="font-size:12px;font-weight:600;color:${revisionAlert?barCol:'rgba(255,255,255,.8)'}">${m.prochaine}${daysNext<=0?' — Dépassée !':daysNext<=30?' — Dans '+daysNext+'j':''}</div>
+        </div>
+      </div>`:''}
+
+      <!-- Actions -->
+      <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:4px" onclick="event.stopPropagation()">
+        <button onclick="editMnt(${m.id})" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;font-weight:600;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">✏️ Modifier</button>
+        <button onclick="delMnt(${m.id})" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#f87171;border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;font-weight:600;transition:all .15s" onmouseover="this.style.background='rgba(239,68,68,.25)'" onmouseout="this.style.background='rgba(239,68,68,.1)'">✕</button>
       </div>
     </div>`;
   }).join('');
@@ -22032,25 +22126,25 @@ function rIncidents(){
   const nonResolus=all.filter(i=>!i.resolu).length;
   const kpi=document.getElementById('inc-kpis');
   if(kpi) kpi.innerHTML=`
-    <div class="inc-kpi" style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.4);box-shadow:0 4px 20px rgba(99,102,241,.12)">
-      <div style="font-size:22px;margin-bottom:6px">📋</div>
-      <div class="inc-kpi-val" style="color:#a5b4fc">${all.length}</div>
-      <div class="inc-kpi-lbl" style="color:#c7d2fe">Total incidents</div>
+    <div class="inc-kpi" style="background:#1e1b4b;border:2px solid #6366f1;box-shadow:0 6px 24px rgba(99,102,241,.25)">
+      <div style="font-size:24px;margin-bottom:8px">📋</div>
+      <div class="inc-kpi-val" style="color:#c7d2fe;font-size:36px">${all.length}</div>
+      <div class="inc-kpi-lbl" style="color:#c7d2fe;font-size:10px">TOTAL</div>
     </div>
-    <div class="inc-kpi${nonResolus>0?' kpi-urgent':''}" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);box-shadow:0 4px 20px rgba(239,68,68,.12)">
-      <div style="font-size:22px;margin-bottom:6px">⏳</div>
-      <div class="inc-kpi-val" style="color:#f87171">${nonResolus}</div>
-      <div class="inc-kpi-lbl" style="color:#fecaca">Non résolus</div>
+    <div class="inc-kpi${nonResolus>0?' kpi-urgent':''}" style="background:#450a0a;border:2px solid #ef4444;box-shadow:0 6px 24px rgba(239,68,68,.25)">
+      <div style="font-size:24px;margin-bottom:8px">⏳</div>
+      <div class="inc-kpi-val" style="color:#fecaca;font-size:36px">${nonResolus}</div>
+      <div class="inc-kpi-lbl" style="color:#fecaca;font-size:10px">NON RÉSOLUS</div>
     </div>
-    <div class="inc-kpi" style="background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.4);box-shadow:0 4px 20px rgba(249,115,22,.12)">
-      <div style="font-size:22px;margin-bottom:6px">🟠</div>
-      <div class="inc-kpi-val" style="color:#fb923c">${moyens}</div>
-      <div class="inc-kpi-lbl" style="color:#fed7aa">Gravité moyenne</div>
+    <div class="inc-kpi" style="background:#431407;border:2px solid #f97316;box-shadow:0 6px 24px rgba(249,115,22,.25)">
+      <div style="font-size:24px;margin-bottom:8px">🟠</div>
+      <div class="inc-kpi-val" style="color:#fed7aa;font-size:36px">${moyens}</div>
+      <div class="inc-kpi-lbl" style="color:#fed7aa;font-size:10px">MOYENS</div>
     </div>
-    <div class="inc-kpi${graves>0?' kpi-urgent':''}" style="background:rgba(220,38,38,.2);border:1px solid rgba(220,38,38,.5);box-shadow:0 4px 20px rgba(220,38,38,.2)">
-      <div style="font-size:22px;margin-bottom:6px">🔴</div>
-      <div class="inc-kpi-val" style="color:#fca5a5">${graves}</div>
-      <div class="inc-kpi-lbl" style="color:#fecaca">Incidents graves</div>
+    <div class="inc-kpi${graves>0?' kpi-urgent':''}" style="background:#3b0000;border:2px solid #dc2626;box-shadow:0 6px 24px rgba(220,38,38,.3)">
+      <div style="font-size:24px;margin-bottom:8px">🔴</div>
+      <div class="inc-kpi-val" style="color:#fca5a5;font-size:36px">${graves}</div>
+      <div class="inc-kpi-lbl" style="color:#fca5a5;font-size:10px">GRAVES</div>
     </div>
   `;
   renderIncList();
@@ -22067,28 +22161,79 @@ function renderIncList(){
     const g={grave:0,moyen:1,faible:2};return (g[a.gravite]??3)-(g[b.gravite]??3);
   });
   if(!list.length){el.innerHTML='<div style="text-align:center;padding:40px;color:#fdba74;font-size:13px">Aucun incident dans cette catégorie</div>';return;}
-  el.innerHTML=list.map(i=>`
-    <div class="inc-card ${i.gravite}">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
-        <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
-          <div style="width:40px;height:40px;border-radius:10px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${typeIco[i.type]||'📋'}</div>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:600;color:#ffedd5">${i.desc}</div>
-            <div style="font-size:11px;color:#fdba74;margin-top:2px">📅 ${i.date} · 👤 ${i.resp||'—'}</div>
+  const gravGrad={faible:'linear-gradient(135deg,#052e16,#064e1a)',moyen:'linear-gradient(135deg,#431407,#6b2009)',grave:'linear-gradient(135deg,#3b0000,#6b0000)'};
+  const gravGlow={faible:'rgba(34,197,94,.2)',moyen:'rgba(249,115,22,.22)',grave:'rgba(239,68,68,.3)'};
+  const gravBorder={faible:'rgba(34,197,94,.45)',moyen:'rgba(249,115,22,.45)',grave:'rgba(239,68,68,.55)'};
+  const gravColor={faible:'#86efac',moyen:'#fed7aa',grave:'#fecaca'};
+  const gravBarCol={faible:'#22c55e',moyen:'#f97316',grave:'#ef4444'};
+  el.style.display='grid';
+  el.style.gridTemplateColumns='repeat(auto-fill,minmax(300px,1fr))';
+  el.style.gap='14px';
+  el.innerHTML=list.map(i=>{
+    const typeLabel={casse:'Casse matériel',accident:'Accident',plainte:'Plainte client',service:'Incident service',hygiene:'Hygiène',autre:'Autre'};
+    const typeColor={casse:'#fbbf24',accident:'#f87171',plainte:'#c084fc',service:'#67e8f9',hygiene:'#6ee7b7',autre:'#94a3b8'};
+    const tc=typeColor[i.type]||'#94a3b8';
+    const gc=gravBarCol[i.gravite]||'#f97316';
+    return `<div style="
+      background:${gravGrad[i.gravite]||gravGrad.moyen};
+      border:1px solid ${gravBorder[i.gravite]||gravBorder.moyen};
+      border-radius:20px;padding:20px;
+      transition:all .25s cubic-bezier(.4,0,.2,1);
+      box-shadow:0 4px 24px ${gravGlow[i.gravite]||gravGlow.moyen};
+      position:relative;overflow:hidden;
+      ${!i.resolu&&i.gravite==='grave'?'animation:retardBlink 2.5s infinite':''}
+    "
+    onmouseover="this.style.transform='translateY(-4px) scale(1.01)';this.style.boxShadow='0 12px 40px ${gravGlow[i.gravite]||gravGlow.moyen}'"
+    onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px ${gravGlow[i.gravite]||gravGlow.moyen}'">
+
+      <!-- Glow bg -->
+      <div style="position:absolute;bottom:-30%;right:-15%;width:150px;height:150px;border-radius:50%;background:${gc};opacity:.07;pointer-events:none;filter:blur(28px)"></div>
+
+      <!-- Header : type + statut résolu -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px">${typeIco[i.type]||'📋'}</div>
+          <div>
+            <div style="font-size:10px;font-weight:700;color:${tc};text-transform:uppercase;letter-spacing:.8px">${typeLabel[i.type]||i.type}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:1px">📅 ${i.date}</div>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">
-          <span class="inc-badge ${i.gravite}">${i.gravite==='grave'?'🔴 Grave':i.gravite==='moyen'?'🟠 Moyen':'🟢 Faible'}</span>
-          <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:${i.resolu?'rgba(34,197,94,.1)':'rgba(239,68,68,.1)'};color:${i.resolu?'#22c55e':'#ef4444'};border:1px solid ${i.resolu?'rgba(34,197,94,.2)':'rgba(239,68,68,.2)'}">${i.resolu?'✓ Résolu':'⏳ En cours'}</span>
+        <span style="font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;background:${i.resolu?'rgba(34,197,94,.15)':'rgba(239,68,68,.15)'};border:1px solid ${i.resolu?'rgba(34,197,94,.35)':'rgba(239,68,68,.35)'};color:${i.resolu?'#86efac':'#fca5a5'};letter-spacing:.5px">${i.resolu?'✓ RÉSOLU':'⏳ EN COURS'}</span>
+      </div>
+
+      <!-- Description -->
+      <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;line-height:1.4">${i.desc}</div>
+
+      <!-- Gravité barre -->
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.4);margin-bottom:4px">
+          <span>Gravité</span>
+          <span style="color:${gc};font-weight:700">${i.gravite==='grave'?'🔴 GRAVE':i.gravite==='moyen'?'🟠 MOYEN':'🟢 FAIBLE'}</span>
+        </div>
+        <div style="height:5px;background:rgba(0,0,0,.3);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${i.gravite==='grave'?'100':i.gravite==='moyen'?'55':'25'}%;background:${gc};border-radius:3px;box-shadow:0 0 8px ${gc}88"></div>
         </div>
       </div>
-      ${i.action?`<div style="margin-top:10px;font-size:12px;color:#22c55e;background:rgba(34,197,94,.06);padding:8px 12px;border-radius:7px;border-left:2px solid #22c55e">↩ ${i.action}</div>`:''}
-      <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:10px">
-        ${!i.resolu?`<button class="btn btn-success btn-xs" onclick="resolveInc(${i.id})">✅ Résolu</button>`:''}
-        <button class="btn btn-ghost btn-xs" onclick="editInc(${i.id})" style="color:#fdba74;border-color:rgba(249,115,22,.2)">✏️</button>
-        <button class="btn btn-danger btn-xs" onclick="delInc(${i.id})">✕</button>
+
+      <!-- Responsable -->
+      ${i.resp?`<div style="display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.2);border-radius:8px;padding:6px 10px;margin-bottom:10px">
+        <span style="font-size:14px">👤</span>
+        <div style="font-size:12px;color:${gravColor[i.gravite]||gravColor.moyen};font-weight:500">${i.resp}</div>
+      </div>`:''}
+
+      <!-- Action corrective -->
+      ${i.action?`<div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:#86efac">
+        <span style="font-weight:700;opacity:.7">↩ Action :</span> ${i.action}
+      </div>`:''}
+
+      <!-- Boutons -->
+      <div style="display:flex;gap:6px;justify-content:flex-end" onclick="event.stopPropagation()">
+        ${!i.resolu?`<button onclick="resolveInc(${i.id})" style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#86efac;border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;font-weight:700;transition:all .15s" onmouseover="this.style.background='rgba(34,197,94,.3)'" onmouseout="this.style.background='rgba(34,197,94,.15)'">✅ Résolu</button>`:''}
+        <button onclick="editInc(${i.id})" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;font-weight:600;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">✏️</button>
+        <button onclick="delInc(${i.id})" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#f87171;border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;font-weight:600;transition:all .15s" onmouseover="this.style.background='rgba(239,68,68,.2)'" onmouseout="this.style.background='rgba(239,68,68,.08)'">✕</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function openIncModal(){
