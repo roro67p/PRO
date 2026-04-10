@@ -3170,48 +3170,8 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px" id="boost-tips"></div>
     </div>
 
-    <!-- KPI HERO -->
-    <div class="kpi-hero-grid">
-      <!-- CA HERO -->
-      <div class="kpi-hero-ca">
-        <div class="ca-label">Chiffre d'affaires aujourd'hui</div>
-        <div class="ca-val" id="k-ca">0 €</div>
-        <div class="ca-obj-wrap">
-          <div class="ca-obj-row">
-            <span>Objectif du jour</span>
-            <span id="k-obj-pct" style="color:var(--gold)">0%</span>
-          </div>
-          <div class="ca-obj-track">
-            <div class="ca-obj-fill" id="k-obj-bar" style="width:0%"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px">
-            <span id="k-cvt-lbl">0 couverts</span>
-            <span>Objectif : <span id="k-obj-val" style="color:rgba(201,151,58,.7)">—</span></span>
-          </div>
-        </div>
-      </div>
-      <!-- Tables -->
-      <div class="kpi-mini occ">
-        <span class="kpi-mini-icon">🪑</span>
-        <div class="kpi-mini-val" id="k-occ">0</div>
-        <div class="kpi-mini-lbl">Tables occupées</div>
-        <div class="kpi-mini-sub" id="k-tbl-total">0 / 0 tables</div>
-      </div>
-      <!-- Ticket -->
-      <div class="kpi-mini tkt">
-        <span class="kpi-mini-icon">🧾</span>
-        <div class="kpi-mini-val" id="k-tkt">—</div>
-        <div class="kpi-mini-lbl">Ticket moyen</div>
-        <div class="kpi-mini-sub" id="k-act-lbl">0 cmdes actives</div>
-      </div>
-      <!-- Temps -->
-      <div class="kpi-mini tps">
-        <span class="kpi-mini-icon">⏱️</span>
-        <div class="kpi-mini-val" id="k-tps">— min</div>
-        <div class="kpi-mini-lbl">Service moyen</div>
-        <div class="kpi-mini-sub" id="k-res-lbl">0 résas ce soir</div>
-      </div>
-    </div>
+    <!-- KPI HERO PREMIUM -->
+    <div class="kpi-grid-4" id="dash-kpis"></div>
 
     <!-- ASSISTANT + ACTIONS -->
     <div class="dash-mid">
@@ -9787,33 +9747,27 @@ function rDash(){
   const alrtStk=DB.stocks.filter(s=>s.qte<=s.seuil).length;
   const obj=DB.params.ticket*cvt||DB.params.ticket*20||800;
 
-  // KPIs
+  // KPIs Premium
   const set=id=>document.getElementById(id);
-  if(set('k-ca')) set('k-ca').textContent=eur(ca);
-  if(set('k-cvt')) set('k-cvt').textContent=cvt;
-  if(set('k-tkt')) set('k-tkt').textContent=cvt?eur(tkt):'—';
-  if(set('k-act')) set('k-act').textContent=actCmds;
-  if(set('k-occ')) set('k-occ').textContent=occ;
-  if(set('k-res')) set('k-res').textContent=resaSoir;
+  const prsActifs=(DB.personnel||[]).filter(e=>e.stat==='actif');
+  const prsToday2=td();const prsAbsIds=new Set((DB.absences||[]).filter(a=>a.date===prsToday2).map(a=>a.empId));
+  const prsNb=prsActifs.filter(e=>!prsAbsIds.has(e.id)&&(window._prsStatuts?.[e.id]||'present')==='present').length;
+  const pct=obj>0?Math.min(100,Math.round(ca/obj*100)):0;
+
+  // Badges sidebar
   if(set('b-occ')) set('b-occ').textContent=occ;
   if(set('b-cmd')) set('b-cmd').textContent=actCmds;
   if(set('b-resa')) set('b-resa').textContent=resaSoir;
   if(set('b-stk')) set('b-stk').textContent=alrtStk;
-  const prsActifs=(DB.personnel||[]).filter(e=>e.stat==='actif');
-  const prsToday=td();const prsAbsIds=new Set((DB.absences||[]).filter(a=>a.date===prsToday).map(a=>a.empId));
-  const prsNb=prsActifs.filter(e=>!prsAbsIds.has(e.id)&&(window._prsStatuts?.[e.id]||'present')==='present').length;
   if(set('b-prs')) set('b-prs').textContent=prsNb||'';
-  if(set('k-tbl-total')) set('k-tbl-total').textContent=occ+'/'+totalTbl+' tables';
-  if(set('k-cvt-lbl')) set('k-cvt-lbl').textContent=cvt+' couverts';
-  if(set('k-act-lbl')) set('k-act-lbl').textContent=actCmds+' cmdes actives';
-  if(set('k-res-lbl')) set('k-res-lbl').textContent=resaSoir+' résas ce soir';
-  if(set('d-tkt-perf')) set('d-tkt-perf').textContent=cvt?eur(tkt):'—';
 
-  // Barre objectif CA
-  const pct=obj>0?Math.min(100,Math.round(ca/obj*100)):0;
-  if(set('k-obj-pct')) set('k-obj-pct').textContent=pct+'%';
-  if(set('k-obj-bar')) set('k-obj-bar').style.width=pct+'%';
-  if(set('k-obj-val')) set('k-obj-val').textContent=eur(obj);
+  // Dashboard KPI Cards
+  const dkEl=set('dash-kpis');
+  if(dkEl) dkEl.innerHTML=
+    kpiCard('💰',eur(ca),"CA aujourd'hui",'gold',{delay:0,sub:cvt+' couverts · Obj. '+pct+'%',bar:{pct:pct}})+
+    kpiCard('🪑',occ+'/'+totalTbl,'Tables occupées','red',{delay:50,sub:libre+' libres · '+reservee+' réservées'})+
+    kpiCard('🧾',cvt?eur(tkt):'—','Ticket moyen','green',{delay:100,sub:actCmds+' cmdes actives',trend:cvt&&tkt>=(DB.params.ticket||35)?'up':cvt?'dn':''})+
+    kpiCard('📅',resaSoir,'Résas ce soir','blue',{delay:150,sub:alrtStk?'⚠ '+alrtStk+' alerte(s) stock':'Service fluide'});
 
   // ── ASSISTANT IA TIPS ──
   const tips=[];
