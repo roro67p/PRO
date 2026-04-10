@@ -6432,13 +6432,14 @@ function pill(txt,cls){return`<span class="pill p-${cls}">${txt}</span>`}
 function statPill(s){const m={libre:'green',occupée:'red',réservée:'blue',confirmé:'green','en-attente':'amber',annulé:'red',dispo:'green',indispo:'muted','en-cuisine':'amber',servi:'blue',payé:'green'};return pill(s,m[s]||'muted')}
 
 // KPI Card builder - SaaS Premium style
-// SVG donut chart pour KPI
-function svgDonut(pct,color,size=56){
-  const r=22;const c=2*Math.PI*r;const dash=c*pct/100;
-  return `<svg width="${size}" height="${size}" viewBox="0 0 56 56" style="flex-shrink:0">
-    <circle cx="28" cy="28" r="${r}" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="4"/>
-    <circle cx="28" cy="28" r="${r}" fill="none" stroke="${color}" stroke-width="4" stroke-dasharray="${dash} ${c-dash}" stroke-linecap="round" transform="rotate(-90 28 28)" style="transition:stroke-dasharray .8s ease"/>
-    <text x="28" y="31" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="${color}">${pct}%</text>
+// SVG donut chart pour KPI — gros cercle style Data UI
+function svgDonut(pct,color,size=100){
+  const r=40;const c=2*Math.PI*r;const dash=c*Math.min(pct,100)/100;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="flex-shrink:0;filter:drop-shadow(0 0 8px ${color}33)">
+    <circle cx="50" cy="50" r="${r}" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="7"/>
+    <circle cx="50" cy="50" r="${r}" fill="none" stroke="${color}" stroke-width="7" stroke-dasharray="${dash} ${c-dash}" stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dasharray 1s cubic-bezier(.4,0,.2,1)"/>
+    <text x="50" y="46" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="700" fill="${color}">${pct}%</text>
+    <text x="50" y="62" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.3)" letter-spacing="1">${pct>=80?'EXCELLENT':pct>=50?'BON':pct>0?'BAS':'—'}</text>
   </svg>`;
 }
 // Mini sparkline bars
@@ -9817,11 +9818,13 @@ function rDash(){
     caWeek.push(DB.ventes.filter(v=>v.date===ds).reduce((s,v)=>s+v.ttc,0));
   }
   const tblPct=totalTbl?Math.round(occ/totalTbl*100):0;
+  const tktPct=Math.min(100,Math.round(tkt/(DB.params.ticket||35)*100));
+  const resaPct=resaSoir?Math.min(100,Math.round(confirme/resaSoir*100)):0;
   if(dkEl) dkEl.innerHTML=
-    kpiCard('💰',eur(ca),"CA aujourd'hui",'gold',{delay:0,sub:cvt+' couverts',donut:{pct:pct}})+
-    kpiCard('🪑',occ+'/'+totalTbl,'Tables','red',{delay:60,sub:libre+' libres · '+reservee+' résas',donut:{pct:tblPct}})+
-    kpiCard('🧾',cvt?eur(tkt):'—','Ticket moyen','green',{delay:120,sub:actCmds+' cmdes actives',trend:cvt&&tkt>=(DB.params.ticket||35)?'up':cvt?'dn':'',spark:caWeek})+
-    kpiCard('📅',resaSoir,'Résas ce soir','blue',{delay:180,sub:alrtStk?'⚠ '+alrtStk+' alertes stock':'Fluide',spark:[resaSoir,confirme,attente,arrives,noshow||0,0,0].slice(0,5)});
+    kpiCard('💰',eur(ca),"Chiffre d'affaires",'gold',{delay:0,sub:cvt+' couverts · objectif '+eur(obj),donut:{pct:pct}})+
+    kpiCard('🪑',occ+'/'+totalTbl,'Occupation salle','green',{delay:80,sub:libre+' libres · '+reservee+' réservées',donut:{pct:tblPct}})+
+    kpiCard('🧾',cvt?eur(tkt):'0 €','Ticket moyen','blue',{delay:160,sub:actCmds+' cmdes · obj. '+eur(DB.params.ticket||35),donut:{pct:tktPct}})+
+    kpiCard('📅',resaSoir,'Réservations','orange',{delay:240,sub:confirme+' confirmées · '+attente+' attente',donut:{pct:resaPct}});
 
   // ── ASSISTANT IA TIPS ──
   const tips=[];
