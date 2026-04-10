@@ -2212,12 +2212,116 @@ tbody td { padding:13px 14px; font-size:13px; }
 .plat-desc{font-size:10px;color:var(--muted);margin-top:2px}
 .plat-allerg{font-size:9px;color:#f0a060;margin-top:2px}
 .plat-prix{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2);flex-shrink:0}
-/* Réservations */
-.resa-row{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--ink2);border:1px solid var(--line);border-radius:12px;transition:all .15s}
-.resa-row:hover{border-color:rgba(201,151,58,.2)}
-.resa-row-h{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2);min-width:50px}
-.resa-row-nom{font-size:13px;font-weight:600;color:var(--txt)}
-.resa-row-det{font-size:11px;color:var(--muted)}
+/* ══ RÉSERVATIONS PRO ══ */
+@keyframes resaIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes resaPulse{0%,100%{box-shadow:0 0 0 rgba(201,151,58,0)}50%{box-shadow:0 0 16px rgba(201,151,58,.18)}}
+@keyframes resaDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+@keyframes resaSlide{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+.resa-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px}
+.resa-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);display:flex;align-items:center;gap:10px}
+.resa-sub{font-size:11px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:7px}
+.resa-live{width:6px;height:6px;border-radius:50%;background:#6fcf8a;box-shadow:0 0 8px #6fcf8a;animation:resaDot 2s infinite;display:inline-block}
+.resa-actions{display:flex;gap:7px;flex-wrap:wrap}
+/* KPIs */
+.resa-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:700px){.resa-kpis{grid-template-columns:repeat(2,1fr)}}
+.resa-kpi{background:var(--ink2);border:1px solid var(--line);border-radius:13px;padding:16px 18px;position:relative;overflow:hidden;transition:all .2s;animation:resaIn .3s ease both}
+.resa-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:13px 13px 0 0}
+.resa-kpi:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.resa-kpi:nth-child(1)::before{background:linear-gradient(90deg,transparent,var(--gold2),transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
+.resa-kpi:nth-child(2)::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
+.resa-kpi:nth-child(3)::before{background:linear-gradient(90deg,transparent,#6aacda,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
+.resa-kpi:nth-child(4)::before{background:linear-gradient(90deg,transparent,#f0a060,transparent);animation:cmd3kpiFade 3s ease-in-out infinite}
+.resa-kpi-val{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;line-height:1;color:var(--gold2)}
+.resa-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-top:6px}
+.resa-kpi-sub{font-size:10px;color:var(--sub);margin-top:3px}
+/* Alertes */
+.resa-alertes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.resa-alerte{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:30px;font-size:12px;font-weight:600;border:1px solid;animation:resaSlide .3s ease both;cursor:pointer;transition:all .15s}
+.resa-alerte:hover{transform:translateY(-1px)}
+.resa-alerte.warn{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.35);color:var(--gold2)}
+.resa-alerte.danger{background:rgba(181,57,42,.1);border-color:rgba(181,57,42,.4);color:#f07060}
+.resa-alerte.info{background:rgba(45,95,138,.1);border-color:rgba(45,95,138,.3);color:#6aacda}
+.resa-alerte.ok{background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.3);color:#6fcf8a}
+.resa-alerte-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;animation:resaDot 2s infinite}
+.resa-alerte.warn .resa-alerte-dot{background:var(--gold2)}
+.resa-alerte.danger .resa-alerte-dot{background:#f07060}
+.resa-alerte.info .resa-alerte-dot{background:#6aacda}
+/* Timeline */
+.resa-timeline{display:flex;gap:4px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
+.resa-slot{flex:0 0 auto;width:56px;text-align:center;padding:8px 4px;border-radius:10px;cursor:pointer;border:1px solid var(--line);background:var(--ink2);transition:all .15s;position:relative}
+.resa-slot:hover{border-color:rgba(201,151,58,.3);transform:translateY(-2px)}
+.resa-slot.has-resa{border-color:rgba(201,151,58,.3);background:rgba(201,151,58,.06)}
+.resa-slot.now{border-color:rgba(111,207,138,.4);background:rgba(61,122,78,.08)}
+.resa-slot-h{font-size:13px;font-weight:700;color:var(--txt)}
+.resa-slot-count{font-size:10px;color:var(--muted);margin-top:2px}
+.resa-slot-dots{display:flex;gap:3px;justify-content:center;margin-top:4px}
+.resa-slot-dot{width:6px;height:6px;border-radius:50%}
+.resa-slot-dot.confirmé{background:#6fcf8a}
+.resa-slot-dot.en-attente{background:#f0a060}
+.resa-slot-dot.arrivé{background:#6aacda}
+.resa-slot-dot.annulé{background:#f07060}
+/* Filtres */
+.resa-filtres{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap}
+.resa-f-btn{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:transparent;transition:all .15s}
+.resa-f-btn.on{background:rgba(201,151,58,.14);border-color:rgba(201,151,58,.35);color:var(--gold3)}
+.resa-f-btn:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
+/* Calendrier */
+.resa-cal{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.resa-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.resa-cal-title{font-size:14px;font-weight:700;color:var(--txt)}
+.resa-cal-nav{display:flex;gap:6px}
+.resa-cal-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;font-size:12px}
+.resa-cal-btn:hover{background:rgba(255,255,255,.1);color:var(--txt)}
+.resa-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.resa-cal-day{font-size:9px;text-transform:uppercase;color:var(--muted);padding:4px;font-weight:600}
+.resa-cal-cell{padding:6px 2px;border-radius:8px;font-size:12px;cursor:pointer;transition:all .12s;position:relative;min-height:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid transparent}
+.resa-cal-cell:hover{background:rgba(255,255,255,.06)}
+.resa-cal-cell.today{border-color:rgba(201,151,58,.4);background:rgba(201,151,58,.06);font-weight:700;color:var(--gold2)}
+.resa-cal-cell.selected{background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.5);color:var(--gold3)}
+.resa-cal-cell.has-resa::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold2)}
+.resa-cal-cell.fermé{opacity:.3;pointer-events:none}
+/* Liste réservations */
+.resa-list{display:flex;flex-direction:column;gap:8px}
+.resa-card{display:flex;align-items:stretch;gap:0;background:var(--ink2);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:all .2s;animation:resaIn .25s ease both;cursor:pointer;position:relative}
+.resa-card:hover{border-color:rgba(201,151,58,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.resa-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.resa-card.st-confirmé::before{background:#6fcf8a}
+.resa-card.st-en-attente::before{background:#f0a060}
+.resa-card.st-arrivé::before{background:#6aacda}
+.resa-card.st-no-show::before{background:#f07060}
+.resa-card.st-annulé::before{background:rgba(255,255,255,.15)}
+.resa-card.st-annulé{opacity:.5}
+.resa-card-time{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 16px;min-width:70px;border-right:1px solid rgba(255,255,255,.05)}
+.resa-card-h{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);line-height:1}
+.resa-card-date{font-size:9px;color:var(--muted);margin-top:3px;text-transform:uppercase}
+.resa-card-body{flex:1;padding:12px 16px;min-width:0}
+.resa-card-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.resa-card-nom{font-size:14px;font-weight:700;color:var(--txt)}
+.resa-card-vip{font-size:10px}
+.resa-card-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.resa-card-badge.confirmé{background:rgba(61,122,78,.15);border:1px solid rgba(61,122,78,.3);color:#6fcf8a}
+.resa-card-badge.en-attente{background:rgba(240,160,96,.12);border:1px solid rgba(240,160,96,.3);color:#f0a060}
+.resa-card-badge.arrivé{background:rgba(45,95,138,.12);border:1px solid rgba(45,95,138,.3);color:#6aacda}
+.resa-card-badge.no-show{background:rgba(181,57,42,.12);border:1px solid rgba(181,57,42,.3);color:#f07060}
+.resa-card-badge.annulé{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--muted)}
+.resa-card-det{font-size:11px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;margin-top:2px}
+.resa-card-notes{font-size:10px;color:var(--sub);margin-top:4px;font-style:italic;display:flex;align-items:center;gap:4px}
+.resa-card-actions{display:flex;align-items:center;gap:4px;padding:8px 12px;flex-shrink:0;opacity:0;transition:opacity .15s}
+.resa-card:hover .resa-card-actions{opacity:1}
+.resa-act-btn{width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .12s}
+.resa-act-btn:hover{background:rgba(255,255,255,.12);color:var(--txt)}
+.resa-act-btn.confirm:hover{background:rgba(61,122,78,.15);color:#6fcf8a;border-color:rgba(61,122,78,.3)}
+.resa-act-btn.arrive:hover{background:rgba(45,95,138,.12);color:#6aacda;border-color:rgba(45,95,138,.3)}
+.resa-act-btn.cancel:hover{background:rgba(181,57,42,.12);color:#f07060;border-color:rgba(181,57,42,.3)}
+.resa-act-btn.edit:hover{background:rgba(201,151,58,.12);color:var(--gold2);border-color:rgba(201,151,58,.3)}
+/* Conflit */
+.resa-conflit{background:rgba(181,57,42,.08);border:1px solid rgba(181,57,42,.25);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:11px;color:#f07060;display:flex;align-items:center;gap:8px;animation:resaSlide .2s ease}
+.resa-conflit-ico{font-size:16px}
+/* Empty state */
+.resa-empty{text-align:center;padding:50px 20px;color:var(--muted);animation:resaIn .3s ease}
+.resa-empty-ico{font-size:48px;opacity:.2;margin-bottom:12px}
+.resa-empty-txt{font-size:13px;margin-bottom:16px}
 /* Alertes dashboard */
 .alerte-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .alerte-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
@@ -3229,43 +3333,51 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- RÉSERVATIONS -->
   <div id="page-reservations" class="page">
-    <div class="page-header">
-      <h2>📅 Réservations</h2>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
+  <div>
+    <!-- HEADER -->
+    <div class="resa-header">
+      <div>
+        <div class="resa-title">📅 Réservations</div>
+        <div class="resa-sub"><span class="resa-live"></span><span id="resa-sub-txt">Service en cours</span></div>
+      </div>
+      <div class="resa-actions">
         <button class="btn btn-ghost btn-sm" onclick="nav('resa-attente',this)">⏳ Attente<span id="b-attente" style="background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px"></span></button>
         <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="voirBlacklist()">⛔ Blacklist</button>
-        <button class="btn btn-gold btn-sm" onclick="openModal('mo-resa')">+ Résa</button>
+        <button class="sv3-btn-tout" onclick="openModal('mo-resa')">+ Nouvelle réservation</button>
       </div>
     </div>
-    <div class="kpi-row" id="resa-kpi"></div>
 
-    <!-- Alertes no-show / acomptes -->
-    <div id="resa-alertes" style="margin-bottom:12px"></div>
+    <!-- KPIs -->
+    <div class="resa-kpis" id="resa-kpi"></div>
 
-    <!-- Vue calendrier -->
-    <div class="card" style="margin-bottom:16px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <button class="btn btn-ghost btn-sm" onclick="resaCalNav(-1)">← Préc.</button>
-        <span id="resa-cal-titre" style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold2)"></span>
-        <button class="btn btn-ghost btn-sm" onclick="resaCalNav(1)">Suiv. →</button>
+    <!-- Alertes -->
+    <div class="resa-alertes" id="resa-alertes"></div>
+
+    <!-- Timeline horaire -->
+    <div class="resa-timeline" id="resa-timeline"></div>
+
+    <!-- Calendrier -->
+    <div class="resa-cal">
+      <div class="resa-cal-head">
+        <button class="resa-cal-btn" onclick="resaCalNav(-1)">←</button>
+        <span class="resa-cal-title" id="resa-cal-titre"></span>
+        <button class="resa-cal-btn" onclick="resaCalNav(1)">→</button>
       </div>
-      <div id="resa-calendrier"></div>
+      <div class="resa-cal-grid" id="resa-calendrier"></div>
     </div>
 
-    <!-- Liste des réservations -->
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:6px">
-        <div class="card-title" style="margin-bottom:0" id="resa-liste-titre">Toutes les réservations</div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap">
-          <button class="btn btn-ghost btn-xs" onclick="filterResaStatut('tous')" id="rs-f-tous" style="border-color:var(--gold)">Tous</button>
-          <button class="btn btn-ghost btn-xs" onclick="filterResaStatut('confirmé')" id="rs-f-confirmé">✅ Confirmé</button>
-          <button class="btn btn-ghost btn-xs" onclick="filterResaStatut('en-attente')" id="rs-f-en-attente">⏳ Attente</button>
-          <button class="btn btn-ghost btn-xs" onclick="filterResaStatut('no-show')" id="rs-f-no-show" style="color:var(--red)">👻 No-show</button>
-          <button class="btn btn-ghost btn-xs" onclick="filterResaStatut('annulé')" id="rs-f-annulé">❌</button>
-        </div>
-      </div>
-      <div id="resa-liste"></div>
+    <!-- Filtres -->
+    <div class="resa-filtres">
+      <button class="resa-f-btn on" onclick="filterResaStatut('tous',this)" id="rs-f-tous">Tous</button>
+      <button class="resa-f-btn" onclick="filterResaStatut('confirmé',this)" id="rs-f-confirmé">🟢 Confirmé</button>
+      <button class="resa-f-btn" onclick="filterResaStatut('en-attente',this)" id="rs-f-en-attente">🟡 Attente</button>
+      <button class="resa-f-btn" onclick="filterResaStatut('no-show',this)" id="rs-f-no-show">🔴 No-show</button>
+      <button class="resa-f-btn" onclick="filterResaStatut('annulé',this)" id="rs-f-annulé">❌ Annulé</button>
     </div>
+
+    <!-- Liste -->
+    <div class="resa-list" id="resa-liste"></div>
+  </div>
   </div>
 
   <!-- PAGE LISTE D'ATTENTE -->
@@ -7519,7 +7631,14 @@ function _saveResaOK(){
     acompte:+document.getElementById('rs-acompte')?.value||0,
     acompteStat:document.getElementById('rs-acompte-stat')?.value||'non'
   };
-  if(id){const i=DB.reservations.findIndex(r=>r.id===id);DB.reservations[i]={...DB.reservations[i],...o};toast('Réservation modifiée');}
+  // Vérifier conflits de table
+  if(o.tbl){
+    const conflit=(DB.reservations||[]).find(r=>r.id!==id&&r.tbl===o.tbl&&r.date===o.date&&r.stat!=='annulé'&&Math.abs(parseInt(r.h)-parseInt(o.h))<2);
+    if(conflit&&!confirm(`⚠ Table ${gT(o.tbl).num} déjà réservée à ${conflit.h} par ${conflit.nom}. Continuer ?`)) return;
+  }
+  // Auto-mettre table en réservée
+  if(o.tbl&&o.date===td()) setTblStat(o.tbl,'réservée');
+  if(id){const i=DB.reservations.findIndex(r=>r.id===id);if(i>=0){DB.reservations[i]={...DB.reservations[i],...o};}toast('Réservation modifiée');}
   else{
     o.id=DB.ids.r++;
     DB.reservations.push(o);
@@ -7555,63 +7674,91 @@ function resaCalNav(dir){
   if(resaCalMonth<0){resaCalMonth=11;resaCalYear--;}
   rResa();
 }
-function filterResaStatut(s){
+function filterResaStatut(s,btn){
   resaStatutFilter=s;
-  ['tous','confirmé','en-attente','annulé'].forEach(x=>{
-    const b=document.getElementById('rs-f-'+x);
-    if(b) b.style.borderColor=x===s?'var(--gold)':'var(--line)';
-  });
+  document.querySelectorAll('.resa-f-btn').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  else{const b=document.getElementById('rs-f-'+s);if(b)b.classList.add('on');}
   rRendreResaListe();
 }
 
 function rResa(){
   const resas=DB.reservations||[];
   const now=new Date();
-  const resasJ=resas.filter(r=>r.date===td());
+  const today=td();
+  const resasJ=resas.filter(r=>r.date===today);
   const confirme=resasJ.filter(r=>r.stat==='confirmé').length;
+  const attente=resasJ.filter(r=>r.stat==='en-attente').length;
   const cvtTotal=resasJ.reduce((s,r)=>s+(+r.cvt||0),0);
-  const kpiEl=document.getElementById('resa-kpi');
-  if(kpiEl) kpiEl.innerHTML=
-    '<div class="kpi-box kpi-gold"><div class="kpi-label">AUJOURD\'HUI</div><div class="kpi-val">'+resasJ.length+'</div></div>'+
-    '<div class="kpi-box kpi-green"><div class="kpi-label">CONFIRMÉES</div><div class="kpi-val">'+confirme+'</div></div>'+
-    '<div class="kpi-box kpi-blue"><div class="kpi-label">COUVERTS PRÉVUS</div><div class="kpi-val">'+cvtTotal+'</div></div>'+
-    '<div class="kpi-box kpi-gold"><div class="kpi-label">TOTAL</div><div class="kpi-val">'+resas.length+'</div></div>';
+  const g=id=>document.getElementById(id);
 
-  (document.getElementById('b-resa')||{}).textContent=resasJ.filter(r=>r.stat!=='annulé').length;
+  // Sous-titre
+  if(g('resa-sub-txt')){
+    if(resasJ.length) g('resa-sub-txt').textContent=`${resasJ.length} résa(s) aujourd'hui · ${cvtTotal} couverts prévus`;
+    else g('resa-sub-txt').textContent='Aucune réservation aujourd\'hui';
+  }
+
+  // KPIs
+  const kpiEl=g('resa-kpi');
+  if(kpiEl) kpiEl.innerHTML=`
+    <div class="resa-kpi"><div class="resa-kpi-val" style="color:var(--gold2)">${resasJ.length}</div><div class="resa-kpi-lbl">Aujourd'hui</div><div class="resa-kpi-sub">${attente?attente+' en attente':'Tout confirmé'}</div></div>
+    <div class="resa-kpi"><div class="resa-kpi-val" style="color:#6fcf8a">${confirme}</div><div class="resa-kpi-lbl">Confirmées</div></div>
+    <div class="resa-kpi"><div class="resa-kpi-val" style="color:#6aacda">${cvtTotal}</div><div class="resa-kpi-lbl">Couverts prévus</div></div>
+    <div class="resa-kpi"><div class="resa-kpi-val" style="color:#f0a060">${resas.length}</div><div class="resa-kpi-lbl">Total résas</div></div>`;
+
+  (g('b-resa')||{}).textContent=resasJ.filter(r=>r.stat!=='annulé').length;
+
+  // Timeline horaire
+  const tlEl=g('resa-timeline');
+  if(tlEl){
+    const curH=now.getHours();
+    let tlHtml='';
+    for(let h=11;h<=23;h++){
+      const hStr=String(h).padStart(2,'0');
+      const slotResas=resasJ.filter(r=>r.h&&r.h.startsWith(hStr));
+      const isNow=h===curH;
+      const hasCls=slotResas.length?' has-resa':'';
+      const nowCls=isNow?' now':'';
+      const dots=slotResas.slice(0,3).map(r=>`<div class="resa-slot-dot ${r.stat}"></div>`).join('');
+      tlHtml+=`<div class="resa-slot${hasCls}${nowCls}" onclick="resaFilterHeure('${hStr}')">
+        <div class="resa-slot-h">${h}h</div>
+        <div class="resa-slot-count">${slotResas.length||'—'}</div>
+        <div class="resa-slot-dots">${dots}</div>
+      </div>`;
+    }
+    tlEl.innerHTML=tlHtml;
+  }
 
   // Calendrier
-  const calEl=document.getElementById('resa-calendrier');
-  const titreEl=document.getElementById('resa-cal-titre');
+  const calEl=g('resa-calendrier');
+  const titreEl=g('resa-cal-titre');
   if(calEl&&titreEl){
     const moisNoms=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-    const joursNoms=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+    const joursNoms=['L','M','M','J','V','S','D'];
     titreEl.textContent=moisNoms[resaCalMonth]+' '+resaCalYear;
     const firstDay=(new Date(resaCalYear,resaCalMonth,1).getDay()||7)-1;
     const daysInMonth=new Date(resaCalYear,resaCalMonth+1,0).getDate();
-    let html='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">';
-    joursNoms.forEach(j=>{html+='<div style="text-align:center;font-size:9px;color:var(--muted);font-weight:600;padding:4px 0">'+j+'</div>';});
-    html+='</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">';
+    let html=joursNoms.map(j=>`<div class="resa-cal-day">${j}</div>`).join('');
     for(let i=0;i<firstDay;i++) html+='<div></div>';
     for(let d=1;d<=daysInMonth;d++){
       const ds=resaCalYear+'-'+String(resaCalMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
       const dayResas=resas.filter(r=>r.date===ds&&r.stat!=='annulé');
-      const isToday=ds===td();
+      const isToday=ds===today;
       const isSelected=ds===resaDateFilter;
       const hasPeriode=(DB.periodes||[]).find(p=>ds>=p.debut&&ds<=p.fin);
-      const bg=isSelected?'var(--gold)':isToday?'rgba(201,151,58,.2)':dayResas.length?'rgba(61,122,78,.15)':'var(--ink3)';
-      const col=isSelected?'var(--ink)':isToday?'var(--gold2)':dayResas.length?'var(--green)':'var(--sub)';
-      html+='<div onclick="resaSelectDay(this.dataset.d)" data-d="'+ds+'" style="aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:'+bg+';border-radius:6px;cursor:pointer;border:1px solid '+(isToday?'var(--gold)':'transparent')+';position:relative">'+
-        '<span style="font-size:12px;font-weight:'+(isToday||dayResas.length?'700':'400')+';color:'+col+'">'+d+'</span>'+
-        (dayResas.length?'<span style="font-size:8px;color:'+(isSelected?'var(--ink)':'var(--green)')+'">'+dayResas.length+'</span>':'')+
-        (hasPeriode?'<span style="position:absolute;top:1px;right:1px;width:4px;height:4px;border-radius:50%;background:var(--red)"></span>':'')+
-        '</div>';
+      const cls=(isSelected?' selected':'')+(isToday?' today':'')+(dayResas.length?' has-resa':'')+(hasPeriode?' fermé':'');
+      html+=`<div class="resa-cal-cell${cls}" onclick="resaSelectDay('${ds}')">${d}</div>`;
     }
-    html+='</div>';
     calEl.innerHTML=html;
   }
   rRendreResaListe();
   rResaAlertes();
   rListeAttente();
+}
+function resaFilterHeure(h){
+  resaDateFilter=td();
+  window._resaHeureFilter=window._resaHeureFilter===h?null:h;
+  rResa();
 }
 
 function resaSelectDay(date){
@@ -7625,39 +7772,55 @@ function rRendreResaListe(){
   const resas=DB.reservations||[];
   let list=resas.slice().sort((a,b)=>a.date+a.h>b.date+b.h?1:-1);
   if(resaDateFilter) list=list.filter(r=>r.date===resaDateFilter);
+  if(window._resaHeureFilter) list=list.filter(r=>r.h&&r.h.startsWith(window._resaHeureFilter));
   if(resaStatutFilter!=='tous') list=list.filter(r=>r.stat===resaStatutFilter);
   const el=document.getElementById('resa-liste');
   if(!el) return;
-  if(!list.length){el.innerHTML='<div class="empty-card"><span class="ei">📅</span><p>Aucune réservation</p></div>';return;}
-  el.innerHTML=list.map(r=>{
-    const isToday=r.date===td();
-    const periode=(DB.periodes||[]).find(p=>r.date>=p.debut&&r.date<=p.fin);
-    return '<div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)">'+
-      '<div style="min-width:56px;text-align:center;background:var(--ink3);border-radius:8px;padding:8px 4px;'+(isToday?'border:1px solid var(--gold)':'')+'">'+
-        '<div style="font-size:10px;color:var(--muted)">'+['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][new Date(r.date+'T12:00').getDay()]+'</div>'+
-        '<div style="font-family:Cormorant Garamond,serif;font-size:20px;font-weight:700;color:'+(isToday?'var(--gold2)':'var(--txt)')+'">'+r.date.slice(8)+'</div>'+
-        '<div style="font-size:10px;color:var(--muted)">'+r.date.slice(0,7)+'</div>'+
-      '</div>'+
-      '<div style="flex:1">'+
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'+
-          '<span style="font-size:15px;font-weight:600">'+r.nom+'</span>'+
-          statPill(r.stat)+
-        '</div>'+
-        '<div style="font-size:12px;color:var(--sub)">⏰ '+r.h+' · 👥 '+r.cvt+' couverts'+(r.tel?' · 📞 '+r.tel:'')+(r.tbl?' · Table '+gT(r.tbl).num:'')+'</div>'+
-        (r.acompte>0?'<div style="font-size:11px;color:'+(r.acompteStat==='oui'?'var(--green)':'var(--amber)')+';margin-top:3px">💰 Acompte '+(r.acompteStat==='oui'?'encaissé ✓':'demandé')+' : '+eur(r.acompte)+'</div>':'')+
-        (r.stat==='no-show'?'<div style="font-size:11px;color:var(--red);margin-top:3px;font-weight:600">👻 No-show — Table restée vide</div>':'')+
-        (r.notes?'<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:3px">'+r.notes+'</div>':'')+
-        (periode?'<div style="font-size:10px;color:var(--red);margin-top:3px">⚠️ '+periode.type+' du '+periode.debut+' au '+periode.fin+'</div>':'')+
-        '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">'+
-          '<button class="btn btn-ghost btn-xs" onclick="editResa('+r.id+')">✏️</button>'+
-          (r.stat==='en-attente'||r.stat==='confirmé'?'<button class="btn btn-gold btn-xs" onclick="confirmerResa('+r.id+')">✅ Confirmé</button>':'')+
-          (r.stat!=='no-show'&&r.stat!=='annulé'?'<button class="btn btn-ghost btn-xs" style="color:var(--red)" onclick="marquerNoShow('+r.id+')">👻 No-show</button>':'')+
-          (r.stat==='no-show'?'<button class="btn btn-ghost btn-xs" style="color:var(--red)" onclick="blacklisterClient('+r.id+')">⛔ Blacklist</button>':'')+
-          '<button class="btn btn-danger btn-xs" onclick="delResa('+r.id+')">✕</button>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
+  if(!list.length){
+    el.innerHTML=`<div class="resa-empty"><div class="resa-empty-ico">📅</div><div class="resa-empty-txt">Aucune réservation</div><button class="sv3-btn-tout" onclick="openModal('mo-resa')">+ Nouvelle réservation</button></div>`;
+    return;
+  }
+  // Chercher clients VIP
+  const clients=DB.clients||[];
+  el.innerHTML=list.map((r,i)=>{
+    const statLabel={'confirmé':'Confirmé','en-attente':'En attente','no-show':'No-show','annulé':'Annulé','arrivé':'Arrivé'}[r.stat]||r.stat;
+    const cli=clients.find(c=>c.nom===r.nom||c.tel===r.tel);
+    const isVip=cli&&cliTotalDepense(cli)>=500;
+    return `<div class="resa-card st-${r.stat}" style="animation-delay:${i*40}ms">
+      <div class="resa-card-time">
+        <div class="resa-card-h">${r.h||'—'}</div>
+        <div class="resa-card-date">${['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][new Date(r.date+'T12:00').getDay()]} ${r.date.slice(8)}</div>
+      </div>
+      <div class="resa-card-body">
+        <div class="resa-card-top">
+          <span class="resa-card-nom">${r.nom}</span>
+          ${isVip?'<span class="resa-card-vip">💎</span>':''}
+          <span class="resa-card-badge ${r.stat}">${statLabel}</span>
+        </div>
+        <div class="resa-card-det">
+          <span>👥 ${r.cvt} cvt${r.cvt>1?'s':''}</span>
+          ${r.tbl?`<span>🪑 Table ${gT(r.tbl).num}</span>`:''}
+          ${r.tel?`<span>📞 ${r.tel}</span>`:''}
+          ${r.acompte>0?`<span style="color:${r.acompteStat==='oui'?'#6fcf8a':'#f0a060'}">💰 ${eur(r.acompte)} ${r.acompteStat==='oui'?'✓':''}</span>`:''}
+        </div>
+        ${r.notes?`<div class="resa-card-notes">📝 ${r.notes}</div>`:''}
+      </div>
+      <div class="resa-card-actions">
+        <button class="resa-act-btn edit" onclick="event.stopPropagation();editResa(${r.id})" title="Modifier">✏</button>
+        ${r.stat!=='annulé'&&r.stat!=='no-show'?`<button class="resa-act-btn confirm" onclick="event.stopPropagation();confirmerResa(${r.id})" title="Confirmer">✓</button>`:''}
+        ${r.stat==='confirmé'?`<button class="resa-act-btn arrive" onclick="event.stopPropagation();arriverResa(${r.id})" title="Marquer arrivé">🏁</button>`:''}
+        ${r.stat!=='annulé'&&r.stat!=='no-show'?`<button class="resa-act-btn cancel" onclick="event.stopPropagation();marquerNoShow(${r.id})" title="No-show">👻</button>`:''}
+        <button class="resa-act-btn cancel" onclick="event.stopPropagation();delResa(${r.id})" title="Supprimer">✕</button>
+      </div>
+    </div>`;
   }).join('');
+}
+function arriverResa(id){
+  const r=(DB.reservations||[]).find(x=>x.id===id);if(!r)return;
+  r.stat='arrivé';
+  if(r.tbl) setTblStat(r.tbl,'occupée');
+  saveDB();rResa();rSalle();
+  toast('🏁 Client arrivé — table ouverte');
 }
 
 
@@ -7828,12 +7991,33 @@ function rResaAlertes(){
   const el=document.getElementById('resa-alertes'); if(!el) return;
   const resas=DB.reservations||[];
   const today=td();
-  const noShows=resas.filter(function(r){return r.stat==='no-show'&&r.date===today;});
-  const acomptesNonEncaisses=resas.filter(function(r){return r.acompte>0&&r.acompteStat!=='oui'&&r.date>=today&&r.stat!=='annulé';});
-  let html='';
-  if(noShows.length) html+='<div style="background:rgba(181,57,42,.1);border:1px solid rgba(181,57,42,.3);border-radius:8px;padding:10px;margin-bottom:8px;font-size:13px">👻 <strong>'+noShows.length+' no-show</strong> aujourd&#39;hui — tables restées vides · <button onclick="voirBlacklist()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:12px;text-decoration:underline">Gérer la blacklist</button></div>';
-  if(acomptesNonEncaisses.length) html+='<div style="background:rgba(232,155,40,.1);border:1px solid rgba(232,155,40,.3);border-radius:8px;padding:10px;font-size:13px">💰 <strong>'+acomptesNonEncaisses.length+' acompte(s)</strong> à encaisser — Total : <strong>'+eur(acomptesNonEncaisses.reduce(function(s,r){return s+r.acompte;},0))+'</strong></div>';
-  el.innerHTML=html;
+  const now=new Date();
+  const curH=now.getHours();const curM=now.getMinutes();
+  const alertes=[];
+  // No-shows
+  const noShows=resas.filter(r=>r.stat==='no-show'&&r.date===today);
+  if(noShows.length) alertes.push({cls:'danger',txt:`👻 ${noShows.length} no-show aujourd'hui`});
+  // Acomptes impayés
+  const acomptes=resas.filter(r=>r.acompte>0&&r.acompteStat!=='oui'&&r.date>=today&&r.stat!=='annulé');
+  if(acomptes.length) alertes.push({cls:'warn',txt:`💰 ${acomptes.length} acompte(s) à encaisser — ${eur(acomptes.reduce((s,r)=>s+r.acompte,0))}`});
+  // Prochaines résas (dans 30 min)
+  const prochaines=resas.filter(r=>{
+    if(r.date!==today||r.stat==='annulé'||r.stat==='no-show') return false;
+    const rH=parseInt(r.h);const rM=parseInt(r.h.split(':')[1]||0);
+    const diff=(rH*60+rM)-(curH*60+curM);
+    return diff>0&&diff<=30;
+  });
+  if(prochaines.length) alertes.push({cls:'info',txt:`⏰ ${prochaines.length} résa(s) dans les 30 prochaines minutes`});
+  // Clients en retard (confirmé + heure dépassée)
+  const retards=resas.filter(r=>{
+    if(r.date!==today||r.stat!=='confirmé') return false;
+    const rH=parseInt(r.h);const rM=parseInt(r.h.split(':')[1]||0);
+    return (curH*60+curM)>(rH*60+rM+15);
+  });
+  if(retards.length) alertes.push({cls:'danger',txt:`🔴 ${retards.length} client(s) en retard (+15min)`});
+  // Tout OK
+  if(!alertes.length&&resas.filter(r=>r.date===today).length) alertes.push({cls:'ok',txt:'✅ Tout est en ordre — aucune alerte'});
+  el.innerHTML=alertes.map(a=>`<div class="resa-alerte ${a.cls}"><div class="resa-alerte-dot"></div>${a.txt}</div>`).join('');
 }
 function confirmerResa(id){
   const i=DB.reservations.findIndex(r=>r.id===id);
