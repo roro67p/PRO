@@ -9239,7 +9239,7 @@ function posRenderGrid(){
     const qte=qteMap[p.id]||0;
     const isTop=topIds.has(p.id);
     const isRentable=(margeMap[p.id]||0)>0.6;
-    return '<div class="p3-prod'+(stk||!dispo?' rupture':'')+(isTop?' top-seller':'')+'" id="pp'+p.id+'" data-cat="'+(p.cat||'')+'" '+(dispo?'onclick="posClick(event,'+p.id+')" ondblclick="posDoubleClick(event,'+p.id+')"':'style="opacity:.35;pointer-events:none"')+' style="animation-delay:'+(idx*15)+'ms">'+
+    return '<div class="p3-prod'+(stk||!dispo?' rupture':'')+(isTop?' top-seller':'')+'" id="pp'+p.id+'" data-cat="'+(p.cat||'')+'" '+(dispo?'onclick="posClick(event,'+p.id+')" ondblclick="posDoubleClick(event,'+p.id+')"':'')+' style="animation-delay:'+(idx*15)+'ms'+(dispo?'':';opacity:.35;pointer-events:none')+'">'+
       (!dispo?'<span class="p3-prod-stk">🚫</span>':stk?'<span class="p3-prod-stk">⚠</span>':'')+
       (qte>0?'<span class="p3-prod-cnt">'+qte+'</span>':'')+
       (isTop?'<span style="position:absolute;top:5px;left:5px;font-size:9px;background:rgba(201,151,58,.2);border:1px solid rgba(201,151,58,.38);border-radius:4px;padding:1px 4px;color:#f5d070;font-weight:800">★</span>':'')+
