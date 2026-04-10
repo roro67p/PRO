@@ -21910,10 +21910,26 @@ function rMaintenance(){
   const panne=all.filter(m=>m.statut==='panne').length;
   const kpi=document.getElementById('mnt-kpis');
   if(kpi) kpi.innerHTML=`
-    <div class="mnt-kpi"><div class="mnt-kpi-val" style="color:#10b981">${ok}</div><div class="mnt-kpi-lbl">✅ Opérationnels</div></div>
-    <div class="mnt-kpi"><div class="mnt-kpi-val" style="color:#f59e0b">${maint}</div><div class="mnt-kpi-lbl">🔧 Maintenance</div></div>
-    <div class="mnt-kpi"><div class="mnt-kpi-val" style="color:#f97316">${alerte}</div><div class="mnt-kpi-lbl">⚠️ Alertes</div></div>
-    <div class="mnt-kpi"><div class="mnt-kpi-val" style="color:#ef4444">${panne}</div><div class="mnt-kpi-lbl">🔴 Pannes</div></div>
+    <div class="mnt-kpi" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);box-shadow:0 4px 20px rgba(16,185,129,.15)">
+      <div style="font-size:22px;margin-bottom:6px">✅</div>
+      <div class="mnt-kpi-val" style="color:#10b981">${ok}</div>
+      <div class="mnt-kpi-lbl" style="color:#6ee7b7">Opérationnels</div>
+    </div>
+    <div class="mnt-kpi" style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);box-shadow:0 4px 20px rgba(245,158,11,.12)">
+      <div style="font-size:22px;margin-bottom:6px">🔧</div>
+      <div class="mnt-kpi-val" style="color:#fbbf24">${maint}</div>
+      <div class="mnt-kpi-lbl" style="color:#fde68a">Maintenance</div>
+    </div>
+    <div class="mnt-kpi${alerte>0?' kpi-urgent':''}" style="background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.4);box-shadow:0 4px 20px rgba(249,115,22,.15)">
+      <div style="font-size:22px;margin-bottom:6px">⚠️</div>
+      <div class="mnt-kpi-val" style="color:#fb923c">${alerte}</div>
+      <div class="mnt-kpi-lbl" style="color:#fed7aa">Alertes</div>
+    </div>
+    <div class="mnt-kpi${panne>0?' kpi-urgent':''}" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);box-shadow:0 4px 20px rgba(239,68,68,.15)">
+      <div style="font-size:22px;margin-bottom:6px">🔴</div>
+      <div class="mnt-kpi-val" style="color:#f87171">${panne}</div>
+      <div class="mnt-kpi-lbl" style="color:#fecaca">Pannes</div>
+    </div>
   `;
   renderMntList();
 }
@@ -22016,10 +22032,26 @@ function rIncidents(){
   const nonResolus=all.filter(i=>!i.resolu).length;
   const kpi=document.getElementById('inc-kpis');
   if(kpi) kpi.innerHTML=`
-    <div class="inc-kpi"><div class="inc-kpi-val">${all.length}</div><div class="inc-kpi-lbl">📋 Total</div></div>
-    <div class="inc-kpi"><div class="inc-kpi-val" style="color:#ef4444">${nonResolus}</div><div class="inc-kpi-lbl">⏳ Non résolus</div></div>
-    <div class="inc-kpi"><div class="inc-kpi-val" style="color:#f97316">${moyens}</div><div class="inc-kpi-lbl">🟠 Moyens</div></div>
-    <div class="inc-kpi"><div class="inc-kpi-val" style="color:#ef4444">${graves}</div><div class="inc-kpi-lbl">🔴 Graves</div></div>
+    <div class="inc-kpi" style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.4);box-shadow:0 4px 20px rgba(99,102,241,.12)">
+      <div style="font-size:22px;margin-bottom:6px">📋</div>
+      <div class="inc-kpi-val" style="color:#a5b4fc">${all.length}</div>
+      <div class="inc-kpi-lbl" style="color:#c7d2fe">Total incidents</div>
+    </div>
+    <div class="inc-kpi${nonResolus>0?' kpi-urgent':''}" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);box-shadow:0 4px 20px rgba(239,68,68,.12)">
+      <div style="font-size:22px;margin-bottom:6px">⏳</div>
+      <div class="inc-kpi-val" style="color:#f87171">${nonResolus}</div>
+      <div class="inc-kpi-lbl" style="color:#fecaca">Non résolus</div>
+    </div>
+    <div class="inc-kpi" style="background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.4);box-shadow:0 4px 20px rgba(249,115,22,.12)">
+      <div style="font-size:22px;margin-bottom:6px">🟠</div>
+      <div class="inc-kpi-val" style="color:#fb923c">${moyens}</div>
+      <div class="inc-kpi-lbl" style="color:#fed7aa">Gravité moyenne</div>
+    </div>
+    <div class="inc-kpi${graves>0?' kpi-urgent':''}" style="background:rgba(220,38,38,.2);border:1px solid rgba(220,38,38,.5);box-shadow:0 4px 20px rgba(220,38,38,.2)">
+      <div style="font-size:22px;margin-bottom:6px">🔴</div>
+      <div class="inc-kpi-val" style="color:#fca5a5">${graves}</div>
+      <div class="inc-kpi-lbl" style="color:#fecaca">Incidents graves</div>
+    </div>
   `;
   renderIncList();
 }
