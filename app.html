@@ -1739,26 +1739,84 @@ tbody td { padding:13px 14px; font-size:13px; }
 .sv3-kpi-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;line-height:1}
 .sv3-kpi-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-top:6px}
 .sv3-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.sv3-table{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;min-height:100px;display:flex;flex-direction:column;justify-content:space-between}
-.sv3-table:hover{border-color:rgba(201,151,58,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.sv3-table.occupee{background:rgba(201,151,58,.07);border-color:rgba(201,151,58,.25)}
-.sv3-table.libre{background:var(--ink2)}
-.sv3-table-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold2)}
-.sv3-table-info{font-size:11px;color:var(--muted);margin-top:4px}
-.sv3-timer{font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px;display:inline-block;margin-top:6px}
-.t-fresh{color:#6fcf8a;background:rgba(61,122,78,.12)}
-.t-ok{color:var(--sub);background:rgba(255,255,255,.05)}
-.t-warn{color:var(--amber);background:rgba(201,151,58,.12);animation:sv3pulse 2s infinite}
-.t-slow{color:#f07060;background:rgba(181,57,42,.12);animation:sv3blink 1s infinite}
-@keyframes sv3pulse{0%,100%{opacity:1}50%{opacity:.5}}
+/* Tables - cartes */
+.sv3-table{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;min-height:130px;display:flex;flex-direction:column;gap:4px}
+.sv3-table::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0;transition:background .2s}
+.sv3-table:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+/* Libre = vert */
+.sv3-table.libre{border-color:rgba(61,122,78,.3)}
+.sv3-table.libre::before{background:linear-gradient(90deg,transparent,#6fcf8a,transparent)}
+.sv3-table.libre:hover{border-color:rgba(61,122,78,.5)}
+/* Occupée = rouge/orange */
+.sv3-table.occupée{background:rgba(181,57,42,.06);border-color:rgba(240,112,96,.3)}
+.sv3-table.occupée::before{background:linear-gradient(90deg,transparent,#f07060,transparent)}
+.sv3-table.occupée:hover{border-color:rgba(240,112,96,.5)}
+/* Réservée = bleu */
+.sv3-table.réservée{background:rgba(45,95,138,.06);border-color:rgba(106,172,218,.3)}
+.sv3-table.réservée::before{background:linear-gradient(90deg,transparent,#6aacda,transparent)}
+.sv3-table.réservée:hover{border-color:rgba(106,172,218,.5)}
+/* Timer alertes */
+.sv3-table.t-warn{border-color:rgba(240,160,96,.45)!important;background:rgba(201,151,58,.06)!important}
+.sv3-table.t-warn::before{background:linear-gradient(90deg,transparent,#f0a060,transparent)!important;animation:sv3pulse 2s infinite}
+.sv3-table.t-slow{border-color:rgba(240,80,80,.5)!important;background:rgba(181,57,42,.08)!important;animation:sv3blink 1.2s infinite}
+.sv3-table.t-slow::before{background:linear-gradient(90deg,transparent,#f07060,transparent)!important}
+@keyframes sv3pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes sv3blink{0%,100%{opacity:1}50%{opacity:.3}}
-.sv3-table.t-warn{border-color:rgba(201,151,58,.4);background:rgba(201,151,58,.06)}
-.sv3-table.t-slow{border-color:rgba(181,57,42,.45);background:rgba(181,57,42,.07)}
+
+/* Top de carte : numéro + pastille */
+.sv3-t-top{display:flex;align-items:center;justify-content:space-between}
+.sv3-t-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2)}
+.sv3-t-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;box-shadow:0 0 8px}
+.sv3-table.libre .sv3-t-dot{background:#6fcf8a;box-shadow:0 0 10px #6fcf8a}
+.sv3-table.occupée .sv3-t-dot{background:#f07060;box-shadow:0 0 10px #f07060;animation:sv3pulse 2s infinite}
+.sv3-table.réservée .sv3-t-dot{background:#6aacda;box-shadow:0 0 10px #6aacda}
+.sv3-table.t-warn .sv3-t-dot{background:#f0a060!important;box-shadow:0 0 10px #f0a060!important}
+.sv3-table.t-slow .sv3-t-dot{background:#f07060!important;box-shadow:0 0 12px #f07060!important;animation:sv3blink 1s infinite!important}
+
+/* Infos table */
+.sv3-t-seats{font-size:11px;color:var(--muted)}
+.sv3-t-zone{font-size:10px;color:var(--sub);font-weight:600}
+.sv3-t-status{font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px}
+.sv3-table.libre .sv3-t-status{color:#6fcf8a}
+.sv3-table.occupée .sv3-t-status{color:#f07060}
+.sv3-table.réservée .sv3-t-status{color:#6aacda}
+
+/* Timer */
+.sv3-t-timer{font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px;display:inline-flex;align-items:center;gap:4px;margin-top:2px;width:fit-content}
+.sv3-t-timer.t-fresh{color:#6fcf8a;background:rgba(61,122,78,.15)}
+.sv3-t-timer.t-ok{color:var(--sub);background:rgba(255,255,255,.06)}
+.sv3-t-timer.t-warn{color:#f0a060;background:rgba(240,160,96,.15);animation:sv3pulse 2s infinite}
+.sv3-t-timer.t-slow{color:#f07060;background:rgba(240,80,80,.15);animation:sv3blink 1s infinite}
+
+/* Alerte badge */
+.sv3-t-alert{position:absolute;top:8px;right:8px;font-size:9px;font-weight:800;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
+.sv3-t-alert.slow{background:rgba(240,80,80,.2);color:#f07060;border:1px solid rgba(240,80,80,.3);animation:sv3blink 1s infinite}
+.sv3-t-alert.warn{background:rgba(240,160,96,.2);color:#f0a060;border:1px solid rgba(240,160,96,.3)}
+.sv3-t-alert.wait{background:rgba(106,172,218,.15);color:#6aacda;border:1px solid rgba(106,172,218,.3)}
+
+/* Total */
+.sv3-t-total{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2);margin-top:4px}
+
+/* Actions */
+.sv3-t-actions{display:flex;gap:5px;margin-top:6px;opacity:0;transition:opacity .15s}
+.sv3-table:hover .sv3-t-actions{opacity:1}
+.sv3-t-btn{padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:var(--sub);transition:all .15s;white-space:nowrap}
+.sv3-t-btn:hover{background:rgba(255,255,255,.12);color:var(--txt)}
+.sv3-t-btn.caisse{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.3);color:var(--gold2)}
+.sv3-t-btn.caisse:hover{background:rgba(201,151,58,.25)}
+.sv3-t-btn.libre-btn{background:rgba(61,122,78,.12);border-color:rgba(61,122,78,.3);color:#6fcf8a}
+.sv3-t-btn.libre-btn:hover{background:rgba(61,122,78,.25)}
+
+/* Alertes barre */
 .sv3-alertes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .sv3-alerte{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:30px;font-size:12px;font-weight:600;border:1px solid}
-.sv3-alerte.warn{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.35);color:var(--gold2)}
-.sv3-alerte.danger{background:rgba(181,57,42,.1);border-color:rgba(181,57,42,.4);color:#f07060}
-.sv3-alerte.ok{background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.35);color:#6fcf8a}
+.sv3-alerte-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sv3-alerte.a-crit{background:rgba(181,57,42,.1);border-color:rgba(181,57,42,.4);color:#f07060}
+.sv3-alerte.a-crit .sv3-alerte-dot{background:#f07060;animation:sv3blink 1s infinite}
+.sv3-alerte.a-slow{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.35);color:var(--gold2)}
+.sv3-alerte.a-slow .sv3-alerte-dot{background:var(--gold2);animation:sv3pulse 2s infinite}
+.sv3-alerte.a-wait{background:rgba(45,95,138,.1);border-color:rgba(45,95,138,.3);color:#6aacda}
+.sv3-alerte.a-wait .sv3-alerte-dot{background:#6aacda}
 .sv3-btn-tout{background:linear-gradient(108deg,#7a4a08,#c9973a,#f5d070,#c9973a);background-size:250% 100%;color:#060300;font-size:12px;font-weight:800;padding:9px 18px;border-radius:9px;border:none;cursor:pointer;box-shadow:0 3px 14px rgba(201,151,58,.35);transition:all .2s}
 
 /* ══ STOCKS v4 ══ */
@@ -6034,10 +6092,10 @@ function rSalle(){
   const lentsCount=tables.filter(t=>t.stat==='occupée'&&(_timerInfo(t.id)?.mins||0)>=60).length;
   const kpiEl=g('sv3-kpis');
   if(kpiEl) kpiEl.innerHTML=`
-    <div class="sv3-kpi"><div class="sv3-kpi-val" style="color:#6fcf8a">${libre}</div><div class="sv3-kpi-lbl">Libres</div></div>
-    <div class="sv3-kpi"><div class="sv3-kpi-val" style="color:#f07060">${occ}</div><div class="sv3-kpi-lbl">Occupées</div></div>
-    <div class="sv3-kpi"><div class="sv3-kpi-val" style="color:${lentsCount>0?'#f0a060':'#6aacda'}">${lentsCount||resa}</div><div class="sv3-kpi-lbl">${lentsCount>0?'Service lent':'Réservées'}</div></div>
-    <div class="sv3-kpi"><div class="sv3-kpi-val" style="color:var(--gold2);font-size:22px">${eur(caTotal)}</div><div class="sv3-kpi-lbl">CA en cours</div></div>`;
+    <div class="sv3-kpi" style="border-top:2px solid #6fcf8a"><div class="sv3-kpi-val" style="color:#6fcf8a">${libre}</div><div class="sv3-kpi-lbl">Libres</div></div>
+    <div class="sv3-kpi" style="border-top:2px solid #f07060"><div class="sv3-kpi-val" style="color:#f07060">${occ}</div><div class="sv3-kpi-lbl">Occupées</div></div>
+    <div class="sv3-kpi" style="border-top:2px solid ${lentsCount>0?'#f0a060':'#6aacda'}"><div class="sv3-kpi-val" style="color:${lentsCount>0?'#f0a060':'#6aacda'}">${lentsCount||resa}</div><div class="sv3-kpi-lbl">${lentsCount>0?'⚠ Service lent':'Réservées'}</div></div>
+    <div class="sv3-kpi" style="border-top:2px solid var(--gold2)"><div class="sv3-kpi-val" style="color:var(--gold2);font-size:22px">${eur(caTotal)}</div><div class="sv3-kpi-lbl">CA en cours</div></div>`;
 
   // Alertes dynamiques
   const alertesEl=g('sv3-alertes');
