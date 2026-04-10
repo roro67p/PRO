@@ -15,6 +15,60 @@
   --txt:#f0ebe0; --sub:#9a9180; --muted:#5c5648;
 }
 @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
+@keyframes kpiIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes kpiBarPulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ══ KPI CARDS — SaaS Premium ══ */
+.kpi-card{
+  background:linear-gradient(145deg,rgba(22,20,16,.95),rgba(16,14,11,.98));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;padding:18px 20px;
+  position:relative;overflow:hidden;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  animation:kpiIn .35s ease both;
+}
+.kpi-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  border-radius:16px 16px 0 0;
+  background:linear-gradient(90deg,transparent,var(--kpi-accent,var(--gold2)),transparent);
+  animation:kpiBarPulse 3.5s ease-in-out infinite;
+}
+.kpi-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 0%,var(--kpi-glow,rgba(201,151,58,.06)) 0%,transparent 60%);
+  pointer-events:none;opacity:.5;
+}
+.kpi-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.08),0 8px 30px rgba(0,0,0,.4),0 0 24px var(--kpi-glow,rgba(201,151,58,.06));
+  border-color:rgba(255,255,255,.1);
+}
+.kpi-card-inner{position:relative;z-index:1}
+.kpi-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.kpi-card-ico{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+}
+.kpi-card-trend{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;display:flex;align-items:center;gap:3px}
+.kpi-card-trend.up{color:#6fcf8a;background:rgba(61,122,78,.12);border:1px solid rgba(61,122,78,.2)}
+.kpi-card-trend.dn{color:#f07060;background:rgba(181,57,42,.1);border:1px solid rgba(181,57,42,.2)}
+.kpi-card-val{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;line-height:1;color:var(--kpi-color,var(--gold2));margin-bottom:6px}
+.kpi-card-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.35);font-weight:600}
+.kpi-card-sub{font-size:10px;color:var(--sub);margin-top:4px}
+.kpi-card-bar{height:4px;border-radius:2px;background:rgba(255,255,255,.06);margin-top:10px;overflow:hidden}
+.kpi-card-bar-fill{height:100%;border-radius:2px;transition:width .6s ease}
+.kpi-card.gold{--kpi-accent:var(--gold2);--kpi-color:var(--gold2);--kpi-glow:rgba(201,151,58,.08)}
+.kpi-card.green{--kpi-accent:#6fcf8a;--kpi-color:#6fcf8a;--kpi-glow:rgba(111,207,138,.08)}
+.kpi-card.blue{--kpi-accent:#6aacda;--kpi-color:#6aacda;--kpi-glow:rgba(106,172,218,.08)}
+.kpi-card.orange{--kpi-accent:#f0a060;--kpi-color:#f0a060;--kpi-glow:rgba(240,160,96,.08)}
+.kpi-card.red{--kpi-accent:#f07060;--kpi-color:#f07060;--kpi-glow:rgba(240,112,96,.08)}
+.kpi-card.purple{--kpi-accent:#c89aff;--kpi-color:#c89aff;--kpi-glow:rgba(200,154,255,.08)}
+.kpi-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+.kpi-grid-8{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:900px){.kpi-grid-4,.kpi-grid-5,.kpi-grid-8{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.kpi-grid-4,.kpi-grid-5,.kpi-grid-8{grid-template-columns:1fr 1fr}}
 
 html { scroll-behavior:smooth; overflow-x:hidden; }
 body { background:var(--ink); color:var(--txt); font-family:'Outfit',sans-serif; min-height:100vh; overflow-x:hidden; }
@@ -3506,7 +3560,7 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
 
     <!-- KPIs - 2 rangées de 4 -->
-    <div class="rs-kpis" id="resa-kpi"></div>
+    <div class="kpi-grid-8" id="resa-kpi"></div>
 
     <!-- Alertes -->
     <div class="rs-alertes" id="resa-alertes"></div>
@@ -4261,7 +4315,7 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
 
     <!-- KPIs -->
-    <div class="fn-kpis" id="fourn-kpi"></div>
+    <div class="kpi-grid-5" id="fourn-kpi"></div>
 
     <!-- Alertes -->
     <div class="fn-alertes" id="fn-alertes"></div>
@@ -5518,7 +5572,7 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
 
     <!-- KPIs -->
-    <div class="fn-kpis" id="cf-kpis"></div>
+    <div class="kpi-grid-5" id="cf-kpis"></div>
 
     <!-- Alertes -->
     <div class="fn-alertes" id="cf-alertes"></div>
@@ -6410,6 +6464,26 @@ const gP  = id => DB.plats.find(p=>p.id==id)||{nom:'?',prix:0,ico:'?'};
 
 function pill(txt,cls){return`<span class="pill p-${cls}">${txt}</span>`}
 function statPill(s){const m={libre:'green',occupée:'red',réservée:'blue',confirmé:'green','en-attente':'amber',annulé:'red',dispo:'green',indispo:'muted','en-cuisine':'amber',servi:'blue',payé:'green'};return pill(s,m[s]||'muted')}
+
+// KPI Card builder - SaaS Premium style
+function kpiCard(ico,val,lbl,color,opts={}){
+  const delay=opts.delay||0;
+  const sub=opts.sub||'';
+  const trend=opts.trend||'';
+  const bar=opts.bar; // {pct, color}
+  let trendHtml='';
+  if(trend==='up') trendHtml='<div class="kpi-card-trend up">↑</div>';
+  else if(trend==='dn') trendHtml='<div class="kpi-card-trend dn">↓</div>';
+  return `<div class="kpi-card ${color}" style="animation-delay:${delay}ms">
+    <div class="kpi-card-inner">
+      <div class="kpi-card-top"><div class="kpi-card-ico">${ico}</div>${trendHtml}</div>
+      <div class="kpi-card-val">${val}</div>
+      <div class="kpi-card-lbl">${lbl}</div>
+      ${sub?`<div class="kpi-card-sub">${sub}</div>`:''}
+      ${bar?`<div class="kpi-card-bar"><div class="kpi-card-bar-fill" style="width:${bar.pct}%;background:var(--kpi-accent)"></div></div>`:''}
+    </div>
+  </div>`;
+}
 
 function toast(msg,type='ok'){
   const t=document.getElementById('toast');
@@ -7904,17 +7978,17 @@ function rResa(){
     else g('rs-sub-txt').textContent='Aucune réservation aujourd\'hui';
   }
 
-  // KPIs 8 cartes
+  // KPIs premium
   const kpiEl=g('resa-kpi');
-  if(kpiEl) kpiEl.innerHTML=`
-    <div class="rs-kpi" style="animation-delay:0ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">📅</span><span class="rs-kpi-val" style="color:var(--gold2)">${actifs.length}</span></div><div class="rs-kpi-lbl">Aujourd'hui</div></div>
-    <div class="rs-kpi" style="animation-delay:30ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">✅</span><span class="rs-kpi-val" style="color:#6fcf8a">${confirme}</span></div><div class="rs-kpi-lbl">Confirmées</div></div>
-    <div class="rs-kpi" style="animation-delay:60ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">👥</span><span class="rs-kpi-val" style="color:#6aacda">${cvtTotal}</span></div><div class="rs-kpi-lbl">Couverts prévus</div></div>
-    <div class="rs-kpi" style="animation-delay:90ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">⏳</span><span class="rs-kpi-val" style="color:#f0a060">${attente}</span></div><div class="rs-kpi-lbl">En attente</div></div>
-    <div class="rs-kpi" style="animation-delay:120ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">👻</span><span class="rs-kpi-val" style="color:#f07060">${noshow}</span></div><div class="rs-kpi-lbl">No-show</div></div>
-    <div class="rs-kpi" style="animation-delay:150ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">🏁</span><span class="rs-kpi-val" style="color:#6aacda">${arrives}</span></div><div class="rs-kpi-lbl">Arrivés</div></div>
-    <div class="rs-kpi" style="animation-delay:180ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">📊</span><span class="rs-kpi-val" style="color:${tauxRemp>80?'#f07060':tauxRemp>50?'#f0a060':'#6fcf8a'}">${tauxRemp}%</span></div><div class="rs-kpi-lbl">Remplissage</div></div>
-    <div class="rs-kpi" style="animation-delay:210ms"><div class="rs-kpi-top"><span class="rs-kpi-ico">🔥</span><span class="rs-kpi-val" style="color:var(--gold2);font-size:16px">${prochainFort}</span></div><div class="rs-kpi-lbl">Prochain rush</div></div>`;
+  if(kpiEl) kpiEl.innerHTML=
+    kpiCard('📅',actifs.length,"Aujourd'hui",'gold',{delay:0,sub:attente?attente+' en attente':''})+
+    kpiCard('✅',confirme,'Confirmées','green',{delay:40})+
+    kpiCard('👥',cvtTotal,'Couverts prévus','blue',{delay:80})+
+    kpiCard('⏳',attente,'En attente','orange',{delay:120})+
+    kpiCard('👻',noshow,'No-show','red',{delay:160})+
+    kpiCard('🏁',arrives,'Arrivés','blue',{delay:200})+
+    kpiCard('📊',tauxRemp+'%','Remplissage',tauxRemp>80?'red':tauxRemp>50?'orange':'green',{delay:240,bar:{pct:tauxRemp}})+
+    kpiCard('🔥',prochainFort,'Prochain rush','gold',{delay:280});
 
   (g('b-resa')||{}).textContent=actifs.length||'';
 
@@ -9375,12 +9449,12 @@ function rFourn(){
   const subEl=document.getElementById('fn-sub-txt');
   if(subEl) subEl.textContent=`${allFourns.length} fournisseur(s) · ${cmds.length} commande(s) · ${eur(caMois)} ce mois`;
   const kpiEl=document.getElementById('fourn-kpi');
-  if(kpiEl) kpiEl.innerHTML=`
-    <div class="fn-kpi" style="animation-delay:0ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">🏭</span><span class="fn-kpi-val" style="color:var(--gold2)">${allFourns.length}</span></div><div class="fn-kpi-lbl">Fournisseurs</div></div>
-    <div class="fn-kpi" style="animation-delay:30ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">⭐</span><span class="fn-kpi-val" style="color:#6fcf8a">${noteMoy}/5</span></div><div class="fn-kpi-lbl">Note moyenne</div></div>
-    <div class="fn-kpi" style="animation-delay:60ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">⚠</span><span class="fn-kpi-val" style="color:#f0a060">${aSurveiller}</span></div><div class="fn-kpi-lbl">À surveiller</div></div>
-    <div class="fn-kpi" style="animation-delay:90ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">📦</span><span class="fn-kpi-val" style="color:#6aacda">${cmdsMois}</span></div><div class="fn-kpi-lbl">Ce mois</div></div>
-    <div class="fn-kpi" style="animation-delay:120ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">💰</span><span class="fn-kpi-val" style="color:var(--gold2);font-size:18px">${eur(caMois)}</span></div><div class="fn-kpi-lbl">Achats</div></div>`;
+  if(kpiEl) kpiEl.innerHTML=
+    kpiCard('🏭',allFourns.length,'Fournisseurs','gold',{delay:0})+
+    kpiCard('⭐',noteMoy+'/5','Note moyenne','green',{delay:40,bar:{pct:noteMoy*20}})+
+    kpiCard('⚠',aSurveiller,'À surveiller','orange',{delay:80})+
+    kpiCard('📦',cmdsMois,'Commandes ce mois','blue',{delay:120})+
+    kpiCard('💰',eur(caMois),'Achats ce mois','gold',{delay:160});
   // Alertes fournisseurs
   const alertesEl=document.getElementById('fn-alertes');
   if(alertesEl){
@@ -10883,12 +10957,12 @@ function rCmdFourn(){
 
   // KPIs
   const kpiEl=document.getElementById('cf-kpis');
-  if(kpiEl) kpiEl.innerHTML=`
-    <div class="fn-kpi" style="animation-delay:0ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">📦</span><span class="fn-kpi-val" style="color:var(--gold2)">${attente}</span></div><div class="fn-kpi-lbl">En cours</div></div>
-    <div class="fn-kpi" style="animation-delay:30ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">🔴</span><span class="fn-kpi-val" style="color:#f07060">${enRetard}</span></div><div class="fn-kpi-lbl">En retard</div></div>
-    <div class="fn-kpi" style="animation-delay:60ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">🚚</span><span class="fn-kpi-val" style="color:#6aacda">${livrAuj}</span></div><div class="fn-kpi-lbl">Livr. aujourd'hui</div></div>
-    <div class="fn-kpi" style="animation-delay:90ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">💰</span><span class="fn-kpi-val" style="color:var(--gold2);font-size:18px">${eur(totalMois)}</span></div><div class="fn-kpi-lbl">Engagé ce mois</div></div>
-    <div class="fn-kpi" style="animation-delay:120ms"><div class="fn-kpi-top"><span class="fn-kpi-ico">⚡</span><span class="fn-kpi-val" style="color:#f0a060">${urgentes}</span></div><div class="fn-kpi-lbl">Urgentes</div></div>`;
+  if(kpiEl) kpiEl.innerHTML=
+    kpiCard('📦',attente,'En cours','gold',{delay:0})+
+    kpiCard('🔴',enRetard,'En retard','red',{delay:40})+
+    kpiCard('🚚',livrAuj,"Livr. aujourd'hui",'blue',{delay:80})+
+    kpiCard('💰',eur(totalMois),'Engagé ce mois','gold',{delay:120})+
+    kpiCard('⚡',urgentes,'Urgentes','orange',{delay:160});
 
   // Alertes
   const alEl=document.getElementById('cf-alertes');
