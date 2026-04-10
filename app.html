@@ -1767,16 +1767,22 @@ tbody td { padding:13px 14px; font-size:13px; }
 /* Top de carte : numéro + pastille */
 .sv3-t-top{display:flex;align-items:center;justify-content:space-between}
 .sv3-t-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2)}
-.sv3-t-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-@keyframes sv3glow-green{0%,100%{box-shadow:0 0 6px #6fcf8a}50%{box-shadow:0 0 16px #6fcf8a,0 0 24px rgba(111,207,138,.3)}}
-@keyframes sv3glow-red{0%,100%{box-shadow:0 0 6px #f07060}50%{box-shadow:0 0 16px #f07060,0 0 24px rgba(240,112,96,.3)}}
-@keyframes sv3glow-blue{0%,100%{box-shadow:0 0 6px #6aacda}50%{box-shadow:0 0 16px #6aacda,0 0 24px rgba(106,172,218,.3)}}
-@keyframes sv3glow-orange{0%,100%{box-shadow:0 0 6px #f0a060}50%{box-shadow:0 0 18px #f0a060,0 0 28px rgba(240,160,96,.3)}}
+.sv3-t-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0}
+@keyframes sv3glow-green{0%,100%{box-shadow:0 0 8px 2px #6fcf8a;transform:scale(1)}50%{box-shadow:0 0 20px 6px #6fcf8a;transform:scale(1.15)}}
+@keyframes sv3glow-red{0%,100%{box-shadow:0 0 8px 2px #f07060;transform:scale(1)}50%{box-shadow:0 0 20px 6px #f07060;transform:scale(1.2)}}
+@keyframes sv3glow-blue{0%,100%{box-shadow:0 0 8px 2px #6aacda;transform:scale(1)}50%{box-shadow:0 0 20px 6px #6aacda;transform:scale(1.15)}}
+@keyframes sv3glow-orange{0%,100%{box-shadow:0 0 8px 2px #f0a060;transform:scale(1)}50%{box-shadow:0 0 22px 8px #f0a060;transform:scale(1.25)}}
+@keyframes sv3border-green{0%,100%{border-color:rgba(61,122,78,.3);box-shadow:none}50%{border-color:rgba(111,207,138,.5);box-shadow:0 0 12px rgba(111,207,138,.15)}}
+@keyframes sv3border-red{0%,100%{border-color:rgba(240,112,96,.3);box-shadow:none}50%{border-color:rgba(240,112,96,.6);box-shadow:0 0 14px rgba(240,112,96,.15)}}
+@keyframes sv3border-blue{0%,100%{border-color:rgba(106,172,218,.3);box-shadow:none}50%{border-color:rgba(106,172,218,.5);box-shadow:0 0 12px rgba(106,172,218,.12)}}
 .sv3-table.libre .sv3-t-dot{background:#6fcf8a;animation:sv3glow-green 2.5s ease-in-out infinite}
-.sv3-table.occupée .sv3-t-dot{background:#f07060;animation:sv3glow-red 1.8s ease-in-out infinite}
+.sv3-table.libre{animation:sv3border-green 3s ease-in-out infinite}
+.sv3-table.occupée .sv3-t-dot{background:#f07060;animation:sv3glow-red 1.6s ease-in-out infinite}
+.sv3-table.occupée{animation:sv3border-red 2s ease-in-out infinite}
 .sv3-table.réservée .sv3-t-dot{background:#6aacda;animation:sv3glow-blue 2.5s ease-in-out infinite}
-.sv3-table.t-warn .sv3-t-dot{background:#f0a060!important;animation:sv3glow-orange 1.2s ease-in-out infinite!important}
-.sv3-table.t-slow .sv3-t-dot{background:#f07060!important;animation:sv3glow-red .8s ease-in-out infinite!important}
+.sv3-table.réservée{animation:sv3border-blue 3s ease-in-out infinite}
+.sv3-table.t-warn .sv3-t-dot{background:#f0a060!important;animation:sv3glow-orange 1s ease-in-out infinite!important}
+.sv3-table.t-slow .sv3-t-dot{background:#f07060!important;animation:sv3glow-red .6s ease-in-out infinite!important}
 
 /* Infos table */
 .sv3-t-seats{font-size:11px;color:var(--muted)}
