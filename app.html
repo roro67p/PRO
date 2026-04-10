@@ -3911,6 +3911,20 @@ tbody td { padding:13px 14px; font-size:13px; }
 .cf2-empty-txt{font-size:12px}
 
 
+
+/* ── CF2 RECHERCHE + TRI ── */
+.cf2-search-row{display:flex;gap:8px;margin-bottom:10px;align-items:center;}
+.cf2-search-wrap{position:relative;flex:1;}
+.cf2-search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;opacity:.5;}
+.cf2-search-input{width:100%;background:var(--ink3);border:1px solid var(--line2);border-radius:9px;padding:8px 32px 8px 34px;color:var(--txt);font-size:13px;font-family:'Outfit',sans-serif;transition:border-color .2s,box-shadow .2s;box-sizing:border-box;}
+.cf2-search-input:focus{outline:none;border-color:rgba(201,151,58,.4);box-shadow:0 0 0 3px rgba(201,151,58,.08);}
+.cf2-search-input::placeholder{color:var(--muted);}
+.cf2-search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .15s;}
+.cf2-search-clear:hover{background:var(--ink4);color:var(--txt);}
+.cf2-sort-select{background:var(--ink3);border:1px solid var(--line2);border-radius:9px;padding:8px 12px;color:var(--txt);font-size:12px;font-family:'Outfit',sans-serif;cursor:pointer;flex-shrink:0;transition:border-color .2s;}
+.cf2-sort-select:focus{outline:none;border-color:rgba(201,151,58,.4);}
+.cf2-sort-select option{background:var(--ink3);}
+
 /* ══ FORMATION ÉQUIPE ══ */
 @keyframes frmIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .frm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
@@ -7623,8 +7637,21 @@ tbody td { padding:13px 14px; font-size:13px; }
 
       <!-- Colonne liste -->
       <div class="cf2-col-list">
-        <!-- Filtres + recherche -->
+        <!-- Recherche + Tri + Filtres -->
         <div class="cf2-toolbar">
+          <div class="cf2-search-row">
+            <div class="cf2-search-wrap">
+              <span class="cf2-search-ico">🔍</span>
+              <input class="cf2-search-input" id="cf-search" placeholder="Rechercher fournisseur, référence..." oninput="rCmdFourn()"/>
+              <button class="cf2-search-clear" id="cf-search-clear" onclick="clearCFSearch()" style="display:none">✕</button>
+            </div>
+            <select class="cf2-sort-select" id="cf-sort" onchange="rCmdFourn()">
+              <option value="recent">Plus récent</option>
+              <option value="ancien">Plus ancien</option>
+              <option value="montant_desc">Montant ↓</option>
+              <option value="montant_asc">Montant ↑</option>
+            </select>
+          </div>
           <div class="cf2-filtres" id="cf-filtres">
             <button class="cf2-f on" onclick="filterCF('tous',this)">Tous</button>
             <button class="cf2-f" onclick="filterCF('brouillon',this)"><span class="cf2-f-dot" style="background:var(--muted)"></span>Brouillon</button>
@@ -14078,11 +14105,28 @@ function rCmdFourn(){
     alEl.innerHTML=al.map(a=>`<div class="fn-alerte ${a.cls}"><div class="fn-alerte-dot"></div>${a.txt}</div>`).join('');
   }
 
-  // Liste cartes
+  // Liste cartes avec recherche + tri
   const listEl=document.getElementById('cf-list');
   if(!listEl) return;
+  const searchVal=(document.getElementById('cf-search')?.value||'').toLowerCase().trim();
+  const sortVal=document.getElementById('cf-sort')?.value||'recent';
+  const clearBtn=document.getElementById('cf-search-clear');
+  if(clearBtn) clearBtn.style.display=searchVal?'flex':'none';
   let list=cfFilterCurrent==='tous'?[...cmds]:cmds.filter(c=>(c.stat||c.statut)===cfFilterCurrent);
-  list=[...list].reverse();
+  // Recherche
+  if(searchVal){
+    list=list.filter(c=>{
+      const f=(DB.fournisseurs||[]).find(x=>x.id===c.fournId);
+      const nom=(f?.nom||c.fourn||'').toLowerCase();
+      const ref=(c.ref||'').toLowerCase();
+      return nom.includes(searchVal)||ref.includes(searchVal);
+    });
+  }
+  // Tri
+  if(sortVal==='recent') list=[...list].reverse();
+  else if(sortVal==='ancien') list=[...list];
+  else if(sortVal==='montant_desc') list=[...list].sort((a,b)=>(+b.total||0)-(+a.total||0));
+  else if(sortVal==='montant_asc') list=[...list].sort((a,b)=>(+a.total||0)-(+b.total||0));
 
   if(!list.length){
     listEl.innerHTML=`<div class="cf2-empty"><div class="cf2-empty-ico">📦</div><div class="cf2-empty-txt">Aucune commande fournisseur</div></div>`;
@@ -14199,38 +14243,85 @@ function cf2Select(id, silent){
   else if(stat==='confirmée') mainBtn=`<button class="cf2-detail-btn primary" onclick="setCFStatut(${c.id},'expédiée')">🚚 Marquer expédiée</button>`;
   else if(stat==='expédiée') mainBtn=`<button class="cf2-detail-btn success" onclick="setCFStatut(${c.id},'reçue')">📦 Marquer comme reçue</button>`;
 
+  const totalArt=c.articles?c.articles.reduce((s,a)=>s+((a.pu||a.prix||0)*a.qte),0):0;
+  const totalFinal=totalArt||+c.total||0;
+
   panel.innerHTML=`<div class="cf2-detail-content">
+
+    <!-- Fournisseur + Réf -->
     <div class="cf2-detail-header">
-      <div class="cf2-detail-ref">${c.ref||'#'+c.id}</div>
-      <div class="cf2-detail-fourn">${f?.ico||'📦'} ${f?.nom||c.fourn||'—'}</div>
-      <div class="cf2-detail-meta">📅 ${c.date||'—'} · ${(c.articles||[]).length} article(s)</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${f?.ico||'📦'}</div>
+        <div>
+          <div class="cf2-detail-fourn">${f?.nom||c.fourn||'—'}</div>
+          <div class="cf2-detail-ref">${c.ref||'Réf. #'+c.id}</div>
+        </div>
+      </div>
+      ${f?.tel||f?.email?`<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+        ${f.tel?`<span style="font-size:11px;color:var(--sub)">📞 ${f.tel}</span>`:''}
+        ${f.email?`<span style="font-size:11px;color:var(--sub)">✉️ ${f.email}</span>`:''}
+      </div>`:''}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div style="background:var(--ink3);border-radius:7px;padding:7px 10px">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700">Date commande</div>
+          <div style="font-size:12px;color:var(--txt);margin-top:2px;font-weight:600">${c.date||'—'}</div>
+        </div>
+        <div style="background:var(--ink3);border-radius:7px;padding:7px 10px">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700">Articles</div>
+          <div style="font-size:12px;color:var(--txt);margin-top:2px;font-weight:600">${(c.articles||[]).length} produit(s)</div>
+        </div>
+      </div>
     </div>
+
+    <!-- Timeline statut -->
     <div class="cf2-detail-status">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-        <span style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px">Statut</span>
-        <span class="cf2-badge b-${stat}" style="font-size:9px">${statLbl[stat]||stat}</span>
-        ${isRetard?'<span class="cf2-badge b-retard">⏱ En retard</span>':''}
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <span style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px">Progression</span>
+        <div style="display:flex;gap:4px">
+          <span class="cf2-badge b-${stat}">${statLbl[stat]||stat}</span>
+          ${isRetard?'<span class="cf2-badge b-retard">⏱ Retard</span>':''}
+        </div>
       </div>
       <div class="cf2-timeline">${tlHTML}</div>
     </div>
-    <div class="cf2-detail-articles">${artsHTML}</div>
-    <div class="cf2-detail-total">
-      <span class="cf2-detail-total-lbl">Total commande</span>
-      <span class="cf2-detail-total-val">${eur(total||+c.total||0)}</span>
+
+    <!-- Articles -->
+    <div style="margin-bottom:12px">
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px">Articles commandés<span style="flex:1;height:1px;background:var(--line)"></span></div>
+      <div class="cf2-detail-articles">${artsHTML}</div>
     </div>
+
+    <!-- Total -->
+    <div class="cf2-detail-total">
+      <div>
+        <span class="cf2-detail-total-lbl">Total commande</span>
+        ${f?.remise?`<div style="font-size:10px;color:#6fcf8a;margin-top:2px">Remise ${f.remise}% applicable</div>`:''}
+      </div>
+      <span class="cf2-detail-total-val">${eur(totalFinal)}</span>
+    </div>
+
     ${c.notes?`<div class="cf2-detail-note">📝 ${c.notes}</div>`:''}
+
+    <!-- Actions hiérarchisées -->
     <div class="cf2-detail-actions">
       ${mainBtn}
-      <button class="cf2-detail-btn ghost" onclick="editCmdFourn(${c.id})">✏️ Modifier</button>
-      <button class="cf2-detail-btn danger" onclick="delCmdFourn(${c.id})">🗑 Supprimer</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px">
+        <button class="cf2-detail-btn ghost" onclick="editCmdFourn(${c.id})">✏️ Modifier</button>
+        <button class="cf2-detail-btn danger" onclick="delCmdFourn(${c.id})">🗑 Supprimer</button>
+      </div>
     </div>
   </div>`;
 }
 
 function filterCF(f,btn){
   cfFilterCurrent=f;
-  document.querySelectorAll('#cf-filtres .fn-f').forEach(b=>b.classList.remove('on'));
-  if(btn)btn.classList.add('on');
+  document.querySelectorAll('#cf-filtres .cf2-f').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  rCmdFourn();
+}
+function clearCFSearch(){
+  const inp=document.getElementById('cf-search');
+  if(inp){inp.value='';inp.focus();}
   rCmdFourn();
 }
 
