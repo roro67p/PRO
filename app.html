@@ -3177,79 +3177,43 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px" id="boost-tips"></div>
     </div>
 
-    <!-- KPIs COMPACTS style Hungry Fork -->
+    <!-- KPI HERO avec gros cercles donuts -->
     <div class="kpi-grid-4" id="dash-kpis"></div>
 
-    <!-- MILIEU: Graphique CA + Best-seller + Trending -->
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-bottom:14px" id="dash-mid-zone">
-      <!-- Graphique CA -->
-      <div class="kpi-card gold" style="animation-delay:300ms;padding:16px">
-        <div class="kpi-card-inner">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-            <div class="kpi-card-lbl" style="margin:0">Chiffre d'affaires</div>
-            <div class="kpi-card-sub" id="dash-ca-total" style="margin:0;color:var(--gold2);font-weight:700"></div>
-          </div>
-          <div id="dash-ca-chart" style="height:120px;display:flex;align-items:flex-end;gap:3px"></div>
-          <div id="dash-ca-labels" style="display:flex;gap:3px;margin-top:4px"></div>
-        </div>
+    <!-- ASSISTANT + ACTIONS -->
+    <div class="dash-mid">
+      <div class="ai-card">
+        <div class="ai-header"><div class="ai-dot"></div><span class="ai-title">Assistant intelligent</span></div>
+        <div id="dash-ai-tips"></div>
       </div>
-      <!-- Best-seller -->
-      <div class="kpi-card green" style="animation-delay:350ms;padding:16px">
-        <div class="kpi-card-inner">
-          <div class="kpi-card-lbl" style="margin-bottom:10px">🔥 Best-seller</div>
-          <div id="dash-bestseller"></div>
-        </div>
-      </div>
-      <!-- Trending plats -->
-      <div class="kpi-card orange" style="animation-delay:400ms;padding:16px">
-        <div class="kpi-card-inner">
-          <div class="kpi-card-lbl" style="margin-bottom:10px">📈 Trending</div>
-          <div id="dash-trending"></div>
-        </div>
+      <div class="actions-card">
+        <div class="actions-title">Actions rapides</div>
+        <button class="action-btn action-cmd" onclick="nav('commandes',null);openModal('mo-commande')"><div class="action-btn-ico">📋</div><div class="action-btn-info"><div class="action-btn-lbl">Nouvelle commande</div><div class="action-btn-sub">Saisir une commande table</div></div><span class="action-btn-arrow">›</span></button>
+        <button class="action-btn action-caisse" onclick="nav('caisse',null)"><div class="action-btn-ico">💳</div><div class="action-btn-info"><div class="action-btn-lbl">Ouvrir la caisse</div><div class="action-btn-sub">Encaissement & tickets</div></div><span class="action-btn-arrow">›</span></button>
+        <button class="action-btn action-salle" onclick="nav('salle',null)"><div class="action-btn-ico">🗺️</div><div class="action-btn-info"><div class="action-btn-lbl">Voir la salle</div><div class="action-btn-sub">Plan des tables en temps réel</div></div><span class="action-btn-arrow">›</span></button>
+        <button class="action-btn action-stock" onclick="nav('stocks',null)"><div class="action-btn-ico">📦</div><div class="action-btn-info"><div class="action-btn-lbl">Gérer les stocks</div><div class="action-btn-sub">Alertes & niveaux critiques</div></div><span class="action-btn-arrow">›</span></button>
       </div>
     </div>
 
-    <!-- BAS: Commandes récentes + Alertes + Résas -->
-    <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:14px">
-      <!-- Commandes récentes -->
-      <div class="kpi-card gold" style="animation-delay:450ms;padding:16px">
-        <div class="kpi-card-inner">
-          <div class="kpi-card-lbl" style="margin-bottom:10px">📋 Commandes récentes</div>
-          <div id="d-cmd" style="max-height:200px;overflow-y:auto"></div>
-        </div>
+    <!-- TOP PLATS + SALLE + ALERTES -->
+    <div class="dash-bottom">
+      <div class="dash-section ds-top"><div class="dash-section-title">🏆 Performance plats</div><div id="d-top"></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center"><span style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)">Ticket moyen</span><span style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold2)" id="d-tkt-perf">—</span></div>
       </div>
-      <!-- Alertes + AI -->
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div class="kpi-card red" style="animation-delay:500ms;padding:16px;flex:1">
-          <div class="kpi-card-inner">
-            <div class="kpi-card-lbl" style="margin-bottom:8px">🚨 Alertes & Conseils</div>
-            <div id="dash-ai-tips"></div>
-          </div>
-        </div>
-        <div class="kpi-card blue" style="animation-delay:550ms;padding:16px;flex:1">
-          <div class="kpi-card-inner">
-            <div class="kpi-card-lbl" style="margin-bottom:8px">📅 Résas ce soir</div>
-            <div id="d-resa"></div>
-          </div>
-        </div>
-      </div>
+      <div class="dash-section ds-salle"><div class="dash-section-title">🪑 État du service</div><div id="d-salle-etat"></div></div>
+      <div class="dash-section ds-alertes"><div class="dash-section-title">🚨 Alertes</div><div id="d-alertes"></div></div>
     </div>
 
-    <!-- Salle + Météo -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="kpi-card green" style="animation-delay:600ms;padding:16px">
-        <div class="kpi-card-inner">
-          <div class="kpi-card-lbl" style="margin-bottom:8px">🪑 État du service</div>
-          <div id="d-salle-etat"></div>
-        </div>
-      </div>
-      <div class="kpi-card blue" style="animation-delay:650ms;padding:16px">
-        <div class="kpi-card-inner">
-          <div class="kpi-card-lbl" style="margin-bottom:8px">🌤️ Météo & Périodes</div>
-          <div id="d-meteo"></div>
-          <div id="d-periodes" style="margin-top:8px"></div>
-        </div>
-      </div>
+    <!-- COMMANDES + RÉSA -->
+    <div class="dash-low">
+      <div class="dash-low-card dlc-cmd"><div class="dlc-title">📋 Commandes actives</div><div id="d-cmd"></div></div>
+      <div class="dash-low-card dlc-resa"><div class="dlc-title">📅 Réservations du soir</div><div id="d-resa"></div></div>
+    </div>
+
+    <!-- MÉTÉO + PÉRIODES -->
+    <div class="dash-last">
+      <div class="dash-last-card"><div class="dlc-title">🌤️ Météo & Affluence</div><div id="d-meteo"></div></div>
+      <div class="dash-last-card"><div class="dlc-title">📆 Périodes à venir</div><div id="d-periodes"></div></div>
     </div>
 
     <!-- IDs cachés compat -->
@@ -9807,80 +9771,17 @@ function rDash(){
   if(set('b-stk')) set('b-stk').textContent=alrtStk;
   if(set('b-prs')) set('b-prs').textContent=prsNb||'';
 
-  // KPIs compacts style Hungry Fork (avec trend badges)
+  // Dashboard KPI Cards avec gros cercles donuts
   const dkEl=set('dash-kpis');
-  const hierCA=DB.ventes.filter(v=>{const d=new Date();d.setDate(d.getDate()-1);return v.date===d.toISOString().slice(0,10);}).reduce((s,v)=>s+v.ttc,0);
-  const caDiff=hierCA>0?Math.round((ca-hierCA)/hierCA*100):0;
-  const hierCvt=DB.ventes.filter(v=>{const d=new Date();d.setDate(d.getDate()-1);return v.date===d.toISOString().slice(0,10);}).reduce((s,v)=>s+(v.cvt||0),0);
-  const cvtDiff=hierCvt>0?Math.round((cvt-hierCvt)/hierCvt*100):0;
+  const tblPct=totalTbl?Math.round(occ/totalTbl*100):0;
+  const tktPct=Math.min(100,Math.round(tkt/(DB.params.ticket||35)*100));
+  const resaPct=resaSoir?Math.min(100,Math.round(confirme/resaSoir*100)):0;
   if(dkEl) dkEl.innerHTML=
-    kpiCard('💰',eur(ca),"CA aujourd'hui",'gold',{delay:0,sub:'Hier : '+eur(hierCA),trend:caDiff>=0?'up':'dn'})+
-    kpiCard('📋',vToday.length,"Commandes",'green',{delay:60,sub:'Hier : '+hierCvt+' ventes',trend:caDiff>=0?'up':'dn'})+
-    kpiCard('👥',cvt,"Couverts",'blue',{delay:120,sub:actCmds+' en cours',trend:cvtDiff>=0?'up':'dn'})+
-    kpiCard('❌',noshow||0,'Annulé / No-show','red',{delay:180,sub:'Hier : 0'});
-
-  // Graphique CA barres mensuelles (12 mois)
-  const chartEl=set('dash-ca-chart');
-  const labelsEl=set('dash-ca-labels');
-  if(chartEl){
-    const moisNoms=['JAN','FÉV','MAR','AVR','MAI','JUN','JUL','AOÛ','SEP','OCT','NOV','DÉC'];
-    const caMois=[];
-    const now3=new Date();
-    for(let m=0;m<12;m++){
-      const ms=now3.getFullYear()+'-'+String(m+1).padStart(2,'0');
-      caMois.push(DB.ventes.filter(v=>(v.date||'').startsWith(ms)).reduce((s,v)=>s+v.ttc,0));
-    }
-    const maxCA=Math.max(...caMois,1);
-    const curMonth=now3.getMonth();
-    chartEl.innerHTML=caMois.map((v,i)=>{
-      const h=Math.max(3,Math.round(v/maxCA*110));
-      const isCur=i===curMonth;
-      const col=isCur?'var(--gold2)':'rgba(201,151,58,.3)';
-      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0">
-        ${isCur&&v>0?`<div style="font-size:8px;color:var(--gold2);white-space:nowrap">${eur(Math.round(v))}</div>`:''}
-        <div style="width:100%;height:${h}px;background:${col};border-radius:3px 3px 0 0;transition:height .4s ease"></div>
-      </div>`;
-    }).join('');
-    if(labelsEl) labelsEl.innerHTML=moisNoms.map((n,i)=>`<div style="flex:1;text-align:center;font-size:7px;color:${i===curMonth?'var(--gold2)':'rgba(255,255,255,.2)'};letter-spacing:.5px;min-width:0">${n}</div>`).join('');
-    const ctEl=set('dash-ca-total');
-    if(ctEl) ctEl.textContent=eur(Math.round(caMois[curMonth]));
-  }
-
-  // Best-seller
-  const bsEl=set('dash-bestseller');
-  if(bsEl){
-    const topPlat=[...DB.plats].filter(p=>p.vendu>0).sort((a,b)=>b.vendu-a.vendu)[0];
-    if(topPlat){
-      bsEl.innerHTML=`
-        <div style="text-align:center;padding:10px 0">
-          <div style="font-size:40px;margin-bottom:8px">${topPlat.ico||'🍽️'}</div>
-          <div style="font-size:14px;font-weight:700;color:var(--txt)">${topPlat.nom}</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#6fcf8a;margin-top:6px">${eur(topPlat.prix)}</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:4px">${topPlat.vendu} vendus</div>
-        </div>`;
-    } else {
-      bsEl.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-size:11px">Aucune vente</div>';
-    }
-  }
-
-  // Trending plats (top 4)
-  const trEl=set('dash-trending');
-  if(trEl){
-    const topPlats=[...DB.plats].filter(p=>p.vendu>0).sort((a,b)=>b.vendu-a.vendu).slice(0,4);
-    if(topPlats.length){
-      trEl.innerHTML=topPlats.map((p,i)=>`
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;${i<topPlats.length-1?'border-bottom:1px solid rgba(255,255,255,.04)':''}">
-          <span style="font-size:16px">${p.ico||'🍽️'}</span>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:11px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nom}</div>
-            <div style="font-size:9px;color:var(--muted)">${p.vendu} ventes</div>
-          </div>
-          <div style="font-size:12px;font-weight:700;color:#f0a060">${eur(p.prix)}</div>
-        </div>`).join('');
-    } else {
-      trEl.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-size:11px">Aucune vente</div>';
-    }
-  }
+    kpiCard('💰',eur(ca),"Chiffre d'affaires",'gold',{delay:0,sub:cvt+' couverts · objectif '+eur(obj),donut:{pct:pct}})+
+    kpiCard('🪑',occ+'/'+totalTbl,'Occupation salle','green',{delay:80,sub:libre+' libres · '+reservee+' réservées',donut:{pct:tblPct}})+
+    kpiCard('🧾',cvt?eur(tkt):'0 €','Ticket moyen','blue',{delay:160,sub:actCmds+' cmdes · obj. '+eur(DB.params.ticket||35),donut:{pct:tktPct}})+
+    kpiCard('📅',resaSoir,'Réservations','orange',{delay:240,sub:confirme+' confirmées · '+attente+' attente',donut:{pct:resaPct}});
+  if(set('d-tkt-perf')) set('d-tkt-perf').textContent=cvt?eur(tkt):'—';
 
   // ── ASSISTANT IA TIPS ──
   const tips=[];
