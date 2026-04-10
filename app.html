@@ -3073,6 +3073,27 @@ tbody td { padding:13px 14px; font-size:13px; }
 .rs-f.on{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.35);color:var(--gold3)}
 .rs-f:hover:not(.on){border-color:rgba(255,255,255,.2);color:var(--txt)}
 .rs-f-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* ═══ CAVE À VINS ═══ */
+.cave-type-btn{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:20px;padding:5px 13px;font-size:12px;cursor:pointer;transition:all .2s;}
+.cave-type-btn.active{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700;}
+.cave-type-btn.rouge.active{background:#c0392b;border-color:#c0392b;color:#fff;}
+.cave-type-btn.blanc.active{background:#c8a84b;border-color:#c8a84b;color:#000;}
+.cave-type-btn.rose.active{background:#e91e8c;border-color:#e91e8c;color:#fff;}
+.cave-type-btn.champagne.active{background:#f39c12;border-color:#f39c12;color:#000;}
+.cave-type-btn.autre.active{background:#6c757d;border-color:#6c757d;color:#fff;}
+.cave-bottle-card{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;}
+.cave-bottle-card:hover{transform:translateY(-3px);border-color:rgba(212,175,55,.4);box-shadow:0 8px 24px rgba(0,0,0,.35);}
+.cave-bottle-card.stock-bas::after{content:'⚠';position:absolute;top:7px;right:8px;font-size:11px;}
+.cave-bottle-card.stock-zero::after{content:'✕';position:absolute;top:7px;right:8px;font-size:11px;color:var(--red);}
+.cave-bottle-name{font-size:12px;font-weight:600;color:var(--txt);text-align:center;line-height:1.3;}
+.cave-bottle-region{font-size:10px;color:var(--sub);text-align:center;}
+.cave-bottle-price{font-size:13px;font-weight:700;color:var(--gold);}
+.cave-bottle-stock{font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;}
+.cave-bottle-actions{display:flex;gap:4px;margin-top:2px;}
+.cave-bottle-actions button{background:var(--ink3);border:1px solid var(--line);color:var(--txt);width:26px;height:26px;border-radius:7px;cursor:pointer;font-size:13px;transition:all .15s;}
+.cave-bottle-actions button:hover{border-color:var(--gold);color:var(--gold);}
+.cave-millesime{font-size:10px;background:rgba(201,151,58,.15);color:var(--gold);padding:1px 7px;border-radius:8px;font-weight:600;}
+
 /* ═══ RESA ONLINE ═══ */
 .rol-section{background:var(--ink2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px;}
 .rol-section-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;gap:12px;flex-wrap:wrap;}
@@ -6260,23 +6281,23 @@ tbody td { padding:13px 14px; font-size:13px; }
       <button class="btn btn-gold btn-sm" onclick="openModal('mo-cave')">+ Ajouter</button>
     </div>
     <div class="kpi-row" id="cave-kpi"></div>
-    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
-      <select class="form-select" id="cave-filtre-type" onchange="rCave()" style="width:140px">
-        <option value="tous">Tous types</option>
-        <option value="rouge">🍷 Rouge</option>
-        <option value="blanc">🥂 Blanc</option>
-        <option value="rosé">🌸 Rosé</option>
-        <option value="champagne">🍾 Champagne</option>
-        <option value="autre">🫙 Autre</option>
-      </select>
-      <select class="form-select" id="cave-filtre-dispo" onchange="rCave()" style="width:140px">
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;flex:1">
+        <button class="cave-type-btn active" data-type="tous" onclick="setCaveType('tous',this)">Tous</button>
+        <button class="cave-type-btn rouge" data-type="rouge" onclick="setCaveType('rouge',this)">🍷 Rouge</button>
+        <button class="cave-type-btn blanc" data-type="blanc" onclick="setCaveType('blanc',this)">🥂 Blanc</button>
+        <button class="cave-type-btn rose" data-type="rosé" onclick="setCaveType('rosé',this)">🌸 Rosé</button>
+        <button class="cave-type-btn champagne" data-type="champagne" onclick="setCaveType('champagne',this)">🍾 Champagne</button>
+        <button class="cave-type-btn autre" data-type="autre" onclick="setCaveType('autre',this)">🫙 Autre</button>
+      </div>
+      <select class="form-select" id="cave-filtre-dispo" onchange="rCave()" style="width:130px;flex-shrink:0">
         <option value="tous">Tout le stock</option>
         <option value="dispo">En stock</option>
         <option value="bas">Stock bas</option>
         <option value="rupture">Rupture</option>
       </select>
     </div>
-    <div id="cave-list"></div>
+    <div id="cave-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px"></div>
   </div>
 
   <!-- Modal cave -->
@@ -15088,21 +15109,92 @@ function initRemisesCC(){
 // 🍷 CAVE À VINS
 // ═══════════════════════════════════════════
 const CAVE_DEFAUT=[
-  {id:1,type:'rouge',nom:'Côtes du Rhône Villages',region:'Rhône',millesime:2021,stock:12,seuil:3,prixBtl:32,prixVerre:8,cout:12,notes:'Viandes grillées. Cerise, épices douces.'},
-  {id:2,type:'blanc',nom:'Chablis Premier Cru',region:'Bourgogne',millesime:2020,stock:8,seuil:3,prixBtl:45,prixVerre:11,cout:18,notes:'Poissons, fruits de mer. Minéral, vif.'},
-  {id:3,type:'rouge',nom:'Saint-Émilion Grand Cru',region:'Bordeaux',millesime:2018,stock:5,seuil:2,prixBtl:68,prixVerre:16,cout:28,notes:'Agneau, magret. Tanins soyeux, prune.'},
-  {id:4,type:'champagne',nom:'Brut Réserve',region:'Champagne',millesime:0,stock:18,seuil:6,prixBtl:55,prixVerre:13,cout:22,notes:'Apéritif. Bulles fines, brioche.'},
-  {id:5,type:'rosé',nom:'Côtes de Provence',region:'Provence',millesime:2022,stock:10,seuil:4,prixBtl:28,prixVerre:7,cout:10,notes:'Été, poissons grillés. Frais, fraise.'},
-  {id:6,type:'blanc',nom:'Sancerre',region:'Loire',millesime:2021,stock:2,seuil:3,prixBtl:42,prixVerre:10,cout:17,notes:'Chèvre, saumon. Agrumes, belle acidité.'},
+  {id:1,type:'rouge',nom:'Château Margaux',region:'Bordeaux - Médoc',millesime:2019,stock:4,seuil:2,prixBtl:180,prixVerre:38,cout:75,notes:'Grand cru classé. Tanins veloutés, cassis, violette, boisé élégant.'},
+  {id:2,type:'rouge',nom:'Saint-Émilion Grand Cru',region:'Bordeaux - Saint-Émilion',millesime:2018,stock:6,seuil:2,prixBtl:68,prixVerre:16,cout:28,notes:'Agneau, magret. Tanins soyeux, prune noire, chocolat.'},
+  {id:3,type:'rouge',nom:'Côtes du Rhône Villages',region:'Rhône',millesime:2021,stock:14,seuil:4,prixBtl:32,prixVerre:8,cout:12,notes:'Viandes grillées. Cerise, garrigue, épices douces.'},
+  {id:4,type:'rouge',nom:'Pommard 1er Cru',region:'Bourgogne - Côte de Beaune',millesime:2020,stock:5,seuil:2,prixBtl:95,prixVerre:22,cout:40,notes:'Gibier, canard. Fruité intense, terroir puissant.'},
+  {id:5,type:'rouge',nom:'Crozes-Hermitage',region:'Vallée du Rhône',millesime:2021,stock:9,seuil:3,prixBtl:38,prixVerre:9,cout:15,notes:'Syrah pure. Poivre noir, olive, violette.'},
+  {id:6,type:'rouge',nom:'Cahors Malbec',region:'Sud-Ouest',millesime:2020,stock:8,seuil:3,prixBtl:29,prixVerre:7,cout:11,notes:'Cassoulet, confit. Charnu, fruits noirs, réglisse.'},
+  {id:7,type:'blanc',nom:'Chablis Premier Cru',region:'Bourgogne - Chablis',millesime:2020,stock:7,seuil:3,prixBtl:45,prixVerre:11,cout:18,notes:'Huîtres, poissons. Minéral, vif, citron.'},
+  {id:8,type:'blanc',nom:'Sancerre Blanc',region:'Loire - Sancerre',millesime:2022,stock:2,seuil:3,prixBtl:42,prixVerre:10,cout:17,notes:'Chèvre, saumon. Agrumes, herbe fraîche, belle acidité.'},
+  {id:9,type:'blanc',nom:'Pouilly-Fuissé',region:'Bourgogne - Mâconnais',millesime:2021,stock:6,seuil:2,prixBtl:36,prixVerre:9,cout:14,notes:'Volaille, saint-jacques. Beurré, pêche blanche, élégant.'},
+  {id:10,type:'blanc',nom:'Riesling Grand Cru',region:'Alsace',millesime:2019,stock:5,seuil:2,prixBtl:48,prixVerre:12,cout:19,notes:'Foie gras, choucroute. Fruité exotique, finesse aromatique.'},
+  {id:11,type:'blanc',nom:'Viognier de l'Ardèche',region:'Rhône - Ardèche',millesime:2022,stock:10,seuil:4,prixBtl:22,prixVerre:6,cout:8,notes:'Apéritif, poissons. Abricot, fleur blanche, rond.'},
+  {id:12,type:'rosé',nom:'Côtes de Provence Prestige',region:'Provence - Var',millesime:2023,stock:12,seuil:5,prixBtl:28,prixVerre:7,cout:10,notes:'Été, grillades, tapenade. Frais, fraise, pamplemousse.'},
+  {id:13,type:'rosé',nom:'Tavel Rosé',region:'Rhône - Tavel',millesime:2022,stock:7,seuil:3,prixBtl:25,prixVerre:6,cout:9,notes:'Charcuterie, grillades. Puissant, fruité, gastronomique.'},
+  {id:14,type:'rosé',nom:'Bandol Rosé',region:'Provence - Bandol',millesime:2022,stock:4,seuil:2,prixBtl:35,prixVerre:9,cout:14,notes:'Bouillabaisse, poissons. Complexe, long en bouche.'},
+  {id:15,type:'champagne',nom:'Brut Réserve — Moët & Chandon',region:'Champagne - Épernay',millesime:0,stock:20,seuil:6,prixBtl:55,prixVerre:13,cout:22,notes:'Apéritif, desserts légers. Bulles fines, brioche, pomme.'},
+  {id:16,type:'champagne',nom:'Blanc de Blancs — Ruinart',region:'Champagne - Reims',millesime:0,stock:8,seuil:3,prixBtl:90,prixVerre:20,cout:38,notes:'Saint-jacques, caviar. Chardonnay pur, minéral, citronné.'},
+  {id:17,type:'champagne',nom:'Rosé Brut — Laurent-Perrier',region:'Champagne',millesime:0,stock:6,seuil:3,prixBtl:75,prixVerre:18,cout:32,notes:'Fraises, framboises. Élégance et fraîcheur, parfait pour fêtes.'},
+  {id:18,type:'autre',nom:'Côteaux du Layon',region:'Loire - Anjou',millesime:2018,stock:5,seuil:2,prixBtl:30,prixVerre:9,cout:12,notes:'Liquoreux. Foie gras, desserts fruités. Miel, abricot confit.'},
+  {id:19,type:'autre',nom:'Banyuls Grand Cru',region:'Roussillon - Banyuls',millesime:2017,stock:4,seuil:2,prixBtl:28,prixVerre:8,cout:11,notes:'Chocolat, fromages bleus. Vin doux naturel, cerise confite.'},
+  {id:20,type:'autre',nom:'Crémant d'Alsace Brut',region:'Alsace',millesime:0,stock:11,seuil:4,prixBtl:18,prixVerre:5,cout:7,notes:'Apéritif festif. Bulles fines, pomme verte, frais et accessible.'},
 ];
 function initCave(){if(!DB.cave||!DB.cave.length)DB.cave=CAVE_DEFAUT.map(v=>({...v}));}
+let _caveTypeFilter='tous';
+function setCaveType(t,btn){
+  _caveTypeFilter=t;
+  document.querySelectorAll('.cave-type-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  rCave();
+}
+function bottleSVG(type,stock,seuil){
+  const configs={
+    rouge:{body:'#8B1A1A',neck:'#6B1414',label:'#c0392b',labelTxt:'#fff',cap:'#5a0f0f',shine:'rgba(255,100,100,0.18)'},
+    blanc:{body:'#4a7c59',neck:'#3a6347',label:'#c8a84b',labelTxt:'#fff',cap:'#2d4e38',shine:'rgba(200,255,180,0.18)'},
+    rosé:{body:'#c0607a',neck:'#a04d64',label:'#e91e8c',labelTxt:'#fff',cap:'#7a2940',shine:'rgba(255,180,200,0.2)'},
+    champagne:{body:'#b5a642',neck:'#8f8230',label:'#f39c12',labelTxt:'#fff',cap:'#c0a800',shine:'rgba(255,240,150,0.2)'},
+    autre:{body:'#4a3728',neck:'#3a2a1e',label:'#6c757d',labelTxt:'#fff',cap:'#2a1e14',shine:'rgba(200,180,150,0.15)'},
+  };
+  const c=configs[type]||configs.autre;
+  const sc=stock===0?'#c0392b':stock<=seuil?'#e6a326':'#06d6a0';
+  return `<svg width="70" height="120" viewBox="0 0 70 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg${type}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:${c.body};stop-opacity:0.7"/>
+      <stop offset="40%" style="stop-color:${c.body}"/>
+      <stop offset="75%" style="stop-color:${c.body}"/>
+      <stop offset="100%" style="stop-color:${c.body};stop-opacity:0.5"/>
+    </linearGradient>
+    <linearGradient id="shine${type}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:transparent"/>
+      <stop offset="30%" style="stop-color:${c.shine}"/>
+      <stop offset="60%" style="stop-color:rgba(255,255,255,0.12)"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </linearGradient>
+    <linearGradient id="neck${type}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:${c.neck};stop-opacity:0.7"/>
+      <stop offset="50%" style="stop-color:${c.neck}"/>
+      <stop offset="100%" style="stop-color:${c.neck};stop-opacity:0.5"/>
+    </linearGradient>
+  </defs>
+  <!-- Corps bouteille -->
+  <path d="M18 95 Q14 90 14 75 L14 55 Q14 48 18 45 L18 30 Q18 27 21 26 L21 18 Q21 15 24 14 L46 14 Q49 15 49 18 L49 26 Q52 27 52 30 L52 45 Q56 48 56 55 L56 75 Q56 90 52 95 Q48 105 35 108 Q22 105 18 95 Z" fill="url(#bg${type})" rx="4"/>
+  <!-- Épaule (shoulder highlight) -->
+  <path d="M18 45 Q14 48 14 55 L56 55 Q56 48 52 45 L52 30 Q52 27 49 26 L21 26 Q18 27 18 30 Z" fill="${c.neck}" opacity="0.4"/>
+  <!-- Reflet brillant -->
+  <path d="M22 95 Q19 88 19 75 L19 55 L25 55 L25 75 Q25 88 27 94 Z" fill="url(#shine${type})" opacity="0.8"/>
+  <!-- Étiquette -->
+  <rect x="17" y="62" width="36" height="28" rx="3" fill="${c.label}" opacity="0.9"/>
+  <rect x="19" y="64" width="32" height="24" rx="2" fill="rgba(0,0,0,0.25)"/>
+  <line x1="21" y1="70" x2="49" y2="70" stroke="${c.labelTxt}" stroke-width="0.5" opacity="0.4"/>
+  <line x1="21" y1="82" x2="49" y2="82" stroke="${c.labelTxt}" stroke-width="0.5" opacity="0.4"/>
+  <!-- Bouchon/muselet -->
+  <rect x="28" y="8" width="14" height="8" rx="3" fill="${c.cap}"/>
+  <rect x="30" y="6" width="10" height="4" rx="2" fill="${c.cap}" opacity="0.8"/>
+  <!-- Capsule -->
+  <rect x="21" y="14" width="28" height="6" rx="1" fill="${c.cap}" opacity="0.7"/>
+  <!-- Indicateur stock -->
+  <circle cx="54" cy="14" r="6" fill="${sc}" opacity="0.9"/>
+  <text x="54" y="18" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">${stock}</text>
+</svg>`;
+}
 function rCave(){
   initCave();
   const kpi=document.getElementById('cave-kpi'); if(!kpi) return;
-  const type=document.getElementById('cave-filtre-type')?.value||'tous';
   const dispo=document.getElementById('cave-filtre-dispo')?.value||'tous';
   let vins=DB.cave.slice();
-  if(type!=='tous') vins=vins.filter(v=>v.type===type);
+  if(_caveTypeFilter!=='tous') vins=vins.filter(v=>v.type===_caveTypeFilter);
   if(dispo==='dispo') vins=vins.filter(v=>v.stock>0);
   else if(dispo==='bas') vins=vins.filter(v=>v.stock>0&&v.stock<=v.seuil);
   else if(dispo==='rupture') vins=vins.filter(v=>v.stock===0);
@@ -15112,43 +15204,31 @@ function rCave(){
   const alertes=DB.cave.filter(v=>v.stock>0&&v.stock<=v.seuil).length;
   kpi.innerHTML=
     '<div class="kpi-box kpi-gold"><div class="kpi-label">BOUTEILLES</div><div class="kpi-val">'+totalBtl+'</div></div>'+
-    '<div class="kpi-box kpi-green"><div class="kpi-label">VALEUR</div><div class="kpi-val">'+eur(valeur)+'</div></div>'+
+    '<div class="kpi-box kpi-green"><div class="kpi-label">VALEUR CAVE</div><div class="kpi-val">'+eur(valeur)+'</div></div>'+
     '<div class="kpi-box kpi-amber"><div class="kpi-label">ALERTES</div><div class="kpi-val">'+alertes+'</div></div>'+
     '<div class="kpi-box kpi-red"><div class="kpi-label">RUPTURES</div><div class="kpi-val">'+ruptures+'</div></div>';
-  const typeIco={rouge:'🍷',blanc:'🥂',rosé:'🌸',champagne:'🍾',autre:'🫙'};
   const el=document.getElementById('cave-list'); if(!el) return;
-  if(!vins.length){el.innerHTML='<div style="text-align:center;color:var(--muted);padding:30px">Aucun vin</div>';return;}
+  if(!vins.length){el.innerHTML='<div style="text-align:center;color:var(--muted);padding:40px;grid-column:1/-1">Aucun vin</div>';return;}
   el.innerHTML=vins.map(function(v){
-    const sc=v.stock===0?'var(--red)':v.stock<=v.seuil?'var(--amber)':'var(--green)';
-    const marge=v.prixBtl>0?Math.round((v.prixBtl-v.cout)/v.prixBtl*100):0;
-    const borderCol=v.type==='rouge'?'#c0392b':v.type==='blanc'?'#f1c40f':v.type==='rosé'?'#e91e8c':v.type==='champagne'?'#f39c12':'var(--muted)';
-    return '<div style="background:var(--ink2);border:1px solid var(--line);border-left:3px solid '+borderCol+';border-radius:10px;padding:14px;margin-bottom:10px">'+
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">'+
-      '<div style="flex:1">'+
-        '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">'+
-          '<span style="font-size:18px">'+typeIco[v.type]+'</span>'+
-          '<span style="font-family:Georgia,serif;font-size:17px;font-weight:600;color:var(--txt)">'+v.nom+'</span>'+
-          (v.millesime?'<span style="font-size:11px;background:rgba(201,151,58,.15);color:var(--gold);padding:2px 8px;border-radius:10px;font-weight:600">'+v.millesime+'</span>':'')+
-        '</div>'+
-        '<div style="font-size:12px;color:var(--sub);margin-top:3px">'+v.region+'</div>'+
-        (v.notes?'<div style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic">🍽️ '+v.notes+'</div>':'')+
-        '<div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">'+
-          '<span style="font-size:12px;color:var(--gold)">🍾 '+eur(v.prixBtl)+'</span>'+
-          (v.prixVerre?'<span style="font-size:12px;color:var(--sub)">🥂 verre '+eur(v.prixVerre)+'</span>':'')+
-          '<span style="font-size:12px;color:var(--sub)">Marge '+marge+'%</span>'+
-        '</div>'+
+    const sc=v.stock===0?'cave-bottle-card stock-zero':v.stock<=v.seuil?'cave-bottle-card stock-bas':'cave-bottle-card';
+    const stockColor=v.stock===0?'var(--red)':v.stock<=v.seuil?'var(--amber)':'var(--green)';
+    const stockBg=v.stock===0?'rgba(181,57,42,.15)':v.stock<=v.seuil?'rgba(230,163,38,.15)':'rgba(6,214,160,.15)';
+    const mill=v.millesime?'<span class="cave-millesime">'+v.millesime+'</span>':'<span class="cave-millesime">NV</span>';
+    const shortName=v.nom.length>22?v.nom.substring(0,21)+'…':v.nom;
+    const shortRegion=v.region.length>20?v.region.substring(0,19)+'…':v.region;
+    return '<div class="'+sc+'" onclick="editCave('+v.id+')" title="'+v.nom+' — '+v.notes+'">'+
+      bottleSVG(v.type,v.stock,v.seuil)+
+      '<div class="cave-bottle-name">'+shortName+'</div>'+
+      '<div class="cave-bottle-region">'+shortRegion+'</div>'+
+      mill+
+      '<div class="cave-bottle-price">'+eur(v.prixBtl)+'</div>'+
+      '<span class="cave-bottle-stock" style="color:'+stockColor+';background:'+stockBg+'">'+v.stock+' btl</span>'+
+      '<div class="cave-bottle-actions" onclick="event.stopPropagation()">'+
+        '<button onclick="caveAjuster('+v.id+',-1)" title="Retirer 1">−</button>'+
+        '<button onclick="caveAjuster('+v.id+',1)" title="Ajouter 1">+</button>'+
+        '<button onclick="delCave('+v.id+')" title="Supprimer" style="color:var(--red)">✕</button>'+
       '</div>'+
-      '<div style="text-align:right;flex-shrink:0">'+
-        '<div style="font-size:22px;font-weight:700;color:'+sc+'">'+v.stock+'</div>'+
-        '<div style="font-size:10px;color:var(--muted)">bouteilles</div>'+
-        '<div style="display:flex;gap:4px;margin-top:6px">'+
-          '<button onclick="caveAjuster('+v.id+',-1)" style="background:var(--ink3);border:1px solid var(--line);color:var(--txt);width:28px;height:28px;border-radius:6px;cursor:pointer">−</button>'+
-          '<button onclick="caveAjuster('+v.id+',1)" style="background:var(--ink3);border:1px solid var(--line);color:var(--txt);width:28px;height:28px;border-radius:6px;cursor:pointer">+</button>'+
-          '<button onclick="editCave('+v.id+')" style="background:var(--ink3);border:1px solid var(--line);color:var(--gold);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:12px">✏</button>'+
-          '<button onclick="delCave('+v.id+')" style="background:rgba(181,57,42,.1);border:1px solid rgba(181,57,42,.2);color:var(--red);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:12px">✕</button>'+
-        '</div>'+
-      '</div>'+
-      '</div></div>';
+    '</div>';
   }).join('');
 }
 function saveCave(){
