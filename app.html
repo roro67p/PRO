@@ -1287,6 +1287,92 @@ tbody tr { transition:background .12s; }
 .cli-spark-bar{flex:1;border-radius:2px 2px 0 0;background:linear-gradient(180deg,var(--gold2),var(--gold));min-height:3px;transition:height .4s ease;opacity:.7}
 .cli-spark-bar:hover{opacity:1}
 
+
+/* ═══════════════════════════════
+   MENU DU JOUR — Carte Gastronomique
+   ═══════════════════════════════ */
+.mj-page{background:var(--ink)}
+
+/* Header */
+.mj-header{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;align-items:start;padding:28px 32px;background:linear-gradient(135deg,rgba(201,151,58,.06),rgba(201,151,58,.02));border:1px solid rgba(201,151,58,.12);border-radius:20px;position:relative;overflow:hidden}
+.mj-header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(201,151,58,.6),rgba(245,208,112,.8),rgba(201,151,58,.6),transparent)}
+@media(max-width:800px){.mj-header{grid-template-columns:1fr}}
+
+.mj-header-left{text-align:center}
+.mj-enseigne{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--gold2);letter-spacing:2px;line-height:1.1;text-shadow:0 0 40px rgba(201,151,58,.2)}
+.mj-ornement{font-size:12px;color:rgba(201,151,58,.4);letter-spacing:6px;margin:6px 0;font-family:'EB Garamond',serif}
+.mj-date-big{font-family:'EB Garamond',serif;font-size:15px;color:var(--sub);letter-spacing:1px;text-transform:capitalize;margin-top:4px}
+.mj-chef-msg{font-family:'EB Garamond',serif;font-size:13px;color:rgba(201,151,58,.6);font-style:italic;margin-top:6px}
+
+.mj-header-right{display:flex;flex-direction:column;gap:14px}
+.mj-actions-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.mj-btn-gold{background:linear-gradient(108deg,#7a4a08,#c9973a,#f5d070,#c9973a);background-size:250% 100%;color:#060300;font-size:12px;font-weight:800;padding:9px 18px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(201,151,58,.35);transition:all .2s;letter-spacing:.3px}
+.mj-btn-gold:hover{background-position:70%;transform:translateY(-1px)}
+.mj-btn-ghost{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--sub);font-size:12px;font-weight:600;padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .15s}
+.mj-btn-ghost:hover{background:rgba(255,255,255,.09);color:var(--txt)}
+
+/* Formules */
+.mj-formules{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.mj-formule-card{text-align:center;padding:10px 16px;border-radius:12px;border:1px solid;position:relative;overflow:hidden;min-width:110px}
+.mj-formule-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:currentColor;opacity:.4}
+.mj-formule-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;opacity:.7;margin-bottom:3px;font-weight:700}
+.mj-formule-prix{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1}
+
+/* Message spécial */
+.mj-msg-banner{background:linear-gradient(135deg,rgba(201,151,58,.15),rgba(201,151,58,.06));border:1px solid rgba(201,151,58,.3);border-radius:12px;padding:12px 20px;margin-bottom:20px;font-family:'EB Garamond',serif;font-size:15px;font-style:italic;color:var(--gold2);text-align:center;display:flex;align-items:center;justify-content:center;gap:10px}
+
+/* Carte layout */
+.mj-carte{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin-bottom:20px}
+@media(max-width:900px){.mj-carte{grid-template-columns:1fr;}.mj-divider-v{display:none}}
+
+/* Colonne */
+.mj-col{padding:0 24px;display:flex;flex-direction:column;gap:28px}
+
+/* Section */
+.mj-section{position:relative}
+.mj-sec-header{display:flex;align-items:center;gap:10px;margin-bottom:4px;position:relative}
+.mj-sec-ornement{color:rgba(201,151,58,.4);font-size:10px;flex-shrink:0}
+.mj-sec-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold2);letter-spacing:1px;flex:1;text-align:center;text-transform:uppercase;font-size:13px;letter-spacing:3px}
+.mj-add-btn{width:22px;height:22px;border-radius:50%;background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.3);color:var(--gold2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;flex-shrink:0;line-height:1}
+.mj-section:hover .mj-add-btn{opacity:1}
+.mj-sec-line{height:1px;background:linear-gradient(90deg,transparent,rgba(201,151,58,.35),transparent);margin:6px 0 14px}
+
+/* Items plats */
+.mj-items{display:flex;flex-direction:column;gap:0}
+.mj-item{display:flex;align-items:baseline;gap:6px;padding:9px 0;border-bottom:1px dotted rgba(255,255,255,.06);animation:mjItemIn .3s ease both;cursor:default;group:true;position:relative}
+.mj-item:last-child{border-bottom:none}
+.mj-item:hover{background:rgba(201,151,58,.03);margin:0 -8px;padding:9px 8px;border-radius:6px}
+.mj-item-del{position:absolute;right:0;top:50%;transform:translateY(-50%);opacity:0;width:20px;height:20px;border-radius:50%;background:rgba(181,57,42,.2);border:1px solid rgba(181,57,42,.3);color:#f07060;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .15s}
+.mj-item:hover .mj-item-del{opacity:1}
+.mj-item-nom{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--txt);flex:1;line-height:1.3}
+.mj-item-nom em{font-style:italic;font-weight:400;font-size:13px;color:var(--sub);display:block;margin-top:1px;font-family:'EB Garamond',serif}
+.mj-item-dots{flex:1;border-bottom:1px dotted rgba(255,255,255,.12);min-width:20px;margin:0 6px;margin-bottom:3px}
+.mj-item-prix{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--gold2);white-space:nowrap;flex-shrink:0}
+.mj-item-badge{font-size:8px;font-weight:800;padding:1px 5px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;flex-shrink:0;margin-bottom:1px}
+.mj-item-badge.new{background:rgba(95,184,122,.15);color:#6fcf8a;border:1px solid rgba(95,184,122,.2)}
+.mj-item-badge.star{background:rgba(240,112,96,.1);color:#f07060;border:1px solid rgba(240,112,96,.2)}
+.mj-item-empty{font-family:'EB Garamond',serif;font-size:13px;color:var(--muted);font-style:italic;padding:12px 0;text-align:center}
+
+/* Séparateur vertical */
+.mj-divider-v{display:flex;flex-direction:column;align-items:center;padding:0 4px;gap:0}
+.mj-divider-line{flex:1;width:1px;background:linear-gradient(180deg,transparent,rgba(201,151,58,.25),rgba(201,151,58,.35),rgba(201,151,58,.25),transparent)}
+.mj-divider-ico{font-size:18px;padding:12px 0;color:rgba(201,151,58,.4)}
+
+/* Footer carte */
+.mj-footer-carte{display:flex;align-items:center;gap:14px;padding:14px 0;margin-top:8px}
+.mj-footer-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,151,58,.2))}
+.mj-footer-line:last-child{background:linear-gradient(270deg,transparent,rgba(201,151,58,.2))}
+.mj-footer-text{font-family:'EB Garamond',serif;font-size:11px;color:rgba(201,151,58,.5);letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+
+/* Panneau paramètres */
+.mj-params-panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:20px 22px;margin-top:16px;animation:mjIn .2s ease}
+.mj-params-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold2);margin-bottom:14px}
+.mj-params-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.mj-params-grid{grid-template-columns:1fr}}
+
+@keyframes mjItemIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+@keyframes mjIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
 @keyframes cliIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
 .cli-phrase-chip{display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(201,151,58,.25);background:rgba(201,151,58,.08);color:var(--sub);transition:all .15s;user-select:none}
 .cli-phrase-chip:hover{background:rgba(201,151,58,.2);border-color:rgba(201,151,58,.5);color:var(--gold2);transform:translateY(-1px)}
@@ -6660,85 +6746,126 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
-  <div id="page-menuJour" class="page">
-    <div class="page-header">
-      <div>
-        <h2>☀️ Menu du Jour</h2>
-        <div id="mj-date-display" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost btn-sm" onclick="printMenuJour()">🖨️ Imprimer</button>
-        <button class="btn btn-gold btn-sm" onclick="openMenuJourModal()">+ Ajouter</button>
-      </div>
+  <div id="page-menuJour" class="page mj-page">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+  <!-- HEADER ÉDITORIAL -->
+  <div class="mj-header">
+    <div class="mj-header-left">
+      <div class="mj-enseigne" id="mj-enseigne-nom">Chez Romu</div>
+      <div class="mj-ornement">✦ ── ✦ ── ✦</div>
+      <div class="mj-date-big" id="mj-date-display"></div>
+      <div class="mj-chef-msg" id="mj-chef-display"></div>
     </div>
-
-    <!-- Formules -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px" id="mj-formules-row"></div>
-
-    <!-- Carte du jour style restaurant -->
-    <div style="display:grid;grid-template-columns:1fr;gap:14px">
-
-      <!-- Entrées -->
-      <div class="card" style="border-top:3px solid #3d7a4e">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <div class="card-title" style="margin-bottom:0">🥗 Entrées</div>
-          <button class="btn btn-ghost btn-xs" onclick="openMJCat('entrees')">+ Ajouter</button>
-        </div>
-        <div id="mj-entrees"></div>
+    <div class="mj-header-right">
+      <div class="mj-actions-bar">
+        <button class="mj-btn-ghost" onclick="printMenuJour()">🖨️ Imprimer</button>
+        <button class="mj-btn-ghost" onclick="mj_toggleEdit()">⚙️ Paramètres</button>
+        <button class="mj-btn-gold" onclick="openMJCat('entrees')">+ Ajouter un plat</button>
       </div>
-
-      <!-- Plats -->
-      <div class="card" style="border-top:3px solid var(--red)">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <div class="card-title" style="margin-bottom:0">🍽️ Plats du jour</div>
-          <button class="btn btn-ghost btn-xs" onclick="openMJCat('plats')">+ Ajouter</button>
-        </div>
-        <div id="mj-plats"></div>
-      </div>
-
-      <!-- Fromages -->
-      <div class="card" style="border-top:3px solid #c9973a">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <div class="card-title" style="margin-bottom:0">🧀 Fromages</div>
-          <button class="btn btn-ghost btn-xs" onclick="openMJCat('fromages')">+ Ajouter</button>
-        </div>
-        <div id="mj-fromages"></div>
-      </div>
-
-      <!-- Desserts -->
-      <div class="card" style="border-top:3px solid #f59e0b">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <div class="card-title" style="margin-bottom:0">🍮 Desserts</div>
-          <button class="btn btn-ghost btn-xs" onclick="openMJCat('desserts')">+ Ajouter</button>
-        </div>
-        <div id="mj-desserts"></div>
-      </div>
-
-      <!-- Boissons -->
-      <div class="card" style="border-top:3px solid #2d5f8a">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <div class="card-title" style="margin-bottom:0">🍷 Boissons & Vins</div>
-          <button class="btn btn-ghost btn-xs" onclick="openMJCat('boissons')">+ Ajouter</button>
-        </div>
-        <div id="mj-boissons"></div>
-      </div>
-    </div>
-
-    <!-- Infos bas de page -->
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">⚙️ Paramètres du menu</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div><div class="form-label">Date</div><input class="form-input" type="date" id="mj-date"/></div>
-        <div><div class="form-label">Message spécial</div><input class="form-input" id="mj-msg" placeholder="Fermeture lundi, spécial fête…"/></div>
-        <div><div class="form-label">Formule entrée + plat (€)</div><input class="form-input" type="number" id="mj-formule-ep" placeholder="Ex: 16.90"/></div>
-        <div><div class="form-label">Formule plat + dessert (€)</div><input class="form-input" type="number" id="mj-formule-pd" placeholder="Ex: 16.90"/></div>
-        <div><div class="form-label">Formule complète E+P+D (€)</div><input class="form-input" type="number" id="mj-formule" placeholder="Ex: 22.90"/></div>
-        <div><div class="form-label">Mention du chef</div><input class="form-input" id="mj-chef" placeholder="Produits de saison, fait maison…"/></div>
-      </div>
-      <button class="btn btn-gold" style="width:100%;margin-top:12px" onclick="saveMJInfos()">💾 Enregistrer les paramètres</button>
+      <!-- Formules -->
+      <div class="mj-formules" id="mj-formules-row"></div>
     </div>
   </div>
 
+  <!-- MESSAGE SPÉCIAL -->
+  <div class="mj-msg-banner" id="mj-msg-banner" style="display:none"></div>
+
+  <!-- CARTE DU JOUR — Layout éditorial -->
+  <div class="mj-carte">
+
+    <!-- Colonne gauche : Entrées + Fromages -->
+    <div class="mj-col">
+      <div class="mj-section" id="mj-sec-entrees">
+        <div class="mj-sec-header">
+          <div class="mj-sec-ornement">✦</div>
+          <h3 class="mj-sec-title">Entrées</h3>
+          <div class="mj-sec-ornement">✦</div>
+          <button class="mj-add-btn" onclick="openMJCat('entrees')">+</button>
+        </div>
+        <div class="mj-sec-line"></div>
+        <div class="mj-items" id="mj-entrees"></div>
+      </div>
+
+      <div class="mj-section" id="mj-sec-fromages">
+        <div class="mj-sec-header">
+          <div class="mj-sec-ornement">✦</div>
+          <h3 class="mj-sec-title">Fromages</h3>
+          <div class="mj-sec-ornement">✦</div>
+          <button class="mj-add-btn" onclick="openMJCat('fromages')">+</button>
+        </div>
+        <div class="mj-sec-line"></div>
+        <div class="mj-items" id="mj-fromages"></div>
+      </div>
+    </div>
+
+    <!-- Séparateur vertical -->
+    <div class="mj-divider-v">
+      <div class="mj-divider-line"></div>
+      <div class="mj-divider-ico">🍽️</div>
+      <div class="mj-divider-line"></div>
+    </div>
+
+    <!-- Colonne droite : Plats + Desserts + Boissons -->
+    <div class="mj-col">
+      <div class="mj-section" id="mj-sec-plats">
+        <div class="mj-sec-header">
+          <div class="mj-sec-ornement">✦</div>
+          <h3 class="mj-sec-title">Plats du Jour</h3>
+          <div class="mj-sec-ornement">✦</div>
+          <button class="mj-add-btn" onclick="openMJCat('plats')">+</button>
+        </div>
+        <div class="mj-sec-line"></div>
+        <div class="mj-items" id="mj-plats"></div>
+      </div>
+
+      <div class="mj-section" id="mj-sec-desserts">
+        <div class="mj-sec-header">
+          <div class="mj-sec-ornement">✦</div>
+          <h3 class="mj-sec-title">Desserts</h3>
+          <div class="mj-sec-ornement">✦</div>
+          <button class="mj-add-btn" onclick="openMJCat('desserts')">+</button>
+        </div>
+        <div class="mj-sec-line"></div>
+        <div class="mj-items" id="mj-desserts"></div>
+      </div>
+
+      <div class="mj-section" id="mj-sec-boissons">
+        <div class="mj-sec-header">
+          <div class="mj-sec-ornement">✦</div>
+          <h3 class="mj-sec-title">Boissons & Vins</h3>
+          <div class="mj-sec-ornement">✦</div>
+          <button class="mj-add-btn" onclick="openMJCat('boissons')">+</button>
+        </div>
+        <div class="mj-sec-line"></div>
+        <div class="mj-items" id="mj-boissons"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BAS DE CARTE : mention légale chef -->
+  <div class="mj-footer-carte">
+    <div class="mj-footer-line"></div>
+    <div class="mj-footer-text">Tous nos plats sont préparés avec des produits frais · Fait maison</div>
+    <div class="mj-footer-line"></div>
+  </div>
+
+  <!-- PANNEAU PARAMÈTRES (masqué par défaut) -->
+  <div class="mj-params-panel" id="mj-params-panel" style="display:none">
+    <div class="mj-params-title">⚙️ Paramètres du menu du jour</div>
+    <div class="mj-params-grid">
+      <div><div class="form-label">Date</div><input class="form-input" type="date" id="mj-date"/></div>
+      <div><div class="form-label">Message spécial</div><input class="form-input" id="mj-msg" placeholder="Fermeture lundi, spécial fête…"/></div>
+      <div><div class="form-label">Formule E + P (€)</div><input class="form-input" type="number" id="mj-formule-ep" placeholder="16.90"/></div>
+      <div><div class="form-label">Formule P + D (€)</div><input class="form-input" type="number" id="mj-formule-pd" placeholder="16.90"/></div>
+      <div><div class="form-label">Formule complète E+P+D (€)</div><input class="form-input" type="number" id="mj-formule" placeholder="22.90"/></div>
+      <div><div class="form-label">Mention du chef</div><input class="form-input" id="mj-chef" placeholder="Produits de saison, fait maison…"/></div>
+    </div>
+    <button class="btn btn-gold" style="width:100%;margin-top:12px" onclick="saveMJInfos()">💾 Enregistrer</button>
+  </div>
+  </div>
+
+  
   <!-- LIVRAISON -->
   <div id="page-livraison" class="page">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
@@ -9891,207 +10018,210 @@ function initData(){
 
   DB.plats=[
     {id:1,nom:'Soupe à l\'oignon gratinée',ico:'🥗',photo:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',cat:'Entrées',prix:9.0,cout:2.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Gruyère fondu, croutons maison',vendu:0,recette:[{stkId:5,qte:0.1},{stkId:10,qte:0.02}]},
-    {id:2,nom:'Foie gras mi-cuit',ico:'🥗',photo:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80',cat:'Entrées',prix:17.0,cout:7.0,dispo:'dispo',allerg:'Gluten',desc:'Brioche toastée, chutney de figues, fleur de sel',vendu:0,recette:[]},
-    {id:3,nom:'Salade César maison',ico:'🥗',photo:'https://images.unsplash.com/photo-1615361200141-f45040f367be?w=400&q=80',cat:'Entrées',prix:11.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Romaine, parmesan, anchois, croûtons dorés',vendu:0,recette:[{stkId:6,qte:0.03},{stkId:7,qte:1},{stkId:10,qte:0.015}]},
-    {id:4,nom:'Carpaccio de boeuf',ico:'🥗',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Entrées',prix:14.0,cout:5.2,dispo:'dispo',allerg:'',desc:'Roquette, parmesan 24 mois, câpres, huile truffée',vendu:0,recette:[{stkId:1,qte:0.12},{stkId:6,qte:0.03},{stkId:9,qte:0.02}]},
-    {id:5,nom:'Velouté de champignons',ico:'🥗',photo:'https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&q=80',cat:'Entrées',prix:9.5,cout:2.8,dispo:'dispo',allerg:'Lactose',desc:'Crème fraîche, ciboulette, huile de noix',vendu:0,recette:[{stkId:4,qte:0.15},{stkId:13,qte:0.1}]},
-    {id:6,nom:'Tartare de saumon',ico:'🥗',photo:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',cat:'Entrées',prix:13.0,cout:4.8,dispo:'dispo',allerg:'Poisson',desc:'Avocat, citron vert, aneth, pain grillé',vendu:0,recette:[]},
+    {id:2,nom:'Foie gras mi-cuit',ico:'🥗',photo:'https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&q=80',cat:'Entrées',prix:17.0,cout:7.0,dispo:'dispo',allerg:'Gluten',desc:'Brioche toastée, chutney de figues, fleur de sel',vendu:0,recette:[]},
+    {id:3,nom:'Salade César maison',ico:'🥗',photo:'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400&q=80',cat:'Entrées',prix:11.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Romaine, parmesan, anchois, croûtons dorés',vendu:0,recette:[{stkId:6,qte:0.03},{stkId:7,qte:1},{stkId:10,qte:0.015}]},
+    {id:4,nom:'Carpaccio de boeuf',ico:'🥗',photo:'https://images.unsplash.com/photo-1615361200141-f45040f367be?w=400&q=80',cat:'Entrées',prix:14.0,cout:5.2,dispo:'dispo',allerg:'',desc:'Roquette, parmesan 24 mois, câpres, huile truffée',vendu:0,recette:[{stkId:1,qte:0.12},{stkId:6,qte:0.03},{stkId:9,qte:0.02}]},
+    {id:5,nom:'Velouté de champignons',ico:'🥗',photo:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80',cat:'Entrées',prix:9.5,cout:2.8,dispo:'dispo',allerg:'Lactose',desc:'Crème fraîche, ciboulette, huile de noix',vendu:0,recette:[{stkId:4,qte:0.15},{stkId:13,qte:0.1}]},
+    {id:6,nom:'Tartare de saumon',ico:'🥗',photo:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',cat:'Entrées',prix:13.0,cout:4.8,dispo:'dispo',allerg:'Poisson',desc:'Avocat, citron vert, aneth, pain grillé',vendu:0,recette:[]},
     {id:7,nom:'Boeuf Bourguignon',ico:'🥩',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Viandes',prix:24.0,cout:9.5,dispo:'dispo',allerg:'Alcool',desc:'Joue de boeuf mijotée 6h, carottes, lardons, champignons',vendu:0,recette:[{stkId:1,qte:0.25},{stkId:8,qte:0.15},{stkId:4,qte:0.08},{stkId:5,qte:0.05}]},
-    {id:8,nom:'Magret de canard',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:27.0,cout:11.0,dispo:'dispo',allerg:'',desc:'Sauce aux cerises Griotte, gratin dauphinois',vendu:0,recette:[{stkId:3,qte:1},{stkId:8,qte:0.05}]},
-    {id:9,nom:'Côte de boeuf (500g)',ico:'🥩',photo:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80',cat:'Viandes',prix:42.0,cout:17.0,dispo:'dispo',allerg:'',desc:'Béarnaise, frites maison',vendu:0,recette:[{stkId:1,qte:0.5},{stkId:10,qte:0.03}]},
-    {id:10,nom:'Poulet fermier rôti',ico:'🥩',photo:'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80',cat:'Viandes',prix:20.0,cout:7.0,dispo:'dispo',allerg:'',desc:'Jus au thym, pommes de terre fondantes',vendu:0,recette:[]},
-    {id:11,nom:'Carré d\'agneau',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:32.0,cout:13.0,dispo:'dispo',allerg:'',desc:'Croûte d\'herbes, jus au romarin, légumes de saison',vendu:0,recette:[]},
-    {id:12,nom:'Filet de sole meunière',ico:'🐟',photo:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',cat:'Poissons',prix:26.0,cout:10.5,dispo:'dispo',allerg:'Poisson, Lactose',desc:'Beurre noisette citronné, câpres, persil plat',vendu:0,recette:[{stkId:2,qte:0.18},{stkId:10,qte:0.04}]},
-    {id:13,nom:'Saumon en croûte',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cat:'Poissons',prix:23.0,cout:9.0,dispo:'dispo',allerg:'Poisson, Gluten',desc:'Épinards frais, feuilletage doré, beurre blanc',vendu:0,recette:[]},
-    {id:14,nom:'Dos de cabillaud',ico:'🐟',photo:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',cat:'Poissons',prix:24.0,cout:9.5,dispo:'dispo',allerg:'Poisson',desc:'Chorizo, pomme de terre écrasée, vierge de tomates',vendu:0,recette:[{stkId:15,qte:0.18},{stkId:10,qte:0.02}]},
-    {id:15,nom:'Risotto aux truffes',ico:'🥦',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Végétarien',prix:22.0,cout:8.0,dispo:'dispo',allerg:'Lactose',desc:'Riz arborio, parmesan affiné, copeaux de truffe noire',vendu:0,recette:[{stkId:12,qte:0.08},{stkId:6,qte:0.04},{stkId:13,qte:0.05}]},
-    {id:16,nom:'Lasagnes maison',ico:'🍲',photo:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',cat:'Plats',prix:17.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Bolognaise maison, béchamel légère, basilic frais',vendu:0,recette:[]},
-    {id:17,nom:'Ratatouille provençale',ico:'🥦',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Végétarien',prix:15.0,cout:4.5,dispo:'dispo',allerg:'',desc:'Légumes confits, huile d\'olive, herbes de Provence',vendu:0,recette:[]},
-    {id:18,nom:'Tartare de boeuf',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:21.0,cout:8.5,dispo:'dispo',allerg:'Oeufs',desc:'Câpres, cornichons, jaune d\'oeuf, frites maison',vendu:0,recette:[{stkId:1,qte:0.18},{stkId:7,qte:1}]},
-    {id:19,nom:'Crème brûlée',ico:'🍮',photo:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.0,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Vanille de Madagascar, caramel croustillant',vendu:0,recette:[{stkId:7,qte:3},{stkId:13,qte:0.2}]},
-    {id:20,nom:'Tarte Tatin',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:9.5,cout:2.8,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Pommes caramélisées, pâte feuilletée, crème fraîche',vendu:0,recette:[{stkId:7,qte:2},{stkId:13,qte:0.1},{stkId:10,qte:0.05}]},
-    {id:21,nom:'Moelleux au chocolat',ico:'🍮',photo:'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80',cat:'Desserts',prix:9.5,cout:2.9,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Coeur coulant Valrhona, glace vanille bourbon',vendu:0,recette:[{stkId:11,qte:0.08},{stkId:7,qte:2},{stkId:10,qte:0.05}]},
-    {id:22,nom:'Île flottante',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:7.5,cout:1.6,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Caramel, amandes effilées grillées, anglaise légère',vendu:0,recette:[{stkId:7,qte:3},{stkId:13,qte:0.15}]},
-    {id:23,nom:'Assiette de fromages',ico:'🍮',photo:'https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?w=400&q=80',cat:'Desserts',prix:12.0,cout:5.0,dispo:'dispo',allerg:'Lactose',desc:'5 fromages affinés, noix, miel, pain de seigle',vendu:0,recette:[]},
-    {id:24,nom:'Sorbet maison (3 boules)',ico:'🍮',photo:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80',cat:'Desserts',prix:7.0,cout:1.8,dispo:'dispo',allerg:'',desc:'Fruits de saison, tuile croustillante',vendu:0,recette:[]},
-    {id:25,nom:'Eau minérale (75cl)',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:4.5,cout:0.9,dispo:'dispo',allerg:'',desc:'Évian ou Badoit',vendu:0,recette:[]},
-    {id:26,nom:'Coca-Cola',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:4.5,cout:0.9,dispo:'dispo',allerg:'',desc:'33cl, regular ou zero',vendu:0,recette:[]},
-    {id:27,nom:'Jus de fruits frais',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:5.5,cout:1.5,dispo:'dispo',allerg:'',desc:'Orange pressée, pomme ou pamplemousse',vendu:0,recette:[]},
-    {id:28,nom:'Café expresso',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:2.8,cout:0.45,dispo:'dispo',allerg:'',desc:'Arabica grand cru, torréfaction maison',vendu:0,recette:[{stkId:14,qte:0.007}]},
-    {id:29,nom:'Bordeaux rouge (75cl)',ico:'🍷',photo:'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=400&q=80',cat:'Vins',prix:30.0,cout:9.5,dispo:'dispo',allerg:'Sulfites',desc:'Château Margaux 2019 — Médoc',vendu:0,recette:[]},
-    {id:30,nom:'Bourgogne blanc (75cl)',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cat:'Vins',prix:35.0,cout:12.0,dispo:'dispo',allerg:'Sulfites',desc:'Chablis Premier Cru 2021 — Domaine Drouhin',vendu:0,recette:[]},
-    {id:31,nom:'Rosé Provence (75cl)',ico:'🍷',photo:'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=400&q=80',cat:'Vins',prix:28.0,cout:9.0,dispo:'dispo',allerg:'Sulfites',desc:'Côtes de Provence 2022 — Château Miraval',vendu:0,recette:[]},
-    {id:32,nom:'Champagne Brut (75cl)',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cat:'Vins',prix:70.0,cout:24.0,dispo:'dispo',allerg:'Sulfites',desc:'Moët & Chandon Impérial',vendu:0,recette:[]},
-    {id:33,nom:'Kir Royal',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:10.0,cout:2.8,dispo:'dispo',allerg:'Sulfites',desc:'Crème de cassis Dijon, Champagne brut',vendu:0,recette:[]},
+    {id:8,nom:'Magret de canard',ico:'🥩',photo:'https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80',cat:'Viandes',prix:27.0,cout:11.0,dispo:'dispo',allerg:'',desc:'Sauce aux cerises Griotte, gratin dauphinois',vendu:0,recette:[{stkId:3,qte:1},{stkId:8,qte:0.05}]},
+    {id:9,nom:'Côte de boeuf (500g)',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:42.0,cout:17.0,dispo:'dispo',allerg:'',desc:'Béarnaise, frites maison',vendu:0,recette:[{stkId:1,qte:0.5},{stkId:10,qte:0.03}]},
+    {id:10,nom:'Poulet fermier rôti',ico:'🥩',photo:'https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80',cat:'Viandes',prix:20.0,cout:7.0,dispo:'dispo',allerg:'',desc:'Jus au thym, pommes de terre fondantes',vendu:0,recette:[]},
+    {id:11,nom:'Carré d\'agneau',ico:'🥩',photo:'https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80',cat:'Viandes',prix:32.0,cout:13.0,dispo:'dispo',allerg:'',desc:'Croûte d\'herbes, jus au romarin, légumes de saison',vendu:0,recette:[]},
+    {id:12,nom:'Filet de sole meunière',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cat:'Poissons',prix:26.0,cout:10.5,dispo:'dispo',allerg:'Poisson, Lactose',desc:'Beurre noisette citronné, câpres, persil plat',vendu:0,recette:[{stkId:2,qte:0.18},{stkId:10,qte:0.04}]},
+    {id:13,nom:'Saumon en croûte',ico:'🐟',photo:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',cat:'Poissons',prix:23.0,cout:9.0,dispo:'dispo',allerg:'Poisson, Gluten',desc:'Épinards frais, feuilletage doré, beurre blanc',vendu:0,recette:[]},
+    {id:14,nom:'Dos de cabillaud',ico:'🐟',photo:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',cat:'Poissons',prix:24.0,cout:9.5,dispo:'dispo',allerg:'Poisson',desc:'Chorizo, pomme de terre écrasée, vierge de tomates',vendu:0,recette:[{stkId:15,qte:0.18},{stkId:10,qte:0.02}]},
+    {id:15,nom:'Risotto aux truffes',ico:'🥦',photo:'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80',cat:'Végétarien',prix:22.0,cout:8.0,dispo:'dispo',allerg:'Lactose',desc:'Riz arborio, parmesan affiné, copeaux de truffe noire',vendu:0,recette:[{stkId:12,qte:0.08},{stkId:6,qte:0.04},{stkId:13,qte:0.05}]},
+    {id:16,nom:'Lasagnes maison',ico:'🍲',photo:'https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80',cat:'Plats',prix:17.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Bolognaise maison, béchamel légère, basilic frais',vendu:0,recette:[]},
+    {id:17,nom:'Ratatouille provençale',ico:'🥦',photo:'https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=400&q=80',cat:'Végétarien',prix:15.0,cout:4.5,dispo:'dispo',allerg:'',desc:'Légumes confits, huile d\'olive, herbes de Provence',vendu:0,recette:[]},
+    {id:18,nom:'Tartare de boeuf',ico:'🥩',photo:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80',cat:'Viandes',prix:21.0,cout:8.5,dispo:'dispo',allerg:'Oeufs',desc:'Câpres, cornichons, jaune d\'oeuf, frites maison',vendu:0,recette:[{stkId:1,qte:0.18},{stkId:7,qte:1}]},
+    {id:19,nom:'Crème brûlée',ico:'🍮',photo:'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.0,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Vanille de Madagascar, caramel croustillant',vendu:0,recette:[{stkId:7,qte:3},{stkId:13,qte:0.2}]},
+    {id:20,nom:'Tarte Tatin',ico:'🍮',photo:'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=400&q=80',cat:'Desserts',prix:9.5,cout:2.8,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Pommes caramélisées, pâte feuilletée, crème fraîche',vendu:0,recette:[{stkId:7,qte:2},{stkId:13,qte:0.1},{stkId:10,qte:0.05}]},
+    {id:21,nom:'Moelleux au chocolat',ico:'🍮',photo:'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80',cat:'Desserts',prix:9.5,cout:2.9,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Coeur coulant Valrhona, glace vanille bourbon',vendu:0,recette:[{stkId:11,qte:0.08},{stkId:7,qte:2},{stkId:10,qte:0.05}]},
+    {id:22,nom:'Île flottante',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:7.5,cout:1.6,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Caramel, amandes effilées grillées, anglaise légère',vendu:0,recette:[{stkId:7,qte:3},{stkId:13,qte:0.15}]},
+    {id:23,nom:'Assiette de fromages',ico:'🍮',photo:'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80',cat:'Desserts',prix:12.0,cout:5.0,dispo:'dispo',allerg:'Lactose',desc:'5 fromages affinés, noix, miel, pain de seigle',vendu:0,recette:[]},
+    {id:24,nom:'Sorbet maison (3 boules)',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:7.0,cout:1.8,dispo:'dispo',allerg:'',desc:'Fruits de saison, tuile croustillante',vendu:0,recette:[]},
+    {id:25,nom:'Eau minérale (75cl)',ico:'🥤',photo:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80',cat:'Boissons',prix:4.5,cout:0.9,dispo:'dispo',allerg:'',desc:'Évian ou Badoit',vendu:0,recette:[]},
+    {id:26,nom:'Coca-Cola',ico:'🥤',photo:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80',cat:'Boissons',prix:4.5,cout:0.9,dispo:'dispo',allerg:'',desc:'33cl, regular ou zero',vendu:0,recette:[]},
+    {id:27,nom:'Jus de fruits frais',ico:'🥤',photo:'https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80',cat:'Boissons',prix:5.5,cout:1.5,dispo:'dispo',allerg:'',desc:'Orange pressée, pomme ou pamplemousse',vendu:0,recette:[]},
+    {id:28,nom:'Café expresso',ico:'🥤',photo:'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80',cat:'Boissons',prix:2.8,cout:0.45,dispo:'dispo',allerg:'',desc:'Arabica grand cru, torréfaction maison',vendu:0,recette:[{stkId:14,qte:0.007}]},
+    {id:29,nom:'Bordeaux rouge (75cl)',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cat:'Vins',prix:30.0,cout:9.5,dispo:'dispo',allerg:'Sulfites',desc:'Château Margaux 2019 — Médoc',vendu:0,recette:[]},
+    {id:30,nom:'Bourgogne blanc (75cl)',ico:'🍷',photo:'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=400&q=80',cat:'Vins',prix:35.0,cout:12.0,dispo:'dispo',allerg:'Sulfites',desc:'Chablis Premier Cru 2021 — Domaine Drouhin',vendu:0,recette:[]},
+    {id:31,nom:'Rosé Provence (75cl)',ico:'🍷',photo:'https://images.unsplash.com/photo-1558618047-f4e60cde4b95?w=400&q=80',cat:'Vins',prix:28.0,cout:9.0,dispo:'dispo',allerg:'Sulfites',desc:'Côtes de Provence 2022 — Château Miraval',vendu:0,recette:[]},
+    {id:32,nom:'Champagne Brut (75cl)',ico:'🍷',photo:'https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80',cat:'Vins',prix:70.0,cout:24.0,dispo:'dispo',allerg:'Sulfites',desc:'Moët & Chandon Impérial',vendu:0,recette:[]},
+    {id:33,nom:'Kir Royal',ico:'🥂',photo:'https://images.unsplash.com/photo-1543253687-c931c8e01820?w=400&q=80',cat:'Apéritifs',prix:10.0,cout:2.8,dispo:'dispo',allerg:'Sulfites',desc:'Crème de cassis Dijon, Champagne brut',vendu:0,recette:[]},
     {id:34,nom:'Menu Déjeuner (2 plats)',ico:'🍽️',photo:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80',cat:'Formules',prix:22.0,cout:8.5,dispo:'dispo',allerg:'',desc:'Entrée + Plat ou Plat + Dessert — servi midi uniquement',vendu:0,recette:[]},
     {id:35,nom:'Menu Gastronomique',ico:'🍽️',photo:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80',cat:'Formules',prix:68.0,cout:23.0,dispo:'dispo',allerg:'',desc:'5 services — Accord mets-vins inclus — Sur réservation',vendu:0,recette:[]},
     // ── NOUVELLES ENTRÉES ──
     {id:36,nom:'Velouté de potiron',ico:'🥗',photo:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80',cat:'Entrées',prix:8.5,cout:2.2,dispo:'dispo',allerg:'Lactose',desc:'Crème fraîche, graines de courge torréfiées, huile de noisette',vendu:0,recette:[]},
-    {id:37,nom:'Œuf parfait truffé',ico:'🥗',photo:'https://images.unsplash.com/photo-1615361200141-f45040f367be?w=400&q=80',cat:'Entrées',prix:16.0,cout:5.5,dispo:'dispo',allerg:'Oeufs',desc:'Jaune coulant à 63°C, mousse de parmesan, copeaux de truffe noire',vendu:0,recette:[]},
-    {id:38,nom:'Terrine de foie de volaille',ico:'🥗',photo:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',cat:'Entrées',prix:10.0,cout:3.2,dispo:'dispo',allerg:'Alcool',desc:'Confiture d\'oignons, cornichons, pain de campagne grillé',vendu:0,recette:[]},
-    {id:39,nom:'Salade de chèvre chaud',ico:'🥗',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Entrées',prix:12.0,cout:3.8,dispo:'dispo',allerg:'Lactose, Gluten',desc:'Toast, miel de lavande, noix, mesclun de jeunes pousses',vendu:0,recette:[]},
-    {id:40,nom:'Gravlax de saumon maison',ico:'🥗',photo:'https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&q=80',cat:'Entrées',prix:14.0,cout:5.0,dispo:'dispo',allerg:'Poisson',desc:'Mariné 48h au sel, sucre et aneth, crème citronnée',vendu:0,recette:[]},
-    {id:41,nom:'Gaspacho andalou',ico:'🍅',cat:'Entrées',prix:9.0,cout:2.5,dispo:'dispo',allerg:'',desc:'Tomates confites, concombre, poivron, croûtons à l\'ail',vendu:0,recette:[]},
-    {id:42,nom:'Burrata crémeuse',ico:'🫙',cat:'Entrées',prix:15.0,cout:5.5,dispo:'dispo',allerg:'Lactose',desc:'Tomates cerise rôties, pesto basilic, huile d\'olive AOP',vendu:0,recette:[]},
-    {id:43,nom:'Tartare de thon mi-cuit',ico:'🥗',photo:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',cat:'Entrées',prix:16.0,cout:6.0,dispo:'dispo',allerg:'Poisson',desc:'Avocat, sésame torréfié, sauce ponzu, chips de wonton',vendu:0,recette:[]},
-    {id:44,nom:'Ceviche de daurade',ico:'🥗',photo:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80',cat:'Entrées',prix:14.5,cout:5.2,dispo:'dispo',allerg:'Poisson',desc:'Lait de tigre, coriandre, oignon rouge, maïs grillé',vendu:0,recette:[]},
-    {id:45,nom:'Feuilleté d\'escargots',ico:'🐌',cat:'Entrées',prix:13.0,cout:4.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Beurre persillade à l\'ail, feuilletage doré, échalotes confites',vendu:0,recette:[]},
-    {id:46,nom:'Assiette de charcuterie',ico:'🥗',photo:'https://images.unsplash.com/photo-1615361200141-f45040f367be?w=400&q=80',cat:'Entrées',prix:16.0,cout:6.0,dispo:'dispo',allerg:'',desc:'Jambon sec, saucisson, rillettes maison, cornichons, beurre',vendu:0,recette:[]},
+    {id:37,nom:'Œuf parfait truffé',ico:'🥗',photo:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80',cat:'Entrées',prix:16.0,cout:5.5,dispo:'dispo',allerg:'Oeufs',desc:'Jaune coulant à 63°C, mousse de parmesan, copeaux de truffe noire',vendu:0,recette:[]},
+    {id:38,nom:'Terrine de foie de volaille',ico:'🥗',photo:'https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=400&q=80',cat:'Entrées',prix:10.0,cout:3.2,dispo:'dispo',allerg:'Alcool',desc:'Confiture d\'oignons, cornichons, pain de campagne grillé',vendu:0,recette:[]},
+    {id:39,nom:'Salade de chèvre chaud',ico:'🥗',photo:'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=400&q=80',cat:'Entrées',prix:12.0,cout:3.8,dispo:'dispo',allerg:'Lactose, Gluten',desc:'Toast, miel de lavande, noix, mesclun de jeunes pousses',vendu:0,recette:[]},
+    {id:40,nom:'Gravlax de saumon maison',ico:'🥗',photo:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',cat:'Entrées',prix:14.0,cout:5.0,dispo:'dispo',allerg:'Poisson',desc:'Mariné 48h au sel, sucre et aneth, crème citronnée',vendu:0,recette:[]},
+    {id:41,nom:'Gaspacho andalou',ico:'🍅',photo:'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=400&q=80',cat:'Entrées',prix:9.0,cout:2.5,dispo:'dispo',allerg:'',desc:'Tomates confites, concombre, poivron, croûtons à l\'ail',vendu:0,recette:[]},
+    {id:42,nom:'Burrata crémeuse',ico:'🫙',photo:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80',cat:'Entrées',prix:15.0,cout:5.5,dispo:'dispo',allerg:'Lactose',desc:'Tomates cerise rôties, pesto basilic, huile d\'olive AOP',vendu:0,recette:[]},
+    {id:43,nom:'Tartare de thon mi-cuit',ico:'🥗',photo:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80',cat:'Entrées',prix:16.0,cout:6.0,dispo:'dispo',allerg:'Poisson',desc:'Avocat, sésame torréfié, sauce ponzu, chips de wonton',vendu:0,recette:[]},
+    {id:44,nom:'Ceviche de daurade',ico:'🥗',photo:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80',cat:'Entrées',prix:14.5,cout:5.2,dispo:'dispo',allerg:'Poisson',desc:'Lait de tigre, coriandre, oignon rouge, maïs grillé',vendu:0,recette:[]},
+    {id:45,nom:'Feuilleté d\'escargots',ico:'🐌',photo:'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&q=80',cat:'Entrées',prix:13.0,cout:4.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Beurre persillade à l\'ail, feuilletage doré, échalotes confites',vendu:0,recette:[]},
+    {id:46,nom:'Assiette de charcuterie',ico:'🥗',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Entrées',prix:16.0,cout:6.0,dispo:'dispo',allerg:'',desc:'Jambon sec, saucisson, rillettes maison, cornichons, beurre',vendu:0,recette:[]},
 
     // ── NOUVEAUX PLATS VIANDES ──
-    {id:47,nom:'Confit de canard',ico:'🥩',photo:'https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80',cat:'Viandes',prix:22.0,cout:8.5,dispo:'dispo',allerg:'',desc:'Cuisse confite 8h, sarladaises à la graisse de canard, salade verte',vendu:0,recette:[]},
-    {id:48,nom:'Veau Marengo',ico:'🥩',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Viandes',prix:26.0,cout:10.0,dispo:'dispo',allerg:'Alcool',desc:'Blanquette de veau aux champignons et tomates, riz pilaf',vendu:0,recette:[]},
-    {id:49,nom:'Entrecôte grillée',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:32.0,cout:13.0,dispo:'dispo',allerg:'',desc:'Beurre maître d\'hôtel, frites maison, salade',vendu:0,recette:[]},
-    {id:50,nom:'Osso buco à la milanaise',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:28.0,cout:11.0,dispo:'dispo',allerg:'Alcool, Gluten',desc:'Jarret de veau braisé, gremolata, risotto safran',vendu:0,recette:[]},
-    {id:51,nom:'Ballotine de volaille farcie',ico:'🥩',photo:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80',cat:'Viandes',prix:23.0,cout:8.0,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Farce forestière aux champignons, jus réduit, gratin dauphinois',vendu:0,recette:[]},
-    {id:52,nom:'Gigot d\'agneau rôti',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:34.0,cout:14.0,dispo:'dispo',allerg:'',desc:'7 heures de cuisson, flageolets à la crème, jus thym romarin',vendu:0,recette:[]},
-    {id:53,nom:'Pavé de rumsteck',ico:'🥩',photo:'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80',cat:'Viandes',prix:29.0,cout:11.5,dispo:'dispo',allerg:'',desc:'Sauce au poivre vert, dauphinois, haricots verts',vendu:0,recette:[]},
-    {id:54,nom:'Joues de porc braisées',ico:'🥩',photo:'https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80',cat:'Viandes',prix:21.0,cout:7.5,dispo:'dispo',allerg:'Alcool',desc:'Fondantes 4h, purée de céleri, chips de jambon',vendu:0,recette:[]},
-    {id:55,nom:'Pintade rôtie',ico:'🥩',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Viandes',prix:25.0,cout:9.5,dispo:'dispo',allerg:'',desc:'Farce aux marrons, jus corsé, chou braisé au lard',vendu:0,recette:[]},
-    {id:56,nom:'Steak haché maison 180g',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:18.0,cout:6.5,dispo:'dispo',allerg:'',desc:'Bœuf Charolais haché minute, frites maison, œuf au plat',vendu:0,recette:[]},
+    {id:47,nom:'Confit de canard',ico:'🥩',photo:'https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80',cat:'Viandes',prix:22.0,cout:8.5,dispo:'dispo',allerg:'',desc:'Cuisse confite 8h, sarladaises à la graisse de canard, salade verte',vendu:0,recette:[]},
+    {id:48,nom:'Veau Marengo',ico:'🥩',photo:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80',cat:'Viandes',prix:26.0,cout:10.0,dispo:'dispo',allerg:'Alcool',desc:'Blanquette de veau aux champignons et tomates, riz pilaf',vendu:0,recette:[]},
+    {id:49,nom:'Entrecôte grillée',ico:'🥩',photo:'https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80',cat:'Viandes',prix:32.0,cout:13.0,dispo:'dispo',allerg:'',desc:'Beurre maître d\'hôtel, frites maison, salade',vendu:0,recette:[]},
+    {id:50,nom:'Osso buco à la milanaise',ico:'🥩',photo:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80',cat:'Viandes',prix:28.0,cout:11.0,dispo:'dispo',allerg:'Alcool, Gluten',desc:'Jarret de veau braisé, gremolata, risotto safran',vendu:0,recette:[]},
+    {id:51,nom:'Ballotine de volaille farcie',ico:'🥩',photo:'https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80',cat:'Viandes',prix:23.0,cout:8.0,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Farce forestière aux champignons, jus réduit, gratin dauphinois',vendu:0,recette:[]},
+    {id:52,nom:'Gigot d\'agneau rôti',ico:'🥩',photo:'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80',cat:'Viandes',prix:34.0,cout:14.0,dispo:'dispo',allerg:'',desc:'7 heures de cuisson, flageolets à la crème, jus thym romarin',vendu:0,recette:[]},
+    {id:53,nom:'Pavé de rumsteck',ico:'🥩',photo:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80',cat:'Viandes',prix:29.0,cout:11.5,dispo:'dispo',allerg:'',desc:'Sauce au poivre vert, dauphinois, haricots verts',vendu:0,recette:[]},
+    {id:54,nom:'Joues de porc braisées',ico:'🥩',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Viandes',prix:21.0,cout:7.5,dispo:'dispo',allerg:'Alcool',desc:'Fondantes 4h, purée de céleri, chips de jambon',vendu:0,recette:[]},
+    {id:55,nom:'Pintade rôtie',ico:'🥩',photo:'https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80',cat:'Viandes',prix:25.0,cout:9.5,dispo:'dispo',allerg:'',desc:'Farce aux marrons, jus corsé, chou braisé au lard',vendu:0,recette:[]},
+    {id:56,nom:'Steak haché maison 180g',ico:'🥩',photo:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80',cat:'Viandes',prix:18.0,cout:6.5,dispo:'dispo',allerg:'',desc:'Bœuf Charolais haché minute, frites maison, œuf au plat',vendu:0,recette:[]},
 
     // ── NOUVEAUX POISSONS ──
-    {id:57,nom:'Saint-Jacques poêlées',ico:'🐟',photo:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',cat:'Poissons',prix:28.0,cout:11.0,dispo:'dispo',allerg:'Mollusques, Lactose',desc:'Beurre noisette, purée de topinambour, lard croustillant',vendu:0,recette:[]},
-    {id:58,nom:'Lieu noir en croûte d\'herbes',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cat:'Poissons',prix:22.0,cout:8.5,dispo:'dispo',allerg:'Poisson, Gluten',desc:'Vierge de tomates, courgettes fondantes, citron confit',vendu:0,recette:[]},
-    {id:59,nom:'Moules marinières',ico:'🐟',photo:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',cat:'Poissons',prix:18.0,cout:6.5,dispo:'dispo',allerg:'Mollusques, Alcool, Lactose',desc:'Vin blanc sec, échalotes, persil, frites maison',vendu:0,recette:[]},
-    {id:60,nom:'Tartare de daurade',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cat:'Poissons',prix:21.0,cout:8.0,dispo:'dispo',allerg:'Poisson',desc:'Agrumes, herbes fraîches, huile d\'olive, chips de pain',vendu:0,recette:[]},
+    {id:57,nom:'Saint-Jacques poêlées',ico:'🐟',photo:'https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&q=80',cat:'Poissons',prix:28.0,cout:11.0,dispo:'dispo',allerg:'Mollusques, Lactose',desc:'Beurre noisette, purée de topinambour, lard croustillant',vendu:0,recette:[]},
+    {id:58,nom:'Lieu noir en croûte d\'herbes',ico:'🐟',photo:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',cat:'Poissons',prix:22.0,cout:8.5,dispo:'dispo',allerg:'Poisson, Gluten',desc:'Vierge de tomates, courgettes fondantes, citron confit',vendu:0,recette:[]},
+    {id:59,nom:'Moules marinières',ico:'🐟',photo:'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&q=80',cat:'Poissons',prix:18.0,cout:6.5,dispo:'dispo',allerg:'Mollusques, Alcool, Lactose',desc:'Vin blanc sec, échalotes, persil, frites maison',vendu:0,recette:[]},
+    {id:60,nom:'Tartare de daurade',ico:'🐟',photo:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',cat:'Poissons',prix:21.0,cout:8.0,dispo:'dispo',allerg:'Poisson',desc:'Agrumes, herbes fraîches, huile d\'olive, chips de pain',vendu:0,recette:[]},
     {id:61,nom:'Bar en papillote',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cat:'Poissons',prix:26.0,cout:10.0,dispo:'dispo',allerg:'Poisson',desc:'Fenouil, citron, herbes de Provence, légumes de saison',vendu:0,recette:[]},
 
     // ── NOUVEAUX VÉGÉTARIENS ──
-    {id:62,nom:'Tarte fine aux légumes',ico:'🥦',photo:'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&q=80',cat:'Végétarien',prix:17.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Courgettes, tomates, chèvre frais, basilic, pâte feuilletée',vendu:0,recette:[]},
-    {id:63,nom:'Buddha bowl maison',ico:'🥦',photo:'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80',cat:'Végétarien',prix:15.0,cout:5.0,dispo:'dispo',allerg:'Soja',desc:'Quinoa, pois chiches rôtis, avocat, légumes croquants, tahini',vendu:0,recette:[]},
-    {id:64,nom:'Curry de légumes',ico:'🥦',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Végétarien',prix:16.0,cout:5.0,dispo:'dispo',allerg:'',desc:'Lait de coco, épices maison, riz basmati, chutney mangue',vendu:0,recette:[]},
-    {id:65,nom:'Lasagnes végétariennes',ico:'🥦',photo:'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&q=80',cat:'Végétarien',prix:16.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Ricotta, épinards, tomates confites, béchamel légère',vendu:0,recette:[]},
-    {id:66,nom:'Wok de légumes asiatique',ico:'🥦',photo:'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80',cat:'Végétarien',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Soja, Gluten',desc:'Nouilles soba, légumes croquants, sauce teriyaki, graines de sésame',vendu:0,recette:[]},
+    {id:62,nom:'Tarte fine aux légumes',ico:'🥦',photo:'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80',cat:'Végétarien',prix:17.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Courgettes, tomates, chèvre frais, basilic, pâte feuilletée',vendu:0,recette:[]},
+    {id:63,nom:'Buddha bowl maison',ico:'🥦',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Végétarien',prix:15.0,cout:5.0,dispo:'dispo',allerg:'Soja',desc:'Quinoa, pois chiches rôtis, avocat, légumes croquants, tahini',vendu:0,recette:[]},
+    {id:64,nom:'Curry de légumes',ico:'🥦',photo:'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&q=80',cat:'Végétarien',prix:16.0,cout:5.0,dispo:'dispo',allerg:'',desc:'Lait de coco, épices maison, riz basmati, chutney mangue',vendu:0,recette:[]},
+    {id:65,nom:'Lasagnes végétariennes',ico:'🥦',photo:'https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80',cat:'Végétarien',prix:16.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Ricotta, épinards, tomates confites, béchamel légère',vendu:0,recette:[]},
+    {id:66,nom:'Wok de légumes asiatique',ico:'🥦',photo:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',cat:'Végétarien',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Soja, Gluten',desc:'Nouilles soba, légumes croquants, sauce teriyaki, graines de sésame',vendu:0,recette:[]},
 
     // ── NOUVEAUX DESSERTS ──
-    {id:67,nom:'Paris-Brest',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:10.0,cout:3.0,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Fruits à coque',desc:'Pâte à choux, praliné noisette maison, crème mousseline',vendu:0,recette:[]},
-    {id:68,nom:'Mille-feuille vanille',ico:'🍮',photo:'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80',cat:'Desserts',prix:10.5,cout:3.2,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Feuilletage croustillant, crème pâtissière vanille Bourbon, fondant',vendu:0,recette:[]},
-    {id:69,nom:'Fondant au caramel beurre salé',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:9.0,cout:2.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Cœur coulant caramel, glace vanille, tuile craquante',vendu:0,recette:[]},
-    {id:70,nom:'Panna cotta fruits rouges',ico:'🍮',photo:'https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?w=400&q=80',cat:'Desserts',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Lactose',desc:'Coulis framboise framboises fraîches, menthe',vendu:0,recette:[]},
-    {id:71,nom:'Tarte au citron meringuée',ico:'🍮',photo:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80',cat:'Desserts',prix:9.5,cout:2.8,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Citrons de Menton, meringue italienne flambée',vendu:0,recette:[]},
-    {id:72,nom:'Profiteroles au chocolat',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:9.0,cout:2.6,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Choux maison, glace vanille, sauce chocolat Valrhona chaude',vendu:0,recette:[]},
-    {id:73,nom:'Baba au rhum',ico:'🍮',photo:'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80',cat:'Desserts',prix:10.0,cout:2.8,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Alcool',desc:'Chantilly légère, rhum vieux, fruits exotiques',vendu:0,recette:[]},
-    {id:74,nom:'Tiramisu maison',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.4,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Mascarpone, biscuits cuillère, café fort, cacao amer',vendu:0,recette:[]},
-    {id:75,nom:'Gâteau basque',ico:'🍮',photo:'https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Crème pâtissière ou confiture de cerises noires',vendu:0,recette:[]},
-    {id:76,nom:'Soufflé au Grand Marnier',ico:'🍮',photo:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80',cat:'Desserts',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Alcool',desc:'À commander en début de repas — chaud, léger, irrésistible',vendu:0,recette:[]},
+    {id:67,nom:'Paris-Brest',ico:'🍮',photo:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80',cat:'Desserts',prix:10.0,cout:3.0,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Fruits à coque',desc:'Pâte à choux, praliné noisette maison, crème mousseline',vendu:0,recette:[]},
+    {id:68,nom:'Mille-feuille vanille',ico:'🍮',photo:'https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80',cat:'Desserts',prix:10.5,cout:3.2,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Feuilletage croustillant, crème pâtissière vanille Bourbon, fondant',vendu:0,recette:[]},
+    {id:69,nom:'Fondant au caramel beurre salé',ico:'🍮',photo:'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80',cat:'Desserts',prix:9.0,cout:2.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Cœur coulant caramel, glace vanille, tuile craquante',vendu:0,recette:[]},
+    {id:70,nom:'Panna cotta fruits rouges',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Lactose',desc:'Coulis framboise framboises fraîches, menthe',vendu:0,recette:[]},
+    {id:71,nom:'Tarte au citron meringuée',ico:'🍮',photo:'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80',cat:'Desserts',prix:9.5,cout:2.8,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Citrons de Menton, meringue italienne flambée',vendu:0,recette:[]},
+    {id:72,nom:'Profiteroles au chocolat',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:9.0,cout:2.6,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Choux maison, glace vanille, sauce chocolat Valrhona chaude',vendu:0,recette:[]},
+    {id:73,nom:'Baba au rhum',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:10.0,cout:2.8,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Alcool',desc:'Chantilly légère, rhum vieux, fruits exotiques',vendu:0,recette:[]},
+    {id:74,nom:'Tiramisu maison',ico:'🍮',photo:'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.4,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Mascarpone, biscuits cuillère, café fort, cacao amer',vendu:0,recette:[]},
+    {id:75,nom:'Gâteau basque',ico:'🍮',photo:'https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Crème pâtissière ou confiture de cerises noires',vendu:0,recette:[]},
+    {id:76,nom:'Soufflé au Grand Marnier',ico:'🍮',photo:'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=400&q=80',cat:'Desserts',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Alcool',desc:'À commander en début de repas — chaud, léger, irrésistible',vendu:0,recette:[]},
 
     // ── NOUVEAUX APÉRITIFS ──
     {id:77,nom:'Spritz Aperol',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:9.0,cout:2.5,dispo:'dispo',allerg:'Sulfites',desc:'Aperol, prosecco, eau gazeuse, orange, glaçons',vendu:0,recette:[]},
-    {id:78,nom:'Mojito classique',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:10.0,cout:2.8,dispo:'dispo',allerg:'Alcool',desc:'Rhum blanc, menthe fraîche, citron vert, sucre de canne',vendu:0,recette:[]},
-    {id:79,nom:'Negroni',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cat:'Apéritifs',prix:11.0,cout:3.0,dispo:'dispo',allerg:'Alcool, Sulfites',desc:'Gin, Campari, vermouth rouge, zeste d\'orange',vendu:0,recette:[]},
-    {id:80,nom:'Champagne rosé (coupe)',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Sulfites',desc:'Rosé de saignée, bulles fines, fraîcheur',vendu:0,recette:[]},
-    {id:81,nom:'Kir Breton',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:7.0,cout:1.8,dispo:'dispo',allerg:'Alcool',desc:'Cidre brut de Bretagne, crème de cassis artisanale',vendu:0,recette:[]},
-    {id:82,nom:'Pastis',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:5.5,cout:1.2,dispo:'dispo',allerg:'Alcool',desc:'Pastis de Marseille, eau fraîche, glaçons',vendu:0,recette:[]},
-    {id:83,nom:'Cocktail Maison signature',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Alcool',desc:'Recette secrète du chef barman — gin, concombre, basilic, tonic',vendu:0,recette:[]},
-    {id:84,nom:'Virgin Mojito',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:7.0,cout:1.5,dispo:'dispo',allerg:'',desc:'Sans alcool — menthe, citron vert, sirop de canne, eau gazeuse',vendu:0,recette:[]},
-    {id:85,nom:'Planche apéritive',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:18.0,cout:6.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Fromages affinés, charcuteries fines, olives, tapenades, pain croustillant',vendu:0,recette:[]},
+    {id:78,nom:'Mojito classique',ico:'🥂',photo:'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80',cat:'Apéritifs',prix:10.0,cout:2.8,dispo:'dispo',allerg:'Alcool',desc:'Rhum blanc, menthe fraîche, citron vert, sucre de canne',vendu:0,recette:[]},
+    {id:79,nom:'Negroni',ico:'🍷',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:11.0,cout:3.0,dispo:'dispo',allerg:'Alcool, Sulfites',desc:'Gin, Campari, vermouth rouge, zeste d\'orange',vendu:0,recette:[]},
+    {id:80,nom:'Champagne rosé (coupe)',ico:'🥂',photo:'https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80',cat:'Apéritifs',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Sulfites',desc:'Rosé de saignée, bulles fines, fraîcheur',vendu:0,recette:[]},
+    {id:81,nom:'Kir Breton',ico:'🥂',photo:'https://images.unsplash.com/photo-1543253687-c931c8e01820?w=400&q=80',cat:'Apéritifs',prix:7.0,cout:1.8,dispo:'dispo',allerg:'Alcool',desc:'Cidre brut de Bretagne, crème de cassis artisanale',vendu:0,recette:[]},
+    {id:82,nom:'Pastis',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:5.5,cout:1.2,dispo:'dispo',allerg:'Alcool',desc:'Pastis de Marseille, eau fraîche, glaçons',vendu:0,recette:[]},
+    {id:83,nom:'Cocktail Maison signature',ico:'🥂',photo:'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80',cat:'Apéritifs',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Alcool',desc:'Recette secrète du chef barman — gin, concombre, basilic, tonic',vendu:0,recette:[]},
+    {id:84,nom:'Virgin Mojito',ico:'🥂',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Apéritifs',prix:7.0,cout:1.5,dispo:'dispo',allerg:'',desc:'Sans alcool — menthe, citron vert, sirop de canne, eau gazeuse',vendu:0,recette:[]},
+    {id:85,nom:'Planche apéritive',ico:'🥂',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Apéritifs',prix:18.0,cout:6.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Fromages affinés, charcuteries fines, olives, tapenades, pain croustillant',vendu:0,recette:[]},
     {id:86,nom:'Verre de Côtes du Rhône',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cat:'Apéritifs',prix:6.0,cout:1.8,dispo:'dispo',allerg:'Sulfites',desc:'15cl, fruité et rond, parfait pour l\'apéritif',vendu:0,recette:[]},
 
     // ── NOUVELLES BOISSONS ──
-    {id:87,nom:'Thé Earl Grey',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:3.5,cout:0.5,dispo:'dispo',allerg:'',desc:'Thé noir bergamote, lait ou citron, sucre',vendu:0,recette:[]},
-    {id:88,nom:'Tisane maison',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:3.5,cout:0.5,dispo:'dispo',allerg:'',desc:'Mélange du chef : verveine, menthe, miel de lavande',vendu:0,recette:[]},
-    {id:89,nom:'Lait ribot',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:3.0,cout:0.6,dispo:'dispo',allerg:'Lactose',desc:'Lait fermenté breton, légèrement acidulé',vendu:0,recette:[]},
-    {id:90,nom:'Limonade artisanale',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:4.5,cout:1.0,dispo:'dispo',allerg:'',desc:'Citrons frais pressés, sirop maison, eau gazeuse, menthe',vendu:0,recette:[]},
-    {id:91,nom:'Café noisette',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:3.2,cout:0.5,dispo:'dispo',allerg:'Lactose',desc:'Expresso allongé, nuage de lait chaud',vendu:0,recette:[]},
-    {id:92,nom:'Chocolat chaud',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:4.5,cout:1.0,dispo:'dispo',allerg:'Lactose',desc:'Chocolat Valrhona fondu, lait entier, chantilly maison',vendu:0,recette:[]},
-    {id:93,nom:'Smoothie fruits frais',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:6.5,cout:2.0,dispo:'dispo',allerg:'',desc:'Fraises, mangue, banane, lait de coco — selon saison',vendu:0,recette:[]},
-    {id:94,nom:'San Pellegrino',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:4.0,cout:0.8,dispo:'dispo',allerg:'',desc:'Eau gazeuse italienne 50cl',vendu:0,recette:[]},
-    {id:95,nom:'Jus de tomate',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:4.0,cout:0.8,dispo:'dispo',allerg:'',desc:'Jus de tomate fraîche, sel de céleri, tabasco',vendu:0,recette:[]},
-    {id:96,nom:'Orangina',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:4.5,cout:0.9,dispo:'dispo',allerg:'',desc:'33cl, bien frais',vendu:0,recette:[]},
+    {id:87,nom:'Thé Earl Grey',ico:'🥤',photo:'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80',cat:'Boissons',prix:3.5,cout:0.5,dispo:'dispo',allerg:'',desc:'Thé noir bergamote, lait ou citron, sucre',vendu:0,recette:[]},
+    {id:88,nom:'Tisane maison',ico:'🥤',photo:'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80',cat:'Boissons',prix:3.5,cout:0.5,dispo:'dispo',allerg:'',desc:'Mélange du chef : verveine, menthe, miel de lavande',vendu:0,recette:[]},
+    {id:89,nom:'Lait ribot',ico:'🥤',photo:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80',cat:'Boissons',prix:3.0,cout:0.6,dispo:'dispo',allerg:'Lactose',desc:'Lait fermenté breton, légèrement acidulé',vendu:0,recette:[]},
+    {id:90,nom:'Limonade artisanale',ico:'🥤',photo:'https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80',cat:'Boissons',prix:4.5,cout:1.0,dispo:'dispo',allerg:'',desc:'Citrons frais pressés, sirop maison, eau gazeuse, menthe',vendu:0,recette:[]},
+    {id:91,nom:'Café noisette',ico:'🥤',photo:'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80',cat:'Boissons',prix:3.2,cout:0.5,dispo:'dispo',allerg:'Lactose',desc:'Expresso allongé, nuage de lait chaud',vendu:0,recette:[]},
+    {id:92,nom:'Chocolat chaud',ico:'🥤',photo:'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&q=80',cat:'Boissons',prix:4.5,cout:1.0,dispo:'dispo',allerg:'Lactose',desc:'Chocolat Valrhona fondu, lait entier, chantilly maison',vendu:0,recette:[]},
+    {id:93,nom:'Smoothie fruits frais',ico:'🥤',photo:'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80',cat:'Boissons',prix:6.5,cout:2.0,dispo:'dispo',allerg:'',desc:'Fraises, mangue, banane, lait de coco — selon saison',vendu:0,recette:[]},
+    {id:94,nom:'San Pellegrino',ico:'🥤',photo:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80',cat:'Boissons',prix:4.0,cout:0.8,dispo:'dispo',allerg:'',desc:'Eau gazeuse italienne 50cl',vendu:0,recette:[]},
+    {id:95,nom:'Jus de tomate',ico:'🥤',photo:'https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80',cat:'Boissons',prix:4.0,cout:0.8,dispo:'dispo',allerg:'',desc:'Jus de tomate fraîche, sel de céleri, tabasco',vendu:0,recette:[]},
+    {id:96,nom:'Orangina',ico:'🥤',photo:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80',cat:'Boissons',prix:4.5,cout:0.9,dispo:'dispo',allerg:'',desc:'33cl, bien frais',vendu:0,recette:[]},
 
     // ── ENTRÉES SUPPLÉMENTAIRES ──
-    {id:97,nom:'Velouté de champignons',ico:'🥗',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Entrées',prix:8.5,cout:2.5,dispo:'dispo',allerg:'Lactose',desc:'Crème de champignons de Paris, huile de truffe, croûtons',vendu:0,recette:[]},
+    {id:97,nom:'Velouté de champignons',ico:'🥗',photo:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80',cat:'Entrées',prix:8.5,cout:2.5,dispo:'dispo',allerg:'Lactose',desc:'Crème de champignons de Paris, huile de truffe, croûtons',vendu:0,recette:[]},
     {id:98,nom:'Soupe à l\'oignon gratinée',ico:'🥗',photo:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',cat:'Entrées',prix:10.0,cout:3.0,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Oignons confits, bouillon de bœuf, gruyère fondu, croûton',vendu:0,recette:[]},
-    {id:99,nom:'Tartare de bœuf maison',ico:'🥗',photo:'https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&q=80',cat:'Entrées',prix:17.0,cout:6.5,dispo:'dispo',allerg:'Oeufs',desc:'Haché minute, câpres, cornichons, sauce Worcester, frites',vendu:0,recette:[]},
-    {id:100,nom:'Carpaccio de Saint-Jacques',ico:'🥗',photo:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',cat:'Entrées',prix:18.0,cout:7.0,dispo:'dispo',allerg:'Mollusques',desc:'Huile citronnée, fleur de sel, roquette, parmesan',vendu:0,recette:[]},
-    {id:101,nom:'Salade niçoise',ico:'🥗',photo:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80',cat:'Entrées',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Poisson, Oeufs',desc:'Thon, œuf dur, anchois, olives noires, haricots verts, tomates',vendu:0,recette:[]},
-    {id:102,nom:'Blinis au saumon fumé',ico:'🥞',cat:'Entrées',prix:15.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Poisson',desc:'Blinis maison, crème fraîche à l\'aneth, œufs de saumon',vendu:0,recette:[]},
-    {id:103,nom:'Huîtres de Bretagne (6)',ico:'🥗',photo:'https://images.unsplash.com/photo-1615361200141-f45040f367be?w=400&q=80',cat:'Entrées',prix:18.0,cout:7.0,dispo:'dispo',allerg:'Mollusques',desc:'Fines de claire N°3, mignonette, citron, pain de seigle beurré',vendu:0,recette:[]},
-    {id:104,nom:'Velouté de lentilles corail',ico:'🥗',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Entrées',prix:7.5,cout:2.0,dispo:'dispo',allerg:'',desc:'Lait de coco, curry doux, coriandre fraîche, chips de lard',vendu:0,recette:[]},
-    {id:105,nom:'Salade César revisitée',ico:'🥗',photo:'https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&q=80',cat:'Entrées',prix:13.0,cout:4.0,dispo:'dispo',allerg:'Gluten, Oeufs, Poisson',desc:'Romaine croquante, parmesan, anchois, croûtons, sauce maison',vendu:0,recette:[]},
-    {id:106,nom:'Rillettes de canard maison',ico:'🍶',cat:'Entrées',prix:11.0,cout:3.5,dispo:'dispo',allerg:'',desc:'Confit de canard effiloché, pain grillé, pickles d\'oignons',vendu:0,recette:[]},
-    {id:107,nom:'Cromesquis de camembert',ico:'🥗',photo:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',cat:'Entrées',prix:12.0,cout:4.0,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Panure dorée, cœur coulant, confiture de figues, roquette',vendu:0,recette:[]},
+    {id:99,nom:'Tartare de bœuf maison',ico:'🥗',photo:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80',cat:'Entrées',prix:17.0,cout:6.5,dispo:'dispo',allerg:'Oeufs',desc:'Haché minute, câpres, cornichons, sauce Worcester, frites',vendu:0,recette:[]},
+    {id:100,nom:'Carpaccio de Saint-Jacques',ico:'🥗',photo:'https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&q=80',cat:'Entrées',prix:18.0,cout:7.0,dispo:'dispo',allerg:'Mollusques',desc:'Huile citronnée, fleur de sel, roquette, parmesan',vendu:0,recette:[]},
+    {id:101,nom:'Salade niçoise',ico:'🥗',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Entrées',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Poisson, Oeufs',desc:'Thon, œuf dur, anchois, olives noires, haricots verts, tomates',vendu:0,recette:[]},
+    {id:102,nom:'Blinis au saumon fumé',ico:'🥞',photo:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',cat:'Entrées',prix:15.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Poisson',desc:'Blinis maison, crème fraîche à l\'aneth, œufs de saumon',vendu:0,recette:[]},
+    {id:103,nom:'Huîtres de Bretagne (6)',ico:'🥗',photo:'https://images.unsplash.com/photo-1545014702-7b9bd4e9ed4d?w=400&q=80',cat:'Entrées',prix:18.0,cout:7.0,dispo:'dispo',allerg:'Mollusques',desc:'Fines de claire N°3, mignonette, citron, pain de seigle beurré',vendu:0,recette:[]},
+    {id:104,nom:'Velouté de lentilles corail',ico:'🥗',photo:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80',cat:'Entrées',prix:7.5,cout:2.0,dispo:'dispo',allerg:'',desc:'Lait de coco, curry doux, coriandre fraîche, chips de lard',vendu:0,recette:[]},
+    {id:105,nom:'Salade César revisitée',ico:'🥗',photo:'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400&q=80',cat:'Entrées',prix:13.0,cout:4.0,dispo:'dispo',allerg:'Gluten, Oeufs, Poisson',desc:'Romaine croquante, parmesan, anchois, croûtons, sauce maison',vendu:0,recette:[]},
+    {id:106,nom:'Rillettes de canard maison',ico:'🍶',photo:'https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=400&q=80',cat:'Entrées',prix:11.0,cout:3.5,dispo:'dispo',allerg:'',desc:'Confit de canard effiloché, pain grillé, pickles d\'oignons',vendu:0,recette:[]},
+    {id:107,nom:'Cromesquis de camembert',ico:'🥗',photo:'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80',cat:'Entrées',prix:12.0,cout:4.0,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Panure dorée, cœur coulant, confiture de figues, roquette',vendu:0,recette:[]},
 
     // ── PLATS SUPPLÉMENTAIRES ──
-    {id:108,nom:'Coq au vin de Bourgogne',ico:'🥩',photo:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80',cat:'Viandes',prix:24.0,cout:9.0,dispo:'dispo',allerg:'Alcool',desc:'Lardons, champignons, oignons grelots, sauce au vin rouge, tagliatelles',vendu:0,recette:[]},
-    {id:109,nom:'Bavette à l\'échalote',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:22.0,cout:8.5,dispo:'dispo',allerg:'Alcool, Lactose',desc:'Sauce échalotes au vin blanc, purée Robuchon, haricots verts',vendu:0,recette:[]},
-    {id:110,nom:'Côtelettes d\'agneau',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:30.0,cout:12.0,dispo:'dispo',allerg:'',desc:'Croûte d\'herbes, ratatouille provençale, jus d\'agneau réduit',vendu:0,recette:[]},
-    {id:111,nom:'Escalope de veau à la crème',ico:'🥩',photo:'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80',cat:'Viandes',prix:25.0,cout:9.5,dispo:'dispo',allerg:'Lactose, Alcool',desc:'Sauce crème et morilles, tagliatelles fraîches, persil',vendu:0,recette:[]},
-    {id:112,nom:'Andouillette grillée AAAAA',ico:'🌭',cat:'Viandes',prix:18.0,cout:6.5,dispo:'dispo',allerg:'',desc:'Moutarde à l\'ancienne, frites maison, salade verte',vendu:0,recette:[]},
-    {id:113,nom:'Filet de canette rôtie',ico:'🥩',photo:'https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80',cat:'Viandes',prix:28.0,cout:11.0,dispo:'dispo',allerg:'Alcool',desc:'Sauce aux cerises, gratin de pommes de terre, chou rouge',vendu:0,recette:[]},
-    {id:114,nom:'Blanquette de veau',ico:'🥩',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Viandes',prix:23.0,cout:8.5,dispo:'dispo',allerg:'Lactose, Alcool, Gluten',desc:'Champignons, carottes, sauce velouté, riz créole',vendu:0,recette:[]},
-    {id:115,nom:'Magret de canard mi-cuit',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:27.0,cout:10.5,dispo:'dispo',allerg:'',desc:'Rosé en cœur, poêlée de légumes du soleil, jus balsamique',vendu:0,recette:[]},
-    {id:116,nom:'Saumon gravlax poêlé',ico:'🐟',photo:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80',cat:'Poissons',prix:24.0,cout:9.0,dispo:'dispo',allerg:'Poisson, Lactose',desc:'Peau croustillante, épinards à la crème, beurre citron',vendu:0,recette:[]},
-    {id:117,nom:'Bouillabaisse Maison',ico:'🐟',photo:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',cat:'Poissons',prix:35.0,cout:14.0,dispo:'dispo',allerg:'Poisson, Crustacés, Mollusques',desc:'Poissons de roche, croutons, rouille maison, safran',vendu:0,recette:[]},
-    {id:118,nom:'Pavé de thon snacké',ico:'🐟',photo:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',cat:'Poissons',prix:26.0,cout:10.0,dispo:'dispo',allerg:'Poisson, Soja',desc:'Mi-cuit, sauce teriyaki, wok de légumes asiatiques, riz noir',vendu:0,recette:[]},
+    {id:108,nom:'Coq au vin de Bourgogne',ico:'🥩',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Viandes',prix:24.0,cout:9.0,dispo:'dispo',allerg:'Alcool',desc:'Lardons, champignons, oignons grelots, sauce au vin rouge, tagliatelles',vendu:0,recette:[]},
+    {id:109,nom:'Bavette à l\'échalote',ico:'🥩',photo:'https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80',cat:'Viandes',prix:22.0,cout:8.5,dispo:'dispo',allerg:'Alcool, Lactose',desc:'Sauce échalotes au vin blanc, purée Robuchon, haricots verts',vendu:0,recette:[]},
+    {id:110,nom:'Côtelettes d\'agneau',ico:'🥩',photo:'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80',cat:'Viandes',prix:30.0,cout:12.0,dispo:'dispo',allerg:'',desc:'Croûte d\'herbes, ratatouille provençale, jus d\'agneau réduit',vendu:0,recette:[]},
+    {id:111,nom:'Escalope de veau à la crème',ico:'🥩',photo:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80',cat:'Viandes',prix:25.0,cout:9.5,dispo:'dispo',allerg:'Lactose, Alcool',desc:'Sauce crème et morilles, tagliatelles fraîches, persil',vendu:0,recette:[]},
+    {id:112,nom:'Andouillette grillée AAAAA',ico:'🌭',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',prix:18.0,cout:6.5,dispo:'dispo',allerg:'',desc:'Moutarde à l\'ancienne, frites maison, salade verte',vendu:0,recette:[]},
+    {id:113,nom:'Filet de canette rôtie',ico:'🥩',photo:'https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80',cat:'Viandes',prix:28.0,cout:11.0,dispo:'dispo',allerg:'Alcool',desc:'Sauce aux cerises, gratin de pommes de terre, chou rouge',vendu:0,recette:[]},
+    {id:114,nom:'Blanquette de veau',ico:'🥩',photo:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80',cat:'Viandes',prix:23.0,cout:8.5,dispo:'dispo',allerg:'Lactose, Alcool, Gluten',desc:'Champignons, carottes, sauce velouté, riz créole',vendu:0,recette:[]},
+    {id:115,nom:'Magret de canard mi-cuit',ico:'🥩',photo:'https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80',cat:'Viandes',prix:27.0,cout:10.5,dispo:'dispo',allerg:'',desc:'Rosé en cœur, poêlée de légumes du soleil, jus balsamique',vendu:0,recette:[]},
+    {id:116,nom:'Saumon gravlax poêlé',ico:'🐟',photo:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',cat:'Poissons',prix:24.0,cout:9.0,dispo:'dispo',allerg:'Poisson, Lactose',desc:'Peau croustillante, épinards à la crème, beurre citron',vendu:0,recette:[]},
+    {id:117,nom:'Bouillabaisse Maison',ico:'🐟',photo:'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&q=80',cat:'Poissons',prix:35.0,cout:14.0,dispo:'dispo',allerg:'Poisson, Crustacés, Mollusques',desc:'Poissons de roche, croutons, rouille maison, safran',vendu:0,recette:[]},
+    {id:118,nom:'Pavé de thon snacké',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cat:'Poissons',prix:26.0,cout:10.0,dispo:'dispo',allerg:'Poisson, Soja',desc:'Mi-cuit, sauce teriyaki, wok de légumes asiatiques, riz noir',vendu:0,recette:[]},
 
     // ── DESSERTS SUPPLÉMENTAIRES ──
-    {id:119,nom:'Café gourmand',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:10.0,cout:3.0,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Expresso + 3 mignardises : macaron, financier, panna cotta',vendu:0,recette:[]},
-    {id:120,nom:'Île flottante',ico:'🍮',photo:'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80',cat:'Desserts',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Meringue légère, crème anglaise vanillée, pralin croustillant',vendu:0,recette:[]},
-    {id:121,nom:'Tarte Tatin revisitée',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:9.5,cout:2.8,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Pommes caramélisées, pâte feuilletée inversée, crème fraîche',vendu:0,recette:[]},
-    {id:122,nom:'Macaron géant maison',ico:'🍮',photo:'https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.5,dispo:'dispo',allerg:'Oeufs, Fruits à coque',desc:'Coque croustillante, ganache au chocolat Valrhona',vendu:0,recette:[]},
-    {id:123,nom:'Fondant au chocolat noir',ico:'🍮',photo:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80',cat:'Desserts',prix:9.0,cout:2.6,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Cœur coulant, glace vanille Bourbon, fleur de sel',vendu:0,recette:[]},
-    {id:124,nom:'Assiette de fromages affinés',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:14.0,cout:5.0,dispo:'dispo',allerg:'Lactose',desc:'Sélection de 5 fromages, pain aux noix, miel, confiture',vendu:0,recette:[]},
-    {id:125,nom:'Vacherin glacé maison',ico:'🍮',photo:'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80',cat:'Desserts',prix:11.0,cout:3.5,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Glace vanille, sorbet framboise, meringue, coulis de fruits rouges',vendu:0,recette:[]},
-    {id:126,nom:'Crêpes Suzette flambées',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Alcool',desc:'Flambées au Grand Marnier, sauce orange, zestes confits',vendu:0,recette:[]},
-    {id:127,nom:'Dame blanche',ico:'🍮',photo:'https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?w=400&q=80',cat:'Desserts',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Lactose, Oeufs',desc:'Glace vanille, sauce chocolat chaud, chantilly',vendu:0,recette:[]},
-    {id:128,nom:'Clafoutis aux cerises',ico:'🍮',photo:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.4,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Cerises amarena, appareil moelleux, sucre glace',vendu:0,recette:[]},
+    {id:119,nom:'Café gourmand',ico:'🍮',photo:'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80',cat:'Desserts',prix:10.0,cout:3.0,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Expresso + 3 mignardises : macaron, financier, panna cotta',vendu:0,recette:[]},
+    {id:120,nom:'Île flottante',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Meringue légère, crème anglaise vanillée, pralin croustillant',vendu:0,recette:[]},
+    {id:121,nom:'Tarte Tatin revisitée',ico:'🍮',photo:'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=400&q=80',cat:'Desserts',prix:9.5,cout:2.8,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Pommes caramélisées, pâte feuilletée inversée, crème fraîche',vendu:0,recette:[]},
+    {id:122,nom:'Macaron géant maison',ico:'🍮',photo:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.5,dispo:'dispo',allerg:'Oeufs, Fruits à coque',desc:'Coque croustillante, ganache au chocolat Valrhona',vendu:0,recette:[]},
+    {id:123,nom:'Fondant au chocolat noir',ico:'🍮',photo:'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80',cat:'Desserts',prix:9.0,cout:2.6,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Cœur coulant, glace vanille Bourbon, fleur de sel',vendu:0,recette:[]},
+    {id:124,nom:'Assiette de fromages affinés',ico:'🍮',photo:'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80',cat:'Desserts',prix:14.0,cout:5.0,dispo:'dispo',allerg:'Lactose',desc:'Sélection de 5 fromages, pain aux noix, miel, confiture',vendu:0,recette:[]},
+    {id:125,nom:'Vacherin glacé maison',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:11.0,cout:3.5,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Glace vanille, sorbet framboise, meringue, coulis de fruits rouges',vendu:0,recette:[]},
+    {id:126,nom:'Crêpes Suzette flambées',ico:'🍮',photo:'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=80',cat:'Desserts',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose, Alcool',desc:'Flambées au Grand Marnier, sauce orange, zestes confits',vendu:0,recette:[]},
+    {id:127,nom:'Dame blanche',ico:'🍮',photo:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80',cat:'Desserts',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Lactose, Oeufs',desc:'Glace vanille, sauce chocolat chaud, chantilly',vendu:0,recette:[]},
+    {id:128,nom:'Clafoutis aux cerises',ico:'🍮',photo:'https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80',cat:'Desserts',prix:8.5,cout:2.4,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Cerises amarena, appareil moelleux, sucre glace',vendu:0,recette:[]},
     {id:129,nom:'Mousse au chocolat blanc',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Desserts',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Oeufs, Lactose',desc:'Framboises fraîches, coulis de mangue, tuile dentelle',vendu:0,recette:[]},
 
     // ── APÉRITIFS SUPPLÉMENTAIRES ──
-    {id:130,nom:'Gin Tonic Premium',ico:'🫙',cat:'Apéritifs',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Alcool',desc:'Gin Hendrick\'s, Fever-Tree, concombre, poivre rose',vendu:0,recette:[]},
-    {id:131,nom:'Margarita classique',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:11.0,cout:3.2,dispo:'dispo',allerg:'Alcool',desc:'Tequila blanco, triple sec, citron vert, sel de rimming',vendu:0,recette:[]},
-    {id:132,nom:'Cosmopolitan',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:11.0,cout:3.0,dispo:'dispo',allerg:'Alcool',desc:'Vodka, triple sec, canneberge, citron vert',vendu:0,recette:[]},
-    {id:133,nom:'Pisco Sour',ico:'🥃',cat:'Apéritifs',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Alcool, Oeufs',desc:'Pisco, citron vert, blanc d\'oeuf, angostura',vendu:0,recette:[]},
-    {id:134,nom:'Americano',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cat:'Apéritifs',prix:9.0,cout:2.5,dispo:'dispo',allerg:'Alcool, Sulfites',desc:'Campari, vermouth rouge, eau gazeuse, zeste d\'orange',vendu:0,recette:[]},
-    {id:135,nom:'Sangria maison',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Alcool, Sulfites',desc:'Vin rouge, cognac, fruits frais, cannelle',vendu:0,recette:[]},
-    {id:136,nom:'Hugo Spritz',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:9.5,cout:2.6,dispo:'dispo',allerg:'Alcool, Sulfites',desc:'Prosecco, liqueur de sureau, menthe, citron vert',vendu:0,recette:[]},
-    {id:137,nom:'Ricard Pastis 51',ico:'🌿',cat:'Apéritifs',prix:5.5,cout:1.2,dispo:'dispo',allerg:'Alcool',desc:'Anisé classique, carafe d\'eau fraîche',vendu:0,recette:[]},
-    {id:138,nom:'Coupe de Champagne',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:16.0,cout:6.0,dispo:'dispo',allerg:'Sulfites, Alcool',desc:'Brut Premier Cru, fine bulle persistante',vendu:0,recette:[]},
-    {id:139,nom:'Virgin Pina Colada',ico:'🥂',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:8.0,cout:2.2,dispo:'dispo',allerg:'',desc:'Sans alcool — lait de coco, ananas frais, glace pilée',vendu:0,recette:[]},
-    {id:140,nom:'Planche fromages & vins',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:22.0,cout:8.0,dispo:'dispo',allerg:'Lactose, Sulfites',desc:'3 fromages, 2 verres de vin assortis, pain grillé, fruits secs',vendu:0,recette:[]},
+    {id:130,nom:'Gin Tonic Premium',ico:'🫙',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Alcool',desc:'Gin Hendrick\'s, Fever-Tree, concombre, poivre rose',vendu:0,recette:[]},
+    {id:131,nom:'Margarita classique',ico:'🥂',photo:'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80',cat:'Apéritifs',prix:11.0,cout:3.2,dispo:'dispo',allerg:'Alcool',desc:'Tequila blanco, triple sec, citron vert, sel de rimming',vendu:0,recette:[]},
+    {id:132,nom:'Cosmopolitan',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:11.0,cout:3.0,dispo:'dispo',allerg:'Alcool',desc:'Vodka, triple sec, canneberge, citron vert',vendu:0,recette:[]},
+    {id:133,nom:'Pisco Sour',ico:'🥃',photo:'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80',cat:'Apéritifs',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Alcool, Oeufs',desc:'Pisco, citron vert, blanc d\'oeuf, angostura',vendu:0,recette:[]},
+    {id:134,nom:'Americano',ico:'🍷',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:9.0,cout:2.5,dispo:'dispo',allerg:'Alcool, Sulfites',desc:'Campari, vermouth rouge, eau gazeuse, zeste d\'orange',vendu:0,recette:[]},
+    {id:135,nom:'Sangria maison',ico:'🥂',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cat:'Apéritifs',prix:8.0,cout:2.2,dispo:'dispo',allerg:'Alcool, Sulfites',desc:'Vin rouge, cognac, fruits frais, cannelle',vendu:0,recette:[]},
+    {id:136,nom:'Hugo Spritz',ico:'🥂',photo:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',cat:'Apéritifs',prix:9.5,cout:2.6,dispo:'dispo',allerg:'Alcool, Sulfites',desc:'Prosecco, liqueur de sureau, menthe, citron vert',vendu:0,recette:[]},
+    {id:137,nom:'Ricard Pastis 51',ico:'🌿',photo:'https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80',cat:'Apéritifs',prix:5.5,cout:1.2,dispo:'dispo',allerg:'Alcool',desc:'Anisé classique, carafe d\'eau fraîche',vendu:0,recette:[]},
+    {id:138,nom:'Coupe de Champagne',ico:'🥂',photo:'https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80',cat:'Apéritifs',prix:16.0,cout:6.0,dispo:'dispo',allerg:'Sulfites, Alcool',desc:'Brut Premier Cru, fine bulle persistante',vendu:0,recette:[]},
+    {id:139,nom:'Virgin Pina Colada',ico:'🥂',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Apéritifs',prix:8.0,cout:2.2,dispo:'dispo',allerg:'',desc:'Sans alcool — lait de coco, ananas frais, glace pilée',vendu:0,recette:[]},
+    {id:140,nom:'Planche fromages & vins',ico:'🥂',photo:'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80',cat:'Apéritifs',prix:22.0,cout:8.0,dispo:'dispo',allerg:'Lactose, Sulfites',desc:'3 fromages, 2 verres de vin assortis, pain grillé, fruits secs',vendu:0,recette:[]},
 
     // ── BOISSONS SUPPLÉMENTAIRES ──
-    {id:141,nom:'Café allongé',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:2.8,cout:0.4,dispo:'dispo',allerg:'',desc:'Double expresso allongé à l\'eau chaude',vendu:0,recette:[]},
-    {id:142,nom:'Cappuccino',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:4.2,cout:0.8,dispo:'dispo',allerg:'Lactose',desc:'Expresso, mousse de lait veloutée, cacao en poudre',vendu:0,recette:[]},
-    {id:143,nom:'Thé vert Sencha',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:3.5,cout:0.5,dispo:'dispo',allerg:'',desc:'Thé vert japonais, servi avec une mignardise',vendu:0,recette:[]},
-    {id:144,nom:'Infusion gingembre citron',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:4.0,cout:0.6,dispo:'dispo',allerg:'',desc:'Gingembre frais, citron, miel bio, eau chaude',vendu:0,recette:[]},
-    {id:145,nom:'Perrier rondelle',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:3.5,cout:0.7,dispo:'dispo',allerg:'',desc:'Eau gazeuse 33cl, rondelle de citron',vendu:0,recette:[]},
-    {id:146,nom:'Jus de pomme artisanal',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:4.5,cout:1.0,dispo:'dispo',allerg:'',desc:'Pressé à froid, non filtré, producteur local',vendu:0,recette:[]},
-    {id:147,nom:'Jus de fraise maison',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:5.5,cout:1.5,dispo:'dispo',allerg:'',desc:'Fraises Gariguette fraîches, sucre de canne, menthe',vendu:0,recette:[]},
-    {id:148,nom:'Lait frappé vanille',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:5.0,cout:1.2,dispo:'dispo',allerg:'Lactose',desc:'Lait entier, glace vanille, sirop vanille Bourbon',vendu:0,recette:[]},
-    {id:149,nom:'Sirop grenadine / menthe',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:2.5,cout:0.4,dispo:'dispo',allerg:'',desc:'Sirop artisanal, eau fraîche ou gazeuse',vendu:0,recette:[]},
-    {id:150,nom:'Bière artisanale locale',ico:'🥤',photo:'https://images.unsplash.com/photo-1543935278-d4a7efa7c1fb?w=400&q=80',cat:'Boissons',prix:6.5,cout:1.8,dispo:'dispo',allerg:'Gluten',desc:'Brasserie locale, ambrée ou blonde — selon arrivage',vendu:0,recette:[]},
+    {id:141,nom:'Café allongé',ico:'🥤',photo:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80',cat:'Boissons',prix:2.8,cout:0.4,dispo:'dispo',allerg:'',desc:'Double expresso allongé à l\'eau chaude',vendu:0,recette:[]},
+    {id:142,nom:'Cappuccino',ico:'🥤',photo:'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80',cat:'Boissons',prix:4.2,cout:0.8,dispo:'dispo',allerg:'Lactose',desc:'Expresso, mousse de lait veloutée, cacao en poudre',vendu:0,recette:[]},
+    {id:143,nom:'Thé vert Sencha',ico:'🥤',photo:'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80',cat:'Boissons',prix:3.5,cout:0.5,dispo:'dispo',allerg:'',desc:'Thé vert japonais, servi avec une mignardise',vendu:0,recette:[]},
+    {id:144,nom:'Infusion gingembre citron',ico:'🥤',photo:'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80',cat:'Boissons',prix:4.0,cout:0.6,dispo:'dispo',allerg:'',desc:'Gingembre frais, citron, miel bio, eau chaude',vendu:0,recette:[]},
+    {id:145,nom:'Perrier rondelle',ico:'🥤',photo:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80',cat:'Boissons',prix:3.5,cout:0.7,dispo:'dispo',allerg:'',desc:'Eau gazeuse 33cl, rondelle de citron',vendu:0,recette:[]},
+    {id:146,nom:'Jus de pomme artisanal',ico:'🥤',photo:'https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80',cat:'Boissons',prix:4.5,cout:1.0,dispo:'dispo',allerg:'',desc:'Pressé à froid, non filtré, producteur local',vendu:0,recette:[]},
+    {id:147,nom:'Jus de fraise maison',ico:'🥤',photo:'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80',cat:'Boissons',prix:5.5,cout:1.5,dispo:'dispo',allerg:'',desc:'Fraises Gariguette fraîches, sucre de canne, menthe',vendu:0,recette:[]},
+    {id:148,nom:'Lait frappé vanille',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:5.0,cout:1.2,dispo:'dispo',allerg:'Lactose',desc:'Lait entier, glace vanille, sirop vanille Bourbon',vendu:0,recette:[]},
+    {id:149,nom:'Sirop grenadine / menthe',ico:'🥤',photo:'https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80',cat:'Boissons',prix:2.5,cout:0.4,dispo:'dispo',allerg:'',desc:'Sirop artisanal, eau fraîche ou gazeuse',vendu:0,recette:[]},
+    {id:150,nom:'Bière artisanale locale',ico:'🥤',photo:'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400&q=80',cat:'Boissons',prix:6.5,cout:1.8,dispo:'dispo',allerg:'Gluten',desc:'Brasserie locale, ambrée ou blonde — selon arrivage',vendu:0,recette:[]},
     {id:151,nom:'Kombucha maison',ico:'🥤',photo:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',cat:'Boissons',prix:5.5,cout:1.2,dispo:'dispo',allerg:'',desc:'Fermenté maison, gingembre-citron, légèrement pétillant',vendu:0,recette:[]},
 
     // ── GRANDS CLASSIQUES FRANÇAIS ──
     {id:152,nom:'Gratin dauphinois',ico:'🍟',photo:'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80',cat:'Accompagnements',prix:7.0,cout:2.0,dispo:'dispo',allerg:'Lactose',desc:'Pommes de terre fondantes, crème entière, ail, muscade — gratiné au four',vendu:0,recette:[]},
-    {id:153,nom:'Quiche lorraine',ico:'🍲',photo:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80',cat:'Plats',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Lardons fumés, crème, œufs, pâte brisée maison, salade verte',vendu:0,recette:[]},
-    {id:154,nom:'Croque-monsieur',ico:'🍲',photo:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',cat:'Plats',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Jambon blanc, emmental fondu, béchamel, pain de mie doré',vendu:0,recette:[]},
-    {id:155,nom:'Steak frites',ico:'🍟',cat:'Plats',prix:19.0,cout:7.0,dispo:'dispo',allerg:'',desc:'Rumsteck 180g, frites maison, beurre maître d\'hôtel, salade',vendu:0,recette:[]},
-    {id:156,nom:'Poulet rôti du dimanche',ico:'🍲',photo:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',cat:'Plats',prix:20.0,cout:7.5,dispo:'dispo',allerg:'',desc:'Basse-cour, jus de rôti, pommes de terre sautées à la graisse',vendu:0,recette:[]},
-    {id:157,nom:'Pot-au-feu',ico:'🍲',photo:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80',cat:'Plats',prix:22.0,cout:8.0,dispo:'dispo',allerg:'',desc:'Bœuf plat de côtes, carottes, poireaux, navet, os à moelle, cornichons',vendu:0,recette:[]},
-    {id:158,nom:'Cassoulet maison',ico:'🍲',photo:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',cat:'Plats',prix:23.0,cout:8.5,dispo:'dispo',allerg:'',desc:'Confit de canard, saucisse de Toulouse, haricots tarbais, croûte dorée',vendu:0,recette:[]},
-    {id:159,nom:'Tartiflette',ico:'🍲',photo:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',cat:'Plats',prix:18.0,cout:6.5,dispo:'dispo',allerg:'Lactose',desc:'Reblochon de Savoie, lardons, oignons, pommes de terre, crème',vendu:0,recette:[]},
-    {id:160,nom:'Brandade de morue',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cat:'Plats',prix:17.0,cout:6.0,dispo:'dispo',allerg:'Poisson, Lactose',desc:'Morue dessalée, huile d\'olive, ail, crème, gratiné au four',vendu:0,recette:[]},
+    {id:153,nom:'Quiche lorraine',ico:'🍲',photo:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80',cat:'Plats',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Lardons fumés, crème, œufs, pâte brisée maison, salade verte',vendu:0,recette:[]},
+    {id:154,nom:'Croque-monsieur',ico:'🍲',photo:'https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&q=80',cat:'Plats',prix:12.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Jambon blanc, emmental fondu, béchamel, pain de mie doré',vendu:0,recette:[]},
+    {id:155,nom:'Steak frites',ico:'🍟',photo:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80',cat:'Plats',prix:19.0,cout:7.0,dispo:'dispo',allerg:'',desc:'Rumsteck 180g, frites maison, beurre maître d\'hôtel, salade',vendu:0,recette:[]},
+    {id:156,nom:'Poulet rôti du dimanche',ico:'🍲',photo:'https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80',cat:'Plats',prix:20.0,cout:7.5,dispo:'dispo',allerg:'',desc:'Basse-cour, jus de rôti, pommes de terre sautées à la graisse',vendu:0,recette:[]},
+    {id:157,nom:'Pot-au-feu',ico:'🍲',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Plats',prix:22.0,cout:8.0,dispo:'dispo',allerg:'',desc:'Bœuf plat de côtes, carottes, poireaux, navet, os à moelle, cornichons',vendu:0,recette:[]},
+    {id:158,nom:'Cassoulet maison',ico:'🍲',photo:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80',cat:'Plats',prix:23.0,cout:8.5,dispo:'dispo',allerg:'',desc:'Confit de canard, saucisse de Toulouse, haricots tarbais, croûte dorée',vendu:0,recette:[]},
+    {id:159,nom:'Tartiflette',ico:'🍲',photo:'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80',cat:'Plats',prix:18.0,cout:6.5,dispo:'dispo',allerg:'Lactose',desc:'Reblochon de Savoie, lardons, oignons, pommes de terre, crème',vendu:0,recette:[]},
+    {id:160,nom:'Brandade de morue',ico:'🐟',photo:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80',cat:'Plats',prix:17.0,cout:6.0,dispo:'dispo',allerg:'Poisson, Lactose',desc:'Morue dessalée, huile d\'olive, ail, crème, gratiné au four',vendu:0,recette:[]},
     {id:161,nom:'Choucroute alsacienne',ico:'🍲',photo:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80',cat:'Plats',prix:22.0,cout:8.0,dispo:'dispo',allerg:'Alcool',desc:'Chou fermenté, porc fumé, saucisses, Riesling, pommes de terre',vendu:0,recette:[]},
-    {id:162,nom:'Hachis Parmentier',ico:'🍲',photo:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',cat:'Plats',prix:16.0,cout:5.5,dispo:'dispo',allerg:'Lactose',desc:'Bœuf haché mijoté, purée de pommes de terre gratinée, persil',vendu:0,recette:[]},
-    {id:163,nom:'Gratin de crozets',ico:'🍲',photo:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',cat:'Plats',prix:15.0,cout:5.0,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Pâtes savoyardes, lardons, Beaufort, crème — spécialité alpine',vendu:0,recette:[]},
-    {id:164,nom:'Aligot de l\'Aubrac',ico:'🍮',photo:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',cat:'Plats',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Lactose',desc:'Purée filante à la tome fraîche, ail, saucisse de campagne',vendu:0,recette:[]},
-    {id:165,nom:'Fondue savoyarde',ico:'🍲',photo:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80',cat:'Plats',prix:26.0,cout:9.5,dispo:'dispo',allerg:'Lactose, Alcool, Gluten',desc:'Beaufort, Emmental, Comté, vin blanc de Savoie — pour 2',vendu:0,recette:[]},
-    {id:166,nom:'Raclette à la plancha',ico:'🍲',photo:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',cat:'Plats',prix:24.0,cout:9.0,dispo:'dispo',allerg:'Lactose',desc:'Fromage de Savoie AOP, charcuteries, pommes de terre — pour 2',vendu:0,recette:[]},
-    {id:167,nom:'Bœuf Stroganoff',ico:'🍲',photo:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',cat:'Plats',prix:25.0,cout:9.5,dispo:'dispo',allerg:'Lactose',desc:'Filet de bœuf, champignons, crème sure, paprika, riz pilaf',vendu:0,recette:[]},
-    {id:168,nom:'Paëlla valenciana',ico:'🍲',photo:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80',cat:'Plats',prix:28.0,cout:10.5,dispo:'dispo',allerg:'Crustacés, Mollusques',desc:'Riz bomba, poulet, crevettes, moules, chorizo, safran — pour 2',vendu:0,recette:[]},
-    {id:169,nom:'Lasagnes bolognaise',ico:'🍲',photo:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',cat:'Plats',prix:16.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Bœuf haché, tomates San Marzano, béchamel, pâtes fraîches maison',vendu:0,recette:[]},
-    {id:170,nom:'Risotto aux truffes noires',ico:'🥦',photo:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',cat:'Végétarien',prix:28.0,cout:11.0,dispo:'dispo',allerg:'Lactose',desc:'Riz Arborio, bouillon maison, parmesan 24 mois, copeaux de truffe',vendu:0,recette:[]},
-    {id:171,nom:'Tarte flambée alsacienne',ico:'🍲',photo:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',cat:'Plats',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Pâte fine croustillante, fromage blanc, lardons, oignons',vendu:0,recette:[]},
-    {id:172,nom:'Crêpes complètes',ico:'🍲',photo:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80',cat:'Plats',prix:13.0,cout:4.0,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Galette de sarrasin, jambon, emmental, œuf miroir, beurre',vendu:0,recette:[]},
-    {id:173,nom:'Club sandwich maison',ico:'🍲',photo:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',cat:'Plats',prix:15.0,cout:5.0,dispo:'dispo',allerg:'Gluten, Oeufs',desc:'Pain de mie toasté, poulet, bacon, tomates, laitue, mayo maison, frites',vendu:0,recette:[]},
-    {id:174,nom:'Burger Maison signature',ico:'🍲',photo:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',cat:'Plats',prix:18.0,cout:6.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Steak Charolais 160g, cheddar affiné, bacon croustillant, sauce maison',vendu:0,recette:[]},
-    {id:175,nom:'Fish & Chips',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cat:'Poissons',prix:17.0,cout:6.0,dispo:'dispo',allerg:'Poisson, Gluten, Oeufs',desc:'Cabillaud en beignet léger, frites épaisses, sauce tartare maison',vendu:0,recette:[]},
+    {id:162,nom:'Hachis Parmentier',ico:'🍲',photo:'https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80',cat:'Plats',prix:16.0,cout:5.5,dispo:'dispo',allerg:'Lactose',desc:'Bœuf haché mijoté, purée de pommes de terre gratinée, persil',vendu:0,recette:[]},
+    {id:163,nom:'Gratin de crozets',ico:'🍲',photo:'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80',cat:'Plats',prix:15.0,cout:5.0,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Pâtes savoyardes, lardons, Beaufort, crème — spécialité alpine',vendu:0,recette:[]},
+    {id:164,nom:'Aligot de l\'Aubrac',ico:'🍮',photo:'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80',cat:'Plats',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Lactose',desc:'Purée filante à la tome fraîche, ail, saucisse de campagne',vendu:0,recette:[]},
+    {id:165,nom:'Fondue savoyarde',ico:'🍲',photo:'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80',cat:'Plats',prix:26.0,cout:9.5,dispo:'dispo',allerg:'Lactose, Alcool, Gluten',desc:'Beaufort, Emmental, Comté, vin blanc de Savoie — pour 2',vendu:0,recette:[]},
+    {id:166,nom:'Raclette à la plancha',ico:'🍲',photo:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80',cat:'Plats',prix:24.0,cout:9.0,dispo:'dispo',allerg:'Lactose',desc:'Fromage de Savoie AOP, charcuteries, pommes de terre — pour 2',vendu:0,recette:[]},
+    {id:167,nom:'Bœuf Stroganoff',ico:'🍲',photo:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',cat:'Plats',prix:25.0,cout:9.5,dispo:'dispo',allerg:'Lactose',desc:'Filet de bœuf, champignons, crème sure, paprika, riz pilaf',vendu:0,recette:[]},
+    {id:168,nom:'Paëlla valenciana',ico:'🍲',photo:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80',cat:'Plats',prix:28.0,cout:10.5,dispo:'dispo',allerg:'Crustacés, Mollusques',desc:'Riz bomba, poulet, crevettes, moules, chorizo, safran — pour 2',vendu:0,recette:[]},
+    {id:169,nom:'Lasagnes bolognaise',ico:'🍲',photo:'https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80',cat:'Plats',prix:16.0,cout:5.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Bœuf haché, tomates San Marzano, béchamel, pâtes fraîches maison',vendu:0,recette:[]},
+    {id:170,nom:'Risotto aux truffes noires',ico:'🥦',photo:'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80',cat:'Végétarien',prix:28.0,cout:11.0,dispo:'dispo',allerg:'Lactose',desc:'Riz Arborio, bouillon maison, parmesan 24 mois, copeaux de truffe',vendu:0,recette:[]},
+    {id:171,nom:'Tarte flambée alsacienne',ico:'🍲',photo:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80',cat:'Plats',prix:14.0,cout:4.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Pâte fine croustillante, fromage blanc, lardons, oignons',vendu:0,recette:[]},
+    {id:172,nom:'Crêpes complètes',ico:'🍲',photo:'https://images.unsplash.com/photo-1539581901139-3e8e4c5e1d14?w=400&q=80',cat:'Plats',prix:13.0,cout:4.0,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Galette de sarrasin, jambon, emmental, œuf miroir, beurre',vendu:0,recette:[]},
+    {id:173,nom:'Club sandwich maison',ico:'🍲',photo:'https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&q=80',cat:'Plats',prix:15.0,cout:5.0,dispo:'dispo',allerg:'Gluten, Oeufs',desc:'Pain de mie toasté, poulet, bacon, tomates, laitue, mayo maison, frites',vendu:0,recette:[]},
+    {id:174,nom:'Burger Maison signature',ico:'🍲',photo:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80',cat:'Plats',prix:18.0,cout:6.5,dispo:'dispo',allerg:'Gluten, Lactose, Oeufs',desc:'Steak Charolais 160g, cheddar affiné, bacon croustillant, sauce maison',vendu:0,recette:[]},
+    {id:175,nom:'Fish & Chips',ico:'🐟',photo:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=80',cat:'Poissons',prix:17.0,cout:6.0,dispo:'dispo',allerg:'Poisson, Gluten, Oeufs',desc:'Cabillaud en beignet léger, frites épaisses, sauce tartare maison',vendu:0,recette:[]},
 
-  ]; DB.ids.p=176;
+  ];
+  // Photos de référence pour migration
+  DB._initPlats=[{"id": 1, "photo": "https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80"}, {"id": 2, "photo": "https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&q=80"}, {"id": 3, "photo": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400&q=80"}, {"id": 4, "photo": "https://images.unsplash.com/photo-1615361200141-f45040f367be?w=400&q=80"}, {"id": 5, "photo": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80"}, {"id": 6, "photo": "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80"}, {"id": 7, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 8, "photo": "https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80"}, {"id": 9, "photo": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80"}, {"id": 10, "photo": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80"}, {"id": 11, "photo": "https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80"}, {"id": 12, "photo": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80"}, {"id": 13, "photo": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80"}, {"id": 14, "photo": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80"}, {"id": 15, "photo": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80"}, {"id": 16, "photo": "https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80"}, {"id": 17, "photo": "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=400&q=80"}, {"id": 18, "photo": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80"}, {"id": 19, "photo": "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=400&q=80"}, {"id": 20, "photo": "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=400&q=80"}, {"id": 21, "photo": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80"}, {"id": 22, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 23, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 24, "photo": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80"}, {"id": 25, "photo": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80"}, {"id": 26, "photo": "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80"}, {"id": 27, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 28, "photo": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80"}, {"id": 29, "photo": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80"}, {"id": 30, "photo": "https://images.unsplash.com/photo-1474722883778-792e7990302f?w=400&q=80"}, {"id": 31, "photo": "https://images.unsplash.com/photo-1558618047-f4e60cde4b95?w=400&q=80"}, {"id": 32, "photo": "https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80"}, {"id": 33, "photo": "https://images.unsplash.com/photo-1543253687-c931c8e01820?w=400&q=80"}, {"id": 34, "photo": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80"}, {"id": 35, "photo": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80"}, {"id": 36, "photo": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80"}, {"id": 37, "photo": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80"}, {"id": 38, "photo": "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=400&q=80"}, {"id": 39, "photo": "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=400&q=80"}, {"id": 40, "photo": "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80"}, {"id": 41, "photo": "https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=400&q=80"}, {"id": 42, "photo": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80"}, {"id": 43, "photo": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80"}, {"id": 44, "photo": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80"}, {"id": 45, "photo": "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&q=80"}, {"id": 46, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 47, "photo": "https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80"}, {"id": 48, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 49, "photo": "https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80"}, {"id": 50, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 51, "photo": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80"}, {"id": 52, "photo": "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80"}, {"id": 53, "photo": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80"}, {"id": 54, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 55, "photo": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80"}, {"id": 56, "photo": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80"}, {"id": 57, "photo": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&q=80"}, {"id": 58, "photo": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80"}, {"id": 59, "photo": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&q=80"}, {"id": 60, "photo": "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80"}, {"id": 61, "photo": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80"}, {"id": 62, "photo": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80"}, {"id": 63, "photo": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80"}, {"id": 64, "photo": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&q=80"}, {"id": 65, "photo": "https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80"}, {"id": 66, "photo": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80"}, {"id": 67, "photo": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80"}, {"id": 68, "photo": "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80"}, {"id": 69, "photo": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80"}, {"id": 70, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 71, "photo": "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80"}, {"id": 72, "photo": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80"}, {"id": 73, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 74, "photo": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80"}, {"id": 75, "photo": "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80"}, {"id": 76, "photo": "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=400&q=80"}, {"id": 77, "photo": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"}, {"id": 78, "photo": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80"}, {"id": 79, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 80, "photo": "https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80"}, {"id": 81, "photo": "https://images.unsplash.com/photo-1543253687-c931c8e01820?w=400&q=80"}, {"id": 82, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 83, "photo": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80"}, {"id": 84, "photo": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80"}, {"id": 85, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 86, "photo": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80"}, {"id": 87, "photo": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80"}, {"id": 88, "photo": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80"}, {"id": 89, "photo": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80"}, {"id": 90, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 91, "photo": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80"}, {"id": 92, "photo": "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&q=80"}, {"id": 93, "photo": "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80"}, {"id": 94, "photo": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80"}, {"id": 95, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 96, "photo": "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80"}, {"id": 97, "photo": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80"}, {"id": 98, "photo": "https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80"}, {"id": 99, "photo": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80"}, {"id": 100, "photo": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&q=80"}, {"id": 101, "photo": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80"}, {"id": 102, "photo": "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80"}, {"id": 103, "photo": "https://images.unsplash.com/photo-1545014702-7b9bd4e9ed4d?w=400&q=80"}, {"id": 104, "photo": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80"}, {"id": 105, "photo": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400&q=80"}, {"id": 106, "photo": "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=400&q=80"}, {"id": 107, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 108, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 109, "photo": "https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80"}, {"id": 110, "photo": "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80"}, {"id": 111, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 112, "photo": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80"}, {"id": 113, "photo": "https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80"}, {"id": 114, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 115, "photo": "https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80"}, {"id": 116, "photo": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80"}, {"id": 117, "photo": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&q=80"}, {"id": 118, "photo": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80"}, {"id": 119, "photo": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80"}, {"id": 120, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 121, "photo": "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=400&q=80"}, {"id": 122, "photo": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80"}, {"id": 123, "photo": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80"}, {"id": 124, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 125, "photo": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80"}, {"id": 126, "photo": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=80"}, {"id": 127, "photo": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80"}, {"id": 128, "photo": "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80"}, {"id": 129, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 130, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 131, "photo": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80"}, {"id": 132, "photo": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"}, {"id": 133, "photo": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80"}, {"id": 134, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 135, "photo": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80"}, {"id": 136, "photo": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"}, {"id": 137, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 138, "photo": "https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80"}, {"id": 139, "photo": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80"}, {"id": 140, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 141, "photo": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80"}, {"id": 142, "photo": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80"}, {"id": 143, "photo": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80"}, {"id": 144, "photo": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80"}, {"id": 145, "photo": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80"}, {"id": 146, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 147, "photo": "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80"}, {"id": 148, "photo": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80"}, {"id": 149, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 150, "photo": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400&q=80"}, {"id": 151, "photo": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80"}, {"id": 152, "photo": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80"}, {"id": 153, "photo": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80"}, {"id": 154, "photo": "https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&q=80"}, {"id": 155, "photo": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80"}, {"id": 156, "photo": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80"}, {"id": 157, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 158, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 159, "photo": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80"}, {"id": 160, "photo": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80"}, {"id": 161, "photo": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80"}, {"id": 162, "photo": "https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80"}, {"id": 163, "photo": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80"}, {"id": 164, "photo": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80"}, {"id": 165, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 166, "photo": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80"}, {"id": 167, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 168, "photo": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80"}, {"id": 169, "photo": "https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80"}, {"id": 170, "photo": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80"}, {"id": 171, "photo": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80"}, {"id": 172, "photo": "https://images.unsplash.com/photo-1539581901139-3e8e4c5e1d14?w=400&q=80"}, {"id": 173, "photo": "https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&q=80"}, {"id": 174, "photo": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80"}, {"id": 175, "photo": "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=80"}];
+ DB.ids.p=176;
 
   DB.stocks=[
     {id:1,ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cat:'Viandes',nom:'Boeuf (filet)',qte:8,unit:'kg',seuil:2,pu:28},
@@ -10413,39 +10543,30 @@ function loadDB(){
 }
 
 function migratePhotosPlats(){
-  const CAT_EMOJI={
-    'Entrées':'🥗','Viandes':'🥩','Poissons':'🐟','Desserts':'🍮',
-    'Vins':'🍷','Boissons':'🥤','Apéritifs':'🥂','Formules':'🍽️',
-    'Végétarien':'🥦','Plats':'🍲','Accompagnements':'🍟'
-  };
-  const CAT_PHOTO={
-    'Entrées':'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',
-    'Viandes':'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',
-    'Poissons':'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',
-    'Desserts':'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',
-    'Vins':'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',
-    'Boissons':'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',
-    'Apéritifs':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
-    'Formules':'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80',
-    'Végétarien':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',
-    'Plats':'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',
-    'Accompagnements':'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80'
-  };
-  const OLD_CODES=['ENT','VIA','POI','DES','VIN','BOI','APE','FOR','VEG','PLA','ACC'];
+  // Synchroniser photos et emojis depuis les données initiales
+  const REF=_getInitPlats();
+  if(!REF||!REF.length) return;
+  const OLD=['ENT','VIA','POI','DES','VIN','BOI','APE','FOR','VEG','PLA','ACC'];
+  const CAT_EMOJI={'Entrées':'🥗','Viandes':'🥩','Poissons':'🐟','Desserts':'🍮','Vins':'🍷','Boissons':'🥤','Apéritifs':'🥂','Formules':'🍽️','Végétarien':'🥦','Plats':'🍲','Accompagnements':'🍟'};
   let changed=false;
   (DB.plats||[]).forEach(p=>{
-    // Corriger l'emoji si c'est encore un code texte
-    if(OLD_CODES.includes(p.ico)){
-      p.ico=CAT_EMOJI[p.cat]||'🍽️';
-      changed=true;
-    }
-    // Ajouter photo si manquante
-    if(!p.photo&&p.cat){
-      p.photo=CAT_PHOTO[p.cat]||'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80';
-      changed=true;
-    }
+    const ref=REF.find(r=>r.id===p.id);
+    if(ref&&ref.photo&&p.photo!==ref.photo){p.photo=ref.photo;changed=true;}
+    if(ref&&ref.ico&&OLD.includes(p.ico)){p.ico=ref.ico;changed=true;}
+    else if(OLD.includes(p.ico)){p.ico=CAT_EMOJI[p.cat]||'🍽️';changed=true;}
+    if(!p.photo&&ref&&ref.photo){p.photo=ref.photo;changed=true;}
   });
   if(changed) saveDB();
+}
+
+function _getInitPlats(){
+  // Retourner les plats de référence depuis initData
+  try{
+    const tmp={};
+    const orig=DB.plats;
+    // Extraire juste les id/photo/ico depuis les données hardcodées
+    return (DB._initPlats||[]);
+  }catch(e){return [];}
 }
 function saveEtabs(){
   localStorage.setItem('maison_etabs',JSON.stringify(DB_ETABS));
@@ -18169,9 +18290,31 @@ DB.personnel = (DB.personnel||[]).map(p=>({conges:[], absences:[], joursRepos:['
 // ══ MENU DU JOUR ══
 function rMenuJour(){
   const mj=DB.menuJour||{};
-  const dd=document.getElementById('mj-date-display');
-  if(dd){const d=new Date((mj.date||td())+'T12:00:00');dd.textContent=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
   const get=id=>document.getElementById(id);
+
+  // Enseigne
+  const ens=get('mj-enseigne-nom');
+  if(ens) ens.textContent=DB.params?.nom||'Chez Romu';
+
+  // Date
+  const dd=get('mj-date-display');
+  if(dd){
+    const d=new Date((mj.date||td())+'T12:00:00');
+    dd.textContent=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  }
+
+  // Mention chef
+  const chefEl=get('mj-chef-display');
+  if(chefEl) chefEl.textContent=mj.chef||'';
+
+  // Message spécial
+  const msgBanner=get('mj-msg-banner');
+  if(msgBanner){
+    if(mj.msg){msgBanner.innerHTML='✦ '+mj.msg+' ✦';msgBanner.style.display='flex';}
+    else msgBanner.style.display='none';
+  }
+
+  // Inputs paramètres
   if(get('mj-date')) get('mj-date').value=mj.date||td();
   if(get('mj-msg')) get('mj-msg').value=mj.msg||'';
   if(get('mj-formule')) get('mj-formule').value=mj.formule||'';
@@ -18179,45 +18322,62 @@ function rMenuJour(){
   if(get('mj-formule-pd')) get('mj-formule-pd').value=mj.formulePD||'';
   if(get('mj-chef')) get('mj-chef').value=mj.chef||'';
 
-  // Formules row
+  // Formules cards
   const fRow=get('mj-formules-row');
   if(fRow){
     const formules=[];
-    if(mj.formuleEP) formules.push({label:'Entrée + Plat',prix:mj.formuleEP,col:'#3d7a4e'});
-    if(mj.formulePD) formules.push({label:'Plat + Dessert',prix:mj.formulePD,col:'#f59e0b'});
-    if(mj.formule) formules.push({label:'⭐ Formule complète',prix:mj.formule,col:'var(--gold)'});
-    fRow.innerHTML=formules.length?formules.map(f=>`
-      <div style="background:var(--ink2);border:1px solid ${f.col};border-radius:10px;padding:14px;text-align:center">
-        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">${f.label}</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:${f.col}">${eur(+f.prix)}</div>
-      </div>`).join('')
-    :'<div class="alert alert-info" style="width:100%">Ajoutez des formules dans les paramètres ci-dessous ↓</div>';
+    if(mj.formuleEP) formules.push({label:'Entrée · Plat',prix:mj.formuleEP,col:'#6fcf8a'});
+    if(mj.formulePD) formules.push({label:'Plat · Dessert',prix:mj.formulePD,col:'#6aacda'});
+    if(mj.formule) formules.push({label:'⭐ Formule complète',prix:mj.formule,col:'var(--gold2)'});
+    fRow.innerHTML=formules.map(f=>`
+      <div class="mj-formule-card" style="border-color:${f.col}22;background:${f.col}08;color:${f.col}">
+        <div class="mj-formule-label">${f.label}</div>
+        <div class="mj-formule-prix">${eur(+f.prix)}</div>
+      </div>`).join('')||'<div style="font-size:11px;color:var(--muted);font-style:italic">Aucune formule — configurez dans Paramètres</div>';
   }
 
   // Catégories
-  ['entrees','plats','fromages','desserts','boissons'].forEach(cat=>{
-    const el=get('mj-'+cat);
+  const CATS=[
+    {id:'entrees',label:'Entrées'},
+    {id:'plats',label:'Plats'},
+    {id:'fromages',label:'Fromages'},
+    {id:'desserts',label:'Desserts'},
+    {id:'boissons',label:'Boissons'}
+  ];
+
+  CATS.forEach((cat,catIdx)=>{
+    const el=get('mj-'+cat.id);
     if(!el) return;
-    const items=(mj.plats||[]).filter(p=>p.cat===cat);
-    if(!items.length){el.innerHTML=`<div style="color:var(--muted);font-size:13px;padding:10px 0;font-style:italic">Aucun plat — cliquez + Ajouter</div>`;return;}
+    const items=(mj.plats||[]).filter(p=>p.cat===cat.id);
+
+    if(!items.length){
+      el.innerHTML=`<div class="mj-item-empty">Aucun plat · cliquez ＋ pour ajouter</div>`;
+      return;
+    }
+
     el.innerHTML=items.map((p,i)=>{
-      const ind=getPlatIndicateur({cat:p.cat,nom:p.nom});
-      return `<div style="display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)${ind?';border-left:3px solid '+ind.col+';padding-left:10px':''}">
-        <div style="flex:1">
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-            <span style="font-size:15px;font-weight:600;color:var(--txt)">${p.nom}</span>
-            ${ind?`<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:${ind.col}22;color:${ind.col};border:1px solid ${ind.col}44">${ind.label}</span>`:''}
-          </div>
-          ${p.desc?`<div style="font-size:12px;color:var(--sub);font-style:italic;margin-top:3px">${p.desc}</div>`:''}
-          ${p.allergenes?`<div style="font-size:10px;color:var(--amber);margin-top:3px">⚠️ ${p.allergenes}</div>`:''}
+      const ind=getPlatIndicateur&&getPlatIndicateur({cat:p.cat,nom:p.nom});
+      const isTop=p.vendu>10;
+      const isNew=!p.vendu||p.vendu===0;
+      return `<div class="mj-item" style="animation-delay:${(catIdx*5+i)*.04}s">
+        <div class="mj-item-nom">
+          ${p.nom}
+          ${p.desc?`<em>${p.desc}</em>`:''}
+          ${p.allergenes?`<span style="font-size:9px;color:var(--amber);font-style:normal">⚠ ${p.allergenes}</span>`:''}
         </div>
-        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-          ${p.prix?`<span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2)">${eur(+p.prix)}</span>`:''}
-          <button class="btn btn-danger btn-xs" onclick="removeMJPlat(${i},'${cat}')">✕</button>
-        </div>
+        ${isTop?'<span class="mj-item-badge star">★</span>':''}
+        ${isNew?'<span class="mj-item-badge new">Nouveau</span>':''}
+        <div class="mj-item-dots"></div>
+        <div class="mj-item-prix">${p.prix?eur(+p.prix):''}</div>
+        <button class="mj-item-del" onclick="removeMJPlat(${i},'${cat.id}')">✕</button>
       </div>`;
     }).join('');
   });
+}
+
+function mj_toggleEdit(){
+  const p=document.getElementById('mj-params-panel');
+  if(p) p.style.display=p.style.display==='none'?'block':'none';
 }
 
 function openMJCat(cat){
