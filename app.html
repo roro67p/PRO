@@ -6206,7 +6206,6 @@ tbody td { padding:13px 14px; font-size:13px; }
       <button onclick="toggleNotifs()" style="background:none;border:none;color:var(--sub);font-size:20px;cursor:pointer;padding:4px 8px;position:relative" title="Notifications">
         🔔<span id="notif-badge" style="display:none;position:absolute;top:2px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--red)"></span>
       </button>
-      </button>
       <div id="notif-panel" style="display:none;position:absolute;right:0;top:40px;width:300px;background:var(--ink2);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.4);z-index:200;overflow:hidden">
         <div style="padding:12px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
           <span style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold2)">Notifications</span>
@@ -7002,8 +7001,8 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div id="perso-kpi" style="display:none"></div>
     <div id="perso-cards" style="display:none"></div>
     <div id="pp-container" style="display:none"></div>
-  </div>
-  </div>
+  
+  
 
   <!-- MENU DU JOUR -->
   <!-- CONFIG CAISSE -->
@@ -7747,7 +7746,8 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div class="rp-marges-grid" id="rp-marges"></div>
   </div>
 
-  
+  </div><!-- /page-rapports -->
+
   <!-- PARAMS -->
   <div id="page-params" class="page">
     <div class="page-header"><h2>⚙️ Paramètres</h2></div>
@@ -7821,7 +7821,7 @@ tbody td { padding:13px 14px; font-size:13px; }
         <button class="btn btn-gold" style="margin-top:16px" onclick="saveParams()">Sauvegarder</button>
       </div>
     </div>
-  </div>
+  
 
   <!-- FICHES TECHNIQUES -->
   <div id="page-fiches" class="page">
@@ -9169,7 +9169,8 @@ tbody td { padding:13px 14px; font-size:13px; }
 
 
   <!-- TÂCHES & TODO -->
-<div id="page-todo" class="page" style="padding:0;display:none;flex-direction:column;height:100%;overflow:hidden">
+<div </div>
+id="page-todo" class="page" style="padding:0;display:none;flex-direction:column;height:100%;overflow:hidden">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     #page-todo.active{display:flex!important}
@@ -11292,6 +11293,43 @@ function initData(){
        {nom:'Asperges vertes',qte:6,unit:'kg',pu:7,total:42},
      ]},
   ]; DB.ids.cf=9;
+
+  // Personnel de démo
+  if(!DB.personnel||!DB.personnel.length){
+    DB.personnel=JSON.parse(JSON.stringify(DB_PERSONNEL_DEFAULT));
+    DB.ids.e=DB.personnel.length+1;
+  }
+
+  // Formation de démo
+  if(!DB.formation||!DB.formation.length){
+    DB.formation=JSON.parse(JSON.stringify(DB_FORMATION_DEFAULT));
+  }
+
+  // Réservations de démo
+  if(!DB.reservations||!DB.reservations.length){
+    const today=td();
+    const tom=new Date(); tom.setDate(tom.getDate()+1);
+    const tomStr=tom.toISOString().slice(0,10);
+    DB.reservations=[
+      {id:1,nom:'Martin',prenom:'Jean',cvt:4,date:today,heure:'19:30',tel:'06 12 34 56 78',stat:'confirmé',notes:'Anniversaire',allergies:''},
+      {id:2,nom:'Dupont',prenom:'Sophie',cvt:2,date:today,heure:'20:00',tel:'06 23 45 67 89',stat:'confirmé',notes:'',allergies:'Gluten'},
+      {id:3,nom:'Bernard',prenom:'Pierre',cvt:6,date:tomStr,heure:'19:00',tel:'06 34 56 78 90',stat:'confirmé',notes:'Table ronde si possible',allergies:''},
+      {id:4,nom:'Leroy',prenom:'Marie',cvt:2,date:tomStr,heure:'21:00',tel:'06 45 67 89 01',stat:'en attente',notes:'',allergies:''},
+    ];
+    DB.ids.r=5;
+  }
+
+  // Ventes de démo
+  if(!DB.ventes||!DB.ventes.length){
+    const today=td();
+    DB.ventes=[
+      {id:1,date:today,t:'12:30',ttc:95.50,ht:86.82,tva:8.68,cvt:4,mode:'CB',items:[{platId:1,qte:2},{platId:7,qte:2}]},
+      {id:2,date:today,t:'13:15',ttc:127.00,ht:115.45,tva:11.55,cvt:5,mode:'CB',items:[{platId:3,qte:2},{platId:8,qte:3}]},
+      {id:3,date:today,t:'20:00',ttc:78.50,ht:71.36,tva:7.14,cvt:3,mode:'Espèces',items:[{platId:2,qte:1},{platId:9,qte:2}]},
+      {id:4,date:today,t:'20:45',ttc:156.00,ht:141.82,tva:14.18,cvt:6,mode:'CB',items:[{platId:7,qte:3},{platId:10,qte:3}]},
+    ];
+    DB.ids.v=5;
+  }
 }
 
 // ═══ UTILS ═══
@@ -17991,20 +18029,23 @@ document.addEventListener('keydown', function(e){
 
 document.addEventListener('DOMContentLoaded', function(){
   loadDB();
-  if(!DB.tables||DB.tables.length===0) initData();
-  // Forcer réinit données de démo si collections vides
-  if(!DB.personnel||!DB.personnel.length){
-    DB.personnel=JSON.parse(JSON.stringify(DB_PERSONNEL_DEFAULT||[]));
-    DB.ids.e=(DB.personnel.length||0)+1;
+  // Si données critiques vides → reset complet localStorage + reinit
+  const _vide = !DB.tables||!DB.tables.length||!DB.plats||!DB.plats.length||!DB.personnel||!DB.personnel.length;
+  if(_vide){
+    Object.keys(localStorage).filter(k=>k.startsWith('maison_')).forEach(k=>localStorage.removeItem(k));
+    // Réinitialiser DB à l'état initial
+    Object.keys(DB).forEach(k=>{ if(Array.isArray(DB[k])) DB[k]=[]; });
+    DB.ids={t:1,p:1,r:1,e:1,s:1,f:1,v:1,cl:1,cf:1,pt:1};
+    DB.params={nom:'Chez Romu',tva:10,ticket:35};
+    initData();
     saveDB();
-  }
-  if(!DB.plats||!DB.plats.length){
-    DB.plats=JSON.parse(JSON.stringify(DB_PLATS_DEFAULT||[]));
-    DB.ids.p=176; saveDB();
-  }
-  if(!DB.formation||!DB.formation.length){
-    DB.formation=JSON.parse(JSON.stringify(DB_FORMATION_DEFAULT||[]));
-    saveDB();
+    console.log('[INIT] Données réinitialisées depuis les défauts');
+  } else {
+    // Migrations ciblées sous-collections vides
+    if(!DB.personnel||!DB.personnel.length){ DB.personnel=JSON.parse(JSON.stringify(DB_PERSONNEL_DEFAULT||[])); DB.ids.e=(DB.personnel.length||0)+1; saveDB(); }
+    if(!DB.plats||!DB.plats.length){ DB.plats=JSON.parse(JSON.stringify(DB_PLATS_DEFAULT||[])); DB.ids.p=176; saveDB(); }
+    if(!DB.formation||!DB.formation.length){ DB.formation=JSON.parse(JSON.stringify(DB_FORMATION_DEFAULT||[])); saveDB(); }
+    if(!DB.reservations||!DB.reservations.length){ initData(); saveDB(); }
   }
   // Forcer reset cave si pas les bons vins
   setTimeout(function(){
@@ -28601,8 +28642,12 @@ function openGrpFor(page){
     rh:'personnel',planning:'personnel',presence:'personnel',conges:'personnel','fiches-paie':'personnel',formation:'personnel',
     stocks:'gestion',fournisseurs:'gestion',cmdFourn:'gestion',dechets:'gestion',todo:'gestion',
     finance:'finance',frais:'finance',stats:'finance',marges:'finance',rapports:'finance',banque:'finance',budget:'finance',pourboires:'finance',salaires:'finance',
-    origine:'qualite',avis:'qualite',objectifs:'qualite',haccp:'qualite',allergenes:'qualite',carteOrigines:'qualite',
-    acces:'admin',params:'admin',etabs:'admin',sauvegarde:'admin',paramsAvances:'admin',periodes:'admin'
+    origine:'admin',avis:'admin',objectifs:'admin',haccp:'admin',allergenes:'admin',carteOrigines:'admin',
+    acces:'admin',params:'admin',etabs:'admin',sauvegarde:'admin',paramsAvances:'admin',periodes:'admin',
+    integrations:'admin',documents:'admin',maintenance:'admin',incidents:'admin',cave:'restaurant',
+    'resa-attente':'restaurant','resa-online':'restaurant',messagerie:'service',journal:'service',
+    briefing:'service',formation:'personnel',salaires:'personnel',
+    frais:'finance',banque:'finance',budget:'finance',pourboires:'finance',salaires:'finance'
   };
   const grp=map[page];
   if(!grp) return;
