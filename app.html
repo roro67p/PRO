@@ -4906,7 +4906,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 <body>
 
 <!-- ÉCRAN DE CONNEXION PIN -->
-<div id="pin-screen">
+<div id="pin-screen" style="display:none">
   <div class="pin-logo">
     <div class="pin-logo-name">CHEZ ROMU</div>
     <div class="pin-logo-sub">✦ Restaurant ✦</div>
@@ -4988,6 +4988,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" onclick="nav('salle',this)"><span class="ni-ico">⬡</span>Plan de salle<span class="ni-badge a" id="b-occ">0</span></div>
       <div class="nav-item" onclick="nav('commandes',this)"><span class="ni-ico">◎</span>Commandes<span class="ni-badge" id="b-cmd">0</span></div>
       <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">🎤</span>Commande vocale</div>
+      <div class="nav-item" onclick="nav('tablette',this)"><span class="ni-ico">🧑‍🍳</span>Tablette serveur</div>
       <div class="nav-item" onclick="nav('caisse',this)"><span class="ni-ico">◇</span>Caisse</div>
       <div class="nav-item" onclick="nav('cloture',this)"><span class="ni-ico">🔐</span>Clôture de caisse</div>
       <div class="nav-item" onclick="navKDS()"><span class="ni-ico">📺</span>Écran cuisine</div>
@@ -6876,363 +6877,286 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
-  <!-- TABLETTE SERVEUR -->
+<!-- TABLETTE SERVEUR -->
   <div id="page-tablette" class="page" style="padding:0;display:none;flex-direction:column;height:100%;overflow:hidden">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     #page-tablette.active{display:flex!important}
-    #page-tablette *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+    #page-tablette *{box-sizing:border-box;margin:0;padding:0;font-family:'Nunito',sans-serif}
 
-    /* ── ROTATION PORTRAIT → PAYSAGE ── */
-    @media (orientation: portrait) {
-      #tsv-rotate-msg {
-        display:flex!important;
-      }
-      #tsv-root {
-        display:none!important;
-      }
-    }
-    @media (orientation: landscape) {
-      #tsv-rotate-msg { display:none!important; }
-      #tsv-root { display:flex!important; }
-    }
 
-    #tsv-rotate-msg {
-      display:none;
-      position:fixed;inset:0;
-      background:#111520;
-      flex-direction:column;
-      align-items:center;justify-content:center;
-      gap:20px;z-index:9999;
-    }
-    #tsv-rotate-msg .rm-ico {
-      font-size:64px;
-      animation:tsv-rotate-anim 2s ease-in-out infinite;
-    }
-    @keyframes tsv-rotate-anim {
-      0%,100%{transform:rotate(0deg)}
-      40%{transform:rotate(-90deg)}
-      60%{transform:rotate(-90deg)}
-    }
-    #tsv-rotate-msg .rm-text {
-      font-size:18px;font-weight:700;color:#e8ecf4;text-align:center;
-    }
-    #tsv-rotate-msg .rm-sub {
-      font-size:13px;color:#8892a4;text-align:center;
-    }
 
-    #tsv-root{
+
+    /* APP ROOT */
+    #tsv-app{
       display:flex;flex-direction:column;height:100%;
-      background:#1a1e2b;color:#e8ecf4;overflow:hidden;
+      background:#0f1117;color:#f0ebe0;overflow:hidden;
+      --gold:#c9a84c;--gold2:#e8c96a;
+      --bg:#0f1117;--s1:#161a24;--s2:#1c2130;--s3:#222838;--s4:#2a3045;
+      --br:rgba(201,168,76,.12);--br2:rgba(255,255,255,.07);
+      --txt:#f0ebe0;--sub:#8892a4;--muted:#3d4560;
     }
-    /* ── TOP INFO BAR ── */
-    #tsv-infobar{
+
+    /* TOP BAR */
+    #tsv-top{
+      display:flex;align-items:center;height:46px;
+      background:var(--s1);border-bottom:1px solid var(--br);
+      padding:0 10px;gap:10px;flex-shrink:0;
+    }
+    #tsv-top .tp-brand{font-size:13px;font-weight:900;color:var(--gold);letter-spacing:.05em;margin-right:6px}
+    #tsv-top .tp-sep{color:var(--muted);font-size:11px}
+    #tsv-top .tp-tbl{font-size:13px;font-weight:800;color:var(--txt)}
+    #tsv-top .tp-cvt{font-size:11px;color:var(--sub)}
+    #tsv-top .tp-time{font-size:11px;color:var(--sub);font-variant-numeric:tabular-nums;margin-left:auto}
+    #tsv-top .tp-timer{font-size:12px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;background:rgba(201,168,76,.1);padding:3px 9px;border-radius:6px;border:1px solid var(--br)}
+
+    /* TABLES CHIPS */
+    #tsv-chips{
+      display:flex;gap:5px;padding:6px 10px;
+      background:var(--s1);border-bottom:1px solid var(--br2);
+      overflow-x:auto;scrollbar-width:none;flex-shrink:0;
+    }
+    #tsv-chips::-webkit-scrollbar{display:none}
+    .tsv-chip{
+      display:flex;flex-direction:column;align-items:center;
+      min-width:62px;padding:5px 8px;border-radius:9px;
+      background:var(--s3);border:1.5px solid var(--br2);
+      cursor:pointer;transition:all .15s;flex-shrink:0;gap:2px;
+    }
+    .tsv-chip:active{transform:scale(.91)}
+    .tsv-chip.active{background:rgba(201,168,76,.1);border-color:var(--gold);box-shadow:0 0 10px rgba(201,168,76,.12)}
+    .tsv-chip.libre{opacity:.35}
+    .tsv-chip .cn{font-size:13px;font-weight:900;color:var(--txt)}
+    .tsv-chip.active .cn{color:var(--gold2)}
+    .tsv-chip .ct{font-size:9px;font-variant-numeric:tabular-nums;color:var(--sub);background:var(--s4);padding:1px 5px;border-radius:4px}
+    .tsv-chip.active .ct{background:rgba(201,168,76,.15);color:var(--gold)}
+    .tsv-chip .cd{width:6px;height:6px;border-radius:50%}
+    .cd-libre{background:var(--muted)}.cd-occ{background:var(--gold);box-shadow:0 0 4px var(--gold)}.cd-cuis{background:#e05a3a;box-shadow:0 0 4px #e05a3a;animation:tsv-bl 1s infinite}.cd-serv{background:#2ecc71}
+    @keyframes tsv-bl{0%,100%{opacity:1}50%{opacity:.2}}
+
+    /* MAIN 3 COLONNES */
+    #tsv-main{flex:1;display:grid;grid-template-columns:96px 1fr 260px;overflow:hidden}
+
+    /* ── COLONNE GAUCHE : CATÉGORIES ── */
+    #tsv-cats{
+      background:var(--s1);border-right:1px solid var(--br2);
+      display:flex;flex-direction:column;gap:3px;
+      padding:6px 5px;overflow-y:auto;scrollbar-width:none;
+    }
+    #tsv-cats::-webkit-scrollbar{display:none}
+    .tsv-ccat{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:14px 6px;border-radius:12px;cursor:pointer;transition:all .15s;
+      gap:5px;border:1.5px solid transparent;text-align:center;
+    }
+    .tsv-ccat:active{transform:scale(.9)}
+    .tsv-ccat.active{
+      background:linear-gradient(160deg,rgba(201,168,76,.2),rgba(201,168,76,.06));
+      border-color:var(--gold);
+      box-shadow:0 0 12px rgba(201,168,76,.12);
+    }
+    .tsv-ccat .cc-ico{font-size:28px;line-height:1}
+    .tsv-ccat .cc-lbl{font-size:10px;font-weight:800;color:var(--sub);text-transform:uppercase;letter-spacing:.04em;line-height:1.1}
+    .tsv-ccat.active .cc-lbl{color:var(--gold2)}
+    .tsv-ccat .cc-nb{font-size:9px;color:var(--muted);background:var(--s3);padding:1px 5px;border-radius:8px;font-variant-numeric:tabular-nums}
+    .tsv-ccat.active .cc-nb{background:rgba(201,168,76,.15);color:var(--gold)}
+
+    /* ── COLONNE CENTRE : GRILLE PLATS ── */
+    #tsv-menu{
+      display:flex;flex-direction:column;overflow:hidden;
+      border-right:1px solid var(--br2);background:var(--bg);
+    }
+    #tsv-menu-search{
+      padding:7px 10px;border-bottom:1px solid var(--br2);flex-shrink:0;
+      display:flex;align-items:center;gap:8px;background:var(--s1);
+    }
+    #tsv-menu-search input{
+      flex:1;padding:6px 11px;border-radius:8px;background:var(--s2);
+      border:1px solid var(--br2);color:var(--txt);font-family:'Nunito',sans-serif;
+      font-size:12px;outline:none;transition:border-color .15s;
+    }
+    #tsv-menu-search input:focus{border-color:var(--gold)}
+    #tsv-menu-search input::placeholder{color:var(--muted)}
+    #tsv-menu-search .ms-cat{font-size:13px;font-weight:900;color:var(--gold2)}
+    #tsv-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:8px;padding:10px;overflow-y:auto;flex:1;
+      scrollbar-width:thin;scrollbar-color:var(--s4) transparent;
+      align-content:start;
+    }
+    .tsv-pcard{
+      background:var(--s2);border:1.5px solid var(--br2);border-radius:14px;
+      padding:14px 10px;display:flex;flex-direction:column;
+      align-items:center;gap:7px;cursor:pointer;text-align:center;
+      transition:all .16s;position:relative;overflow:hidden;
+    }
+    .tsv-pcard::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .12s}
+    .tsv-pcard:active::after{background:rgba(255,255,255,.06)}
+    .tsv-pcard:active{transform:scale(.91);border-color:var(--gold)}
+    .tsv-pcard .pc-ico{
+      width:54px;height:54px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:30px;flex-shrink:0;border:1px solid var(--br2);
+    }
+    .tsv-pcard .pc-nom{font-size:12px;font-weight:800;color:var(--txt);line-height:1.2}
+    .tsv-pcard .pc-prix{font-size:13px;font-weight:900;color:var(--gold2);font-variant-numeric:tabular-nums}
+    .tsv-pcard .pc-add{
+      position:absolute;top:5px;right:5px;
+      width:20px;height:20px;border-radius:6px;
+      background:rgba(201,168,76,.15);color:var(--gold2);
+      font-size:14px;font-weight:900;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      opacity:0;transition:opacity .15s;
+    }
+    .tsv-pcard:hover .pc-add{opacity:1}
+
+    /* Couleurs catégories */
+    .cat-entrees .pc-ico{background:linear-gradient(135deg,#1a3a1a,#0f2010)}
+    .cat-viandes .pc-ico{background:linear-gradient(135deg,#3a1a1a,#200f0f)}
+    .cat-poissons .pc-ico{background:linear-gradient(135deg,#1a2a3a,#0f1a28)}
+    .cat-desserts .pc-ico{background:linear-gradient(135deg,#2a1a3a,#180f25)}
+    .cat-boissons .pc-ico{background:linear-gradient(135deg,#1a2a2a,#0f1a1a)}
+    .cat-vins .pc-ico{background:linear-gradient(135deg,#2a1a20,#1a0f14)}
+    .cat-default .pc-ico{background:var(--s3)}
+
+    /* ── COLONNE DROITE : TICKET ── */
+    #tsv-ticket{display:flex;flex-direction:column;overflow:hidden;background:var(--s1)}
+    #tsv-ticket-hdr{
+      padding:10px 12px;border-bottom:1px solid var(--br2);flex-shrink:0;
       display:flex;align-items:center;justify-content:space-between;
-      padding:6px 16px;background:#111520;border-bottom:1px solid rgba(255,255,255,.08);
-      flex-shrink:0;
     }
-    #tsv-infobar .ib-left{display:flex;align-items:center;gap:14px}
-    #tsv-infobar .ib-table{font-size:13px;font-weight:700;color:#fff}
-    #tsv-infobar .ib-time{font-size:12px;color:#8892a4;font-variant-numeric:tabular-nums}
-    #tsv-infobar .ib-couverts{font-size:12px;color:#8892a4}
-    #tsv-infobar .ib-alert{
-      font-size:11px;font-weight:700;padding:4px 12px;border-radius:6px;
-      background:#e8380d;color:#fff;animation:tsv-blink 1.4s infinite;cursor:pointer;
-    }
-    @keyframes tsv-blink{0%,100%{opacity:1}50%{opacity:.5}}
+    #tsv-ticket-hdr h3{font-size:14px;font-weight:900;color:var(--txt)}
+    .tsv-stat{font-size:10px;font-weight:800;padding:3px 9px;border-radius:12px;letter-spacing:.04em}
+    .tsv-stat-libre{background:var(--s3);color:var(--muted);border:1px solid var(--br2)}
+    .tsv-stat-srv{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.25)}
+    .tsv-stat-cuis{background:rgba(224,90,58,.1);color:#e05a3a;border:1px solid rgba(224,90,58,.3)}
 
-    /* ── TABS ── */
-    #tsv-tabs{
-      display:flex;background:#111520;border-bottom:2px solid rgba(255,255,255,.07);
-      flex-shrink:0;
-    }
-    .tsv-tab{
-      padding:11px 20px;font-size:13px;font-weight:600;color:#7a8494;
-      cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;
-      transition:all .15s;white-space:nowrap;
-    }
-    .tsv-tab.active{color:#fff;border-bottom-color:#4e8ef7}
-    .tsv-tab:hover:not(.active){color:#bcc4d4}
-
-    /* ── TABLES ROW ── */
-    #tsv-tables-row{
-      display:flex;gap:6px;padding:8px 12px;
-      background:#161b28;border-bottom:1px solid rgba(255,255,255,.07);
-      overflow-x:auto;scrollbar-width:none;flex-shrink:0;align-items:center;
-    }
-    #tsv-tables-row::-webkit-scrollbar{display:none}
-    .tsv-tchip{
-      display:flex;flex-direction:column;align-items:flex-start;
-      padding:7px 12px;border-radius:8px;min-width:90px;
-      background:#1e2436;border:1.5px solid rgba(255,255,255,.1);
-      cursor:pointer;transition:all .15s;flex-shrink:0;
-    }
-    .tsv-tchip:active{transform:scale(.93)}
-    .tsv-tchip.active{background:#2b4a9e;border-color:#4e8ef7}
-    .tsv-tchip.libre{opacity:.4}
-    .tsv-tchip.alert-chip{border-color:#e8380d;background:rgba(232,56,13,.12)}
-    .tsv-tchip .tc-top{display:flex;justify-content:space-between;width:100%;align-items:center}
-    .tsv-tchip .tc-num{font-size:14px;font-weight:800;color:#fff}
-    .tsv-tchip .tc-cvt{font-size:10px;color:#8892a4}
-    .tsv-tchip .tc-row2{display:flex;justify-content:space-between;width:100%;margin-top:4px;align-items:center}
-    .tsv-tchip .tc-total{font-size:12px;font-weight:700;color:#e8ecf4;font-variant-numeric:tabular-nums}
-    .tsv-tchip .tc-timer{font-size:10px;font-variant-numeric:tabular-nums;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.08);color:#8892a4}
-    .tsv-tchip.active .tc-timer{background:rgba(78,142,247,.25);color:#7eb8ff}
-    .tsv-tchip.alert-chip .tc-timer{background:rgba(232,56,13,.3);color:#ff8566}
-    .tsv-tchip .tc-dot{width:7px;height:7px;border-radius:50%}
-    .dot-libre{background:#3a4055}
-    .dot-occupe{background:#f5a623;box-shadow:0 0 5px #f5a623}
-    .dot-cuisine{background:#e8380d;box-shadow:0 0 5px #e8380d;animation:tsv-blink 1s infinite}
-    .dot-servi{background:#2ecc71;box-shadow:0 0 5px #2ecc71}
-
-    /* ── BODY ── */
-    #tsv-body{flex:1;display:grid;grid-template-columns:1fr 260px;overflow:hidden}
-
-    /* ── GAUCHE: COMMANDE ── */
-    #tsv-left{display:flex;flex-direction:column;overflow:hidden}
-    #tsv-cmd-title{
-      padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.07);
-      flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
-    }
-    #tsv-cmd-title h2{font-size:16px;font-weight:800;color:#fff}
-    #tsv-cmd-title .ct-tab-row{display:flex;gap:4px}
-    .tsv-subtab{
-      padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700;
-      background:rgba(255,255,255,.07);color:#7a8494;cursor:pointer;transition:all .13s;
-    }
-    .tsv-subtab.active{background:#4e8ef7;color:#fff}
-
-    /* ── LIGNES ── */
-    #tsv-lignes{flex:1;overflow-y:auto;padding:6px 10px;display:flex;flex-direction:column;gap:4px;scrollbar-width:thin;scrollbar-color:#2a3045 transparent}
-    .tsv-ligne{
-      display:flex;align-items:center;gap:10px;
-      padding:9px 10px;border-radius:10px;
-      background:#1e2436;border:1px solid rgba(255,255,255,.07);
+    #tsv-lines{flex:1;overflow-y:auto;padding:6px 8px;display:flex;flex-direction:column;gap:4px;scrollbar-width:thin;scrollbar-color:var(--s4) transparent}
+    .tsv-line{
+      display:flex;align-items:center;gap:7px;
+      padding:8px 9px;border-radius:10px;
+      background:var(--s2);border:1px solid var(--br2);
       animation:tsv-in .16s ease;
     }
-    .tsv-ligne.env{border-color:rgba(46,204,113,.2);background:rgba(46,204,113,.04)}
-    @keyframes tsv-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-    .tsv-ligne .lg-photo{
-      width:42px;height:42px;border-radius:8px;
-      background:linear-gradient(135deg,#252d3f,#1a2030);
-      display:flex;align-items:center;justify-content:center;
-      font-size:22px;flex-shrink:0;
-    }
-    .tsv-ligne .lg-info{flex:1;min-width:0}
-    .tsv-ligne .lg-nom{font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .tsv-ligne .lg-detail{font-size:11px;color:#8892a4;margin-top:1px}
-    .tsv-ligne .lg-prix{font-size:13px;font-weight:800;color:#e8ecf4;font-variant-numeric:tabular-nums;flex-shrink:0;min-width:52px;text-align:right}
-    .tsv-env-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.3);flex-shrink:0}
+    @keyframes tsv-in{from{opacity:0;transform:translateX(6px)}to{opacity:1}}
+    .tsv-line.env{background:rgba(46,204,113,.04);border-color:rgba(46,204,113,.18)}
+    .tsv-line .li{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+    .tsv-line .ln{font-size:12px;font-weight:700;color:var(--txt);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tsv-line .lp{font-size:11px;font-weight:900;color:var(--gold2);flex-shrink:0;font-variant-numeric:tabular-nums}
+    .tsv-line .lenv{font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;background:rgba(46,204,113,.12);color:#2ecc71;border:1px solid rgba(46,204,113,.25);flex-shrink:0}
+    .tsv-qty{display:flex;align-items:center;gap:3px;flex-shrink:0}
+    .tsv-qb{width:22px;height:22px;border-radius:6px;border:1px solid var(--br);background:var(--s3);color:var(--gold2);font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s}
+    .tsv-qb:active{background:var(--gold);color:#000;transform:scale(.84)}
+    .tsv-qn{font-size:12px;font-weight:900;min-width:16px;text-align:center;color:var(--txt)}
 
-    /* ── BTNS MODIFIER/SUPPRIMER ── */
-    .tsv-ligne-btns{display:flex;flex-direction:column;gap:3px;flex-shrink:0}
-    .tsv-lbtn{
-      padding:3px 10px;border-radius:5px;border:none;
-      font-size:11px;font-weight:700;cursor:pointer;
-      font-family:'Inter',sans-serif;transition:all .12s;white-space:nowrap;
-    }
-    .tsv-lbtn:active{transform:scale(.9)}
-    .tsv-lbtn.modif{background:#4e8ef7;color:#fff}
-    .tsv-lbtn.suppr{background:transparent;border:1px solid rgba(232,56,13,.5);color:#ff6b4a}
-    .tsv-lbtn.suppr:active{background:rgba(232,56,13,.15)}
-    /* ── QTY INLINE ── */
-    .tsv-qty-edit{display:none;align-items:center;gap:4px;margin-top:4px}
-    .tsv-qty-edit.show{display:flex}
-    .tsv-qbtn{width:24px;height:24px;border-radius:6px;border:none;background:#2a3350;color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
-    .tsv-qbtn:active{background:#4e8ef7}
-    .tsv-qnum{font-size:13px;font-weight:800;min-width:20px;text-align:center;color:#fff}
+    #tsv-vide{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted)}
+    #tsv-vide .vi{font-size:40px;opacity:.1}
+    #tsv-vide p{font-size:12px;font-weight:600}
 
-    /* ── VIDE ── */
-    #tsv-vide{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#4a5570}
-    #tsv-vide .vi{font-size:48px;opacity:.2}
-    #tsv-vide p{font-size:13px;font-weight:500}
+    /* TOTAL */
+    #tsv-tot{padding:9px 12px;background:var(--bg);border-top:1px solid var(--br2);flex-shrink:0}
+    .tsv-tot-row{display:flex;justify-content:space-between;font-size:10px;color:var(--sub);margin-bottom:3px;font-variant-numeric:tabular-nums}
+    .tsv-tot-big{display:flex;justify-content:space-between;align-items:center;padding-top:7px;margin-top:4px;border-top:1px solid var(--br2)}
+    .tsv-tot-big .tl{font-size:11px;font-weight:800;color:var(--sub);text-transform:uppercase;letter-spacing:.08em}
+    .tsv-tot-big .ta{font-size:26px;font-weight:900;color:var(--gold2);font-variant-numeric:tabular-nums;letter-spacing:-1px}
 
-    /* ── TOTAL BAR ── */
-    #tsv-total-bar{
-      padding:10px 16px;background:#111520;
-      border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;
-      display:flex;align-items:center;justify-content:space-between;
+    /* BOTTOM */
+    #tsv-bot{
+      display:grid;grid-template-columns:1fr 1fr 1fr 1.5fr;gap:5px;
+      padding:7px 8px 9px;background:var(--bg);border-top:1px solid var(--br);flex-shrink:0;
     }
-    #tsv-total-bar .tb-label{font-size:13px;color:#8892a4;font-weight:500}
-    #tsv-total-bar .tb-amount{font-size:26px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
-    #tsv-total-bar .tb-tva{font-size:11px;color:#5a6480;margin-top:2px}
-
-    /* ── DROITE: ACTIONS ── */
-    #tsv-right{
-      background:#111520;border-left:1px solid rgba(255,255,255,.08);
-      display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none;
-    }
-    #tsv-right::-webkit-scrollbar{display:none}
-    .tsv-action-section{padding:10px 10px 4px;flex-shrink:0}
-    .tsv-action-section .as-title{font-size:10px;font-weight:700;color:#5a6480;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-    .tsv-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px}
-    .tsv-action-grid.one{grid-template-columns:1fr}
-    .tsv-abtn{
-      padding:9px 8px;border-radius:8px;border:none;
-      font-family:'Inter',sans-serif;font-size:11px;font-weight:700;
-      cursor:pointer;display:flex;flex-direction:column;align-items:center;
-      justify-content:center;gap:4px;transition:all .14s;text-align:center;
-      line-height:1.2;
-    }
-    .tsv-abtn:active{transform:scale(.93)}
-    .tsv-abtn .ai{font-size:18px}
-    .tsv-abtn.green{background:#1e7e45;color:#fff}
-    .tsv-abtn.green:active{background:#25a356}
-    .tsv-abtn.red{background:#c0392b;color:#fff}
-    .tsv-abtn.red:active{background:#e74c3c}
-    .tsv-abtn.blue{background:#2b5ec7;color:#fff}
-    .tsv-abtn.blue:active{background:#4e8ef7}
-    .tsv-abtn.dark{background:#252d40;color:#c8d0e0;border:1px solid rgba(255,255,255,.1)}
-    .tsv-abtn.dark:active{background:#2e3850}
-    .tsv-abtn.orange{background:#c07a10;color:#fff}
-    .tsv-abtn.orange:active{background:#e8960e}
-    .tsv-hr{height:1px;background:rgba(255,255,255,.07);margin:4px 10px}
-    /* ── ALERTE TABLE ── */
-    .tsv-alert-card{
-      margin:8px 10px 4px;padding:10px 12px;border-radius:8px;
-      background:rgba(232,56,13,.12);border:1px solid rgba(232,56,13,.35);
-      display:flex;align-items:flex-start;gap:8px;
-    }
-    .tsv-alert-card .ac-ico{font-size:18px;flex-shrink:0}
-    .tsv-alert-card .ac-msg{font-size:12px;font-weight:700;color:#ff8566}
-    .tsv-alert-card .ac-sub{font-size:11px;color:#8892a4;margin-top:2px}
-    .tsv-alert-voir{
-      margin:0 10px 8px;padding:7px;border-radius:7px;
-      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-      font-size:11px;font-weight:700;color:#c8d0e0;cursor:pointer;
-      display:flex;align-items:center;gap:6px;
-      font-family:'Inter',sans-serif;transition:all .13s;width:calc(100% - 20px);
-    }
-    .tsv-alert-voir:active{background:rgba(255,255,255,.12)}
-    /* ── ENCAISSER ── */
-    .tsv-encaiss-wrap{padding:8px 10px;flex-shrink:0;margin-top:auto}
-    .tsv-encaiss-total{font-size:11px;color:#8892a4;text-align:center;margin-bottom:6px;font-variant-numeric:tabular-nums}
-    .tsv-encaiss-btn{
-      width:100%;padding:14px;border-radius:10px;border:none;
-      background:linear-gradient(135deg,#e87d10,#c45f08);color:#fff;
-      font-family:'Inter',sans-serif;font-size:15px;font-weight:900;
-      cursor:pointer;letter-spacing:.03em;transition:all .15s;
-      box-shadow:0 4px 20px rgba(232,125,16,.35);
-    }
-    .tsv-encaiss-btn:active{transform:scale(.97);box-shadow:0 2px 8px rgba(232,125,16,.2)}
-
-    /* ── BOTTOM BAR ── */
-    #tsv-bottom{
-      display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;
-      padding:8px 10px 10px;background:#0e1119;border-top:1px solid rgba(255,255,255,.08);
-      flex-shrink:0;
-    }
-    .tsv-bbtn{
-      padding:13px 8px;border-radius:10px;border:none;
-      font-family:'Inter',sans-serif;font-size:12px;font-weight:800;
+    .tsv-bb{
+      padding:11px 6px;border-radius:10px;border:none;
+      font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;
       cursor:pointer;display:flex;align-items:center;justify-content:center;
-      gap:7px;transition:all .15s;
+      gap:5px;transition:all .14s;letter-spacing:.02em;
     }
-    .tsv-bbtn:active{transform:scale(.95)}
-    .tsv-bbtn.cuisine{background:#1e7e45;color:#fff;box-shadow:0 3px 12px rgba(30,126,69,.4)}
-    .tsv-bbtn.cuisine:active{background:#25a356}
-    .tsv-bbtn.ajout{background:#2b5ec7;color:#fff}
-    .tsv-bbtn.servir{background:#1a6fa8;color:#fff}
-    .tsv-bbtn .bi{font-size:18px}
+    .tsv-bb:active{transform:scale(.94)}
+    .tsv-bb .bi{font-size:16px}
+    .tsv-bb.annul{background:var(--s2);color:var(--sub);border:1px solid var(--br2)}
+    .tsv-bb.annul:active{background:var(--s3)}
+    .tsv-bb.servir{background:rgba(26,106,168,.15);color:#5b9cf6;border:1px solid rgba(91,156,246,.25)}
+    .tsv-bb.servir:active{background:rgba(91,156,246,.2)}
+    .tsv-bb.vider{background:rgba(192,57,43,.08);color:#e05a3a;border:1px solid rgba(224,90,58,.25)}
+    .tsv-bb.vider:active{background:rgba(224,90,58,.15)}
+    .tsv-bb.cuisine{
+      background:linear-gradient(135deg,#c9a84c,#a8861e);color:#0a0800;
+      box-shadow:0 4px 16px rgba(201,168,76,.28);position:relative;overflow:hidden;
+    }
+    .tsv-bb.cuisine::before{content:'';position:absolute;top:-50%;left:-60%;width:35%;height:200%;background:rgba(255,255,255,.18);transform:skewX(-20deg);animation:tsv-shim 2.5s ease-in-out infinite}
+    @keyframes tsv-shim{0%,100%{left:-60%}50%{left:130%}}
+    .tsv-bb.cuisine:active{box-shadow:0 2px 8px rgba(201,168,76,.15)}
+
+    /* ENCAISSER */
+    #tsv-enc{padding:6px 8px 0;flex-shrink:0}
+    #tsv-enc-btn{
+      width:100%;padding:13px;border-radius:10px;border:none;
+      background:linear-gradient(135deg,#c9a84c,#a8861e);color:#0a0800;
+      font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;
+      cursor:pointer;letter-spacing:.04em;transition:all .15s;
+      box-shadow:0 4px 18px rgba(201,168,76,.25);position:relative;overflow:hidden;
+    }
+    #tsv-enc-btn::before{content:'';position:absolute;top:-50%;left:-60%;width:35%;height:200%;background:rgba(255,255,255,.18);transform:skewX(-20deg);animation:tsv-shim 3s ease-in-out infinite}
+    #tsv-enc-btn:active{transform:scale(.97);box-shadow:0 2px 8px rgba(201,168,76,.15)}
   </style>
 
-  <div id="tsv-rotate-msg">
-    <div class="rm-ico">📱</div>
-    <div class="rm-text">Retournez votre appareil</div>
-    <div class="rm-sub">La tablette serveur fonctionne en mode paysage</div>
-  </div>
 
-  <div id="tsv-root">
-    <!-- TOP INFO -->
-    <div id="tsv-infobar">
-      <div class="ib-left">
-        <span class="ib-table" id="tsv-ib-table">—</span>
-        <span class="ib-time" id="tsv-ib-time"></span>
-        <span class="ib-couverts" id="tsv-ib-cvt"></span>
-      </div>
-      <span class="ib-alert" id="tsv-ib-alert" style="display:none" onclick="tsv_showAlerte()">⚠ Table a besoin d'aide</span>
+  <div id="tsv-app">
+    <!-- TOP BAR -->
+    <div id="tsv-top">
+      <span class="tp-brand">CHEZ ROMU</span>
+      <span class="tp-sep">·</span>
+      <span class="tp-tbl" id="tsv-tp-tbl">Table —</span>
+      <span class="tp-sep">·</span>
+      <span class="tp-cvt" id="tsv-tp-cvt">— cvts</span>
+      <span class="tp-time" id="tsv-tp-time">--:--</span>
+      <span class="tp-timer" id="tsv-tp-timer">00:00</span>
     </div>
 
-    <!-- TABS -->
-    <div id="tsv-tabs">
-      <div class="tsv-tab active" onclick="tsv_setTab('tables',this)">Tables</div>
-      <div class="tsv-tab" onclick="tsv_setTab('commandes',this)">Commandes</div>
-      <div class="tsv-tab" onclick="tsv_setTab('rapide',this)">Commande rapide</div>
-      <div class="tsv-tab" onclick="tsv_setTab('actions',this)">Actions</div>
-    </div>
+    <!-- CHIPS TABLES -->
+    <div id="tsv-chips"></div>
 
-    <!-- TABLES ROW -->
-    <div id="tsv-tables-row"></div>
+    <!-- MAIN -->
+    <div id="tsv-main">
+      <!-- GAUCHE: CATÉGORIES -->
+      <div id="tsv-cats"></div>
 
-    <!-- BODY -->
-    <div id="tsv-body">
-      <!-- GAUCHE -->
-      <div id="tsv-left">
-        <div id="tsv-cmd-title">
-          <h2 id="tsv-cmd-h2">Commande pour Table —</h2>
-          <div class="ct-tab-row">
-            <div class="tsv-subtab active" onclick="tsv_setSubtab('articles',this)">Articles</div>
-            <div class="tsv-subtab" onclick="tsv_setSubtab('tame',this)">Résumé</div>
-          </div>
+      <!-- CENTRE: GRILLE PLATS -->
+      <div id="tsv-menu">
+        <div id="tsv-menu-search">
+          <span class="ms-cat" id="tsv-ms-cat">Tous les plats</span>
+          <input type="text" id="tsv-srch" placeholder="Rechercher…" oninput="tsv_search(this.value)">
         </div>
-        <div id="tsv-lignes">
+        <div id="tsv-grid"></div>
+      </div>
+
+      <!-- DROITE: TICKET -->
+      <div id="tsv-ticket">
+        <div id="tsv-ticket-hdr">
+          <h3 id="tsv-tkt-title">Commande T—</h3>
+          <span class="tsv-stat tsv-stat-libre" id="tsv-tkt-stat">Libre</span>
+        </div>
+        <div id="tsv-lines">
           <div id="tsv-vide">
-            <div class="vi">🍽️</div>
-            <p>Aucun article commandé</p>
-            <p style="font-size:11px;margin-top:4px;color:#3a4055">Utilisez "Commande rapide" pour ajouter</p>
+            <div class="vi">🧾</div>
+            <p>Ticket vide</p>
           </div>
         </div>
-        <div id="tsv-total-bar">
-          <div>
-            <div class="tb-label">Total</div>
-            <div class="tb-tva" id="tsv-tva-detail"></div>
-          </div>
-          <div class="tb-amount" id="tsv-total-amt">0,00 €</div>
+        <div id="tsv-tot">
+          <div class="tsv-tot-row"><span>HT</span><span id="tsv-ht">0,00 €</span></div>
+          <div class="tsv-tot-row"><span>TVA</span><span id="tsv-tva">0,00 €</span></div>
+          <div class="tsv-tot-big"><span class="tl">Total</span><span class="ta" id="tsv-ta">0,00 €</span></div>
         </div>
-      </div>
-
-      <!-- DROITE -->
-      <div id="tsv-right">
-        <div class="tsv-action-section">
-          <div class="as-title">Ajouter</div>
-          <div class="tsv-action-grid">
-            <button class="tsv-abtn green" onclick="tsv_setTab('rapide',null)"><span class="ai">🍽️</span>Ajouter article</button>
-            <button class="tsv-abtn green" onclick="tsv_setTabBoisson()"><span class="ai">🥤</span>Ajouter boisson</button>
-          </div>
-        </div>
-        <div class="tsv-hr"></div>
-        <div class="tsv-action-section">
-          <div class="as-title">Modifier</div>
-          <div class="tsv-action-grid">
-            <button class="tsv-abtn dark" onclick="tsv_annulerDernier()"><span class="ai">↩️</span>Annuler article</button>
-            <button class="tsv-abtn red" onclick="tsv_viderTable()"><span class="ai">🗑️</span>Annuler bon</button>
-          </div>
-        </div>
-        <div class="tsv-hr"></div>
-        <div class="tsv-action-section">
-          <div class="as-title">Table</div>
-          <div class="tsv-action-grid">
-            <button class="tsv-abtn dark" onclick="tsv_changerTable()"><span class="ai">🔄</span>Changer de table</button>
-            <button class="tsv-abtn dark" onclick="tsv_diviserAddition()"><span class="ai">✂️</span>Diviser l'addition</button>
-          </div>
-        </div>
-        <div class="tsv-hr"></div>
-        <!-- ALERT CARD -->
-        <div id="tsv-alert-zone"></div>
-
-        <!-- ENCAISSER -->
-        <div class="tsv-encaiss-wrap">
-          <div class="tsv-encaiss-total" id="tsv-encaiss-total">Total: 0,00 €</div>
-          <button class="tsv-encaiss-btn" onclick="tsv_encaisser()">Encaisser</button>
-        </div>
+        <div id="tsv-enc"><button id="tsv-enc-btn" onclick="tsv_encaisser()">💳 Encaisser</button></div>
       </div>
     </div>
 
-    <!-- BOTTOM BAR -->
-    <div id="tsv-bottom">
-      <button class="tsv-bbtn cuisine" onclick="tsv_envoyerCuisine()"><span class="bi">👨‍🍳</span>Envoyer à la cuisine</button>
-      <button class="tsv-bbtn ajout" onclick="tsv_setTab('rapide',null)"><span class="bi">➕</span>Ajouter un plat</button>
-      <button class="tsv-bbtn servir" onclick="tsv_servir()"><span class="bi">🛎️</span>Servir les plats</button>
+    <!-- BOTTOM -->
+    <div id="tsv-bot">
+      <button class="tsv-bb annul" onclick="tsv_annulerDernier()"><span class="bi">↩️</span>Annuler</button>
+      <button class="tsv-bb vider" onclick="tsv_viderTable()"><span class="bi">🗑️</span>Vider</button>
+      <button class="tsv-bb servir" onclick="tsv_servir()"><span class="bi">🛎️</span>Servir</button>
+      <button class="tsv-bb cuisine" onclick="tsv_cuisine()"><span class="bi">🔥</span>Envoyer en cuisine</button>
     </div>
   </div>
   </div>
@@ -14929,8 +14853,8 @@ document.addEventListener('DOMContentLoaded', function(){
   }, 300);
   // Init récents
   setTimeout(renderRecents, 200);
-  // Init écran PIN
-  setTimeout(pinInit, 100);
+  // Init écran PIN désactivé
+  // setTimeout(pinInit, 100);
   const rsDate = document.getElementById('rs-date');
   const rsHeure = document.getElementById('rs-heure');
   if(rsDate) rsDate.value=td();
@@ -24661,181 +24585,223 @@ function animateCounter(el, newVal){
 // ═══════════════════════════════════════
 // TABLETTE SERVEUR — PREMIUM v3
 // ═══════════════════════════════════════
-let _tsv_table = null;
-let _tsv_items = {};    // tableId -> [{pid,q,envoyee}]
-let _tsv_timerInt = null;
-let _tsv_timerStart = {};
-let _tsv_cat = 'Tous';
-let _tsv_tab = 'tables';
-let _tsv_clockInt = null;
-let _tsv_editPid = null;
+let _tsv_table=null,_tsv_items={},_tsv_timerStart={},_tsv_timerInt=null,_tsv_clockInt=null,_tsv_cat='Tous',_tsv_editPid=null;
+
+const TSV_CATS=[
+  {name:'Entrées',ico:'🥗',cls:'cat-entrees'},
+  {name:'Viandes',ico:'🥩',cls:'cat-viandes'},
+  {name:'Poissons',ico:'🐟',cls:'cat-poissons'},
+  {name:'Végétarien',ico:'🥦',cls:'cat-default'},
+  {name:'Plats',ico:'🍽️',cls:'cat-default'},
+  {name:'Desserts',ico:'🍮',cls:'cat-desserts'},
+  {name:'Formules',ico:'📋',cls:'cat-default'},
+  {name:'Boissons',ico:'🥤',cls:'cat-boissons'},
+  {name:'Vins',ico:'🍷',cls:'cat-vins'},
+  {name:'Apéritifs',ico:'🥂',cls:'cat-vins'},
+];
 
 function rTablette(){
-  const first = (DB.tables||[]).find(t=>t.stat!=='libre')||(DB.tables||[])[0];
-  if(!_tsv_table && first) _tsv_table = first.id;
-  tsv_renderBar();
-  tsv_renderCmd();
-  tsv_renderRight();
-  tsv_startTimer(_tsv_table);
+  const first=(DB.tables||[]).find(t=>t.stat!=='libre')||(DB.tables||[])[0];
+  if(!_tsv_table&&first) _tsv_table=first.id;
+  tsv_renderChips();
+  tsv_renderCats();
+  tsv_renderGrid();
+  tsv_renderTicket();
   tsv_startClock();
+  tsv_startTimer(_tsv_table);
 }
 
-function tsv_eur(n){ return (+(n)||0).toFixed(2).replace('.',',') + ' €'; }
+function tsv_eur(n){return (+(n)||0).toFixed(2).replace('.',',')+' €';}
 
 function tsv_startClock(){
   if(_tsv_clockInt) clearInterval(_tsv_clockInt);
   function tick(){
     const t=(DB.tables||[]).find(x=>x.id===_tsv_table)||{};
-    const el=document.getElementById('tsv-ib-table');
-    const tel=document.getElementById('tsv-ib-time');
-    const cel=document.getElementById('tsv-ib-cvt');
-    if(el) el.textContent='Table '+(t.num||'—');
-    if(tel) tel.textContent='à '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-    if(cel) cel.textContent='👤 '+(t.cvt||0)+' cvts';
-    // update timer chip
-    const timerEl=document.querySelector('.tsv-tchip.active .tc-timer');
-    if(timerEl&&_tsv_timerStart[_tsv_table]){
-      const e=Math.floor((Date.now()-_tsv_timerStart[_tsv_table])/1000);
-      timerEl.textContent=Math.floor(e/60).toString().padStart(2,'0')+':'+((e%60).toString().padStart(2,'0'));
+    const now=new Date();
+    const e1=document.getElementById('tsv-tp-tbl');
+    const e2=document.getElementById('tsv-tp-cvt');
+    const e3=document.getElementById('tsv-tp-time');
+    const e4=document.getElementById('tsv-tp-timer');
+    if(e1) e1.textContent='Table '+(t.num||'—');
+    if(e2) e2.textContent=(t.cvt||0)+' cvts';
+    if(e3) e3.textContent=now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    if(e4&&_tsv_timerStart[_tsv_table]){
+      const s=Math.floor((Date.now()-_tsv_timerStart[_tsv_table])/1000);
+      e4.textContent=Math.floor(s/60).toString().padStart(2,'0')+':'+(s%60).toString().padStart(2,'0');
     }
+    tsv_renderChips();
   }
-  tick();
-  _tsv_clockInt=setInterval(tick,1000);
+  tick();_tsv_clockInt=setInterval(tick,1000);
 }
 
 function tsv_startTimer(id){
-  if(_tsv_timerInt) clearInterval(_tsv_timerInt);
   const t=(DB.tables||[]).find(x=>x.id===id);
-  if(!t||t.stat==='libre') return;
-  if(!_tsv_timerStart[id]) _tsv_timerStart[id]=Date.now();
+  if(t&&t.stat!=='libre'&&!_tsv_timerStart[id]) _tsv_timerStart[id]=Date.now();
 }
 
-function tsv_renderBar(){
-  const bar=document.getElementById('tsv-tables-row'); if(!bar) return;
+function tsv_renderChips(){
+  const bar=document.getElementById('tsv-chips');if(!bar)return;
   bar.innerHTML=(DB.tables||[]).map(t=>{
     const cmds=(DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='annulé');
     const libre=t.stat==='libre'&&!cmds.length;
-    const enCuisine=cmds.some(c=>c.stat==='en-cuisine');
-    const servi=cmds.every(c=>c.stat==='servi')&&cmds.length;
-    const dotCls=libre?'dot-libre':enCuisine?'dot-cuisine':servi?'dot-servi':'dot-occupe';
+    const enC=cmds.some(c=>c.stat==='en-cuisine');
+    const dot=libre?'cd-libre':enC?'cd-cuis':'cd-occ';
     const active=t.id===_tsv_table?'active':'';
     const libreC=libre?'libre':'';
-    const total=cmds.reduce((s,c)=>s+(+c.total||0),0);
     const elapsed=_tsv_timerStart[t.id]?Math.floor((Date.now()-_tsv_timerStart[t.id])/1000):0;
-    const tstr=Math.floor(elapsed/60).toString().padStart(2,'0')+':'+((elapsed%60).toString().padStart(2,'0'));
-    return `<div class="tsv-tchip ${active} ${libreC}" onclick="tsv_selectTable(${t.id})">
-      <div class="tc-top"><span class="tc-num">Table ${t.num}</span><span class="tc-dot ${dotCls}"></span></div>
-      <div class="tc-row2">
-        <span class="tc-total">${libre?'—':tsv_eur(total)}</span>
-        <span class="tc-timer">${libre?'Libre':tstr}</span>
-      </div>
+    const ts=Math.floor(elapsed/60).toString().padStart(2,'0')+':'+(elapsed%60).toString().padStart(2,'0');
+    return `<div class="tsv-chip ${active} ${libreC}" onclick="tsv_sel(${t.id})">
+      <div class="cn">T${t.num}</div>
+      <div class="ct">${libre?'Libre':ts}</div>
+      <div class="cd ${dot}"></div>
     </div>`;
   }).join('');
 }
 
-function tsv_selectTable(id){
-  _tsv_table=id;
-  _tsv_editPid=null;
-  tsv_renderBar();
-  tsv_renderCmd();
-  tsv_renderRight();
-  tsv_startTimer(id);
-  tsv_startClock();
+function tsv_sel(id){
+  _tsv_table=id;_tsv_editPid=null;
+  tsv_renderChips();tsv_renderTicket();tsv_startTimer(id);
+  const t=(DB.tables||[]).find(x=>x.id===id)||{};
+  const e1=document.getElementById('tsv-tp-tbl');
+  const e2=document.getElementById('tsv-tp-cvt');
+  if(e1) e1.textContent='Table '+(t.num||'—');
+  if(e2) e2.textContent=(t.cvt||0)+' cvts';
 }
 
-function tsv_getItems(){ return _tsv_items[_tsv_table]||[]; }
-function tsv_setItems(a){ _tsv_items[_tsv_table]=a; }
+function tsv_renderCats(){
+  const el=document.getElementById('tsv-cats');if(!el)return;
+  const plats=(DB.plats||[]).filter(p=>p.dispo==='dispo');
+  const allCats=[...new Set(plats.map(p=>p.cat))];
+  const cats=[{name:'Tous',ico:'🍴',cls:'cat-default'},...TSV_CATS.filter(c=>allCats.includes(c.name))];
+  allCats.forEach(c=>{if(!TSV_CATS.find(x=>x.name===c)) cats.push({name:c,ico:'🍴',cls:'cat-default'});});
+  el.innerHTML=cats.map(c=>{
+    const nb=c.name==='Tous'?plats.length:plats.filter(p=>p.cat===c.name).length;
+    return `<div class="tsv-ccat ${c.name===_tsv_cat?'active':''}" onclick="tsv_setCat('${c.name}')">
+      <span class="cc-ico">${c.ico}</span>
+      <span class="cc-lbl">${c.name}</span>
+      <span class="cc-nb">${nb}</span>
+    </div>`;
+  }).join('');
+}
+
+function tsv_setCat(cat){
+  _tsv_cat=cat;
+  const srch=document.getElementById('tsv-srch');if(srch)srch.value='';
+  const ms=document.getElementById('tsv-ms-cat');
+  if(ms) ms.textContent=cat==='Tous'?'Tous les plats':cat;
+  document.querySelectorAll('.tsv-ccat').forEach(el=>{
+    el.classList.toggle('active',el.querySelector('.cc-lbl')?.textContent===cat);
+  });
+  tsv_renderGrid();
+}
+
+function tsv_search(q){
+  const ms=document.getElementById('tsv-ms-cat');
+  if(ms) ms.textContent=q?'Recherche : '+q:(_tsv_cat==='Tous'?'Tous les plats':_tsv_cat);
+  tsv_renderGrid(q);
+}
+
+function tsv_renderGrid(q=''){
+  const grid=document.getElementById('tsv-grid');if(!grid)return;
+  const plats=(DB.plats||[]).filter(p=>p.dispo==='dispo');
+  let list=_tsv_cat==='Tous'?plats:plats.filter(p=>p.cat===_tsv_cat);
+  if(q) list=list.filter(p=>p.nom.toLowerCase().includes(q.toLowerCase()));
+  const catCls=(cat)=>(TSV_CATS.find(c=>c.name===cat)||{cls:'cat-default'}).cls;
+  if(!list.length){grid.innerHTML='<div style="grid-column:span 4;padding:30px;text-align:center;color:#3d4560;font-size:13px">Aucun plat</div>';return;}
+  grid.innerHTML=list.map(p=>{
+    const ico=p.ico&&p.ico.length<=4?'🍽️':(p.ico||'🍽️');
+    return `<div class="tsv-pcard ${catCls(p.cat)}" onclick="tsv_addItem(${p.id})">
+      <button class="pc-add" onclick="event.stopPropagation();tsv_addItem(${p.id})">+</button>
+      <div class="pc-ico">${ico}</div>
+      <div class="pc-nom">${p.nom}</div>
+      <div class="pc-prix">${tsv_eur(p.prix)}</div>
+    </div>`;
+  }).join('');
+}
+
+function tsv_getItems(){return _tsv_items[_tsv_table]||[];}
+function tsv_setItems(a){_tsv_items[_tsv_table]=a;}
 
 function tsv_addItem(pid){
-  const plat=(DB.plats||[]).find(p=>p.id===pid); if(!plat) return;
+  const plat=(DB.plats||[]).find(p=>p.id===pid);if(!plat)return;
   let items=tsv_getItems();
   const ex=items.find(x=>x.pid===pid&&!x.envoyee);
-  if(ex){ ex.q++; } else { items.push({pid,q:1,envoyee:false}); }
+  if(ex){ex.q++;}else{items.push({pid,q:1,envoyee:false});}
   tsv_setItems(items);
   const t=(DB.tables||[]).find(x=>x.id===_tsv_table);
-  if(t&&t.stat==='libre'){t.stat='occupe';saveDB();if(!_tsv_timerStart[_tsv_table])_tsv_timerStart[_tsv_table]=Date.now();tsv_renderBar();}
-  tsv_setTab('tables',null);
-  tsv_renderCmd();
-  tsv_renderRight();
-  toast('➕ '+plat.nom,'ok');
+  if(t&&t.stat==='libre'){t.stat='occupe';saveDB();if(!_tsv_timerStart[_tsv_table])_tsv_timerStart[_tsv_table]=Date.now();}
+  tsv_renderTicket();tsv_renderChips();
+  // Flash sur la carte
+  const cards=document.querySelectorAll('.tsv-pcard');
+  cards.forEach(c=>{if(c.onclick?.toString().includes('('+pid+')')){c.style.transform='scale(.88)';setTimeout(()=>c.style.transform='',150);}});
 }
 
 function tsv_removeItem(pid){
-  let items=tsv_getItems();
-  const i=items.findIndex(x=>x.pid===pid&&!x.envoyee);
-  if(i>=0) items.splice(i,1);
-  tsv_setItems(items);
-  _tsv_editPid=null;
-  tsv_renderCmd();
+  let items=tsv_getItems().filter(x=>!(x.pid===pid&&!x.envoyee));
+  tsv_setItems(items);_tsv_editPid=null;tsv_renderTicket();
 }
 
-function tsv_changeQty(pid,delta){
+function tsv_changeQty(pid,d){
   let items=tsv_getItems();
-  const it=items.find(x=>x.pid===pid&&!x.envoyee);
-  if(!it) return;
-  it.q+=delta;
-  if(it.q<=0){ items=items.filter(x=>!(x.pid===pid&&!x.envoyee)); _tsv_editPid=null; }
-  tsv_setItems(items);
-  tsv_renderCmd();
+  const it=items.find(x=>x.pid===pid&&!x.envoyee);if(!it)return;
+  it.q+=d;
+  if(it.q<=0){items=items.filter(x=>!(x.pid===pid&&!x.envoyee));_tsv_editPid=null;}
+  tsv_setItems(items);tsv_renderTicket();
 }
 
-function tsv_toggleEdit(pid){
-  _tsv_editPid=_tsv_editPid===pid?null:pid;
-  tsv_renderCmd();
-}
+function tsv_toggleEdit(pid){_tsv_editPid=_tsv_editPid===pid?null:pid;tsv_renderTicket();}
 
 function tsv_annulerDernier(){
   let items=tsv_getItems();
   const idx=items.map((x,i)=>(!x.envoyee?i:-1)).filter(x=>x>=0).pop();
   if(idx===undefined){toast('Rien à annuler','warn');return;}
   const plat=(DB.plats||[]).find(p=>p.id===items[idx].pid);
-  items.splice(idx,1); tsv_setItems(items); _tsv_editPid=null;
-  tsv_renderCmd(); toast('↩️ '+(plat?plat.nom:'Plat')+' retiré','warn');
+  items.splice(idx,1);tsv_setItems(items);_tsv_editPid=null;
+  tsv_renderTicket();toast('↩️ '+(plat?plat.nom:'Plat')+' retiré','warn');
 }
 
 function tsv_viderTable(){
-  if(!confirm('Annuler tout le bon de commande ?')) return;
-  _tsv_items[_tsv_table]=[];_tsv_editPid=null;
-  tsv_renderCmd();toast('🗑️ Bon annulé','warn');
+  if(!confirm('Vider tout le ticket ?'))return;
+  _tsv_items[_tsv_table]=[];_tsv_editPid=null;tsv_renderTicket();toast('🗑️ Ticket vidé','warn');
 }
 
-function tsv_renderCmd(){
+function tsv_renderTicket(){
   const items=tsv_getItems();
   const t=(DB.tables||[]).find(x=>x.id===_tsv_table)||{};
-  const h2=document.getElementById('tsv-cmd-h2');
-  if(h2) h2.textContent='Commande pour Table '+(t.num||'—');
-  const lignes=document.getElementById('tsv-lignes');
+  const cmds=(DB.commandes||[]).filter(c=>c.tbl===_tsv_table&&c.stat!=='payé'&&c.stat!=='annulé');
+  const title=document.getElementById('tsv-tkt-title');
+  const stat=document.getElementById('tsv-tkt-stat');
+  if(title) title.textContent='Commande T'+(t.num||'—');
+  if(stat){
+    const enC=cmds.some(c=>c.stat==='en-cuisine');
+    if(!items.length&&!cmds.length){stat.className='tsv-stat tsv-stat-libre';stat.textContent='Libre';}
+    else if(enC){stat.className='tsv-stat tsv-stat-cuis';stat.textContent='🔥 Cuisine';}
+    else{stat.className='tsv-stat tsv-stat-srv';stat.textContent='En service';}
+  }
+  const lines=document.getElementById('tsv-lines');
   const vide=document.getElementById('tsv-vide');
-  if(!lignes) return;
-  lignes.querySelectorAll('.tsv-ligne').forEach(x=>x.remove());
-  if(!items.length){ if(vide)vide.style.display='flex'; tsv_updateTotal(0); return; }
-  if(vide) vide.style.display='none';
+  if(!lines)return;
+  lines.querySelectorAll('.tsv-line').forEach(x=>x.remove());
+  if(!items.length){if(vide)vide.style.display='flex';tsv_updateTotal(0);return;}
+  if(vide)vide.style.display='none';
   items.forEach(item=>{
-    const plat=(DB.plats||[]).find(p=>p.id===item.pid)||{nom:'?',prix:0,ico:'?',cat:'?'};
+    const plat=(DB.plats||[]).find(p=>p.id===item.pid)||{nom:'?',prix:0,ico:'?'};
     const ico=plat.ico&&plat.ico.length<=4?'🍽️':(plat.ico||'🍽️');
     const isEdit=_tsv_editPid===item.pid&&!item.envoyee;
-    const div=document.createElement('div');
-    div.className='tsv-ligne'+(item.envoyee?' env':'');
-    div.innerHTML=
-      '<div class="lg-photo">'+ico+'</div>'+
-      '<div class="lg-info">'+
-        '<div class="lg-nom"><b>'+plat.nom+'</b>'+(item.q>1?' ×'+item.q:'')+'</div>'+
-        '<div class="lg-detail">'+plat.cat+' · '+tsv_eur(plat.prix)+'</div>'+
-        (isEdit?'<div class="tsv-qty-edit show">'+
-          '<button class="tsv-qbtn" onclick="tsv_changeQty('+item.pid+',-1)">−</button>'+
-          '<span class="tsv-qnum">'+item.q+'</span>'+
-          '<button class="tsv-qbtn" onclick="tsv_changeQty('+item.pid+',1)">+</button>'+
-        '</div>':'')+
-      '</div>'+
-      '<div class="lg-prix">'+tsv_eur(plat.prix*item.q)+'</div>'+
-      (item.envoyee
-        ? '<div class="tsv-env-tag">✓ Envoyé</div>'
-        : '<div class="tsv-ligne-btns">'+
-            '<button class="tsv-lbtn modif" onclick="tsv_toggleEdit('+item.pid+')">Modifier</button>'+
-            '<button class="tsv-lbtn suppr" onclick="tsv_removeItem('+item.pid+')">Supprimer</button>'+
-          '</div>'
+    const d=document.createElement('div');
+    d.className='tsv-line'+(item.envoyee?' env':'');
+    d.innerHTML=
+      '<span class="li">'+ico+'</span>'+
+      '<span class="ln">'+(item.q>1?'<b style="color:var(--gold2)">×'+item.q+'</b> ':'')+plat.nom+'</span>'+
+      '<span class="lp">'+tsv_eur(plat.prix*item.q)+'</span>'+
+      (item.envoyee?'<span class="lenv">✓</span>':
+        '<div class="tsv-qty">'+
+          '<button class="tsv-qb" onclick="tsv_changeQty('+item.pid+',-1)">−</button>'+
+          '<span class="tsv-qn">'+item.q+'</span>'+
+          '<button class="tsv-qb" onclick="tsv_changeQty('+item.pid+',1)">+</button>'+
+        '</div>'
       );
-    lignes.appendChild(div);
+    lines.appendChild(d);
   });
   const total=items.reduce((s,x)=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{prix:0};return s+p.prix*x.q;},0);
   tsv_updateTotal(total);
@@ -24843,131 +24809,30 @@ function tsv_renderCmd(){
 
 function tsv_updateTotal(total){
   const rate=((DB.params&&DB.params.tva)||10)/100;
-  const ht=total/(1+rate);
-  const tva=total-ht;
-  const el=document.getElementById('tsv-total-amt');
-  const tvaEl=document.getElementById('tsv-tva-detail');
-  const encEl=document.getElementById('tsv-encaiss-total');
-  if(el) el.textContent=tsv_eur(total);
-  if(tvaEl) tvaEl.textContent='HT '+tsv_eur(ht)+' · TVA '+tsv_eur(tva);
-  if(encEl) encEl.textContent='Total: '+tsv_eur(total);
+  const ht=total/(1+rate),tva=total-ht;
+  const a=document.getElementById('tsv-ta');const h=document.getElementById('tsv-ht');const tv=document.getElementById('tsv-tva');
+  if(a)a.textContent=tsv_eur(total);if(h)h.textContent=tsv_eur(ht);if(tv)tv.textContent=tsv_eur(tva);
 }
 
-function tsv_renderRight(){
-  const alertZone=document.getElementById('tsv-alert-zone');
-  if(!alertZone) return;
-  const t=(DB.tables||[]).find(x=>x.id===_tsv_table)||{};
-  // Simuler alerte sur table voisine
-  const autres=(DB.tables||[]).filter(x=>x.id!==_tsv_table&&x.stat==='occupe');
-  const alTable=autres[0];
-  const alertBadge=document.getElementById('tsv-ib-alert');
-  if(alertBadge) alertBadge.style.display=alTable?'inline-block':'none';
-  if(alTable){
-    const cmds=(DB.commandes||[]).filter(c=>c.tbl===alTable.id&&c.stat!=='payé'&&c.stat!=='annulé');
-    const tot=cmds.reduce((s,c)=>s+(+c.total||0),0);
-    alertZone.innerHTML=
-      '<div class="tsv-alert-card"><span class="ac-ico">⚠️</span>'+
-      '<div><div class="ac-msg">Table '+alTable.num+' a besoin d\'aide</div>'+
-      '<div class="ac-sub">'+tsv_eur(tot)+'</div></div></div>'+
-      '<button class="tsv-alert-voir" onclick="tsv_selectTable('+alTable.id+')">👁 Voir · Table '+alTable.num+': '+tsv_eur(tot)+'</button>';
-  } else {
-    alertZone.innerHTML='';
-  }
-}
-
-function tsv_showAlerte(){
-  const autres=(DB.tables||[]).filter(x=>x.id!==_tsv_table&&x.stat==='occupe');
-  if(autres[0]) tsv_selectTable(autres[0].id);
-}
-
-// TABS
-function tsv_setTab(name, el){
-  _tsv_tab=name;
-  document.querySelectorAll('.tsv-tab').forEach(t=>t.classList.remove('active'));
-  if(el) el.classList.add('active');
-  else { const tabs=document.querySelectorAll('.tsv-tab'); const map={'tables':0,'commandes':1,'rapide':2,'actions':3}; if(tabs[map[name]]) tabs[map[name]].classList.add('active'); }
-  // Afficher le bon contenu dans la zone lignes
-  if(name==='rapide'){ tsv_showRapide(); }
-  else if(name==='tables'){ tsv_renderCmd(); }
-}
-
-function tsv_setTabBoisson(){
-  _tsv_cat='Boissons';
-  tsv_setTab('rapide',null);
-}
-
-function tsv_setSubtab(name, el){
-  document.querySelectorAll('.tsv-subtab').forEach(t=>t.classList.remove('active'));
-  if(el) el.classList.add('active');
-}
-
-function tsv_showRapide(){
-  const lignes=document.getElementById('tsv-lignes');
-  const vide=document.getElementById('tsv-vide');
-  if(!lignes) return;
-  if(vide) vide.style.display='none';
-  lignes.querySelectorAll('.tsv-ligne,.tsv-rapide-wrap').forEach(x=>x.remove());
-  const wrap=document.createElement('div');
-  wrap.className='tsv-rapide-wrap';
-  wrap.style.cssText='display:flex;flex-direction:column;gap:0;flex:1';
-  // cats
-  const plats=(DB.plats||[]).filter(p=>p.dispo==='dispo');
-  const cats=['Tous',...new Set(plats.map(p=>p.cat))];
-  const catsHtml='<div style="display:flex;gap:6px;padding:8px 10px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07)">'+
-    cats.map(c=>`<div style="padding:5px 13px;border-radius:16px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .13s;border:1px solid rgba(255,255,255,.12);background:${c===_tsv_cat?'#2b5ec7':'rgba(255,255,255,.05)'};color:${c===_tsv_cat?'#fff':'#7a8494'}" onclick="tsv_setCatRapide('${c}',this)">${c}</div>`).join('')+
-  '</div>';
-  const search='<div style="padding:6px 10px 2px"><input id="tsv-rapide-search" type="text" placeholder="🔍 Rechercher…" oninput="tsv_filterRapide(this.value)" style="width:100%;padding:8px 12px;border-radius:8px;background:#1e2436;border:1px solid rgba(255,255,255,.1);color:#e8ecf4;font-size:12px;outline:none;font-family:Inter,sans-serif"></div>';
-  let list=plats.filter(p=>_tsv_cat==='Tous'||p.cat===_tsv_cat);
-  const gridHtml='<div id="tsv-rapide-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 10px;overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:#2a3045 transparent">'+
-    list.map(p=>{const ico=p.ico&&p.ico.length<=4?'🍽️':(p.ico||'🍽️');return `<div onclick="tsv_addItem(${p.id})" style="background:#1e2436;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;text-align:center;transition:all .14s" onmousedown="this.style.transform='scale(.9)'" onmouseup="this.style.transform=''"><div style="font-size:24px;width:40px;height:40px;background:#252d3f;border-radius:10px;display:flex;align-items:center;justify-content:center">${ico}</div><div style="font-size:11px;font-weight:700;color:#e8ecf4;line-height:1.2">${p.nom}</div><div style="font-size:11px;font-weight:800;color:#f5a623;font-variant-numeric:tabular-nums">${tsv_eur(p.prix)}</div></div>`}).join('')+
-  '</div>';
-  wrap.innerHTML=catsHtml+search+gridHtml;
-  lignes.appendChild(wrap);
-}
-
-function tsv_setCatRapide(cat, el){
-  _tsv_cat=cat;
-  document.querySelectorAll('#tsv-lignes .tsv-rapide-wrap [onclick^="tsv_setCatRapide"]').forEach(b=>{
-    const c=b.textContent.trim();
-    b.style.background=c===cat?'#2b5ec7':'rgba(255,255,255,.05)';
-    b.style.color=c===cat?'#fff':'#7a8494';
-  });
-  tsv_showRapide();
-}
-
-function tsv_filterRapide(q){
-  const grid=document.getElementById('tsv-rapide-grid'); if(!grid) return;
-  const plats=(DB.plats||[]).filter(p=>p.dispo==='dispo'&&(_tsv_cat==='Tous'||p.cat===_tsv_cat));
-  const list=q?plats.filter(p=>p.nom.toLowerCase().includes(q.toLowerCase())):plats;
-  grid.innerHTML=list.map(p=>{const ico=p.ico&&p.ico.length<=4?'🍽️':(p.ico||'🍽️');return `<div onclick="tsv_addItem(${p.id})" style="background:#1e2436;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;text-align:center" onmousedown="this.style.transform='scale(.9)'" onmouseup="this.style.transform=''"><div style="font-size:24px;width:40px;height:40px;background:#252d3f;border-radius:10px;display:flex;align-items:center;justify-content:center">${ico}</div><div style="font-size:11px;font-weight:700;color:#e8ecf4;line-height:1.2">${p.nom}</div><div style="font-size:11px;font-weight:800;color:#f5a623">${tsv_eur(p.prix)}</div></div>`}).join('');
-}
-
-function tsv_envoyerCuisine(){
+function tsv_cuisine(){
   const items=tsv_getItems();
   const non=items.filter(x=>!x.envoyee);
   if(!non.length){toast('Rien à envoyer','warn');return;}
   const t=(DB.tables||[]).find(x=>x.id===_tsv_table)||{};
   const total=non.reduce((s,x)=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{prix:0};return s+p.prix*x.q;},0);
-  const existing=(DB.commandes||[]).find(c=>c.tbl===_tsv_table&&(c.stat==='en-attente'||c.stat==='prise'));
-  if(existing){
-    non.forEach(ni=>{const ex=existing.items.find(x=>x.pid===ni.pid);if(ex)ex.q+=ni.q;else existing.items.push({pid:ni.pid,q:ni.q});});
-    existing.stat='en-cuisine';
-    existing.total=Math.round(existing.items.reduce((s,x)=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{prix:0};return s+p.prix*x.q;},0)*100)/100;
-  } else {
-    DB.commandes.push({id:DB.ids.c++,date:td(),t:new Date().toTimeString().slice(0,5),tbl:_tsv_table,cvt:t.cvt||2,stat:'en-cuisine',note:'Tablette serveur',items:non.map(x=>({pid:x.pid,q:x.q})),total:Math.round(total*100)/100});
-  }
-  items.forEach(x=>{x.envoyee=true;});
-  tsv_setItems(items);
-  if(t.stat==='libre'){t.stat='occupe';}
-  saveDB();tsv_renderBar();tsv_renderCmd();tsv_renderRight();
-  toast('🔥 '+non.length+' plat(s) envoyé(s) en cuisine !','ok');
+  const ex=(DB.commandes||[]).find(c=>c.tbl===_tsv_table&&(c.stat==='en-attente'||c.stat==='prise'));
+  if(ex){non.forEach(ni=>{const e=ex.items.find(x=>x.pid===ni.pid);if(e)e.q+=ni.q;else ex.items.push({pid:ni.pid,q:ni.q});});ex.stat='en-cuisine';ex.total=Math.round(ex.items.reduce((s,x)=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{prix:0};return s+p.prix*x.q;},0)*100)/100;}
+  else{DB.commandes.push({id:DB.ids.c++,date:td(),t:new Date().toTimeString().slice(0,5),tbl:_tsv_table,cvt:t.cvt||2,stat:'en-cuisine',note:'Tablette',items:non.map(x=>({pid:x.pid,q:x.q})),total:Math.round(total*100)/100});}
+  items.forEach(x=>{x.envoyee=true;});tsv_setItems(items);
+  if(t.stat==='libre')t.stat='occupe';
+  saveDB();tsv_renderChips();tsv_renderTicket();
+  toast('🔥 '+non.length+' plat(s) en cuisine !','ok');
 }
 
 function tsv_servir(){
   const cmds=(DB.commandes||[]).filter(c=>c.tbl===_tsv_table&&c.stat==='en-cuisine');
   if(!cmds.length){toast('Aucun plat en cuisine','warn');return;}
-  cmds.forEach(c=>{c.stat='servi';});
-  saveDB();tsv_renderBar();tsv_renderRight();
+  cmds.forEach(c=>{c.stat='servi';});saveDB();tsv_renderChips();tsv_renderTicket();
   toast('🛎️ Plats servis !','ok');
 }
 
@@ -24975,17 +24840,12 @@ function tsv_encaisser(){
   const items=tsv_getItems();
   const pending=(DB.commandes||[]).filter(c=>c.tbl===_tsv_table&&c.stat!=='payé'&&c.stat!=='annulé');
   if(!items.length&&!pending.length){toast('Table vide','warn');return;}
-  if(items.filter(x=>!x.envoyee).length){toast('Envoyez d\'abord les plats en cuisine','warn');return;}
+  if(items.filter(x=>!x.envoyee).length){toast('Envoyez d\'abord en cuisine','warn');return;}
   pending.forEach(c=>{updateCmdStat(c.id,'payé');});
-  _tsv_items[_tsv_table]=[];
-  delete _tsv_timerStart[_tsv_table];
-  tsv_renderBar();tsv_renderCmd();tsv_renderRight();
-  toast('💳 Table encaissée !','ok');
+  _tsv_items[_tsv_table]=[];delete _tsv_timerStart[_tsv_table];
+  const e4=document.getElementById('tsv-tp-timer');if(e4)e4.textContent='00:00';
+  tsv_renderChips();tsv_renderTicket();toast('💳 Table encaissée !','ok');
 }
-
-function tsv_changerTable(){toast('Fonctionnalité : changer de table','warn');}
-function tsv_diviserAddition(){toast('Fonctionnalit\u00e9 : diviser l\'addition','warn');}
-
 </script>
 
 </body>
