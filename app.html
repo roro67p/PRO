@@ -14496,58 +14496,56 @@ function renderKDS(w){
 
     function playSound(type){
       if(!_soundEnabled) return;
-      if(type==='new'){
-        playBeep(880,0.3,0.1);
-        setTimeout(()=>playBeep(1100,0.3,0.1),120);
-        setTimeout(()=>playBeep(1320,0.3,0.2),240);
-      } else if(type==='done'){
-        playBeep(660,0.25,0.15);
-        setTimeout(()=>playBeep(880,0.25,0.2),160);
-      } else if(type==='urgent'){
-        [0,220,440].forEach(t=>setTimeout(()=>playBeep(440,0.4,0.15),t));
+      switch(type){
+        case 'new':
+          playBeep(880,0.25,0.08);
+          setTimeout(()=>playBeep(1108,0.25,0.08),100);
+          setTimeout(()=>playBeep(1320,0.3,0.2),200);
+          break;
+        case 'cuisine':
+          playBeep(440,0.3,0.15);
+          setTimeout(()=>playBeep(554,0.3,0.25),160);
+          break;
+        case 'done':
+          playBeep(660,0.2,0.1);
+          setTimeout(()=>playBeep(880,0.2,0.1),120);
+          setTimeout(()=>playBeep(1100,0.2,0.1),240);
+          setTimeout(()=>playBeep(1320,0.3,0.3),360);
+          break;
+        case 'encaisse':
+          playBeep(1760,0.2,0.05);
+          setTimeout(()=>playBeep(2093,0.25,0.05),60);
+          setTimeout(()=>playBeep(2637,0.3,0.15),120);
+          break;
+        case 'urgent':
+          [0,200,400].forEach(t=>setTimeout(()=>{
+            playBeep(440,0.4,0.08);
+            setTimeout(()=>playBeep(554,0.4,0.08),80);
+          },t));
+          break;
+        case 'anniversaire':
+          [0,150,300,450].forEach((t,i)=>setTimeout(()=>playBeep([523,659,784,1047][i],0.3,0.2),t));
+          break;
       }
     }
   `;
 
-  // Si la fenêtre est déjà initialisée, juste mettre à jour le contenu
-  if(w._kdsInitialized){
-    const grid=w.document.getElementById('kds-grid-content');
-    if(grid) grid.innerHTML=body.replace(/<div class="kds-header">.*<\/div>\s*<div class="kds-grid">/s,'');
-    // Mettre à jour juste la grille et les compteurs
-    const parser=new w.DOMParser?w.DOMParser():null;
-    // Update simple: remplacer le body principal
-    const mainDiv=w.document.getElementById('kds-main');
-    if(mainDiv){
-      const tmp=w.document.createElement('div');
-      tmp.innerHTML=body;
-      mainDiv.innerHTML=tmp.querySelector('.kds-grid')?tmp.querySelector('.kds-grid').outerHTML:'';
-    }
-    // Update compteurs
-    const aP=(DB.commandes||[]).filter(c=>c.stat==='en-attente').length;
-    const enC=(DB.commandes||[]).filter(c=>c.stat==='en-cuisine').length;
-    const pr=(DB.commandes||[]).filter(c=>c.stat==='servi').length;
-    ['kds-count-prep','kds-count-cours','kds-count-pret'].forEach((id,i)=>{
-      const el=w.document.getElementById(id);
-      if(el) el.textContent=[aP,enC,pr][i];
-    });
-    return;
-  }
-  w._kdsInitialized=true;
-  // Sauvegarder état son avant réécriture
+  // Sauvegarder état son
   const _wasSoundEnabled = w._soundEnabled || false;
 
+  // Réécrire proprement
   w.document.open();
   w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cuisine — '+pNom+'</title><style>'+css+'</style></head><body>'+body+'<scr'+'ipt>'+script+'</scr'+'ipt></body></html>');
   w.document.close();
 
-  // Restaurer état son après réécriture
+  // Restaurer état son
   setTimeout(()=>{
     w._soundEnabled = _wasSoundEnabled;
     if(_wasSoundEnabled){
       const btn=w.document.getElementById('kds-sound-btn');
       if(btn){btn.textContent='🔊 Son ON';btn.style.background='rgba(46,204,113,.2)';btn.style.borderColor='rgba(46,204,113,.5)';btn.style.color='#2ecc71';}
     }
-  },100);
+  },50);
 }
 
 
@@ -25189,7 +25187,7 @@ function activerModeDemo(){
 
     {delay:8000,  action:'cmd_update_last', offset:0, stat:'en-cuisine'},
     {delay:8100,  action:'notification', msg:'🔥 Table 1 — en cuisine !', type:'ok'},
-    {delay:8200,  action:'kds_son', type:'new'},
+    {delay:8200,  action:'kds_son', type:'cuisine'},
 
     {delay:11000, action:'nouvelle_cmd', tbl:3, cvt:3, stat:'en-attente', items:[{pid:9,q:1},{pid:12,q:2}], total:94.0, note:''},
     {delay:11100, action:'notification', msg:'🆕 Table 3 — nouvelle commande !', type:'ok'},
@@ -25197,7 +25195,7 @@ function activerModeDemo(){
 
     {delay:14000, action:'cmd_update_last', offset:1, stat:'en-cuisine'},
     {delay:14100, action:'notification', msg:'🔥 Table 2 — en cuisine !', type:'ok'},
-    {delay:14200, action:'kds_son', type:'new'},
+    {delay:14200, action:'kds_son', type:'cuisine'},
 
     {delay:17000, action:'cmd_update_last', offset:0, stat:'servi'},
     {delay:17100, action:'notification', msg:'✅ Table 1 — plats prêts !', type:'ok'},
@@ -25209,6 +25207,7 @@ function activerModeDemo(){
 
     {delay:23000, action:'encaisse',     tbl:1, montant:52},
     {delay:23100, action:'notification', msg:'💳 Table 1 encaissée — 52€', type:'ok'},
+    {delay:23200, action:'kds_son', type:'encaisse'},
 
     {delay:26000, action:'nouvelle_cmd', tbl:6, cvt:6, stat:'en-attente', items:[{pid:2,q:3},{pid:11,q:2}], total:115.0, note:''},
     {delay:26100, action:'notification', msg:'🆕 Table 6 — grosse commande !', type:'warn'},
@@ -25223,10 +25222,11 @@ function activerModeDemo(){
 
     {delay:35000, action:'nouvelle_cmd', tbl:8, cvt:8, stat:'en-attente', items:[{pid:1,q:4},{pid:6,q:2}], total:62.0, note:'🎂 Anniversaire — surprise !'},
     {delay:35100, action:'notification', msg:'🎂 Table 8 — anniversaire ! Préparez la surprise', type:'warn'},
-    {delay:35200, action:'kds_son', type:'urgent'},
+    {delay:35200, action:'kds_son', type:'anniversaire'},
 
     {delay:38000, action:'encaisse',     tbl:2, montant:102},
     {delay:38100, action:'notification', msg:'💳 Table 2 encaissée — 102€', type:'ok'},
+    {delay:38200, action:'kds_son', type:'encaisse'},
 
     {delay:41000, action:'cmd_update_last', offset:0, stat:'en-cuisine'},
     {delay:41100, action:'kds_son', type:'new'},
@@ -25237,6 +25237,7 @@ function activerModeDemo(){
 
     {delay:47000, action:'encaisse',     tbl:3, montant:94},
     {delay:47100, action:'notification', msg:'💳 Table 3 encaissée — 94€', type:'ok'},
+    {delay:47200, action:'kds_son', type:'encaisse'},
 
     {delay:50000, action:'cmd_update_last', offset:1, stat:'servi'},
     {delay:50100, action:'notification', msg:'✅ Table 5 — plats prêts !', type:'ok'},
