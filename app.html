@@ -5024,6 +5024,60 @@ tbody td { padding:13px 14px; font-size:13px; }
 .pin-welcome-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold2)}
 .pin-welcome-role{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:1px}
 
+
+/* ═══ PRÉVISION FRÉQUENTATION ═══ */
+.prev-wrap{margin-top:20px}
+.prev-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.prev-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);display:flex;align-items:center;gap:8px}
+.prev-badge{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:12px;background:rgba(111,207,138,.1);border:1px solid rgba(111,207,138,.2);color:#6fcf8a}
+.prev-subtitle{font-size:11px;color:var(--muted)}
+.prev-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px}
+@media(max-width:700px){.prev-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:400px){.prev-grid{grid-template-columns:repeat(2,1fr)}}
+.prev-day{
+  background:rgba(14,13,11,.95);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px;padding:14px 10px;
+  text-align:center;
+  transition:all .18s;cursor:default;
+  position:relative;overflow:hidden;
+}
+.prev-day::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;background:var(--prev-col,rgba(201,151,58,.4))}
+.prev-day:hover{transform:translateY(-3px);border-color:var(--prev-col,rgba(201,151,58,.3));box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.prev-day.today{border-color:rgba(232,184,75,.4);background:rgba(232,184,75,.06)}
+.prev-day.today .prev-day-num{color:#e8b84b}
+.prev-day-name{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px}
+.prev-day-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--txt);line-height:1;margin-bottom:8px}
+.prev-day-cvt{font-size:13px;font-weight:700;color:var(--prev-col,var(--gold2));margin-bottom:2px}
+.prev-day-ca{font-size:10px;color:var(--muted)}
+.prev-day-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin:8px 0 4px;overflow:hidden}
+.prev-day-bar-fill{height:100%;border-radius:2px;background:var(--prev-col,var(--gold));transition:width .8s cubic-bezier(.4,0,.2,1)}
+.prev-day-conf{font-size:9px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:3px}
+.prev-day-conf.high{color:#6fcf8a}
+.prev-day-conf.med{color:#f0a060}
+.prev-day-conf.low{color:var(--muted)}
+
+.prev-insights{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:600px){.prev-insights{grid-template-columns:1fr}}
+.prev-insight{background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.prev-insight-ico{font-size:24px;flex-shrink:0}
+.prev-insight-body{flex:1;min-width:0}
+.prev-insight-val{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);line-height:1}
+.prev-insight-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.prev-insight-sub{font-size:11px;color:var(--sub);margin-top:2px}
+
+.prev-heatmap{background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px}
+.prev-heatmap-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--sub);margin-bottom:14px}
+.prev-heat-grid{display:grid;grid-template-columns:40px repeat(14,1fr);gap:3px}
+.prev-heat-cell{height:22px;border-radius:4px;background:rgba(255,255,255,.04);transition:all .1s;cursor:default}
+.prev-heat-cell:hover{transform:scale(1.1);z-index:2}
+.prev-heat-lbl{font-size:9px;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.prev-heat-hlbl{font-size:9px;color:var(--muted);text-align:center;padding-bottom:2px}
+.prev-alert{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;margin-bottom:8px;border:1px solid;font-size:12px}
+.prev-alert.rush{background:rgba(240,112,96,.08);border-color:rgba(240,112,96,.2);color:#f07060}
+.prev-alert.fort{background:rgba(232,184,75,.08);border-color:rgba(232,184,75,.2);color:#e8b84b}
+.prev-alert.calme{background:rgba(111,207,138,.08);border-color:rgba(111,207,138,.2);color:#6fcf8a}
+
 </style>
 </head>
 <body>
@@ -5103,7 +5157,6 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div class="sb-group-body" id="body-service">
       <div class="nav-item active" onclick="nav('dash',this)"><span class="ni-ico">◈</span>Dashboard</div>
       <div class="nav-item" onclick="nav('salle',this)"><span class="ni-ico">⬡</span>Plan de salle<span class="ni-badge a" id="b-occ">0</span></div>
-      <div class="nav-item" onclick="nav('commandes',this)"><span class="ni-ico">◎</span>Commandes<span class="ni-badge" id="b-cmd">0</span></div>
       <div class="nav-item" onclick="nav('tablette',this)"><span class="ni-ico">🧑‍🍳</span>Tablette serveur</div>
       <div class="nav-item" onclick="nav('caisseRapide',this)"><span class="ni-ico">⚡</span>Caisse rapide</div>
       <div class="nav-item" onclick="nav('caisse',this)"><span class="ni-ico">◇</span>Caisse</div>
@@ -5113,6 +5166,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('service-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
       <div id="service-extra" style="display:none">
         <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">🎤</span>Commande vocale</div>
+        <div class="nav-item" onclick="nav('briefing',this)"><span class="ni-ico">🎙️</span>Briefing du soir</div>
         <div class="nav-item" onclick="nav('cloture',this)"><span class="ni-ico">🔐</span>Clôture de caisse</div>
         <div class="nav-item" onclick="nav('messagerie',this)"><span class="ni-ico">💬</span>Messagerie<span class="ni-badge" id="b-msg">0</span></div>
         <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
@@ -5315,7 +5369,7 @@ tbody td { padding:13px 14px; font-size:13px; }
         <button class="action-btn" onclick="rapportJournalier()"><div class="action-btn-ico">📊</div><div class="action-btn-info"><div class="action-btn-lbl">Rapport journalier</div><div class="action-btn-sub">Bilan du service · impression PDF</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn" onclick="exempleRapport()" style="border-color:rgba(201,151,58,.3)"><div class="action-btn-ico">👁</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9973a">Exemple rapport</div><div class="action-btn-sub">Voir avec données de démo</div></div><span class="action-btn-arrow" style="color:#c9973a">›</span></button>
         <button class="action-btn" onclick="exempleTicket()" style="border-color:rgba(201,151,58,.3)"><div class="action-btn-ico">🧾</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9973a">Exemple ticket</div><div class="action-btn-sub">Aperçu ticket de caisse</div></div><span class="action-btn-arrow" style="color:#c9973a">›</span></button>
-        <button class="action-btn action-cmd" onclick="nav('commandes',null);openModal('mo-commande')"><div class="action-btn-ico">📋</div><div class="action-btn-info"><div class="action-btn-lbl">Nouvelle commande</div><div class="action-btn-sub">Saisir une commande table</div></div><span class="action-btn-arrow">›</span></button>
+        <button class="action-btn action-cmd" onclick="nav('salle',null);openModal('mo-commande')"><div class="action-btn-ico">📋</div><div class="action-btn-info"><div class="action-btn-lbl">Nouvelle commande</div><div class="action-btn-sub">Saisir une commande table</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-caisse" onclick="nav('caisse',null)"><div class="action-btn-ico">💳</div><div class="action-btn-info"><div class="action-btn-lbl">Ouvrir la caisse</div><div class="action-btn-sub">Encaissement & tickets</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-salle" onclick="nav('salle',null)"><div class="action-btn-ico">🗺️</div><div class="action-btn-info"><div class="action-btn-lbl">Voir la salle</div><div class="action-btn-sub">Plan des tables en temps réel</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-stock" onclick="nav('stocks',null)"><div class="action-btn-ico">📦</div><div class="action-btn-info"><div class="action-btn-lbl">Gérer les stocks</div><div class="action-btn-sub">Alertes & niveaux critiques</div></div><span class="action-btn-arrow">›</span></button>
@@ -5428,79 +5482,6 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- COMMANDES -->
-  <div id="page-commandes" class="page">
-
-  <div>
-    <!-- HEADER -->
-    <div class="cmd3-header">
-      <div>
-        <div class="cmd3-title">Analyse des commandes</div>
-        <div class="cmd3-sub"><span class="cmd3-live"></span><span id="cmd3-sync">Chargement…</span></div>
-      </div>
-      <div class="cmd3-actions">
-        <button class="btn btn-ghost btn-sm" onclick="rCmds()">↺ Actualiser</button>
-        <button class="btn btn-gold btn-sm" onclick="openModal('mo-commande')">+ Nouvelle commande</button>
-      </div>
-    </div>
-
-    <!-- KPIs HERO -->
-    <div class="cmd3-kpis" id="cmd3-kpis"></div>
-
-    <!-- FILTRES -->
-    <div class="cmd3-filtres">
-      <div class="cmd3-periode" id="cmd3-periode">
-        <button class="cmd3-p-btn on" onclick="cmd3SetPeriode('jour',this)">Aujourd'hui</button>
-        <button class="cmd3-p-btn" onclick="cmd3SetPeriode('semaine',this)">Semaine</button>
-        <button class="cmd3-p-btn" onclick="cmd3SetPeriode('mois',this)">Mois</button>
-      </div>
-      <div class="cmd3-stat-chips" id="cmd3-chips">
-        <div class="cmd3-chip on" onclick="cmd3SetStat('tous',this)">Toutes</div>
-        <div class="cmd3-chip" onclick="cmd3SetStat('payé',this)">✓ Payées</div>
-        <div class="cmd3-chip" onclick="cmd3SetStat('actif',this)">⏳ En cours</div>
-      </div>
-      <div class="cmd3-search"><span class="cmd3-search-ico">🔍</span><input type="text" placeholder="Table, montant…" id="cmd3-q" oninput="rCmds()"/></div>
-    </div>
-
-    <!-- BOUTONS BONUS -->
-    <div class="cmd3-bonus">
-      <button class="cmd3-bonus-btn gold-outline" onclick="cmd3ShowTopVentes()">🏆 Meilleures ventes</button>
-      <button class="cmd3-bonus-btn gold-outline" onclick="cmd3ShowHeuresFortes()">⏰ Heures fortes</button>
-    </div>
-
-    <!-- LAYOUT PRINCIPAL -->
-    <div class="cmd3-main">
-      <div>
-        <!-- GRAPHIQUE ACTIVITÉ -->
-        <div class="cmd3-chart">
-          <div class="cmd3-chart-title">Activité par heure</div>
-          <div class="cmd3-bars" id="cmd3-bars"></div>
-        </div>
-        <!-- LISTE -->
-        <div class="cmd3-list-header">
-          <div class="cmd3-list-title" id="cmd3-list-count">Commandes</div>
-          <div class="cmd3-sort" onclick="cmd3ToggleSort()">↕ Heure <span id="cmd3-sort-lbl">↓ Récent</span></div>
-        </div>
-        <div class="cmd3-list" id="cmd3-list"></div>
-      </div>
-
-      <!-- COLONNE DROITE -->
-      <div>
-        <!-- DÉTAIL -->
-        <div class="cmd3-detail" id="cmd3-detail">
-          <div class="cmd3-detail-empty">
-            <div style="font-size:36px;opacity:.2;margin-bottom:10px">🧾</div>
-            <div style="font-size:12px">Cliquez sur une commande<br>pour voir le détail</div>
-          </div>
-        </div>
-        <!-- ASSISTANT ANALYSE -->
-        <div class="cmd3-assistant">
-          <div class="cmd3-ai-head"><div class="cmd3-ai-dot"></div><div class="cmd3-ai-lbl">Analyse IA</div></div>
-          <div id="cmd3-insights"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
 
   <!-- CAISSE POS PREMIUM -->
   <div id="page-caisse" class="page">
@@ -5594,7 +5575,6 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div class="p3-nav">
       <div class="p3-nbtn" onclick="nav('dash',null)"><span class="p3-nbtn-ico">📊</span><span class="p3-nbtn-lbl">Dash</span></div>
       <div class="p3-nbtn" onclick="nav('salle',null)"><span class="p3-nbtn-ico">🗺️</span><span class="p3-nbtn-lbl">Salle</span></div>
-      <div class="p3-nbtn" onclick="nav('commandes',null)"><span class="p3-nbtn-ico">📋</span><span class="p3-nbtn-lbl">Cmdes</span></div>
       <div class="p3-nsep"></div>
       <div class="p3-nbtn" onclick="nav('stocks',null)"><span class="p3-nbtn-ico">📦</span><span class="p3-nbtn-lbl">Stock</span></div>
       <div class="p3-nbtn" onclick="nav('reservations',null)"><span class="p3-nbtn-ico">📅</span><span class="p3-nbtn-lbl">Résa</span></div>
@@ -6305,7 +6285,30 @@ tbody td { padding:13px 14px; font-size:13px; }
         <div id="st-rush"></div>
       </div>
     </div>
-  </div>
+
+    <!-- PRÉVISION FRÉQUENTATION -->
+    <div class="prev-wrap">
+      <div class="prev-header">
+        <div>
+          <div class="prev-title">🔮 Prévision des 7 prochains jours <span class="prev-badge">IA</span></div>
+          <div class="prev-subtitle">Basée sur votre historique · Couverts & CA estimés</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="rPrevision()">↺ Actualiser</button>
+      </div>
+      <!-- Insights -->
+      <div class="prev-insights" id="prev-insights"></div>
+      <!-- Alertes -->
+      <div id="prev-alerts"></div>
+      <!-- Grille 7 jours -->
+      <div class="prev-grid" id="prev-grid"></div>
+      <!-- Heatmap heures -->
+      <div class="prev-heatmap">
+        <div class="prev-heatmap-title">🌡️ Prévision affluence par heure (semaine à venir)</div>
+        <div id="prev-heatmap"></div>
+      </div>
+    </div>
+
+    </div>
 
   <div id="page-menuJour" class="page">
     <div class="page-header">
@@ -10157,7 +10160,7 @@ function renderEtabSelector(){
 }
 
 // ═══ NAV ═══
-const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
+const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',briefing:'Briefing du soir',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
 let _recentPages=JSON.parse(localStorage.getItem('cr_recents')||'[]');
 function addRecent(name){
   if(name==='dash') return;
@@ -10200,7 +10203,7 @@ function nav(name,el){
   if(name==='caisse') setTimeout(initPOS,50);
 }
 function render(n){
-  ({dash:rDash,salle:rSalle,commandes:rCmds,caisse:rCaisse,menu:rMenu,
+  ({dash:rDash,salle:rSalle,caisse:rCaisse,menu:rMenu,
     reservations:rResa,stocks:rStocks,personnel:()=>{rPerso();rPersonnelPlanning();},
     rh:rRh,
     fournisseurs:rFourn, finance:rFin,rapports:rRapports,
@@ -10210,7 +10213,7 @@ function render(n){
     journal:rJournal,
     objectifs:rObjectifs, cmdFourn:rCmdFourn, params:rParams,
     fiches:rFiches, origine:rOrigine, marges:rMarges, avis:rAvis, acces:rAcces,
-    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne,tablette:rTablette,caisseRapide:rCaisseRapide})[n]?.();
+    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale,briefing:rBriefing, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne,tablette:rTablette,caisseRapide:rCaisseRapide})[n]?.();
 }
 function openSB(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').style.display='block';}
 function closeSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').style.display='none';}
@@ -17814,7 +17817,206 @@ function rStats(){
         <div style="width:60px;font-size:12px;color:var(--amber);text-align:right">${eur(v)}</div>
       </div>`).join('')
     :'<div style="color:var(--muted);font-size:13px">Aucune donnée</div>';
+
+  try{ rPrevision(); }catch(e){ console.warn('prev:',e); }}
+
+
+// ═══════════════════════════════════════════════
+// PRÉVISION DE FRÉQUENTATION
+// ═══════════════════════════════════════════════
+function rPrevision(){
+  var JOURS = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  var JOURS_PLEIN = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  var ventes = DB.ventes||[];
+  var reservas = DB.reservations||[];
+
+  // Historique par jour de semaine
+  var histByWD = [];
+  var histByWDHour = [];
+  for(var i=0;i<7;i++){
+    histByWD.push({cvt:[],ca:[],nb:0});
+    histByWDHour.push(Array(24).fill(0));
+  }
+
+  var byDate = {};
+  ventes.forEach(function(v){
+    if(!v.date) return;
+    if(!byDate[v.date]) byDate[v.date]={cvt:0,ca:0,hours:{}};
+    byDate[v.date].cvt += (+v.cvt||0);
+    byDate[v.date].ca  += (+v.ttc||0);
+    var h = v.t ? +v.t.split(':')[0] : 12;
+    if(!isNaN(h)) byDate[v.date].hours[h] = (byDate[v.date].hours[h]||0) + (+v.cvt||0);
+  });
+
+  Object.keys(byDate).forEach(function(date){
+    var data = byDate[date];
+    var wd = new Date(date).getDay();
+    histByWD[wd].cvt.push(data.cvt);
+    histByWD[wd].ca.push(data.ca);
+    histByWD[wd].nb++;
+    Object.keys(data.hours).forEach(function(h){
+      histByWDHour[wd][+h] += data.hours[h];
+    });
+  });
+
+  var avgByWD = histByWD.map(function(d){
+    var avgCvt = d.cvt.length ? Math.round(d.cvt.reduce(function(s,v){return s+v},0)/d.cvt.length) : null;
+    var avgCa  = d.ca.length  ? Math.round(d.ca.reduce(function(s,v){return s+v},0)/d.ca.length)   : null;
+    var maxCvt = d.cvt.length ? Math.max.apply(null,d.cvt) : null;
+    var trend = d.cvt.length>=4 ?
+      d.cvt.slice(-3).reduce(function(s,v){return s+v},0)/3 - d.cvt.slice(0,3).reduce(function(s,v){return s+v},0)/3 : 0;
+    return {avgCvt:avgCvt, avgCa:avgCa, maxCvt:maxCvt, nb:d.nb, trend:trend};
+  });
+
+  var today = new Date();
+  var days7 = [];
+  for(var i=0;i<7;i++){
+    var d = new Date(today);
+    d.setDate(today.getDate()+i);
+    days7.push(d);
+  }
+
+  var maxAvgCvt = Math.max.apply(null, avgByWD.map(function(d){return d.avgCvt||0}).concat([1]));
+  var maxAvgCa  = Math.max.apply(null, avgByWD.map(function(d){return d.avgCa||0}).concat([1]));
+
+  // ── Grille 7 jours ──
+  var gridEl = document.getElementById('prev-grid');
+  if(gridEl){
+    var html = '';
+    days7.forEach(function(d,i){
+      var wd = d.getDay();
+      var avg = avgByWD[wd];
+      var isToday = (i===0);
+      var dateStr = d.toISOString().slice(0,10);
+      var resaList = reservas.filter(function(r){return r.date===dateStr&&r.stat!=='annulé';});
+      var resaCount = resaList.length;
+      var resaCvt = resaList.reduce(function(s,r){return s+(+r.cvt||0);},0);
+      var trendBonus = avg.trend>0 ? Math.round(avg.trend*0.5) : 0;
+      var prevCvt = avg.avgCvt!==null ? Math.max(0,avg.avgCvt+trendBonus+resaCvt) : null;
+      var prevCa  = avg.avgCa!==null  ? Math.round(avg.avgCa*(1+(trendBonus/Math.max(avg.avgCvt||1,1)))) : null;
+      var barPct  = avg.avgCvt ? Math.round(avg.avgCvt/maxAvgCvt*100) : 5;
+      var intensity = avg.avgCvt ? avg.avgCvt/maxAvgCvt : 0;
+      var col = intensity>=.8?'rgba(240,112,96,.6)':intensity>=.6?'rgba(240,160,96,.55)':intensity>=.4?'rgba(232,184,75,.5)':intensity>=.2?'rgba(111,207,138,.5)':'rgba(106,172,218,.4)';
+      var confCls = avg.nb>=8?'high':avg.nb>=3?'med':'low';
+      var confTxt = avg.nb>=8?'Fiable ●●●':avg.nb>=3?'Moyen ●●○':'Faible ●○○';
+
+      html += '<div class="prev-day'+(isToday?' today':'')+'" style="--prev-col:'+col+'">';
+      html += '<div class="prev-day-name">'+JOURS[wd]+(isToday?' <span style="color:#e8b84b">· Auj</span>':'')+'</div>';
+      html += '<div class="prev-day-num">'+d.getDate()+'</div>';
+      if(prevCvt!==null){
+        html += '<div class="prev-day-cvt">~'+prevCvt+' cvts</div>';
+        html += '<div class="prev-day-ca">'+(prevCa?'~'+eur(prevCa):'—')+'</div>';
+      } else {
+        html += '<div class="prev-day-cvt" style="color:var(--muted);font-size:11px">Pas de données</div>';
+      }
+      if(resaCount>0){
+        html += '<div style="font-size:9px;color:#6aacda;margin-top:3px">📅 '+resaCount+' résa · '+resaCvt+' cvts</div>';
+      }
+      html += '<div class="prev-day-bar"><div class="prev-day-bar-fill" style="width:'+barPct+'%"></div></div>';
+      html += '<div class="prev-day-conf '+confCls+'">'+confTxt+'</div>';
+      html += '</div>';
+    });
+    gridEl.innerHTML = html;
+  }
+
+  // ── Insights ──
+  var insightsEl = document.getElementById('prev-insights');
+  if(insightsEl){
+    var weekCA = days7.reduce(function(s,d){return s+(avgByWD[d.getDay()].avgCa||0);},0);
+    var weekCvt = days7.reduce(function(s,d){return s+(avgByWD[d.getDay()].avgCvt||0);},0);
+
+    var bestDay = null;
+    days7.forEach(function(d,i){
+      var avg = avgByWD[d.getDay()];
+      if(avg.avgCvt!==null && (bestDay===null || avg.avgCvt > avgByWD[days7[bestDay].getDay()].avgCvt)) bestDay = i;
+    });
+
+    var totalByHour = Array(24).fill(0);
+    histByWDHour.forEach(function(wd){wd.forEach(function(v,h){totalByHour[h]+=v;});});
+    var rushHour = totalByHour.indexOf(Math.max.apply(null,totalByHour));
+
+    var html2 = '';
+    html2 += '<div class="prev-insight"><div class="prev-insight-ico">🎯</div><div class="prev-insight-body">';
+    html2 += '<div class="prev-insight-val">~'+weekCvt+' cvts</div>';
+    html2 += '<div class="prev-insight-lbl">Semaine prévue</div>';
+    html2 += '<div class="prev-insight-sub">'+(weekCA>0?'~'+eur(weekCA)+' CA estimé':'Basé sur historique')+'</div>';
+    html2 += '</div></div>';
+
+    html2 += '<div class="prev-insight"><div class="prev-insight-ico">🔥</div><div class="prev-insight-body">';
+    html2 += '<div class="prev-insight-val">'+(bestDay!==null?JOURS_PLEIN[days7[bestDay].getDay()]:'—')+'</div>';
+    html2 += '<div class="prev-insight-lbl">Meilleur jour prévu</div>';
+    html2 += '<div class="prev-insight-sub">'+(bestDay!==null?'~'+avgByWD[days7[bestDay].getDay()].avgCvt+' couverts attendus':'Pas assez de données')+'</div>';
+    html2 += '</div></div>';
+
+    html2 += '<div class="prev-insight"><div class="prev-insight-ico">⏰</div><div class="prev-insight-body">';
+    html2 += '<div class="prev-insight-val">'+(totalByHour[rushHour]>0?String(rushHour).padStart(2,'0')+'h':'—')+'</div>';
+    html2 += '<div class="prev-insight-lbl">Heure de rush</div>';
+    html2 += '<div class="prev-insight-sub">Pic historique</div>';
+    html2 += '</div></div>';
+
+    insightsEl.innerHTML = html2;
+  }
+
+  // ── Alertes ──
+  var alertsEl = document.getElementById('prev-alerts');
+  if(alertsEl){
+    var alerts = [];
+    days7.forEach(function(d,i){
+      var wd = d.getDay();
+      var avg = avgByWD[wd];
+      if(!avg.avgCvt) return;
+      var intensity2 = avg.avgCvt/maxAvgCvt;
+      var dateStr2 = d.toISOString().slice(0,10);
+      var resaList2 = reservas.filter(function(r){return r.date===dateStr2&&r.stat!=='annulé';});
+      var resaCvt2 = resaList2.reduce(function(s,r){return s+(+r.cvt||0);},0);
+      var label = i===0?"Aujourd'hui":i===1?'Demain':JOURS_PLEIN[wd];
+      if(intensity2>=.8) alerts.push({cls:'rush',ico:'🔴',txt:label+' — Soirée chargée',sub:'~'+avg.avgCvt+" couverts · Preparez l'equipe"});
+      else if(intensity2>=.6) alerts.push({cls:'fort',ico:'⚡',txt:label+' — Service soutenu',sub:"~"+avg.avgCvt+" couverts · Stock a verifier"});
+      else if(intensity2<.3 && avg.nb>=3) alerts.push({cls:'calme',ico:'🟢',txt:label+' — Service calme prevu',sub:"~"+avg.avgCvt+" couverts · Ideal pour formation"});
+      if(resaList2.length>=3) alerts.push({cls:'fort',ico:'📅',txt:label+' — '+resaList2.length+' reservation(s)',sub:resaCvt2+" couverts reserves · Anticipez la mise en place"});
+    });
+    var alertHtml = '';
+    alerts.slice(0,4).forEach(function(a){
+      alertHtml += '<div class="prev-alert '+a.cls+'">';
+      alertHtml += '<span style="font-size:18px;flex-shrink:0">'+a.ico+'</span>';
+      alertHtml += '<div><div style="font-weight:700">'+a.txt+'</div><div style="opacity:.7;margin-top:1px">'+a.sub+'</div></div>';
+      alertHtml += '</div>';
+    });
+    alertsEl.innerHTML = alertHtml;
+  }
+
+  // ── Heatmap ──
+  var hmEl = document.getElementById('prev-heatmap');
+  if(!hmEl) return;
+  var hours = [];
+  for(var h=10;h<=23;h++) hours.push(h);
+  var maxHeat = 1;
+  histByWDHour.forEach(function(wd){hours.forEach(function(h){if(wd[h]>maxHeat) maxHeat=wd[h];});});
+
+  var hmHtml = '<div class="prev-heat-grid">';
+  hmHtml += '<div class="prev-heat-lbl"></div>';
+  hours.forEach(function(h){hmHtml += '<div class="prev-heat-hlbl">'+h+'h</div>';});
+  [1,2,3,4,5,6,0].forEach(function(wd){
+    hmHtml += '<div class="prev-heat-lbl">'+JOURS[wd]+'</div>';
+    hours.forEach(function(h){
+      var v = histByWDHour[wd][h]||0;
+      var pct2 = v/maxHeat;
+      var bg = pct2>=.8?'rgba(240,80,80,.8)':pct2>=.6?'rgba(240,150,60,.7)':pct2>=.4?'rgba(232,184,75,.6)':pct2>=.2?'rgba(111,207,138,.4)':pct2>0?'rgba(106,172,218,.25)':'rgba(255,255,255,.04)';
+      hmHtml += '<div class="prev-heat-cell" style="background:'+bg+'" title="'+JOURS[wd]+' '+h+'h"></div>';
+    });
+  });
+  hmHtml += '</div>';
+  hmHtml += '<div style="display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--muted)">';
+  hmHtml += '<span>Faible</span>';
+  ['rgba(106,172,218,.25)','rgba(111,207,138,.4)','rgba(232,184,75,.6)','rgba(240,150,60,.7)','rgba(240,80,80,.8)'].forEach(function(bg){
+    hmHtml += '<div style="width:18px;height:10px;border-radius:3px;background:'+bg+'"></div>';
+  });
+  hmHtml += '<span>Fort</span></div>';
+  hmEl.innerHTML = hmHtml;
 }
+
+
+
 
 function drawBarChart(canvasId, data, labels){
   const canvas=document.getElementById(canvasId);
@@ -21591,7 +21793,7 @@ function validerCmdVocale(){
   saveDB();
   toast('Commande créée : '+cmd.numTicket+' ✅');
   resetVocale();
-  nav('commandes',null);
+  nav('salle',null);
 }
 
 function resetVocale(){
