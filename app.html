@@ -8033,25 +8033,18 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div class="page-header">
       <h2>🧼 HACCP</h2>
       <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost btn-sm" onclick="openHaccpTemp()">🌡 Température</button>
-        <button class="btn btn-gold btn-sm" onclick="openHaccpNett()">+ Nettoyage</button>
+        <button class="btn btn-ghost btn-sm" onclick="openHaccpModal('reception')">📦 Réception</button>
+        <button class="btn btn-danger btn-sm" onclick="openHaccpModal('nonconf')">⚠️ Non-conformité</button>
       </div>
     </div>
     <div class="kpi-row" id="haccp-kpi"></div>
-    <div class="g2" style="margin-top:16px">
-      <div class="card">
-        <div class="card-title">🌡 Relevés température du jour</div>
-        <div id="haccp-temps"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">🧹 Nettoyages</div>
-        <div id="haccp-nett"></div>
-      </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 14px">
+      <button class="haccp-tab-btn active" id="ht-temperatures" onclick="switchHaccp('temperatures')">🌡 Températures</button>
+      <button class="haccp-tab-btn" id="ht-nettoyage" onclick="switchHaccp('nettoyage')">🧹 Nettoyage</button>
+      <button class="haccp-tab-btn" id="ht-reception" onclick="switchHaccp('reception')">📦 Réception</button>
+      <button class="haccp-tab-btn" id="ht-nonconf" onclick="switchHaccp('nonconf')">⚠️ Non-conformités</button>
     </div>
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">⚠️ Non-conformités ouvertes</div>
-      <div id="haccp-nc"></div>
-    </div>
+    <div id="haccp-content"></div>
   </div>
 
   <!-- PAGE AVIS -->
@@ -10323,6 +10316,159 @@ id="page-todo" class="page" style="padding:0;display:none;flex-direction:column;
   <div class="frm-list" id="frm-list"></div>
   </div>
 
+  <!-- BRIEFING DU SOIR -->
+  <div id="page-briefing" class="page">
+    <div class="page-header">
+      <div>
+        <h2>🎙️ Briefing du soir</h2>
+        <div style="font-size:12px;color:var(--sub);margin-top:2px">Message vocal à l'équipe · chaque jour à 17h00</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div style="text-align:right">
+          <div id="briefing-countdown" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2)">—</div>
+          <div id="briefing-timer-sub" style="font-size:10px;color:var(--muted)">Chaque jour à 17h00</div>
+        </div>
+        <button id="btn-briefing-test" class="btn btn-ghost btn-sm" onclick="briefingModeTest()">🧪 Mode démo</button>
+        <button class="btn btn-ghost btn-sm" onclick="briefingModeReel()">🔄 Réel</button>
+      </div>
+    </div>
+
+    <div id="briefing-test-banner" style="display:none;align-items:center;gap:8px;padding:10px 14px;background:rgba(200,154,255,.1);border:1px solid rgba(200,154,255,.3);border-radius:10px;margin-bottom:14px;font-size:12px;color:#c89aff">
+      🧪 Mode démo activé — les données affichées sont fictives
+    </div>
+
+    <div class="g2" style="gap:14px">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div class="card-title" style="margin:0">📝 Message du briefing</div>
+          <span id="briefing-status" style="font-size:10px;padding:3px 10px;border-radius:12px;color:var(--sub);background:rgba(255,255,255,.05);border:1px solid var(--line)">En attente</span>
+        </div>
+        <div id="briefing-date-heure" style="font-size:11px;color:var(--muted);margin-bottom:10px">—</div>
+        <div id="briefing-texte" style="background:var(--ink3);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:12px;color:var(--txt);min-height:180px;max-height:280px;overflow-y:auto;line-height:1.55">
+          <div style="color:var(--muted)">Cliquez sur « Générer » pour produire le briefing du soir.</div>
+        </div>
+        <div style="margin-top:10px">
+          <div class="form-label">Message personnalisé (optionnel)</div>
+          <textarea class="form-input" id="briefing-custom" rows="2" placeholder="Ex: Ce soir tenue impeccable, nous avons un critique gastronomique…" style="resize:none"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+          <div>
+            <div class="form-label">Voix</div>
+            <select class="form-select" id="briefing-voix-sel"><option value="">Française auto</option></select>
+          </div>
+          <div>
+            <div class="form-label">Vitesse</div>
+            <select class="form-select" id="briefing-vitesse">
+              <option value="0.8">🐢 Lente</option>
+              <option value="0.92" selected>🚶 Normale</option>
+              <option value="1.1">🏃 Rapide</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-ghost btn-sm" style="flex:1" onclick="briefingGenerer()">♻️ Générer</button>
+          <button id="btn-briefing-play" class="btn btn-gold btn-sm" style="flex:1" onclick="briefingLire()">▶ Lire</button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card">
+          <div class="card-title">📅 Réservations du soir</div>
+          <div id="briefing-resas" style="min-height:40px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">📦 Alertes stocks</div>
+          <div id="briefing-stocks" style="min-height:40px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">💡 Suggestions du soir</div>
+          <div id="briefing-suggestions" style="display:flex;flex-direction:column;gap:8px;min-height:40px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Message libre (mode rapide) ═══ -->
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">📢 Message libre à l'équipe</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div>
+          <div class="form-label">Voix (français)</div>
+          <select class="form-select" id="brief-voix"><option value="">Française auto</option></select>
+        </div>
+        <div>
+          <div class="form-label">Vitesse</div>
+          <select class="form-select" id="brief-speed">
+            <option value="0.8">🐢 Lente</option>
+            <option value="0.9" selected>🚶 Normale</option>
+            <option value="1.1">🏃 Rapide</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="form-label">Message à lire</div>
+        <textarea class="form-input" id="brief-msg" rows="3" placeholder="Ex: Bonsoir l'équipe, ce soir service complet, restez concentrés…" style="resize:none"></textarea>
+      </div>
+      <button id="brief-btn" onclick="briefLire()" style="margin-top:12px;width:100%;padding:14px;border-radius:12px;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(201,151,58,.25),rgba(201,151,58,.12));color:var(--gold2);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-size:14px">
+        <span id="brief-btn-ico" style="font-size:18px">📢</span>
+        <span id="brief-btn-lbl">Lire à l'équipe</span>
+        <span id="brief-dot" style="width:8px;height:8px;border-radius:50%;background:var(--muted)"></span>
+      </button>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--muted)">
+        <span>Statut : <span id="brief-status">En attente</span></span>
+      </div>
+    </div>
+
+    <!-- ═══ Historique ═══ -->
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">🕐 Historique des messages</div>
+      <div id="brief-histo"></div>
+    </div>
+  </div>
+
+  <!-- LOCATION DE SALLE -->
+  <div id="page-location" class="page">
+    <div class="page-header">
+      <div>
+        <h2>🎵 Location de salle</h2>
+        <div style="font-size:12px;color:var(--sub);margin-top:2px">Soirées privées · anniversaires · séminaires</div>
+      </div>
+      <button class="btn btn-gold btn-sm" onclick="openLocationModal()">+ Nouvelle réservation</button>
+    </div>
+
+    <div class="kpi-row" id="loc-kpi"></div>
+
+    <div class="g2" style="margin-top:14px;gap:14px">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div class="card-title" style="margin:0" id="loc-cal-titre">—</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-xs" onclick="locCalMois(-1)">‹</button>
+            <button class="btn btn-ghost btn-xs" onclick="locCalMois(0)">Aujourd'hui</button>
+            <button class="btn btn-ghost btn-xs" onclick="locCalMois(1)">›</button>
+          </div>
+        </div>
+        <div id="loc-cal-jours" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px"></div>
+        <div id="loc-calendrier" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔎 Filtrer</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+          <button class="btn btn-ghost btn-xs" id="lf-tous" style="border-color:var(--gold)" onclick="filterLoc('tous')">Toutes</button>
+          <button class="btn btn-ghost btn-xs" id="lf-option" onclick="filterLoc('option')">Options</button>
+          <button class="btn btn-ghost btn-xs" id="lf-confirmé" onclick="filterLoc('confirmé')">Confirmées</button>
+          <button class="btn btn-ghost btn-xs" id="lf-acompte" onclick="filterLoc('acompte')">Acompte reçu</button>
+          <button class="btn btn-ghost btn-xs" id="lf-soldé" onclick="filterLoc('soldé')">Soldées</button>
+          <button class="btn btn-ghost btn-xs" id="lf-annulé" onclick="filterLoc('annulé')">Annulées</button>
+        </div>
+        <div style="font-size:11px;color:var(--muted)">Cliquez sur un jour du calendrier pour voir/créer une réservation.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px">
+      <div id="loc-list"></div>
+    </div>
+  </div>
 
 </main>
 
@@ -11580,9 +11726,20 @@ function nav(name,el){
     toast('⛔ Accès réservé à l\'administrateur','err');
     return;
   }
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.remove('active');
+    // Remettre display:none pour les pages spéciales
+    if(['page-tablette','page-caisseRapide','page-todo'].some(id=>p.id===id)) p.style.display='none';
+  });
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+name)?.classList.add('active');
+  const pg = document.getElementById('page-'+name);
+  if(pg){
+    pg.classList.add('active');
+    // Pages avec display:none inline — forcer flex
+    const flexPages = ['tablette','caisseRapide','todo'];
+    if(flexPages.includes(name)) pg.style.display='flex';
+    else pg.style.display='';
+  }
   if(el)el.classList.add('active');
   (document.getElementById('pt')||{}).textContent=TITLES[name]||name;
   openGrpFor(name);
@@ -18028,6 +18185,9 @@ document.addEventListener('keydown', function(e){
 
 
 document.addEventListener('DOMContentLoaded', function(){
+  // ── Cacher l'écran PIN immédiatement (avant tout) ──
+  const _pinScr = document.getElementById('pin-screen');
+  if(_pinScr) _pinScr.style.display = 'none';
   loadDB();
   // Si données critiques vides → reset complet localStorage + reinit
   const _vide = !DB.tables||!DB.tables.length||!DB.plats||!DB.plats.length||!DB.personnel||!DB.personnel.length;
@@ -18137,7 +18297,7 @@ document.addEventListener('DOMContentLoaded', function(){
   setTimeout(renderRecents, 200);
   // Init écran PIN (désactivé - pour réactiver décommenter la ligne suivante)
   // setTimeout(pinInit, 100);
-  const pinScr=document.getElementById('pin-screen');if(pinScr)pinScr.style.display='none';
+  // pin-screen déjà caché au début du DOMContentLoaded
   const rsDate = document.getElementById('rs-date');
   const rsHeure = document.getElementById('rs-heure');
   if(rsDate) rsDate.value=td();
@@ -23615,6 +23775,99 @@ function prsSetFilter(f,btn){
   if(btn) btn.classList.add('on');
   rPresence();
 }
+// ═══ FONCTIONS MANQUANTES AJOUTÉES ═══
+
+// Filtre RH (page Personnel)
+function rhSetFiltre(f, btn){
+  window._rhFilter = f;
+  document.querySelectorAll('.prs-f-btn').forEach(b => b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  rRh();
+}
+
+// Ouvrir modal absence depuis fiche employé
+function openAbsModal(empId){
+  // Trouver l'employé
+  const emp = (DB.personnel||[]).find(e => e.id == empId);
+  if(!emp){ toast('Employé introuvable','err'); return; }
+  
+  // Créer une modal d'absence simple
+  const existing = document.getElementById('abs-quick-modal');
+  if(existing) existing.remove();
+  
+  const modal = document.createElement('div');
+  modal.id = 'abs-quick-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center';
+  modal.innerHTML = `
+    <div style="background:#1c1a14;border:1px solid #3a362e;border-radius:16px;padding:24px;width:340px;max-width:90vw">
+      <div style="font-size:16px;font-weight:700;color:var(--gold2);margin-bottom:16px">📅 Absence — ${emp.prenom} ${emp.nom}</div>
+      <div style="margin-bottom:12px">
+        <div class="form-label">Type</div>
+        <select class="form-select" id="abs-type-sel">
+          <option value="maladie">🤒 Maladie</option>
+          <option value="conge">🏖️ Congé</option>
+          <option value="accident">🚑 Accident travail</option>
+          <option value="famille">👨‍👩‍👧 Évènement familial</option>
+          <option value="autre">📌 Autre</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div><div class="form-label">Du</div><input type="date" class="form-input" id="abs-date-start" value="${new Date().toISOString().split('T')[0]}"/></div>
+        <div><div class="form-label">Au</div><input type="date" class="form-input" id="abs-date-end" value="${new Date().toISOString().split('T')[0]}"/></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <div class="form-label">Note</div>
+        <input type="text" class="form-input" id="abs-note" placeholder="Optionnel..."/>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" style="flex:1" onclick="document.getElementById('abs-quick-modal').remove()">Annuler</button>
+        <button class="btn btn-gold" style="flex:1" onclick="saveAbsQuick(${empId})">Enregistrer</button>
+      </div>
+    </div>`;
+  modal.addEventListener('click', e => { if(e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+}
+
+// Sauvegarder une absence rapide
+function saveAbsQuick(empId){
+  if(!DB.absences) DB.absences = [];
+  const type = document.getElementById('abs-type-sel')?.value || 'autre';
+  const debut = document.getElementById('abs-date-start')?.value;
+  const fin = document.getElementById('abs-date-end')?.value;
+  const note = document.getElementById('abs-note')?.value || '';
+  
+  if(!debut || !fin){ toast('Dates requises','err'); return; }
+  if(debut > fin){ toast('Date de fin avant début','err'); return; }
+  
+  DB.absences.push({ id: Date.now(), empId, type, debut, fin, note, createdAt: new Date().toISOString() });
+  saveDB();
+  document.getElementById('abs-quick-modal')?.remove();
+  toast('Absence enregistrée ✓','ok');
+  rRh();
+}
+
+// Changement de plat dans modal fiche technique
+function fiche_platChange(platId){
+  if(!platId) return;
+  const plat = (DB.plats||[]).find(p => String(p.id) === String(platId));
+  if(!plat) return;
+  
+  // Pré-remplir le nom si champ vide
+  const nomField = document.getElementById('ficheM-nom');
+  if(nomField && !nomField.value) nomField.value = plat.nom || '';
+  
+  // Mettre à jour le hidden field
+  const idField = document.getElementById('ficheM-platId');
+  if(idField) idField.value = platId;
+  
+  // Charger les ingrédients existants de ce plat si une fiche existe déjà
+  const existingFiche = (DB.fiches||[]).find(f => String(f.platId) === String(platId));
+  if(existingFiche && existingFiche.ingredients && existingFiche.ingredients.length){
+    // Afficher les ingrédients existants
+    ficheUpdateCout();
+  }
+}
+
 function pointer(empId,type){
   const today=td();
   const now=new Date();
