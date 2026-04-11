@@ -8033,25 +8033,18 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div class="page-header">
       <h2>🧼 HACCP</h2>
       <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost btn-sm" onclick="openHaccpTemp()">🌡 Température</button>
-        <button class="btn btn-gold btn-sm" onclick="openHaccpNett()">+ Nettoyage</button>
+        <button class="btn btn-ghost btn-sm" onclick="openHaccpModal('reception')">📦 Réception</button>
+        <button class="btn btn-danger btn-sm" onclick="openHaccpModal('nonconf')">⚠️ Non-conformité</button>
       </div>
     </div>
     <div class="kpi-row" id="haccp-kpi"></div>
-    <div class="g2" style="margin-top:16px">
-      <div class="card">
-        <div class="card-title">🌡 Relevés température du jour</div>
-        <div id="haccp-temps"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">🧹 Nettoyages</div>
-        <div id="haccp-nett"></div>
-      </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 14px">
+      <button class="haccp-tab-btn active" id="ht-temperatures" onclick="switchHaccp('temperatures')">🌡 Températures</button>
+      <button class="haccp-tab-btn" id="ht-nettoyage" onclick="switchHaccp('nettoyage')">🧹 Nettoyage</button>
+      <button class="haccp-tab-btn" id="ht-reception" onclick="switchHaccp('reception')">📦 Réception</button>
+      <button class="haccp-tab-btn" id="ht-nonconf" onclick="switchHaccp('nonconf')">⚠️ Non-conformités</button>
     </div>
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">⚠️ Non-conformités ouvertes</div>
-      <div id="haccp-nc"></div>
-    </div>
+    <div id="haccp-content"></div>
   </div>
 
   <!-- PAGE AVIS -->
