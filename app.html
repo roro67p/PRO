@@ -4906,7 +4906,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 <body>
 
 <!-- ÉCRAN DE CONNEXION PIN -->
-<div id="pin-screen" style="display:none">
+<div id="pin-screen">
   <div class="pin-logo">
     <div class="pin-logo-name">CHEZ ROMU</div>
     <div class="pin-logo-sub">✦ Restaurant ✦</div>
@@ -4936,7 +4936,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="pin-key del" onclick="pinDel()">⌫</div>
     </div>
     <div class="pin-msg" id="pin-msg"></div>
-    <div class="pin-skip" onclick="pinSkip()">Passer → accès direct</div>
+
   </div>
 </div>
 
@@ -14662,14 +14662,21 @@ function pinInit(){
   // Toujours ajouter le manager/admin
   const allUsers = [
     {id:0, nom:'Admin', prenom:'', poste:'Manager', pin:PIN_ADMIN, col:'#c9973a'},
-    ...emps.map(e=>({
-      id:e.id,
-      nom:e.nom,
-      prenom:e.prenom||'',
-      poste:e.poste||'Employé',
-      pin:e.pin||'0000',
-      col:'#6aacda'
-    }))
+    ...emps.map((e,i)=>{
+      // Auto-PIN si pas défini : 1000 + index (1001, 1002...)
+      if(!e.pin||e.pin==='0000'){
+        e.pin = String(1001+i).padStart(4,'0');
+        saveDB();
+      }
+      return {
+        id:e.id,
+        nom:e.nom,
+        prenom:e.prenom||'',
+        poste:e.poste||'Employé',
+        pin:e.pin,
+        col:'#6aacda'
+      };
+    })
   ];
 
   window._pinUsers = allUsers;
@@ -14773,12 +14780,19 @@ function pinEnter(welcomeEl){
     screen.classList.add('out');
     setTimeout(()=>screen.remove(), 400);
   }
-  // Mettre à jour le greeting avec le prénom
-  if(_pinCurrentUser){
-    const h=new Date().getHours();
-    const greet=h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
-    const gEl=document.getElementById('dash-greeting');
-    if(gEl) gEl.textContent=greet+' '+((_pinCurrentUser.prenom||_pinCurrentUser.nom)||'')+ ' 👋';
+  // Selon le rôle : Admin → dashboard, Employé → tablette serveur
+  const u = _pinCurrentUser;
+  if(u && u.id !== 0){
+    // Employé → tablette serveur directement
+    setTimeout(()=>nav('tablette', null), 450);
+  } else {
+    // Admin → dashboard normal
+    if(u){
+      const h=new Date().getHours();
+      const greet=h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
+      const gEl=document.getElementById('dash-greeting');
+      if(gEl) gEl.textContent=greet+' '+(u.prenom||u.nom)+' 👋';
+    }
   }
 }
 
@@ -14891,8 +14905,8 @@ document.addEventListener('DOMContentLoaded', function(){
   }, 300);
   // Init récents
   setTimeout(renderRecents, 200);
-  // Init écran PIN désactivé
-  // setTimeout(pinInit, 100);
+  // Init écran PIN
+  setTimeout(pinInit, 100);
   const rsDate = document.getElementById('rs-date');
   const rsHeure = document.getElementById('rs-heure');
   if(rsDate) rsDate.value=td();
