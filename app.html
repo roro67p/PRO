@@ -1644,6 +1644,101 @@ tbody tr { transition:background .12s; }
 .dch-entry:hover .dch-entry-del{opacity:1}
 .dch-entry-del:hover{background:rgba(181,57,42,.2);color:#f07060}
 
+
+/* ══════════════════════
+   PRÉSENCES & POINTAGES
+   ══════════════════════ */
+.prs-page{}
+.prs-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.prs-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--txt);letter-spacing:-.3px}
+.prs-sub{font-size:11px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:1px}
+.prs-live-dot{width:6px;height:6px;border-radius:50%;background:#6fcf8a;box-shadow:0 0 8px #6fcf8a;display:inline-block;animation:pulse-dot 1.5s infinite}
+.prs-btn-pointer{background:linear-gradient(108deg,#1a5c2a,#2d7a3a,#4da870);background-size:200% 100%;color:#fff;font-size:12px;font-weight:700;padding:9px 18px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(45,122,58,.35);transition:all .2s}
+.prs-btn-pointer:hover{background-position:100%;transform:translateY(-1px)}
+
+.prs-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:700px){.prs-kpis{grid-template-columns:repeat(2,1fr)}}
+
+.prs-timeline-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px 20px;margin-bottom:14px}
+.prs-histo-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px 20px}
+.prs-section-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.prs-section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+
+.prs-filters{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.prs-filter-btn{padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--sub);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
+.prs-filter-btn.on{background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.35);color:var(--gold2)}
+.prs-filter-btn:hover:not(.on){background:rgba(255,255,255,.08)}
+
+.prs-team-grid{display:flex;flex-direction:column;gap:0}
+
+/* Carte employé présence */
+.prs-emp-card{display:grid;grid-template-columns:40px 1fr auto auto auto;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);animation:prsIn .25s ease both;transition:background .15s}
+.prs-emp-card:last-child{border-bottom:none}
+.prs-emp-card:hover{background:rgba(255,255,255,.02);margin:0 -8px;padding:12px 8px;border-radius:10px}
+.prs-emp-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;flex-shrink:0;position:relative}
+.prs-emp-avatar-ring{position:absolute;inset:-2px;border-radius:50%;border:2px solid transparent}
+.prs-emp-avatar-ring.present{border-color:#6fcf8a;animation:prsRing 2s ease-in-out infinite}
+.prs-emp-avatar-ring.parti{border-color:rgba(255,255,255,.15)}
+.prs-emp-avatar-ring.absent{border-color:rgba(255,255,255,.08)}
+@keyframes prsRing{0%,100%{box-shadow:0 0 0 0 rgba(95,184,122,.3)}50%{box-shadow:0 0 0 4px rgba(95,184,122,.1)}}
+.prs-emp-info{min-width:0}
+.prs-emp-name{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:1px}
+.prs-emp-poste{font-size:11px;color:var(--muted)}
+.prs-emp-times{font-size:12px;color:var(--sub);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.prs-emp-duration{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--gold2);white-space:nowrap;min-width:40px;text-align:right}
+.prs-emp-actions{display:flex;gap:5px;flex-shrink:0}
+.prs-btn-arrivee{padding:5px 10px;border-radius:7px;border:1px solid rgba(95,184,122,.35);background:rgba(61,122,78,.15);color:#6fcf8a;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
+.prs-btn-arrivee:hover{background:rgba(61,122,78,.3)}
+.prs-btn-depart{padding:5px 10px;border-radius:7px;border:1px solid rgba(181,57,42,.3);background:rgba(181,57,42,.12);color:#f07060;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
+.prs-btn-depart:hover{background:rgba(181,57,42,.25)}
+.prs-statut-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.prs-statut-badge.present{background:rgba(95,184,122,.12);color:#6fcf8a;border:1px solid rgba(95,184,122,.2)}
+.prs-statut-badge.parti{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid rgba(255,255,255,.08)}
+.prs-statut-badge.absent{background:rgba(255,255,255,.03);color:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.06)}
+
+@keyframes prsIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+
+/* ══════════════════
+   FORMATION
+   ══════════════════ */
+.frm-page{}
+.frm-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.frm-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--txt)}
+.frm-sub{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:.5px}
+.frm-btn-new{background:linear-gradient(108deg,rgba(45,95,138,.5),rgba(106,172,218,.3));border:1px solid rgba(106,172,218,.35);color:#6aacda;padding:9px 18px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.frm-btn-new:hover{background:rgba(45,95,138,.5);transform:translateY(-1px)}
+
+.frm-tabs{display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:16px;overflow-x:auto}
+.frm-tab{padding:10px 18px;font-size:12px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;white-space:nowrap;margin-bottom:-1px}
+.frm-tab.on{color:var(--gold2);border-bottom-color:var(--gold2)}
+.frm-tab:hover:not(.on){color:var(--sub)}
+
+.frm-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+
+.frm-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden;transition:all .2s;cursor:pointer;animation:frmIn .3s ease both}
+.frm-card:hover{border-color:rgba(255,255,255,.14);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.frm-card-inner{padding:16px}
+.frm-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.frm-card-ico{font-size:26px;flex-shrink:0;line-height:1}
+.frm-card-info{flex:1;min-width:0}
+.frm-card-nom{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:3px;line-height:1.3}
+.frm-card-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.frm-card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.frm-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;background:rgba(255,255,255,.06);color:var(--sub);border:1px solid rgba(255,255,255,.08);text-transform:uppercase;letter-spacing:.5px}
+.frm-tag.obligatoire{background:rgba(240,112,96,.12);color:#f07060;border-color:rgba(240,112,96,.2)}
+.frm-tag.important{background:rgba(240,160,96,.1);color:#f0a060;border-color:rgba(240,160,96,.2)}
+.frm-card-meta{display:flex;gap:10px;font-size:10px;color:var(--muted);margin-top:6px}
+.frm-card-meta span{display:flex;align-items:center;gap:3px}
+.frm-progress{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin:8px 0 3px}
+.frm-progress-fill{height:100%;background:linear-gradient(90deg,#6fcf8a,#4da870);border-radius:3px;transition:width .5s ease}
+.frm-check{display:flex;align-items:flex-start;gap:8px;padding:6px;border-radius:7px;cursor:pointer;transition:background .15s;margin-bottom:2px}
+.frm-check:hover{background:rgba(255,255,255,.04)}
+.frm-check.done .frm-check-box{background:#6fcf8a;border-color:#6fcf8a;color:#fff}
+.frm-check.done>span{text-decoration:line-through;color:var(--muted)}
+.frm-check-box{width:18px;height:18px;border-radius:5px;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;transition:all .15s}
+.frm-detail{border-top:1px solid rgba(255,255,255,.06);padding-top:12px;margin-top:12px}
+
+@keyframes frmIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes dchIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
 /* ══════════════════════════════
@@ -6668,6 +6763,46 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- PERSONNEL -->
   <!-- PERSONNEL & PAIE -->
+  <!-- PAGE PRÉSENCES -->
+  <div id="page-presence" class="page prs-page">
+
+  <!-- HEADER -->
+  <div class="prs-header">
+    <div class="prs-header-left">
+      <div class="prs-title">✅ Présences & Pointages</div>
+      <div class="prs-sub"><span class="prs-live-dot"></span><span id="prs-date-lbl"></span></div>
+    </div>
+    <button class="prs-btn-pointer" onclick="openPointageModal()">+ Pointer une arrivée</button>
+  </div>
+
+  <!-- KPIs -->
+  <div class="prs-kpis" id="presence-kpi"></div>
+
+  <!-- TIMELINE VISUELLE -->
+  <div class="prs-timeline-card">
+    <div class="prs-section-title">👥 Équipe aujourd'hui</div>
+    <div class="prs-filters" id="prs-filters">
+      <button class="prs-filter-btn on" onclick="prsSetFilter('tous',this)">Tous</button>
+      <button class="prs-filter-btn" onclick="prsSetFilter('present',this)">🟢 Présents</button>
+      <button class="prs-filter-btn" onclick="prsSetFilter('absent',this)">⚫ Absents</button>
+      <button class="prs-filter-btn" onclick="prsSetFilter('parti',this)">🔴 Partis</button>
+    </div>
+    <div id="presence-today" class="prs-team-grid"></div>
+  </div>
+
+  <!-- HISTORIQUE -->
+  <div class="prs-histo-card">
+    <div class="prs-section-title">📋 Historique des pointages</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Employé</th><th>Date</th><th>Arrivée</th><th>Départ</th><th>Durée</th><th>Statut</th><th></th></tr></thead>
+        <tbody id="presence-histo"></tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+
   <div id="page-rh" class="page">
 
   <div>
@@ -6745,7 +6880,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="pl4-header">
         <div>
           <div class="pl4-title">📅 Planning hebdomadaire</div>
-          <div class="pl4-date" id="pl4-date-lbl"></div>
+          <div class="pl4-date" id="pl4-date-lbl-rh"></div>
         </div>
         <div class="pl4-nav">
           <button class="pl4-nav-btn" onclick="planningNav(-1)">← Semaine préc.</button>
@@ -6753,8 +6888,11 @@ tbody td { padding:13px 14px; font-size:13px; }
           <button class="pl4-nav-btn" onclick="planningNav(1)">Semaine suiv. →</button>
         </div>
       </div>
-      <div class="pl4-kpis" id="planning-kpi"></div>
-      <div class="pl4-wrap" id="planning-grid"></div>
+      <div class="pl4-kpis" id="planning-kpi-rh"></div>
+      <div class="pl4-legende-wrap">
+        <div id="pl4-legende-rh" class="pl4-legende"></div>
+      </div>
+      <div id="planning-grid-rh"></div>
     </div>
 
     <!-- VUE ABSENCES -->
@@ -9878,6 +10016,26 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- ÉTABLISSEMENTS -->
+  <!-- PAGE PLANNING DÉDIÉ -->
+  <div id="page-planning" class="page">
+    <div class="pl4-header">
+      <div>
+        <div class="pl4-title">📅 Planning hebdomadaire</div>
+        <div class="pl4-date" id="pl4-date-lbl"></div>
+      </div>
+      <div class="pl4-nav">
+        <button class="pl4-nav-btn" onclick="planningNav(-1)">← Semaine préc.</button>
+        <button class="pl4-nav-today" onclick="planningNav(0)">Aujourd'hui</button>
+        <button class="pl4-nav-btn" onclick="planningNav(1)">Semaine suiv. →</button>
+      </div>
+    </div>
+    <div class="pl4-kpis" id="planning-kpi"></div>
+    <div class="pl4-legende-wrap">
+      <div id="pl4-legende" class="pl4-legende"></div>
+    </div>
+    <div id="planning-grid"></div>
+  </div>
+
   <div id="page-etabs" class="page">
     <div class="page-header"><h2>🏢 Établissements</h2><button class="btn btn-gold" onclick="openEtabModal()">+ Nouvel établissement</button></div>
     <div id="etabs-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px"></div>
@@ -10068,30 +10226,32 @@ tbody td { padding:13px 14px; font-size:13px; }
 
 
   <!-- FORMATION ÉQUIPE -->
-  <div id="page-formation" class="page">
-  <div>
-    <div class="frm-header">
-      <div>
-        <div class="frm-title">🎓 Formation & Équipe</div>
-        <div class="frm-sub">Fiches de poste · Procédures · Onboarding</div>
-      </div>
-      <div class="fn-actions">
-        <button class="fn-btn-new" onclick="openFrmModal()">+ Nouvelle fiche</button>
-      </div>
+  <div id="page-formation" class="page frm-page">
+
+  <!-- HEADER -->
+  <div class="frm-header">
+    <div>
+      <div class="frm-title">🎓 Formation & Équipe</div>
+      <div class="frm-sub">Fiches de poste · Procédures · Onboarding</div>
     </div>
-
-    <div class="kpi-grid-4" id="frm-kpis"></div>
-
-    <div class="frm-tabs">
-      <div class="frm-tab on" onclick="frmSetTab('postes',this)">📋 Fiches de poste</div>
-      <div class="frm-tab" onclick="frmSetTab('procedures',this)">📖 Procédures</div>
-      <div class="frm-tab" onclick="frmSetTab('onboarding',this)">🚀 Onboarding</div>
-      <div class="frm-tab" onclick="frmSetTab('hygiene',this)">🧼 Hygiène</div>
-    </div>
-
-    <div class="frm-list" id="frm-list"></div>
+    <button class="frm-btn-new" onclick="openFrmModal()">+ Nouvelle fiche</button>
   </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid-4" id="frm-kpis"></div>
+
+  <!-- ONGLETS -->
+  <div class="frm-tabs">
+    <button class="frm-tab on" onclick="frmSetTab('postes',this)">📋 Fiches de poste</button>
+    <button class="frm-tab" onclick="frmSetTab('procedures',this)">📖 Procédures</button>
+    <button class="frm-tab" onclick="frmSetTab('onboarding',this)">🚀 Onboarding</button>
+    <button class="frm-tab" onclick="frmSetTab('hygiene',this)">🧼 Hygiène</button>
   </div>
+
+  <!-- LISTE -->
+  <div class="frm-list" id="frm-list"></div>
+  </div>
+
 
 </main>
 
@@ -11170,6 +11330,10 @@ function loadDB(){
     // Migration: clients pour utilisateurs existants
     if(!DB.clients) DB.clients=[];
     if(!DB.ids.cl) DB.ids.cl=1;
+    // Migration: formation - initialiser avec données de démo si vide
+    if(!DB.formation||!DB.formation.length) DB.formation=DB_FORMATION_DEFAULT||[];
+    // Migration: pointages
+    if(!DB.pointages) DB.pointages=[];
     // Migration: photos et emojis sur les plats
     migratePhotosPlats();
   }catch(e){}
@@ -15372,7 +15536,7 @@ function frmSetTab(tab,btn){
   rFormation();
 }
 
-if(!DB.formation) DB.formation=[
+const DB_FORMATION_DEFAULT=[
   // FICHES DE POSTE
   {id:1,type:'postes',ico:'👨‍🍳',nom:'Chef cuisinier',desc:'Responsable de la cuisine, création des plats, gestion de la brigade',
    contenu:['Élaborer la carte et les menus','Gérer les commandes fournisseurs','Superviser la brigade de cuisine','Contrôler la qualité des plats','Respecter les normes HACCP','Gérer les coûts matières (objectif 30%)','Former les commis et apprentis'],
@@ -15420,6 +15584,7 @@ if(!DB.formation) DB.formation=[
    contenu:['Toque ou charlotte obligatoire en cuisine','Tablier propre à chaque service','Chaussures de sécurité antidérapantes','Gants jetables pour manipuler les aliments crus','Pas de bijoux (bagues, montres, bracelets)','Ongles courts et propres, pas de vernis','Tenue propre changée quotidiennement'],
    tags:['obligatoire','cuisine']}
 ];
+
 
 function rFormation(){
   if(!DB.formation) DB.formation=[];
@@ -22093,6 +22258,11 @@ function getOptionsTotal(optionsList){
 // 📅 PLANNING VISUEL
 // ═══════════════════════════════════════════
 let planningOffset=0;
+function planningNav(dir){
+  if(dir===0) planningOffset=0;
+  else planningOffset+=dir;
+  rPlanning();
+}
 const JOURS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 const JOURS_FULL=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
 const CRENEAUX=['Matin (8h-12h)','Midi (12h-15h)','Après-midi (15h-18h)','Soir (18h-23h)'];
@@ -22118,15 +22288,16 @@ function rPlanning(){
   const d1=dates[0], d2=dates[6];
 
   // Header date
-  const dateLbl=document.getElementById('pl4-date-lbl');
+  const dateLbl=document.getElementById('pl4-date-lbl')||document.getElementById('pl4-date-lbl-rh');
   if(dateLbl) dateLbl.textContent=`${d1.getDate()} ${d1.toLocaleDateString('fr-FR',{month:'long'})} — ${d2.getDate()} ${d2.toLocaleDateString('fr-FR',{month:'long',year:'numeric'})}`;
 
   const staff=(DB.personnel||[]).filter(e=>e.stat==='actif');
   const grid=document.getElementById('planning-grid');
+  const gridRh=document.getElementById('planning-grid-rh');
   if(!grid) return;
 
   if(!staff.length){
-    grid.innerHTML='<div style="text-align:center;padding:60px;color:var(--muted)"><div style="font-size:44px;opacity:.2;margin-bottom:14px">📅</div><p>Aucun employé actif</p></div>';
+    if(gridRh) gridRh.innerHTML=grid.innerHTML; grid.innerHTML='<div style="text-align:center;padding:60px;color:var(--muted)"><div style="font-size:44px;opacity:.2;margin-bottom:14px">📅</div><p>Aucun employé actif</p></div>';
     return;
   }
 
@@ -22142,7 +22313,7 @@ function rPlanning(){
     else presents++;
   });
 
-  const kpiEl=document.getElementById('planning-kpi');
+  const kpiEl=document.getElementById('planning-kpi')||document.getElementById('planning-kpi-rh');
   if(kpiEl) kpiEl.innerHTML=`
     <div class="pl4-kpi kq-total">
       <span class="pl4-kpi-ico">👥</span>
@@ -22171,7 +22342,7 @@ function rPlanning(){
   const POSTE_COL={'Serveur':'#6aacda','Chef':'#f07060','Cuisinier':'#f07060','Manager':'var(--gold2)','Barman':'#6fcf8a','Plongeur':'#a088d8','Hôte':'#78d0d0'};
 
   // Légende postes
-  const legEl=document.getElementById('pl4-legende');
+  const legEl=document.getElementById('pl4-legende')||document.getElementById('pl4-legende-rh');
   if(legEl){
     const postes=[...new Set(staff.map(e=>e.poste).filter(Boolean))];
     legEl.innerHTML=postes.map(p=>{
@@ -22257,7 +22428,7 @@ function rPlanning(){
   });
 
   html+=`</div>`;
-  grid.innerHTML=html;
+  if(gridRh) gridRh.innerHTML=grid.innerHTML; grid.innerHTML=html;
 }
 
 
@@ -23165,102 +23336,131 @@ function delFrais(id){DB.frais=DB.frais.filter(f=>f.id!==id);saveDB();rFrais();}
 // ═══════════════════════════════════════════
 if(!DB.pointages) DB.pointages=[];
 function rPresence(){
-  // Injecter le HTML dans presence-container si besoin
-  const container=document.getElementById('presence-container');
-  if(container&&!document.getElementById('presence-kpi')){
-    container.innerHTML=`
-      <div class="kpi-grid-4" id="presence-kpi" style="margin-bottom:14px"></div>
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap" id="presence-filters">
-        <button class="btn btn-ghost btn-sm prs-f-btn on" onclick="prsSetFilter('tous',this)">Tous</button>
-        <button class="btn btn-ghost btn-sm prs-f-btn" onclick="prsSetFilter('present',this)">✅ Présents</button>
-        <button class="btn btn-ghost btn-sm prs-f-btn" onclick="prsSetFilter('absent',this)">⚠ Absents</button>
-        <button class="btn btn-ghost btn-sm prs-f-btn" onclick="prsSetFilter('conge',this)">🏖 Congés</button>
-      </div>
-      <div id="presence-list"></div>`;
-  }
-  const pts=DB.pointages||[];
-  const ptsJ=pts.filter(p=>p.date===td());
-  const kpiEl=document.getElementById('presence-kpi');
-  if(kpiEl) kpiEl.innerHTML=`
-    <div class="kpi-box kpi-green"><div class="kpi-label">PRÉSENTS AUJOURD'HUI</div><div class="kpi-val">${ptsJ.filter(p=>p.arrivee&&!p.depart).length}</div></div>
-    <div class="kpi-box kpi-gold"><div class="kpi-label">POINTAGES DU JOUR</div><div class="kpi-val">${ptsJ.length}</div></div>
-    <div class="kpi-box kpi-blue"><div class="kpi-label">HEURES TOTALES</div><div class="kpi-val">${ptsJ.filter(p=>p.arrivee&&p.depart).reduce((s,p)=>{const [h1,m1]=p.arrivee.split(':').map(Number);const [h2,m2]=p.depart.split(':').map(Number);return s+((h2*60+m2)-(h1*60+m1))/60;},0).toFixed(1)}h</div></div>`;
-
-  if(!DB.pointages) DB.pointages=[];
   const today=td();
-  const pointagesJ=DB.pointages.filter(p=>p.date===today);
-  const presents=pointagesJ.filter(p=>p.arrivee&&!p.depart).length;
-  const partis=pointagesJ.filter(p=>p.arrivee&&p.depart).length;
-  const totalH=DB.pointages.reduce((s,p)=>{
-    if(!p.arrivee||!p.depart) return s;
+  const g=id=>document.getElementById(id);
+  const _prsFilter=window._prsFilter||'tous';
+
+  // Date label
+  const dateLbl=g('prs-date-lbl');
+  if(dateLbl) dateLbl.textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+
+  const staff=DB.personnel||[];
+  const pointages=DB.pointages||[];
+  const ptJ=pointages.filter(p=>p.date===today);
+
+  const presents=ptJ.filter(p=>p.arrivee&&!p.depart).length;
+  const partis=ptJ.filter(p=>p.arrivee&&p.depart).length;
+  const absents=staff.length-ptJ.filter(p=>p.arrivee).length;
+  const totalH=ptJ.filter(p=>p.arrivee&&p.depart).reduce((s,p)=>{
     const [ah,am]=p.arrivee.split(':').map(Number);
     const [dh,dm]=p.depart.split(':').map(Number);
     return s+((dh*60+dm)-(ah*60+am))/60;
   },0);
-  const kpi=document.getElementById('presence-kpi');
-  if(kpi) kpi.innerHTML=`
-    <div class="kpi-box kpi-green"><div class="kpi-label">PRÉSENTS</div><div class="kpi-val">${presents}</div></div>
-    <div class="kpi-box kpi-gold"><div class="kpi-label">PARTIS</div><div class="kpi-val">${partis}</div></div>
-    <div class="kpi-box kpi-blue"><div class="kpi-label">TOTAL EMPLOYÉS</div><div class="kpi-val">${(DB.personnel||[]).length}</div></div>
-    <div class="kpi-box kpi-gold"><div class="kpi-label">HEURES CE MOIS</div><div class="kpi-val">${Math.round(totalH)}h</div></div>`;
 
-  // Aujourd'hui
-  const todayEl=document.getElementById('presence-today');
+  // KPIs premium
+  const kpiEl=g('presence-kpi');
+  if(kpiEl) kpiEl.innerHTML=[
+    {ico:'🟢',val:presents,lbl:'Présents',cls:'kpi-box kpi-green'},
+    {ico:'🔴',val:partis,lbl:'Partis',cls:'kpi-box kpi-red'},
+    {ico:'⚫',val:absents,lbl:'Absents',cls:'kpi-box kpi-amber'},
+    {ico:'⏱',val:totalH.toFixed(1)+'h',lbl:"Heures aujourd'hui",cls:'kpi-box kpi-gold'},
+  ].map(k=>`<div class="${k.cls}"><div class="kpi-label">${k.lbl}</div><div class="kpi-val">${k.ico} ${k.val}</div></div>`).join('');
+
+  // Filtres — sync visuel
+  document.querySelectorAll('.prs-filter-btn').forEach(btn=>{
+    btn.classList.remove('on');
+    if(btn.getAttribute('onclick')&&btn.getAttribute('onclick').includes("'"+_prsFilter+"'")) btn.classList.add('on');
+  });
+
+  // Team grid
+  const todayEl=g('presence-today');
   if(todayEl){
-    const staff=DB.personnel||[];
-    if(!staff.length){todayEl.innerHTML='<div style="color:var(--muted);font-size:13px">Aucun employé</div>';return;}
-    todayEl.innerHTML=staff.map(e=>{
-      const p=pointagesJ.find(x=>x.empId===e.id);
-      const statCol=p?.depart?'var(--muted)':p?.arrivee?'var(--green)':'var(--line2)';
-      const statTxt=p?.depart?'Parti':(p?.arrivee?'Présent':'Absent');
-      const heures=p?.arrivee&&p?.depart?(() => {
-        const [ah,am]=p.arrivee.split(':').map(Number);
-        const [dh,dm]=p.depart.split(':').map(Number);
-        const h=((dh*60+dm)-(ah*60+am))/60;
-        return Math.round(h*10)/10+'h';
-      })():'—';
-      return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)">
-        <div style="width:8px;height:8px;border-radius:50%;background:${statCol};flex-shrink:0"></div>
-        <div style="flex:1">
-          <div style="font-size:13px;font-weight:500">${e.prenom||e.nom} ${e.prenom?e.nom:''}</div>
-          <div style="font-size:11px;color:var(--sub)">${e.poste||'—'}</div>
-        </div>
-        ${p?.arrivee?`<div style="font-size:12px;color:var(--sub)">🟢 ${p.arrivee}${p.depart?' → 🔴 '+p.depart:''}</div>`:''}
-        <div style="font-size:11px;color:${statCol};font-weight:600">${p?.depart?'Parti':p?.arrivee?'Présent':'Absent'}</div>
-        ${heures!=='—'?`<div style="font-size:12px;color:var(--gold2)">${heures}</div>`:''}
-        <div style="display:flex;gap:4px">
-          ${!p?.arrivee?`<button class="btn btn-success btn-xs" onclick="pointer(${e.id},'arrivee')">🟢 Arrivée</button>`:''}
-          ${p?.arrivee&&!p?.depart?`<button class="btn btn-danger btn-xs" onclick="pointer(${e.id},'depart')">🔴 Départ</button>`:''}
-        </div>
-      </div>`;
-    }).join('');
+    let filtered=staff;
+    if(_prsFilter==='present') filtered=staff.filter(e=>{const p=ptJ.find(x=>x.empId===e.id);return p?.arrivee&&!p?.depart;});
+    else if(_prsFilter==='parti') filtered=staff.filter(e=>{const p=ptJ.find(x=>x.empId===e.id);return p?.arrivee&&p?.depart;});
+    else if(_prsFilter==='absent') filtered=staff.filter(e=>!ptJ.find(x=>x.empId===e.id&&x.arrivee));
+
+    if(!filtered.length){
+      todayEl.innerHTML='<div style="color:var(--muted);font-size:12px;padding:20px;text-align:center">Aucun employé dans ce filtre</div>';
+    } else {
+      const POSTE_COL={'Serveur':'#6aacda','Chef':'#f07060','Cuisinier':'#f07060','Manager':'var(--gold2)','Cheffe de salle':'#6aacda','Chef cuisinier':'#f07060','Barman':'#6fcf8a','Plongeur':'#a088d8'};
+      todayEl.innerHTML=filtered.map((e,idx)=>{
+        const p=ptJ.find(x=>x.empId===e.id);
+        const statut=p?.depart?'parti':p?.arrivee?'present':'absent';
+        const col=POSTE_COL[e.poste]||'rgba(255,255,255,.3)';
+        const initials=(e.prenom?.[0]||'')+(e.nom?.[0]||'');
+
+        let duree='',timeTxt='';
+        if(p?.arrivee&&p?.depart){
+          const [ah,am]=p.arrivee.split(':').map(Number);
+          const [dh,dm]=p.depart.split(':').map(Number);
+          duree=(Math.round(((dh*60+dm)-(ah*60+am))/60*10)/10)+'h';
+          timeTxt=p.arrivee+' → '+p.depart;
+        } else if(p?.arrivee){
+          const now=new Date();
+          const [ah,am]=p.arrivee.split(':').map(Number);
+          const mins=Math.floor((now.getHours()*60+now.getMinutes())-(ah*60+am));
+          duree=mins>0?Math.floor(mins/60)+'h'+String(mins%60).padStart(2,'0'):'';
+          timeTxt='Depuis '+p.arrivee;
+        }
+
+        return `<div class="prs-emp-card" style="animation-delay:${idx*.04}s">
+          <div class="prs-emp-avatar" style="background:${col}18;color:${col}">
+            ${initials}
+            <div class="prs-emp-avatar-ring ${statut}"></div>
+          </div>
+          <div class="prs-emp-info">
+            <div class="prs-emp-name">${e.prenom||''} ${e.nom||''}</div>
+            <div class="prs-emp-poste">${e.poste||'—'}</div>
+          </div>
+          <div class="prs-emp-times">${timeTxt?timeTxt:'—'}</div>
+          <div class="prs-emp-duration">${duree||'—'}</div>
+          <div class="prs-emp-actions">
+            <span class="prs-statut-badge ${statut}">${statut==='present'?'🟢 Présent':statut==='parti'?'✓ Parti':'⚫ Absent'}</span>
+            ${!p?.arrivee?'<button class="prs-btn-arrivee" onclick="pointer('+e.id+',\'arrivee\')">▶ Arrivée</button>':''}
+            ${p?.arrivee&&!p?.depart?'<button class="prs-btn-depart" onclick="pointer('+e.id+',\'depart\')">■ Départ</button>':''}
+          </div>
+        </div>`;
+      }).join('');
+    }
   }
 
   // Historique
-  const histo=document.getElementById('presence-histo');
-  if(histo){
-    const recent=DB.pointages.slice().reverse().slice(0,20);
-    if(!recent.length){histo.innerHTML='<tr><td colspan="7" style="color:var(--muted);padding:16px">Aucun pointage</td></tr>';return;}
-    histo.innerHTML=recent.map(p=>{
-      const e=(DB.personnel||[]).find(x=>x.id===p.empId)||{nom:'?'};
-      let heures='—';
-      if(p.arrivee&&p.depart){
-        const [ah,am]=p.arrivee.split(':').map(Number);
-        const [dh,dm]=p.depart.split(':').map(Number);
-        const h=((dh*60+dm)-(ah*60+am))/60;
-        heures=Math.round(h*10)/10+'h';
-      }
-      return `<tr>
-        <td style="font-weight:500">${e.prenom||''} ${e.nom}</td>
-        <td style="font-size:12px;color:var(--sub)">${p.date}</td>
-        <td style="color:var(--green)">${p.arrivee||'—'}</td>
-        <td style="color:var(--red)">${p.depart||'—'}</td>
-        <td style="font-weight:600;color:var(--gold2)">${heures}</td>
-        <td><span style="font-size:11px;color:${p.depart?'var(--muted)':p.arrivee?'var(--green)':'var(--red)'}">${p.depart?'Terminé':p.arrivee?'En cours':'Absent'}</span></td>
-        <td><button class="btn btn-danger btn-xs" onclick="delPointage(${p.id})">✕</button></td>
-      </tr>`;
-    }).join('');
+  const histoEl=g('presence-histo');
+  if(histoEl){
+    const recent=pointages.slice().reverse().slice(0,40);
+    if(!recent.length){
+      histoEl.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px">Aucun pointage enregistré</td></tr>';
+    } else {
+      histoEl.innerHTML=recent.map(p=>{
+        const e=staff.find(x=>x.id===p.empId)||{nom:'Inconnu',prenom:''};
+        let heures='—';
+        if(p.arrivee&&p.depart){
+          const [ah,am]=p.arrivee.split(':').map(Number);
+          const [dh,dm]=p.depart.split(':').map(Number);
+          heures=(Math.round(((dh*60+dm)-(ah*60+am))/60*10)/10)+'h';
+        }
+        const statut=p.depart?'Terminé':p.arrivee?'En cours':'—';
+        const statCls=p.depart?'parti':p.arrivee?'present':'absent';
+        return '<tr>'+
+          '<td style="font-weight:600">'+(e.prenom||'')+' '+(e.nom||'')+'</td>'+
+          '<td style="font-size:12px;color:var(--sub)">'+(p.date||'—')+'</td>'+
+          '<td style="color:#6fcf8a;font-weight:600">'+(p.arrivee||'—')+'</td>'+
+          '<td style="color:#f07060;font-weight:600">'+(p.depart||'—')+'</td>'+
+          '<td style="font-weight:700;color:var(--gold2)">'+heures+'</td>'+
+          '<td><span class="prs-statut-badge '+statCls+'">'+statut+'</span></td>'+
+          '<td><button class="btn btn-danger btn-xs" onclick="delPointage('+p.id+')">✕</button></td>'+
+        '</tr>';
+      }).join('');
+    }
   }
+}
+
+function prsSetFilter(f,btn){
+  window._prsFilter=f;
+  document.querySelectorAll('.prs-filter-btn,.prs-f-btn').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  rPresence();
 }
 function pointer(empId,type){
   const today=td();
