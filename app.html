@@ -4964,12 +4964,6 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
-  <!-- ONGLETS RÉCENTS -->
-  <div id="sb-recents" style="padding:10px 12px 4px;border-bottom:1px solid var(--line)">
-    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:7px;padding:0 4px">⏱ Récents</div>
-    <div id="sb-recents-list" style="display:flex;flex-direction:column;gap:2px"></div>
-  </div>
-
   <!-- Panel établissements -->
   <div id="etab-panel" style="display:none;background:var(--ink3);border-bottom:1px solid var(--line);padding:8px">
     <div id="etab-selector"></div>
@@ -4988,17 +4982,23 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item active" onclick="nav('dash',this)"><span class="ni-ico">◈</span>Dashboard</div>
       <div class="nav-item" onclick="nav('salle',this)"><span class="ni-ico">⬡</span>Plan de salle<span class="ni-badge a" id="b-occ">0</span></div>
       <div class="nav-item" onclick="nav('commandes',this)"><span class="ni-ico">◎</span>Commandes<span class="ni-badge" id="b-cmd">0</span></div>
-      <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">🎤</span>Commande vocale</div>
       <div class="nav-item" onclick="nav('tablette',this)"><span class="ni-ico">🧑‍🍳</span>Tablette serveur</div>
+      <div class="nav-item" onclick="nav('caisseRapide',this)"><span class="ni-ico">⚡</span>Caisse rapide</div>
       <div class="nav-item" onclick="nav('caisse',this)"><span class="ni-ico">◇</span>Caisse</div>
-      <div class="nav-item" onclick="nav('cloture',this)"><span class="ni-ico">🔐</span>Clôture de caisse</div>
+      <div class="nav-item" onclick="nav('reservations',this)"><span class="ni-ico">◷</span>Réservations<span class="ni-badge g" id="b-resa">0</span></div>
       <div class="nav-item" onclick="navKDS()"><span class="ni-ico">📺</span>Écran cuisine</div>
-      <div class="nav-item" onclick="nav('messagerie',this)"><span class="ni-ico">💬</span>Messagerie<span class="ni-badge" id="b-msg">0</span></div>
-      <div class="nav-item" onclick="openModeServeur()"><span class="ni-ico">📱</span>Mode serveur</div>
-      <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
-      <div class="nav-item" onclick="nav('journal',this)"><span class="ni-ico">📓</span>Journal de bord</div>
-      <div class="nav-item" onclick="nav('ecranClient',this)"><span class="ni-ico">🖥️</span>Écran client</div>
-      <div class="nav-item" onclick="nav('qrmenu',this)"><span class="ni-ico">📲</span>QR code menu</div>
+      <!-- Plus -->
+      <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('service-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
+      <div id="service-extra" style="display:none">
+        <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">🎤</span>Commande vocale</div>
+        <div class="nav-item" onclick="nav('cloture',this)"><span class="ni-ico">🔐</span>Clôture de caisse</div>
+        <div class="nav-item" onclick="nav('messagerie',this)"><span class="ni-ico">💬</span>Messagerie<span class="ni-badge" id="b-msg">0</span></div>
+        <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
+        <div class="nav-item" onclick="nav('journal',this)"><span class="ni-ico">📓</span>Journal de bord</div>
+        <div class="nav-item" onclick="nav('ecranClient',this)"><span class="ni-ico">🖥️</span>Écran client</div>
+        <div class="nav-item" onclick="nav('qrmenu',this)"><span class="ni-ico">📲</span>QR code menu</div>
+        <div class="nav-item" onclick="openModeServeur()"><span class="ni-ico">📱</span>Mode serveur</div>
+      </div>
     </div>
   </div>
 
@@ -5006,22 +5006,24 @@ tbody td { padding:13px 14px; font-size:13px; }
   <div class="sb-group" id="grp-restaurant">
     <div class="sb-group-hd" onclick="toggleGrp('restaurant')" style="--grp-col:#3d7a4e">
       <span class="sb-grp-ico">🥗</span><span class="sb-grp-lbl">Restaurant</span>
-      <span class="sb-grp-arrow" id="arr-restaurant">▾</span>
+      <span class="sb-grp-arrow" id="arr-restaurant">▸</span>
     </div>
-    <div class="sb-group-body" id="body-restaurant">
-      <div class="nav-item" onclick="nav('menu',this)"><span class="ni-ico">≡</span>Menu &amp; Plats</div>
+    <div class="sb-group-body" id="body-restaurant" style="display:none">
+      <div class="nav-item" onclick="nav('menu',this)"><span class="ni-ico">≡</span>Menu & Plats</div>
       <div class="nav-item" onclick="nav('menuJour',this)"><span class="ni-ico">☀</span>Menu du jour</div>
-      <div class="nav-item" onclick="nav('carteEnLigne',this)"><span class="ni-ico">🌐</span>Carte en ligne</div>
-      <div class="nav-item" onclick="nav('reservations',this)"><span class="ni-ico">◷</span>Réservations<span class="ni-badge g" id="b-resa">0</span></div>
       <div class="nav-item" onclick="nav('livraison',this)"><span class="ni-ico">🛵</span>Livraison<span class="ni-badge a" id="b-liv">0</span></div>
-      <div class="nav-item" onclick="nav('fiches',this)"><span class="ni-ico">📋</span>Fiches techniques</div>
-      <div class="nav-item" onclick="nav('configCaisse',this)"><span class="ni-ico">⌨</span>Config caisse</div>
-      <div class="nav-item" onclick="nav('location',this)"><span class="ni-ico">🎵</span>Location salle / DJ</div>
-      <div class="nav-item" onclick="nav('fidelite',this)"><span class="ni-ico">🎁</span>Carte de fidélité</div>
+      <div class="nav-item" onclick="nav('fidelite',this)"><span class="ni-ico">🎁</span>Fidélité clients</div>
       <div class="nav-item" onclick="nav('clients',this)"><span class="ni-ico">👤</span>Clients</div>
-      <div class="nav-item" onclick="nav('vip',this)"><span class="ni-ico">⭐</span>Clients VIP</div>
-      <div class="nav-item" onclick="nav('cave',this)"><span class="ni-ico">🍷</span>Cave à vins</div>
-      <div class="nav-item" onclick="nav('resa-online',this)"><span class="ni-ico">🌐</span>Réservation en ligne</div>
+      <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('resto-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
+      <div id="resto-extra" style="display:none">
+        <div class="nav-item" onclick="nav('carteEnLigne',this)"><span class="ni-ico">🌐</span>Carte en ligne</div>
+        <div class="nav-item" onclick="nav('resa-online',this)"><span class="ni-ico">🌐</span>Résa en ligne</div>
+        <div class="nav-item" onclick="nav('fiches',this)"><span class="ni-ico">📋</span>Fiches techniques</div>
+        <div class="nav-item" onclick="nav('configCaisse',this)"><span class="ni-ico">⌨</span>Config caisse</div>
+        <div class="nav-item" onclick="nav('location',this)"><span class="ni-ico">🎵</span>Location salle</div>
+        <div class="nav-item" onclick="nav('vip',this)"><span class="ni-ico">⭐</span>Clients VIP</div>
+        <div class="nav-item" onclick="nav('cave',this)"><span class="ni-ico">🍷</span>Cave à vins</div>
+      </div>
     </div>
   </div>
 
@@ -5064,54 +5066,50 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
     <div class="sb-group-body" id="body-finance" style="display:none">
       <div class="nav-item" onclick="nav('finance',this)"><span class="ni-ico">◈</span>Comptabilité</div>
-      <div class="nav-item" onclick="nav('frais',this)"><span class="ni-ico">💸</span>Frais &amp; Charges</div>
+      <div class="nav-item" onclick="nav('stats',this)"><span class="ni-ico">📊</span>Stats & Rapports</div>
+      <div class="nav-item" onclick="nav('frais',this)"><span class="ni-ico">💸</span>Frais & Charges</div>
       <div class="nav-item" onclick="nav('banque',this)"><span class="ni-ico">🏦</span>Banque Pro</div>
-      <div class="nav-item" onclick="nav('salaires',this)"><span class="ni-ico">👔</span>Coûts salariaux</div>
-      <div class="nav-item" onclick="nav('budget',this)"><span class="ni-ico">🎯</span>Budget prévisionnel</div>
-      <div class="nav-item" onclick="nav('pourboires',this)"><span class="ni-ico">💰</span>Pourboires</div>
-      <div class="nav-item" onclick="nav('stats',this)"><span class="ni-ico">📊</span>Stats mensuelles</div>
-      <div class="nav-item" onclick="nav('marges',this)"><span class="ni-ico">📈</span>Analyse marges</div>
-      <div class="nav-item" onclick="nav('rapports',this)"><span class="ni-ico">▦</span>Rapports</div>
+      <div class="nav-item" onclick="rapportJournalier()" style="color:var(--gold2)"><span class="ni-ico">📊</span>Rapport journalier</div>
+      <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('finance-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
+      <div id="finance-extra" style="display:none">
+        <div class="nav-item" onclick="nav('salaires',this)"><span class="ni-ico">👔</span>Coûts salariaux</div>
+        <div class="nav-item" onclick="nav('budget',this)"><span class="ni-ico">🎯</span>Budget</div>
+        <div class="nav-item" onclick="nav('pourboires',this)"><span class="ni-ico">💰</span>Pourboires</div>
+        <div class="nav-item" onclick="nav('marges',this)"><span class="ni-ico">📈</span>Marges</div>
+        <div class="nav-item" onclick="nav('rapports',this)"><span class="ni-ico">▦</span>Rapports avancés</div>
+      </div>
     </div>
   </div>
 
-  <!-- QUALITÉ -->
-  <div class="sb-group" id="grp-qualite">
-    <div class="sb-group-hd" onclick="toggleGrp('qualite')" style="--grp-col:#7a3d7a">
-      <span class="sb-grp-ico">⭐</span><span class="sb-grp-lbl">Qualité</span>
-      <span class="sb-grp-arrow" id="arr-qualite">▸</span>
-    </div>
-    <div class="sb-group-body" id="body-qualite" style="display:none">
-      <div class="nav-item" onclick="nav('allergenes',this)"><span class="ni-ico">⚠️</span>Allergènes</div>
-      <div class="nav-item" onclick="nav('origine',this)"><span class="ni-ico">🌿</span>Origine produits</div>
-      <div class="nav-item" onclick="nav('carteOrigines',this)"><span class="ni-ico">🗺️</span>Carte des origines</div>
-      <div class="nav-item" onclick="nav('avis',this)"><span class="ni-ico">⭐</span>Avis clients</div>
-      <div class="nav-item" onclick="nav('objectifs',this)"><span class="ni-ico">🎯</span>Objectifs</div>
-      <div class="nav-item" onclick="nav('haccp',this)"><span class="ni-ico">🧼</span>HACCP</div>
-    </div>
-  </div>
-
-  <!-- ADMIN -->
+  <!-- QUALITÉ + ADMIN fusionnés -->
   <div class="sb-group" id="grp-admin">
     <div class="sb-group-hd" onclick="toggleGrp('admin')" style="--grp-col:#5c5648">
       <span class="sb-grp-ico">⚙️</span><span class="sb-grp-lbl">Administration</span>
       <span class="sb-grp-arrow" id="arr-admin">▸</span>
     </div>
     <div class="sb-group-body" id="body-admin" style="display:none">
-      <div class="nav-item" onclick="nav('etabs',this)"><span class="ni-ico">🏢</span>Établissements</div>
-      <div class="nav-item" onclick="nav('acces',this)"><span class="ni-ico">🔐</span>Accès &amp; Comptes</div>
-      <div class="nav-item" onclick="nav('paramsAvances',this)"><span class="ni-ico">🎨</span>Paramètres avancés</div>
-      <div class="nav-item" onclick="nav('periodes',this)"><span class="ni-ico">📆</span>Gestion des périodes</div>
-      <div class="nav-item" onclick="nav('integrations',this)"><span class="ni-ico">📡</span>Intégrations</div>
-      <div class="nav-item" onclick="nav('documents',this)"><span class="ni-ico">📋</span>Documents légaux</div>
-      <div class="nav-item" onclick="nav('maintenance',this)"><span class="ni-ico">🔧</span>Maintenance</div>
-      <div class="nav-item" onclick="nav('incidents',this)"><span class="ni-ico">⚠️</span>Registre incidents</div>
-      <div class="nav-item" onclick="nav('sauvegarde',this)"><span class="ni-ico">💾</span>Sauvegarde</div>
       <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
+      <div class="nav-item" onclick="nav('sauvegarde',this)"><span class="ni-ico">💾</span>Sauvegarde</div>
+      <div class="nav-item" onclick="nav('haccp',this)"><span class="ni-ico">🧼</span>HACCP</div>
+      <div class="nav-item" onclick="nav('avis',this)"><span class="ni-ico">⭐</span>Avis clients</div>
+      <div class="nav-item" onclick="nav('objectifs',this)"><span class="ni-ico">🎯</span>Objectifs</div>
       <div class="nav-item" onclick="activerModeDemo()" style="color:#c9a84c"><span class="ni-ico">🎭</span>Mode Démo</div>
-      <div class="nav-item" onclick="rapportJournalier()"><span class="ni-ico">📊</span>Rapport journalier</div>
-      <div class="nav-item" onclick="exempleRapport()" style="color:#c9973a"><span class="ni-ico">👁</span>Exemple rapport</div>
-      <div class="nav-item" onclick="exempleTicket()" style="color:#c9973a"><span class="ni-ico">🧾</span>Exemple ticket</div>
+      <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('admin-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
+      <div id="admin-extra" style="display:none">
+        <div class="nav-item" onclick="nav('acces',this)"><span class="ni-ico">🔐</span>Accès & Comptes</div>
+        <div class="nav-item" onclick="nav('etabs',this)"><span class="ni-ico">🏢</span>Établissements</div>
+        <div class="nav-item" onclick="nav('paramsAvances',this)"><span class="ni-ico">🎨</span>Paramètres avancés</div>
+        <div class="nav-item" onclick="nav('periodes',this)"><span class="ni-ico">📆</span>Périodes</div>
+        <div class="nav-item" onclick="nav('integrations',this)"><span class="ni-ico">📡</span>Intégrations</div>
+        <div class="nav-item" onclick="nav('documents',this)"><span class="ni-ico">📋</span>Documents légaux</div>
+        <div class="nav-item" onclick="nav('maintenance',this)"><span class="ni-ico">🔧</span>Maintenance</div>
+        <div class="nav-item" onclick="nav('incidents',this)"><span class="ni-ico">⚠️</span>Incidents</div>
+        <div class="nav-item" onclick="nav('allergenes',this)"><span class="ni-ico">⚠️</span>Allergènes</div>
+        <div class="nav-item" onclick="nav('origine',this)"><span class="ni-ico">🌿</span>Origine produits</div>
+        <div class="nav-item" onclick="nav('carteOrigines',this)"><span class="ni-ico">🗺️</span>Carte origines</div>
+        <div class="nav-item" onclick="exempleRapport()" style="color:#c9973a"><span class="ni-ico">👁</span>Exemple rapport</div>
+        <div class="nav-item" onclick="exempleTicket()" style="color:#c9973a"><span class="ni-ico">🧾</span>Exemple ticket</div>
+      </div>
     </div>
   </div>
 
@@ -7208,6 +7206,270 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
   </div>
   <!-- CLÔTURE DE CAISSE -->
+  <!-- CAISSE RAPIDE MOBILE -->
+  <div id="page-caisseRapide" class="page" style="padding:0;display:none;flex-direction:column;height:100%;overflow:hidden">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    #page-caisseRapide.active{display:flex!important}
+    #cr-root{
+      display:flex;flex-direction:column;height:100%;
+      background:#0a0c10;color:#f0f2f8;
+      font-family:'Inter',sans-serif;overflow:hidden;
+      --gold:#c9973a;--gold2:#e8b84b;
+      --green:#16a34a;--green2:#22c55e;
+      --red:#dc2626;--blue:#2563eb;
+      --bg:#0a0c10;--s1:#111318;--s2:#181c24;--s3:#1e232d;
+      --br:rgba(255,255,255,.07);
+    }
+
+    /* TOP BAR */
+    #cr-topbar{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:12px 16px;background:var(--s1);border-bottom:1px solid var(--br);
+      flex-shrink:0;
+    }
+    #cr-topbar .ct-title{font-size:16px;font-weight:800;color:#fff}
+    #cr-topbar .ct-sub{font-size:11px;color:#6b7280;margin-top:1px}
+    #cr-topbar .ct-right{display:flex;align-items:center;gap:8px}
+    .cr-mode-btn{
+      padding:6px 14px;border-radius:20px;border:1px solid var(--br);
+      background:transparent;color:#6b7280;font-size:11px;font-weight:700;
+      cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;
+    }
+    .cr-mode-btn.active{background:rgba(201,151,58,.15);border-color:var(--gold);color:var(--gold2)}
+
+    /* TICKET */
+    #cr-ticket{
+      background:var(--s1);border-bottom:1px solid var(--br);
+      flex-shrink:0;max-height:160px;overflow-y:auto;
+      scrollbar-width:thin;scrollbar-color:var(--s3) transparent;
+    }
+    #cr-ticket-empty{
+      padding:16px;text-align:center;color:#374151;font-size:13px;
+    }
+    .cr-line{
+      display:flex;align-items:center;padding:8px 16px;
+      border-bottom:1px solid rgba(255,255,255,.04);
+      animation:cr-in .15s ease;
+    }
+    @keyframes cr-in{from{opacity:0;transform:translateX(6px)}to{opacity:1}}
+    .cr-line .cl-nom{flex:1;font-size:13px;font-weight:500;color:#d1d5db}
+    .cr-line .cl-qty{
+      display:flex;align-items:center;gap:6px;margin:0 10px;
+    }
+    .cr-qbtn{
+      width:24px;height:24px;border-radius:6px;border:1px solid var(--br);
+      background:var(--s3);color:#d1d5db;font-size:14px;font-weight:700;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;
+      transition:all .12s;
+    }
+    .cr-qbtn:active{transform:scale(.84);background:var(--gold);color:#000}
+    .cr-qnum{font-size:13px;font-weight:800;min-width:16px;text-align:center;color:#fff}
+    .cr-line .cl-prix{font-size:13px;font-weight:700;color:var(--gold2);min-width:56px;text-align:right}
+
+    /* TOTAL */
+    #cr-total-bar{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 16px;background:var(--s1);border-bottom:2px solid rgba(255,255,255,.08);
+      flex-shrink:0;
+    }
+    #cr-total-bar .tb-lbl{font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+    #cr-total-bar .tb-amt{font-size:28px;font-weight:900;color:var(--gold2);font-variant-numeric:tabular-nums;letter-spacing:-1px}
+    #cr-total-bar .tb-items{font-size:11px;color:#4b5563;margin-top:2px}
+
+    /* CATÉGORIES */
+    #cr-cats{
+      display:flex;gap:6px;padding:10px 14px;
+      background:var(--bg);border-bottom:1px solid var(--br);
+      overflow-x:auto;scrollbar-width:none;flex-shrink:0;
+    }
+    #cr-cats::-webkit-scrollbar{display:none}
+    .cr-cat{
+      padding:6px 14px;border-radius:18px;border:1px solid var(--br);
+      background:var(--s2);color:#6b7280;font-size:12px;font-weight:700;
+      cursor:pointer;white-space:nowrap;transition:all .13s;flex-shrink:0;
+      font-family:'Inter',sans-serif;
+    }
+    .cr-cat.active{background:rgba(201,151,58,.12);border-color:var(--gold);color:var(--gold2)}
+    .cr-cat:active{transform:scale(.93)}
+
+    /* GRILLE PRODUITS */
+    #cr-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:8px;padding:10px 12px;overflow-y:auto;flex:1;
+      scrollbar-width:thin;scrollbar-color:var(--s3) transparent;
+      align-content:start;
+    }
+    .cr-card{
+      background:var(--s2);border:1.5px solid var(--br);
+      border-radius:14px;padding:14px 10px;
+      display:flex;flex-direction:column;align-items:center;
+      gap:7px;cursor:pointer;text-align:center;
+      transition:all .16s;position:relative;overflow:hidden;
+      min-height:90px;justify-content:center;
+    }
+    .cr-card::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .1s}
+    .cr-card:active::after{background:rgba(255,255,255,.06)}
+    .cr-card:active{transform:scale(.92);border-color:var(--gold)}
+    .cr-card .cc-ico{font-size:26px;line-height:1}
+    .cr-card .cc-nom{font-size:12px;font-weight:700;color:#e5e7eb;line-height:1.2}
+    .cr-card .cc-prix{
+      font-size:14px;font-weight:900;color:var(--gold2);
+      font-variant-numeric:tabular-nums;
+    }
+    /* Couleurs par catégorie */
+    .cr-card.cat-boissons{border-color:rgba(37,99,235,.2);background:rgba(37,99,235,.05)}
+    .cr-card.cat-boissons:active{border-color:rgba(37,99,235,.6)}
+    .cr-card.cat-entrees{border-color:rgba(22,163,74,.2);background:rgba(22,163,74,.05)}
+    .cr-card.cat-viandes{border-color:rgba(220,38,38,.2);background:rgba(220,38,38,.05)}
+    .cr-card.cat-desserts{border-color:rgba(139,92,246,.2);background:rgba(139,92,246,.05)}
+
+    /* BOTTOM — ENCAISSER */
+    #cr-bottom{
+      padding:10px 12px 14px;background:var(--s1);
+      border-top:1px solid var(--br);flex-shrink:0;
+      display:grid;grid-template-columns:1fr 1fr 2fr;gap:8px;
+    }
+    .cr-bot-btn{
+      padding:14px 8px;border-radius:13px;border:none;
+      font-family:'Inter',sans-serif;font-size:12px;font-weight:800;
+      cursor:pointer;display:flex;flex-direction:column;align-items:center;
+      justify-content:center;gap:4px;transition:all .15s;letter-spacing:.02em;
+    }
+    .cr-bot-btn:active{transform:scale(.94)}
+    .cr-bot-btn .bi{font-size:18px}
+    .cr-bot-btn.annuler{
+      background:rgba(220,38,38,.1);color:#f87171;
+      border:1.5px solid rgba(220,38,38,.25);
+    }
+    .cr-bot-btn.offert{
+      background:var(--s3);color:#9ca3af;
+      border:1.5px solid var(--br);
+    }
+    .cr-enc-btn{
+      padding:14px;border-radius:13px;border:none;
+      font-family:'Inter',sans-serif;font-size:15px;font-weight:900;
+      cursor:pointer;transition:all .16s;letter-spacing:.04em;
+      background:linear-gradient(135deg,var(--green),#15803d);
+      color:#fff;box-shadow:0 4px 20px rgba(22,163,74,.35);
+      position:relative;overflow:hidden;display:flex;
+      flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    }
+    .cr-enc-btn::before{
+      content:'';position:absolute;top:-50%;left:-60%;width:35%;height:200%;
+      background:rgba(255,255,255,.15);transform:skewX(-20deg);
+      animation:cr-shim 2.5s ease-in-out infinite;
+    }
+    @keyframes cr-shim{0%,100%{left:-60%}50%{left:130%}}
+    .cr-enc-btn:active{transform:scale(.96);box-shadow:0 2px 8px rgba(22,163,74,.2)}
+    .cr-enc-btn .enc-amt{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}
+    .cr-enc-btn .enc-lbl{font-size:10px;opacity:.85;letter-spacing:.08em}
+
+    /* MODAL ENCAISSEMENT */
+    #cr-modal{
+      position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);
+      z-index:9999;display:none;align-items:flex-end;justify-content:center;
+    }
+    #cr-modal.open{display:flex}
+    #cr-modal-inner{
+      background:var(--s1);width:100%;max-width:480px;border-radius:20px 20px 0 0;
+      border-top:1px solid var(--br);padding:20px;
+    }
+    #cr-modal-title{font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;text-align:center}
+    #cr-modal-amt{font-size:36px;font-weight:900;color:var(--gold2);text-align:center;margin-bottom:16px;font-variant-numeric:tabular-nums;letter-spacing:-1px}
+    #cr-modal-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+    .cr-pay-btn{
+      padding:16px;border-radius:12px;border:none;
+      font-family:'Inter',sans-serif;font-size:14px;font-weight:800;
+      cursor:pointer;display:flex;flex-direction:column;align-items:center;
+      gap:6px;transition:all .15s;
+    }
+    .cr-pay-btn:active{transform:scale(.94)}
+    .cr-pay-btn .pb-ico{font-size:26px}
+    .cr-pay-btn.cb{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.3)}
+    .cr-pay-btn.cash{background:linear-gradient(135deg,var(--green),#15803d);color:#fff;box-shadow:0 4px 16px rgba(22,163,74,.3)}
+    .cr-pay-btn.split{background:var(--s3);color:#9ca3af;border:1px solid var(--br)}
+    .cr-pay-btn.lydia{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff}
+    .cr-modal-cancel{
+      width:100%;padding:13px;border-radius:10px;border:1px solid var(--br);
+      background:transparent;color:#6b7280;font-family:'Inter',sans-serif;
+      font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;
+    }
+    .cr-modal-cancel:hover{background:var(--s2);color:#d1d5db}
+  </style>
+
+  <div id="cr-root">
+    <!-- TOP -->
+    <div id="cr-topbar">
+      <div>
+        <div class="ct-title">⚡ Caisse Rapide</div>
+        <div class="ct-sub" id="cr-sub">Bar · Terrasse · Comptoir</div>
+      </div>
+      <div class="ct-right">
+        <button class="cr-mode-btn active" onclick="crSetMode('rapide',this)">Rapide</button>
+        <button class="cr-mode-btn" onclick="crSetMode('table',this)">Table</button>
+      </div>
+    </div>
+
+    <!-- TICKET -->
+    <div id="cr-ticket">
+      <div id="cr-ticket-empty">Appuyez sur un produit pour commencer</div>
+    </div>
+
+    <!-- TOTAL -->
+    <div id="cr-total-bar">
+      <div>
+        <div class="tb-lbl">Total</div>
+        <div class="tb-items" id="cr-items-count">0 article</div>
+      </div>
+      <div class="tb-amt" id="cr-total-amt">0,00 €</div>
+    </div>
+
+    <!-- CATÉGORIES -->
+    <div id="cr-cats"></div>
+
+    <!-- GRILLE -->
+    <div id="cr-grid"></div>
+
+    <!-- BOTTOM -->
+    <div id="cr-bottom">
+      <button class="cr-bot-btn annuler" onclick="crAnnuler()">
+        <span class="bi">✕</span>Annuler
+      </button>
+      <button class="cr-bot-btn offert" onclick="crOffert()">
+        <span class="bi">🎁</span>Offert
+      </button>
+      <button class="cr-enc-btn" onclick="crOpenModal()">
+        <span class="enc-amt" id="cr-enc-amt">0,00 €</span>
+        <span class="enc-lbl">ENCAISSER</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL PAIEMENT -->
+  <div id="cr-modal">
+    <div id="cr-modal-inner">
+      <div id="cr-modal-title">Choisir le règlement</div>
+      <div id="cr-modal-amt">0,00 €</div>
+      <div id="cr-modal-btns">
+        <button class="cr-pay-btn cb" onclick="crPayer('CB')">
+          <span class="pb-ico">💳</span>Carte bancaire
+        </button>
+        <button class="cr-pay-btn cash" onclick="crPayer('Espèces')">
+          <span class="pb-ico">💵</span>Espèces
+        </button>
+        <button class="cr-pay-btn lydia" onclick="crPayer('Lydia')">
+          <span class="pb-ico">📱</span>Lydia / Paylib
+        </button>
+        <button class="cr-pay-btn split" onclick="crPayer('Ticket resto')">
+          <span class="pb-ico">🎟️</span>Ticket resto
+        </button>
+      </div>
+      <button class="cr-modal-cancel" onclick="crCloseModal()">Annuler</button>
+    </div>
+  </div>
+  </div>
+
   <div id="page-cloture" class="page">
     <div class="page-header">
       <h2>🔐 Clôture de caisse</h2>
@@ -7513,28 +7775,240 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- TÂCHES & TODO -->
-  <div id="page-todo" class="page">
-    <div class="page-header">
-      <h2>✅ Tâches & TODO</h2>
-      <button class="btn btn-gold btn-sm" onclick="openTodoModal()">+ Tâche</button>
+<div id="page-todo" class="page" style="padding:0;display:none;flex-direction:column;height:100%;overflow:hidden">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    #page-todo.active{display:flex!important}
+    #td-root{
+      display:flex;flex-direction:column;height:100%;
+      background:#111318;color:#c9cdd6;
+      font-family:'Inter',sans-serif;overflow:hidden;
+      --acc:#c9973a;--acc2:#e8b84b;
+      --bg:#111318;--s1:#161920;--s2:#1c2028;--s3:#22262f;
+      --br:rgba(255,255,255,.06);--br2:rgba(255,255,255,.1);
+      --txt:#c9cdd6;--sub:#6b7280;--muted:#374151;
+      --red:#e05a3a;--green:#34d399;--blue:#4f7cf0;
+    }
+
+    /* HEADER */
+    #td-header{
+      display:flex;align-items:center;padding:0 20px;height:52px;
+      border-bottom:1px solid var(--br);flex-shrink:0;
+      background:var(--s1);gap:12px;
+    }
+    #td-header h2{font-size:14px;font-weight:600;color:#f0f2f8;flex:1}
+    /* BARRE DE PROGRESSION */
+    #td-progress-wrap{
+      padding:10px 20px;border-bottom:1px solid var(--br);
+      flex-shrink:0;background:var(--s1);
+    }
+    #td-progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    #td-progress-top .pt-lbl{font-size:11px;color:var(--sub);font-weight:500}
+    #td-progress-top .pt-pct{font-size:12px;font-weight:700;color:var(--acc2)}
+    #td-progress-bar{height:4px;background:var(--s3);border-radius:2px;overflow:hidden}
+    #td-progress-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:2px;transition:width .4s ease}
+
+    /* TOOLBAR */
+    #td-toolbar{
+      display:flex;align-items:center;gap:8px;
+      padding:8px 16px;border-bottom:1px solid var(--br);
+      flex-shrink:0;background:var(--bg);
+    }
+    .td-filter-btn{
+      padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;
+      border:1px solid var(--br);background:transparent;color:var(--sub);
+      cursor:pointer;transition:all .13s;font-family:'Inter',sans-serif;
+      white-space:nowrap;
+    }
+    .td-filter-btn.active{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.4);color:var(--acc2)}
+    .td-filter-btn:hover:not(.active){color:var(--txt);border-color:var(--br2)}
+    .td-sep{width:1px;height:16px;background:var(--br);flex-shrink:0}
+    .td-view-btn{
+      width:28px;height:28px;border-radius:6px;border:1px solid var(--br);
+      background:transparent;color:var(--sub);cursor:pointer;
+      display:flex;align-items:center;justify-content:center;font-size:13px;
+      transition:all .13s;font-family:'Inter',sans-serif;
+    }
+    .td-view-btn.active{background:var(--s2);color:var(--txt);border-color:var(--br2)}
+    .td-spacer{flex:1}
+    .td-add-btn{
+      padding:6px 14px;border-radius:7px;border:none;
+      background:var(--acc);color:#0a0600;
+      font-family:'Inter',sans-serif;font-size:12px;font-weight:700;
+      cursor:pointer;transition:all .15s;
+    }
+    .td-add-btn:hover{background:var(--acc2)}
+    .td-add-btn:active{transform:scale(.96)}
+
+    /* VUE KANBAN */
+    #td-kanban{display:grid;grid-template-columns:repeat(3,1fr);flex:1;overflow:hidden;gap:0}
+    .tdk-col{display:flex;flex-direction:column;border-right:1px solid var(--br);overflow:hidden}
+    .tdk-col:last-child{border-right:none}
+    .tdk-head{
+      padding:10px 14px;border-bottom:1px solid var(--br);flex-shrink:0;
+      display:flex;align-items:center;gap:8px;background:var(--s1);
+    }
+    .tdk-head .th-dot{width:8px;height:8px;border-radius:50%}
+    .tdk-col-todo .th-dot{background:var(--sub)}
+    .tdk-col-doing .tdk-head{background:rgba(201,151,58,.04)}
+    .tdk-col-doing .th-dot{background:var(--acc)}
+    .tdk-col-done .th-dot{background:var(--green)}
+    .tdk-head .th-name{font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.08em;flex:1}
+    .tdk-col-doing .th-name{color:var(--acc)}
+    .tdk-col-done .th-name{color:var(--green)}
+    .tdk-head .th-cnt{font-size:11px;font-weight:600;color:var(--muted);background:var(--s3);padding:1px 7px;border-radius:8px}
+    .tdk-body{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:5px;scrollbar-width:thin;scrollbar-color:var(--s3) transparent}
+
+    /* CARTE KANBAN */
+    .tdk-card{
+      background:var(--s2);border:1px solid var(--br);border-radius:8px;
+      padding:10px 12px;transition:border-color .15s;position:relative;
+      cursor:default;
+    }
+    .tdk-card:hover{border-color:var(--br2)}
+    .tdk-card.prio-haute{border-left:2px solid var(--red)}
+    .tdk-card.prio-normale{border-left:2px solid var(--acc)}
+    .tdk-card.prio-basse{border-left:2px solid var(--muted)}
+    .tdk-card.done-card{opacity:.45}
+    .tdk-card .kc-label{font-size:13px;font-weight:500;color:var(--txt);line-height:1.4;margin-bottom:7px;padding-right:44px}
+    .tdk-card.done-card .kc-label{text-decoration:line-through;color:var(--sub)}
+    .tdk-card .kc-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+    .kc-tag{font-size:10px;padding:2px 6px;border-radius:4px;background:var(--s3);color:var(--sub);font-weight:500}
+    .kc-tag.overdue{background:rgba(224,90,58,.12);color:var(--red);border:1px solid rgba(224,90,58,.2)}
+    .kc-tag.today{background:rgba(201,151,58,.1);color:var(--acc2);border:1px solid rgba(201,151,58,.2)}
+    .kc-actions{position:absolute;top:8px;right:8px;display:flex;gap:3px;opacity:0;transition:opacity .15s}
+    .tdk-card:hover .kc-actions{opacity:1}
+    .kca-btn{
+      width:20px;height:20px;border-radius:4px;border:1px solid var(--br);
+      background:var(--s3);color:var(--sub);font-size:9px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;transition:all .11s;
+    }
+    .kca-btn.play:hover{background:rgba(201,151,58,.15);color:var(--acc2);border-color:rgba(201,151,58,.3)}
+    .kca-btn.check:hover{background:rgba(52,211,153,.15);color:var(--green);border-color:rgba(52,211,153,.3)}
+    .kca-btn.undo:hover{background:var(--s3);color:var(--txt)}
+    .kca-btn.del:hover{background:rgba(224,90,58,.15);color:var(--red);border-color:rgba(224,90,58,.3)}
+
+    /* VUE LISTE */
+    #td-liste{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--s3) transparent}
+    .tdl-section{border-bottom:1px solid var(--br)}
+    .tdl-sect-head{
+      display:flex;align-items:center;gap:10px;
+      padding:9px 20px;background:var(--s1);cursor:pointer;
+      position:sticky;top:0;z-index:2;border-bottom:1px solid var(--br);
+    }
+    .tdl-sect-head:hover{background:var(--s2)}
+    .tdl-sect-ico{font-size:13px;color:var(--sub)}
+    .tdl-sect-name{font-size:12px;font-weight:600;color:var(--txt);flex:1}
+    .tdl-sect-cnt{font-size:11px;color:var(--muted);background:var(--s3);padding:1px 8px;border-radius:10px}
+    .tdl-sect-arrow{font-size:10px;color:var(--muted);transition:transform .15s}
+    .tdl-sect-head.collapsed .tdl-sect-arrow{transform:rotate(-90deg)}
+    .tdl-row{
+      display:flex;align-items:center;gap:0;padding:0 20px;height:40px;
+      border-bottom:1px solid rgba(255,255,255,.03);transition:background .12s;
+    }
+    .tdl-row:hover{background:var(--s2)}
+    .tdl-row.done-row{opacity:.4}
+    .tdl-check{
+      width:14px;height:14px;border-radius:3px;border:1.5px solid var(--muted);
+      background:transparent;cursor:pointer;flex-shrink:0;margin-right:12px;
+      appearance:none;-webkit-appearance:none;transition:all .12s;
+    }
+    .tdl-check:checked{background:var(--green);border-color:var(--green)}
+    .tdl-prio{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:10px}
+    .tdl-label{font-size:13px;font-weight:400;color:var(--txt);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tdl-row.done-row .tdl-label{text-decoration:line-through;color:var(--sub)}
+    .tdl-cat{font-size:10px;color:var(--sub);margin-left:10px;flex-shrink:0;background:var(--s3);padding:2px 7px;border-radius:4px}
+    .tdl-date{font-size:10px;margin-left:8px;flex-shrink:0;padding:2px 7px;border-radius:4px}
+    .tdl-date.ok{color:var(--sub);background:var(--s3)}
+    .tdl-date.overdue{color:var(--red);background:rgba(224,90,58,.1)}
+    .tdl-date.today{color:var(--acc2);background:rgba(201,151,58,.1)}
+    .tdl-stat{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;flex-shrink:0;margin-left:8px}
+    .tdl-stat.doing{background:rgba(201,151,58,.1);color:var(--acc2)}
+    .tdl-row-actions{display:flex;gap:3px;opacity:0;margin-left:8px;flex-shrink:0}
+    .tdl-row:hover .tdl-row-actions{opacity:1}
+    .tdl-act{
+      width:20px;height:20px;border-radius:4px;border:1px solid var(--br);
+      background:transparent;color:var(--sub);font-size:9px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;transition:all .11s;
+    }
+    .tdl-act:hover{background:var(--s3);color:var(--txt)}
+    .tdl-act.del:hover{color:var(--red)}
+
+    /* TEMPLATES */
+    #td-templates{
+      padding:10px 16px;border-top:1px solid var(--br);
+      flex-shrink:0;background:var(--s1);display:flex;align-items:center;gap:8px;
+      overflow-x:auto;scrollbar-width:none;
+    }
+    #td-templates::-webkit-scrollbar{display:none}
+    #td-templates .tmpl-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;flex-shrink:0}
+    .td-tmpl{
+      padding:4px 11px;border-radius:14px;border:1px solid var(--br);
+      background:transparent;color:var(--sub);font-size:11px;font-weight:500;
+      cursor:pointer;white-space:nowrap;transition:all .13s;font-family:'Inter',sans-serif;
+    }
+    .td-tmpl:hover{border-color:rgba(201,151,58,.35);color:var(--acc2);background:rgba(201,151,58,.05)}
+
+    /* VIDE */
+    .td-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px 20px;color:var(--muted)}
+    .td-empty p{font-size:12px;font-weight:500}
+  </style>
+
+  <div id="td-root">
+    <!-- HEADER -->
+    <div id="td-header">
+      <h2>Tâches</h2>
+      <span style="font-size:11px;color:var(--sub)" id="td-date-lbl"></span>
     </div>
-    <div class="kpi-row" id="todo-kpi"></div>
-    <!-- Filtres -->
-    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
-      <button class="btn btn-ghost btn-sm" onclick="filterTodo('toutes')" id="td-f-toutes" style="border-color:var(--gold)">Toutes</button>
-      <button class="btn btn-ghost btn-sm" onclick="filterTodo('aujourd'hui')" id="td-f-aujourdhui">Aujourd'hui</button>
-      <button class="btn btn-ghost btn-sm" onclick="filterTodo('semaine')" id="td-f-semaine">Cette semaine</button>
-      <button class="btn btn-ghost btn-sm" onclick="filterTodo('recurrentes')" id="td-f-recurrentes">Récurrentes</button>
+
+    <!-- PROGRESSION -->
+    <div id="td-progress-wrap">
+      <div id="td-progress-top">
+        <span class="pt-lbl" id="td-prog-lbl">0 tâche terminée aujourd'hui</span>
+        <span class="pt-pct" id="td-prog-pct">0%</span>
+      </div>
+      <div id="td-progress-bar"><div id="td-progress-fill" style="width:0%"></div></div>
     </div>
-    <!-- Colonnes par priorité -->
-    <div style="display:flex;flex-direction:column;gap:10px" id="todo-liste"></div>
-    <!-- Templates rapides -->
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">⚡ Tâches rapides à ajouter</div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px" id="todo-templates"></div>
+
+    <!-- TOOLBAR -->
+    <div id="td-toolbar">
+      <button class="td-filter-btn active" onclick="filterTodo('toutes',this)">Toutes</button>
+      <button class="td-filter-btn" onclick="filterTodo('aujourdhui',this)">Aujourd'hui</button>
+      <button class="td-filter-btn" onclick="filterTodo('semaine',this)">Semaine</button>
+      <button class="td-filter-btn" onclick="filterTodo('haute',this)">Urgentes</button>
+      <div class="td-sep"></div>
+      <button class="td-view-btn active" id="btn-vue-liste" onclick="setTodoVue('liste')" title="Vue liste">≡</button>
+      <button class="td-view-btn" id="btn-vue-kanban" onclick="setTodoVue('kanban')" title="Vue Kanban">⊞</button>
+      <div class="td-spacer"></div>
+      <button class="td-add-btn" onclick="openTodoModal()">+ Tâche</button>
+    </div>
+
+    <!-- VUE LISTE -->
+    <div id="td-liste" style="display:flex;flex-direction:column"></div>
+
+    <!-- VUE KANBAN -->
+    <div id="td-kanban" style="display:none">
+      <div class="tdk-col tdk-col-todo">
+        <div class="tdk-head"><span class="th-dot"></span><span class="th-name">À faire</span><span class="th-cnt" id="tdk-cnt-todo">0</span></div>
+        <div class="tdk-body" id="tdk-body-todo"></div>
+      </div>
+      <div class="tdk-col tdk-col-doing">
+        <div class="tdk-head"><span class="th-dot"></span><span class="th-name">En cours</span><span class="th-cnt" id="tdk-cnt-doing">0</span></div>
+        <div class="tdk-body" id="tdk-body-doing"></div>
+      </div>
+      <div class="tdk-col tdk-col-done">
+        <div class="tdk-head"><span class="th-dot"></span><span class="th-name">Terminé</span><span class="th-cnt" id="tdk-cnt-done">0</span></div>
+        <div class="tdk-body" id="tdk-body-done"></div>
+      </div>
+    </div>
+
+    <!-- TEMPLATES -->
+    <div id="td-templates">
+      <span class="tmpl-lbl">Rapide</span>
+      <div id="td-tmpls-wrap" style="display:flex;gap:5px;overflow-x:auto;scrollbar-width:none"></div>
     </div>
   </div>
-
+</div>
   <!-- HISTORIQUE TABLES -->
   <div id="page-histoTables" class="page">
     <div class="page-header">
@@ -9579,7 +10053,7 @@ function render(n){
     journal:rJournal,
     objectifs:rObjectifs, cmdFourn:rCmdFourn, params:rParams,
     fiches:rFiches, origine:rOrigine, marges:rMarges, avis:rAvis, acces:rAcces,
-    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne,tablette:rTablette})[n]?.();
+    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne,tablette:rTablette,caisseRapide:rCaisseRapide})[n]?.();
 }
 function openSB(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').style.display='block';}
 function closeSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').style.display='none';}
@@ -20985,99 +21459,196 @@ function imprimerFichePaie(empId,m,y){
 // ═══════════════════════════════════════════
 if(!DB.todos) DB.todos=[];
 let todoFilter='toutes';
+let todoVue='liste';
+
+const TODO_CATS={
+  'Cuisine':    {ico:'🍳',order:0},
+  'HACCP':      {ico:'🌡️',order:1},
+  'Hygiène':    {ico:'🧹',order:2},
+  'Stocks':     {ico:'📦',order:3},
+  'Finance':    {ico:'💰',order:4},
+  'Service':    {ico:'👥',order:5},
+  'Marketing':  {ico:'📱',order:6},
+  'Autre':      {ico:'📋',order:7},
+};
 
 const TODO_TEMPLATES=[
-  {label:'🧹 Nettoyage cuisine',cat:'Cuisine',prio:'haute',recurrente:true},
-  {label:'🌡️ Relevé températures frigos',cat:'HACCP',prio:'haute',recurrente:true},
-  {label:'📦 Vérifier les stocks',cat:'Stocks',prio:'normale',recurrente:true},
-  {label:'📋 Préparer le menu du jour',cat:'Cuisine',prio:'haute',recurrente:true},
-  {label:'📞 Confirmer les réservations',cat:'Service',prio:'normale',recurrente:true},
-  {label:'🚿 Nettoyage des sanitaires',cat:'Hygiène',prio:'normale',recurrente:true},
-  {label:'🧴 Commander les produits d\'entretien',cat:'Stocks',prio:'basse',recurrente:false},
-  {label:'💰 Vider la caisse',cat:'Finance',prio:'haute',recurrente:true},
-  {label:'📊 Faire le Z de caisse',cat:'Finance',prio:'haute',recurrente:true},
-  {label:'🗑️ Sortir les poubelles',cat:'Hygiène',prio:'normale',recurrente:true},
+  {label:'Nettoyage cuisine',cat:'Cuisine',prio:'haute',recurrente:true},
+  {label:'Relevé températures frigos',cat:'HACCP',prio:'haute',recurrente:true},
+  {label:'Vérifier les stocks',cat:'Stocks',prio:'normale',recurrente:true},
+  {label:'Menu du jour',cat:'Cuisine',prio:'haute',recurrente:true},
+  {label:'Confirmer réservations',cat:'Service',prio:'normale',recurrente:true},
+  {label:'Nettoyage sanitaires',cat:'Hygiène',prio:'normale',recurrente:true},
+  {label:'Z de caisse',cat:'Finance',prio:'haute',recurrente:true},
+  {label:'Sortir poubelles',cat:'Hygiène',prio:'normale',recurrente:true},
+  {label:'Vider caisse',cat:'Finance',prio:'haute',recurrente:true},
+  {label:'Répondre aux avis',cat:'Marketing',prio:'basse',recurrente:false},
 ];
 
-function filterTodo(f){
+const TODO_PRIO_COLOR={haute:'var(--red)',normale:'var(--acc)',basse:'var(--muted)'};
+
+function filterTodo(f,el){
   todoFilter=f;
-  ['toutes','aujourdhui','semaine','recurrentes'].forEach(function(x){
-    const b=document.getElementById('td-f-'+x);
-    if(b) b.style.borderColor=x===f?'var(--gold)':'var(--line)';
-  });
+  document.querySelectorAll('.td-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
   rTodo();
+}
+
+function setTodoVue(v){
+  todoVue=v;
+  document.getElementById('td-liste').style.display=v==='liste'?'flex':'none';
+  document.getElementById('td-kanban').style.display=v==='kanban'?'grid':'none';
+  document.getElementById('btn-vue-liste').classList.toggle('active',v==='liste');
+  document.getElementById('btn-vue-kanban').classList.toggle('active',v==='kanban');
+  rTodo();
+}
+
+function setTodoStatut(id,statut){
+  const t=(DB.todos||[]).find(x=>x.id===id);
+  if(t){t.statut=statut;saveDB();rTodo();}
 }
 
 function rTodo(){
   if(!DB.todos) DB.todos=[];
-  let todos=DB.todos.slice();
-  if(todoFilter==='aujourdhui') todos=todos.filter(function(t){return t.date===td();});
+  const today=td();
+
+  // Date label
+  const dl=document.getElementById('td-date-lbl');
+  if(dl) dl.textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+
+  let todos=[...DB.todos];
+  if(todoFilter==='aujourdhui') todos=todos.filter(t=>t.date===today);
   else if(todoFilter==='semaine'){
     const lun=new Date();lun.setDate(lun.getDate()-((lun.getDay()||7)-1));lun.setHours(0,0,0,0);
-    const lunStr=lun.toISOString().slice(0,10);
-    todos=todos.filter(function(t){return t.date>=lunStr;});
+    todos=todos.filter(t=>t.date>=lun.toISOString().slice(0,10));
   }
-  else if(todoFilter==='recurrentes') todos=todos.filter(function(t){return t.recurrente;});
+  else if(todoFilter==='haute') todos=todos.filter(t=>t.prio==='haute');
+  else if(todoFilter==='recurrentes') todos=todos.filter(t=>t.recurrente);
 
-  // KPIs
+  // Progression
   const total=todos.length;
-  const faites=todos.filter(function(t){return t.done;}).length;
-  const urgentes=todos.filter(function(t){return t.prio==='haute'&&!t.done;}).length;
-  const kpi=document.getElementById('todo-kpi');
-  if(kpi){
-    (document.getElementById('b-todo')||{}).textContent=urgentes||'';
-    kpi.innerHTML=
-      '<div class="kpi-box kpi-gold"><div class="kpi-label">TOTAL</div><div class="kpi-val">'+total+'</div></div>'+
-      '<div class="kpi-box kpi-green"><div class="kpi-label">TERMINÉES</div><div class="kpi-val">'+faites+'</div></div>'+
-      '<div class="kpi-box kpi-red"><div class="kpi-label">URGENTES</div><div class="kpi-val">'+urgentes+'</div></div>'+
-      '<div class="kpi-box kpi-blue"><div class="kpi-label">EN COURS</div><div class="kpi-val">'+(total-faites)+'</div></div>';
-  }
+  const done=todos.filter(t=>t.done).length;
+  const pct=total?Math.round(done/total*100):0;
+  const pFill=document.getElementById('td-progress-fill');
+  const pLbl=document.getElementById('td-prog-lbl');
+  const pPct=document.getElementById('td-prog-pct');
+  if(pFill) pFill.style.width=pct+'%';
+  if(pLbl) pLbl.textContent=done+' / '+total+' tâche'+(total>1?'s':'')+' terminée'+(done>1?'s':'');
+  if(pPct) pPct.textContent=pct+'%';
 
-  // Trier : urgentes non faites en premier
-  todos.sort(function(a,b){
-    if(a.done!==b.done) return a.done?1:-1;
-    const pOrd={haute:0,normale:1,basse:2};
-    return (pOrd[a.prio]||1)-(pOrd[b.prio]||1);
+  // Badge sidebar
+  const badge=document.getElementById('b-todo');
+  const urgentes=todos.filter(t=>!t.done&&t.prio==='haute').length;
+  if(badge) badge.textContent=urgentes||'';
+
+  if(todoVue==='liste') renderListeView(todos,today);
+  else renderKanbanView(todos);
+
+  // Templates
+  const tw=document.getElementById('td-tmpls-wrap');
+  if(tw) tw.innerHTML=TODO_TEMPLATES.map(t=>
+    '<button class="td-tmpl" onclick="addTodoFromTemplate(\''+encodeURIComponent(JSON.stringify(t))+'\')">'+t.label+'</button>'
+  ).join('');
+}
+
+function getDateTag(date,today){
+  if(!date) return '';
+  if(date<today) return '<span class="tdl-date overdue">'+date+'</span>';
+  if(date===today) return '<span class="tdl-date today">Aujourd\'hui</span>';
+  return '<span class="tdl-date ok">'+date+'</span>';
+}
+
+function renderListeView(todos,today){
+  const el=document.getElementById('td-liste');if(!el)return;
+  // Regrouper par catégorie
+  const cats={};
+  todos.forEach(t=>{
+    const cat=t.cat||'Autre';
+    if(!cats[cat]) cats[cat]=[];
+    cats[cat].push(t);
   });
-
-  const listeEl=document.getElementById('todo-liste');
-  if(!listeEl) return;
+  // Trier par ordre
+  const sortedCats=Object.keys(cats).sort((a,b)=>(TODO_CATS[a]?.order||99)-(TODO_CATS[b]?.order||99));
   if(!todos.length){
-    listeEl.innerHTML='<div class="empty-card"><span class="ei">✅</span><p>Aucune tâche — profitez-en !</p></div>';
-  } else {
-    const prioCols={haute:'var(--red)',normale:'var(--gold)',basse:'var(--muted)'};
-    const prioIco={haute:'🔴',normale:'🟡',basse:'⚪'};
-    listeEl.innerHTML=todos.map(function(t){
-      const col=prioCols[t.prio]||'var(--gold)';
-      return '<div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--ink2);border-radius:8px;border-left:3px solid '+(t.done?'var(--line)':col)+';opacity:'+(t.done?.6:1)+'">'+
-        '<input type="checkbox" '+(t.done?'checked':'')+' onchange="toggleTodo('+t.id+')" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gold)"/>'+
-        '<div style="flex:1">'+
-          '<div style="font-size:14px;'+(t.done?'text-decoration:line-through;color:var(--muted)':'font-weight:500')+'">'+(t.label||'')+'</div>'+
-          '<div style="font-size:11px;color:var(--muted);margin-top:2px">'+
-            prioIco[t.prio]+' '+t.prio+' · '+t.cat+
-            (t.date?' · '+t.date:'')+
-            (t.assigneA?' · 👤 '+t.assigneA:'')+
-            (t.recurrente?' · 🔄 Récurrente':'')+
-          '</div>'+
-        '</div>'+
-        '<button class="btn btn-danger btn-xs" onclick="delTodo('+t.id+')">✕</button>'+
+    el.innerHTML='<div class="td-empty"><p style="font-size:32px;opacity:.15">✓</p><p>Aucune tâche — bonne journée !</p></div>';
+    return;
+  }
+  el.innerHTML=sortedCats.map(cat=>{
+    const items=cats[cat];
+    const doneC=items.filter(t=>t.done).length;
+    const ico=(TODO_CATS[cat]?.ico)||'📋';
+    const rows=items.map(t=>{
+      const pCol=TODO_PRIO_COLOR[t.prio||'normale'];
+      const doingBadge=t.statut==='doing'&&!t.done?'<span class="tdl-stat doing">En cours</span>':'';
+      const dateTag=getDateTag(t.date,today);
+      const actPlay=!t.done&&t.statut!=='doing'?'<button class="tdl-act" title="Démarrer" onclick="event.stopPropagation();setTodoStatut('+t.id+',\'doing\')">▶</button>':'';
+      const actCheck=!t.done?'<button class="tdl-act" title="Terminer" onclick="event.stopPropagation();toggleTodo('+t.id+')">✓</button>':'<button class="tdl-act" title="Rouvrir" onclick="event.stopPropagation();toggleTodo('+t.id+')">↩</button>';
+      return '<div class="tdl-row'+(t.done?' done-row':'')+'">'+
+        '<input type="checkbox" class="tdl-check"'+(t.done?' checked':'')+ ' onchange="toggleTodo('+t.id+')" />'+
+        '<div class="tdl-prio" style="background:'+pCol+'"></div>'+
+        '<span class="tdl-label">'+t.label+'</span>'+
+        doingBadge+
+        '<span class="tdl-cat">'+cat+'</span>'+
+        dateTag+
+        '<div class="tdl-row-actions">'+actPlay+actCheck+'<button class="tdl-act del" title="Supprimer" onclick="event.stopPropagation();delTodo('+t.id+')">✕</button></div>'+
       '</div>';
     }).join('');
-  }
-
-  // Templates rapides
-  const templEl=document.getElementById('todo-templates');
-  if(templEl) templEl.innerHTML=TODO_TEMPLATES.map(function(t){
-    return '<button onclick="addTodoFromTemplate('+JSON.stringify(t).replace(/"/g,'&quot;')+')" style="padding:6px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;font-size:12px;color:var(--sub);cursor:pointer">'+t.label+'</button>';
+    return '<div class="tdl-section">'+
+      '<div class="tdl-sect-head" onclick="toggleSection(this)">'+
+        '<span class="tdl-sect-ico">'+ico+'</span>'+
+        '<span class="tdl-sect-name">'+cat+'</span>'+
+        '<span class="tdl-sect-cnt">'+doneC+' / '+items.length+'</span>'+
+        '<span class="tdl-sect-arrow">▾</span>'+
+      '</div>'+
+      '<div class="tdl-sect-body">'+rows+'</div>'+
+    '</div>';
   }).join('');
 }
 
+function toggleSection(hdr){
+  hdr.classList.toggle('collapsed');
+  const body=hdr.nextElementSibling;
+  if(body) body.style.display=hdr.classList.contains('collapsed')?'none':'block';
+}
+
+function renderKanbanView(todos){
+  const aFaire=todos.filter(t=>!t.done&&t.statut!=='doing').sort((a,b)=>({haute:0,normale:1,basse:2}[a.prio||'normale'])-({haute:0,normale:1,basse:2}[b.prio||'normale']));
+  const enCours=todos.filter(t=>t.statut==='doing'&&!t.done);
+  const termines=todos.filter(t=>t.done);
+  const today=td();
+
+  function cards(list,col){
+    const el=document.getElementById('tdk-body-'+col);
+    const cnt=document.getElementById('tdk-cnt-'+col);
+    if(!el)return;
+    if(cnt) cnt.textContent=list.length;
+    if(!list.length){el.innerHTML='<div class="td-empty"><p>—</p></div>';return;}
+    el.innerHTML=list.map(t=>{
+      const prio=t.prio||'normale';
+      const tags=[];
+      if(t.cat) tags.push('<span class="kc-tag">'+t.cat+'</span>');
+      if(t.date) tags.push('<span class="kc-tag'+(t.date<today?' overdue':t.date===today?' today':'')+'">'+t.date+'</span>');
+      const btns=(col!=='done'?'<button class="kca-btn play" title="En cours" onclick="event.stopPropagation();setTodoStatut('+t.id+',\'doing\')">▶</button>':'')+
+        '<button class="kca-btn check" title="'+(t.done?'Rouvrir':'Terminer')+'" onclick="event.stopPropagation();toggleTodo('+t.id+')">'+(t.done?'↩':'✓')+'</button>'+
+        '<button class="kca-btn del" onclick="event.stopPropagation();delTodo('+t.id+')">✕</button>';
+      return '<div class="tdk-card prio-'+prio+(t.done?' done-card':'')+'">'+
+        '<div class="kc-actions">'+btns+'</div>'+
+        '<div class="kc-label">'+t.label+'</div>'+
+        (tags.length?'<div class="kc-meta">'+tags.join('')+'</div>':'')+
+      '</div>';
+    }).join('');
+  }
+  cards(aFaire,'todo');
+  cards(enCours,'doing');
+  cards(termines,'done');
+}
 function toggleTodo(id){
   const i=DB.todos.findIndex(function(t){return t.id===id;});
   if(i>=0){DB.todos[i].done=!DB.todos[i].done;saveDB();rTodo();}
 }
 function delTodo(id){DB.todos=DB.todos.filter(function(t){return t.id!==id;});saveDB();rTodo();}
 function addTodoFromTemplate(t){
+  if(typeof t==='string'){try{t=JSON.parse(decodeURIComponent(t));}catch(e){return;}}
   DB.todos.push(Object.assign({},t,{id:Date.now(),done:false,date:td()}));
   saveDB();rTodo();toast(t.label+' ajouté ✅');
 }
@@ -25757,6 +26328,194 @@ function exempleRapport(){
     DB.ventes=savedVentes;
     DB.commandes=savedCmds;
   },500);
+}
+
+
+function toggleGrpExtra(id,btn){
+  const el=document.getElementById(id);if(!el)return;
+  const open=el.style.display!=='none';
+  el.style.display=open?'none':'block';
+  if(btn) btn.querySelector('.ni-ico').textContent=open?'···':'▲';
+}
+
+
+// ═══════════════════════════════════════
+// CAISSE RAPIDE MOBILE
+// ═══════════════════════════════════════
+let _crItems=[];
+let _crCat='Tous';
+let _crMode='rapide';
+
+function rCaisseRapide(){
+  crRenderCats();
+  crRenderGrid();
+  crUpdateTicket();
+}
+
+function crSetMode(mode,btn){
+  _crMode=mode;
+  document.querySelectorAll('.cr-mode-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const sub=document.getElementById('cr-sub');
+  if(sub) sub.textContent=mode==='rapide'?'Bar · Terrasse · Comptoir':'Avec numéro de table';
+}
+
+function crRenderCats(){
+  const el=document.getElementById('cr-cats');if(!el)return;
+  const plats=(DB.plats||[]).filter(p=>p.dispo==='dispo');
+  const cats=['Tous',...new Set(plats.map(p=>p.cat))];
+  el.innerHTML=cats.map(c=>
+    `<button class="cr-cat ${c===_crCat?'active':''}" onclick="crSetCat('${c}')">${c}</button>`
+  ).join('');
+}
+
+function crSetCat(cat){
+  _crCat=cat;
+  document.querySelectorAll('.cr-cat').forEach(b=>b.classList.toggle('active',b.textContent===cat));
+  crRenderGrid();
+}
+
+function crRenderGrid(q=''){
+  const grid=document.getElementById('cr-grid');if(!grid)return;
+  const plats=(DB.plats||[]).filter(p=>p.dispo==='dispo');
+  let list=_crCat==='Tous'?plats:plats.filter(p=>p.cat===_crCat);
+  if(q) list=list.filter(p=>p.nom.toLowerCase().includes(q.toLowerCase()));
+
+  const catCls={
+    'Boissons':'cat-boissons','Vins':'cat-boissons','Apéritifs':'cat-boissons',
+    'Entrées':'cat-entrees','Viandes':'cat-viandes','Poissons':'cat-viandes',
+    'Desserts':'cat-desserts',
+  };
+
+  grid.innerHTML=list.map(p=>{
+    const ico=p.ico&&p.ico.length<=4?'🍽️':(p.ico||'🍽️');
+    const cls=catCls[p.cat]||'';
+    return `<div class="cr-card ${cls}" onclick="crAdd(${p.id})">
+      <div class="cc-ico">${ico}</div>
+      <div class="cc-nom">${p.nom}</div>
+      <div class="cc-prix">${crEur(p.prix)}</div>
+    </div>`;
+  }).join('');
+}
+
+function crEur(n){return (+(n)||0).toFixed(2).replace('.',',')+' €';}
+
+function crAdd(pid){
+  const plat=(DB.plats||[]).find(p=>p.id===pid);if(!plat)return;
+  const ex=_crItems.find(x=>x.pid===pid);
+  if(ex){ex.q++;}else{_crItems.push({pid,nom:plat.nom,ico:plat.ico&&plat.ico.length<=4?'🍽️':(plat.ico||'🍽️'),prix:plat.prix,q:1});}
+  crUpdateTicket();
+  // Flash sur la carte
+  document.querySelectorAll('.cr-card').forEach(c=>{
+    if(c.onclick?.toString().includes('('+pid+')')){
+      c.style.transform='scale(.88)';
+      setTimeout(()=>c.style.transform='',150);
+    }
+  });
+}
+
+function crChangeQty(pid,d){
+  const i=_crItems.findIndex(x=>x.pid===pid);if(i<0)return;
+  _crItems[i].q+=d;
+  if(_crItems[i].q<=0) _crItems.splice(i,1);
+  crUpdateTicket();
+}
+
+function crUpdateTicket(){
+  const ticket=document.getElementById('cr-ticket');
+  const empty=document.getElementById('cr-ticket-empty');
+  const total=_crItems.reduce((s,x)=>s+x.prix*x.q,0);
+  const totalAmt=document.getElementById('cr-total-amt');
+  const encAmt=document.getElementById('cr-enc-amt');
+  const itemsCnt=document.getElementById('cr-items-count');
+  const modalAmt=document.getElementById('cr-modal-amt');
+
+  if(totalAmt) totalAmt.textContent=crEur(total);
+  if(encAmt) encAmt.textContent=crEur(total);
+  if(modalAmt) modalAmt.textContent=crEur(total);
+  if(itemsCnt){
+    const nb=_crItems.reduce((s,x)=>s+x.q,0);
+    itemsCnt.textContent=nb+' article'+(nb>1?'s':'');
+  }
+
+  if(!ticket)return;
+  ticket.querySelectorAll('.cr-line').forEach(x=>x.remove());
+  if(!_crItems.length){
+    if(empty) empty.style.display='block';
+    return;
+  }
+  if(empty) empty.style.display='none';
+
+  _crItems.forEach(item=>{
+    const div=document.createElement('div');
+    div.className='cr-line';
+    div.innerHTML=
+      '<span style="font-size:16px;margin-right:8px">'+item.ico+'</span>'+
+      '<span class="cl-nom">'+item.nom+'</span>'+
+      '<div class="cl-qty">'+
+        '<button class="cr-qbtn" onclick="crChangeQty('+item.pid+',-1)">−</button>'+
+        '<span class="cr-qnum">'+item.q+'</span>'+
+        '<button class="cr-qbtn" onclick="crChangeQty('+item.pid+',1)">+</button>'+
+      '</div>'+
+      '<span class="cl-prix">'+crEur(item.prix*item.q)+'</span>';
+    ticket.appendChild(div);
+  });
+}
+
+function crAnnuler(){
+  if(!_crItems.length) return;
+  _crItems.pop();
+  crUpdateTicket();
+}
+
+function crOffert(){
+  _crItems=[];
+  crUpdateTicket();
+  toast('🎁 Article offert','ok');
+}
+
+function crOpenModal(){
+  const total=_crItems.reduce((s,x)=>s+x.prix*x.q,0);
+  if(!total){toast('Aucun article','warn');return;}
+  document.getElementById('cr-modal').classList.add('open');
+}
+
+function crCloseModal(){
+  document.getElementById('cr-modal').classList.remove('open');
+}
+
+function crPayer(mode){
+  const total=_crItems.reduce((s,x)=>s+x.prix*x.q,0);
+  const tvaRate=(DB.params?.tva||10)/100;
+  const ht=total/(1+tvaRate);
+  const tva=total-ht;
+
+  // Enregistrer la vente
+  DB.ventes.push({
+    id:DB.ids.v++,date:td(),
+    t:new Date().toTimeString().slice(0,5),
+    tbl:'Comptoir',cvt:1,
+    ht:Math.round(ht*100)/100,
+    ttc:Math.round(total*100)/100,
+    tva:Math.round(tva*100)/100,
+    mode:mode,
+    items:_crItems.map(x=>({nom:x.nom,ico:x.ico,px:x.prix,q:x.q}))
+  });
+  saveDB();
+
+  crCloseModal();
+  // Animation succès
+  const enc=document.querySelector('.cr-enc-btn');
+  if(enc){
+    const orig=enc.innerHTML;
+    enc.innerHTML='<span style="font-size:28px">✓</span><span class="enc-lbl">ENCAISSÉ !</span>';
+    enc.style.background='linear-gradient(135deg,#16a34a,#15803d)';
+    setTimeout(()=>{enc.innerHTML=orig;enc.style.background='';},1500);
+  }
+  _crItems=[];
+  crUpdateTicket();
+  toast('💳 Encaissé '+crEur(total)+' — '+mode,'ok');
+  rDash();
 }
 
 </script>
