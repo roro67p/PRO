@@ -2023,353 +2023,270 @@ tbody td { padding:13px 14px; font-size:13px; }
 /* ══ SALLE ══ */
 
 /* ═══════════════════════════════════════════════════════════
-   ✦ PLAN DE SALLE v4 — Formes réalistes + Drag & Drop
+   PLAN DE SALLE POS — Tablette serveur
 ═══════════════════════════════════════════════════════════ */
+@keyframes pos-fade-in{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes pos-blink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes pos-slow-pulse{0%,100%{box-shadow:0 0 0 0 rgba(240,80,80,0)}50%{box-shadow:0 0 0 6px rgba(240,80,80,.18)}}
+@keyframes pos-resa-pulse{0%,100%{box-shadow:0 0 0 0 rgba(106,172,218,0)}50%{box-shadow:0 0 0 6px rgba(106,172,218,.18)}}
+@keyframes pos-tap{0%{transform:scale(1)}40%{transform:scale(.93)}100%{transform:scale(1)}}
+@keyframes pos-new{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
 
-/* Layout */
-.sv3-wrap{display:flex;flex-direction:column;gap:14px}
-.sv3-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.sv3-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2)}
-.sv3-sub{font-size:11px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:7px}
-.sv3-live{width:6px;height:6px;border-radius:50%;background:#6fcf8a;box-shadow:0 0 8px #6fcf8a;display:inline-block;animation:pulse-dot 1.4s infinite}
-.sv3-actions{display:flex;gap:8px;flex-wrap:wrap}
+/* ── PAGE WRAPPER ── */
+.pos-salle-wrap{display:flex;flex-direction:column;gap:0;height:100%;min-height:calc(100vh - 56px)}
 
-/* KPIs */
-.sv3-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-@media(max-width:640px){.sv3-kpis{grid-template-columns:repeat(2,1fr)}}
-.sv3-kpi{
-  background:var(--ink2);border:1px solid var(--line);border-radius:14px;
-  padding:14px 18px;text-align:center;position:relative;overflow:hidden;
-  transition:transform .2s;cursor:default;
+/* ── BARRE STATUT ── */
+.pos-statbar{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;
+  background:rgba(10,9,7,.95);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  flex-wrap:wrap;
+  position:sticky;top:56px;z-index:40;
 }
-.sv3-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
-.sv3-kpi:hover{transform:translateY(-2px)}
-.sv3-kpi-val{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;line-height:1}
-.sv3-kpi-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-top:6px;font-weight:600}
+.pos-statbar-kpi{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:22px;
+  border:1px solid;
+  font-size:13px;font-weight:700;cursor:default;
+  transition:all .15s;
+}
+.pos-statbar-kpi.occ{background:rgba(240,112,96,.1);border-color:rgba(240,112,96,.25);color:#f07060}
+.pos-statbar-kpi.lib{background:rgba(111,207,138,.1);border-color:rgba(111,207,138,.25);color:#6fcf8a}
+.pos-statbar-kpi.pay{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.25);color:var(--gold2)}
+.pos-statbar-kpi.res{background:rgba(106,172,218,.1);border-color:rgba(106,172,218,.25);color:#6aacda}
+.pos-statbar-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pos-statbar-kpi.occ .pos-statbar-dot{background:#f07060;animation:pulse-dot 1.4s infinite}
+.pos-statbar-kpi.lib .pos-statbar-dot{background:#6fcf8a}
+.pos-statbar-kpi.pay .pos-statbar-dot{background:var(--gold2);animation:pulse-dot 2s infinite}
+.pos-statbar-kpi.res .pos-statbar-dot{background:#6aacda}
+.pos-statbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.pos-statbar-ca{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2)}
+.pos-statbar-ca-lbl{font-size:10px;color:var(--muted);margin-right:4px}
 
-/* Alertes */
-.sv3-alertes{display:flex;gap:8px;flex-wrap:wrap}
-.sv3-alerte{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:30px;font-size:12px;font-weight:600;border:1px solid;cursor:pointer;transition:all .15s}
-.sv3-alerte:hover{transform:translateY(-1px)}
-.sv3-alerte-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.sv3-alerte.a-crit{background:rgba(181,57,42,.1);border-color:rgba(181,57,42,.4);color:#f07060}
-.sv3-alerte.a-crit .sv3-alerte-dot{background:#f07060;animation:sv3blink 1s infinite}
-.sv3-alerte.a-slow{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.35);color:var(--gold2)}
-.sv3-alerte.a-slow .sv3-alerte-dot{background:var(--gold2);animation:sv3pulse 2s infinite}
-.sv3-alerte.a-wait{background:rgba(45,95,138,.1);border-color:rgba(45,95,138,.3);color:#6aacda}
-.sv3-alerte.a-wait .sv3-alerte-dot{background:#6aacda}
-
-/* Filtres zones */
-.sv3-zones{display:flex;gap:6px;flex-wrap:wrap}
-.sv3-zone-btn{padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:rgba(255,255,255,.04);transition:all .15s}
-.sv3-zone-btn:hover{background:rgba(255,255,255,.08);color:var(--txt)}
-.sv3-zone-btn.on{background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.4);color:var(--gold3)}
-
-/* ZONE SALLE canvas-like */
-.sv3-canvas{
-  background:rgba(8,7,5,.8);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:20px;padding:20px;
-  position:relative;min-height:400px;
+/* ── ZONES FILTER ── */
+.pos-zones{
+  display:flex;gap:6px;padding:10px 16px 0;flex-wrap:wrap;
 }
-.sv3-zone-label{
-  position:absolute;top:14px;left:20px;
-  font-size:10px;font-weight:800;text-transform:uppercase;
-  letter-spacing:2px;color:rgba(255,255,255,.1);
-  pointer-events:none;
-}
-
-/* ══ PLAN LIBRE ══ */
-.sv3-view-toggle{display:flex;gap:6px;margin-bottom:12px;}
-.sv3-view-btn{padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:rgba(255,255,255,.04);transition:all .15s;}
-.sv3-view-btn:hover{background:rgba(255,255,255,.08);color:var(--txt);}
-.sv3-view-btn.on{background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.4);color:var(--gold3);}
-
-.sv3-plan-wrap{
-  position:relative;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(201,151,58,.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(45,95,138,.04) 0%, transparent 50%),
-    rgba(8,7,5,.9);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:20px;
-  overflow:hidden;
-  user-select:none;
-  cursor:default;
-}
-.sv3-plan-grid-bg{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-  background-size:50px 50px;
-  pointer-events:none;
-}
-.sv3-plan-label{
-  position:absolute;top:16px;left:20px;
-  font-size:9px;font-weight:800;text-transform:uppercase;
-  letter-spacing:3px;color:rgba(255,255,255,.08);
-  pointer-events:none;
-}
-.sv3-plan-legend{
-  position:absolute;bottom:14px;left:16px;
-  display:flex;gap:10px;
-  pointer-events:none;
-}
-.sv3-plan-leg-item{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.3);}
-.sv3-plan-leg-dot{width:8px;height:8px;border-radius:50%;}
-
-/* Table sur le plan */
-.sv3-plan-table{
-  position:absolute;
-  cursor:grab;
-  transition:filter .2s, transform .15s;
-  touch-action:none;
-}
-.sv3-plan-table:hover{z-index:50!important;}
-.sv3-plan-table.dragging-plan{
-  cursor:grabbing;
-  filter:drop-shadow(0 8px 20px rgba(0,0,0,.5));
-  z-index:200!important;
-  transition:none;
-}
-.sv3-plan-table.selected-plan{z-index:100!important;}
-
-/* SVG table sur plan */
-.sv3-ptbl-svg{display:block;transition:transform .15s;}
-.sv3-plan-table:hover .sv3-ptbl-svg{transform:scale(1.06);}
-.sv3-plan-table.dragging-plan .sv3-ptbl-svg{transform:scale(1.1);}
-
-/* Popup actions sur la table */
-.sv3-ptbl-popup{
-  position:absolute;
-  background:var(--ink2);
-  border:1px solid rgba(201,151,58,.3);
-  border-radius:12px;
-  padding:10px;
-  min-width:160px;
-  z-index:300;
-  box-shadow:0 8px 30px rgba(0,0,0,.6);
-  animation:sv3PopIn .15s ease;
-  pointer-events:all;
-}
-@keyframes sv3PopIn{from{opacity:0;transform:scale(.9) translateY(4px)}to{opacity:1;transform:none}}
-.sv3-ptbl-popup::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  border-radius:12px 12px 0 0;
-  background:linear-gradient(90deg,transparent,var(--gold2),transparent);
-}
-.sv3-ptbl-pop-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:2px;}
-.sv3-ptbl-pop-meta{font-size:10px;color:var(--muted);margin-bottom:10px;}
-.sv3-ptbl-pop-total{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold2);margin-bottom:8px;}
-.sv3-ptbl-pop-btns{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-.sv3-ptbl-pop-btn{padding:7px 5px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid;transition:all .12s;text-align:center;background:rgba(255,255,255,.04);}
-.sv3-ptbl-pop-btn:hover{transform:translateY(-1px);}
-.sv3-ptbl-pop-btn.gold{border-color:rgba(201,151,58,.35);color:var(--gold2);background:rgba(201,151,58,.08);}
-.sv3-ptbl-pop-btn.gold:hover{background:rgba(201,151,58,.18);}
-.sv3-ptbl-pop-btn.green{border-color:rgba(61,122,78,.3);color:#6fcf8a;background:rgba(61,122,78,.08);}
-.sv3-ptbl-pop-btn.green:hover{background:rgba(61,122,78,.2);}
-.sv3-ptbl-pop-btn.blue{border-color:rgba(45,95,138,.3);color:#6aacda;background:rgba(45,95,138,.08);}
-.sv3-ptbl-pop-btn.blue:hover{background:rgba(45,95,138,.2);}
-.sv3-ptbl-pop-btn.red{border-color:rgba(181,57,42,.3);color:#f07060;background:rgba(181,57,42,.08);}
-.sv3-ptbl-pop-btn.red:hover{background:rgba(181,57,42,.2);}
-.sv3-ptbl-pop-btn.full{grid-column:1/-1;border-color:rgba(255,255,255,.1);color:var(--sub);}
-.sv3-ptbl-pop-btn.full:hover{color:var(--txt);background:rgba(255,255,255,.07);}
-.sv3-ptbl-pop-close{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:var(--sub);width:24px;height:24px;border-radius:6px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
-.sv3-ptbl-pop-close:hover{color:var(--txt);}
-
-/* Mode édition plan */
-.sv3-plan-edit-bar{
-  display:none;align-items:center;gap:8px;
-  padding:8px 14px;margin-bottom:10px;
-  background:rgba(201,151,58,.06);
-  border:1px solid rgba(201,151,58,.2);
-  border-radius:10px;
-  font-size:11px;color:var(--gold2);font-weight:600;
-}
-.sv3-plan-edit-bar.show{display:flex;}
-.sv3-plan-edit-hint{flex:1;font-size:11px;color:var(--muted);}
-
-/* Resize handle plan */
-.sv3-plan-resize{
-  position:absolute;bottom:0;right:0;
-  width:20px;height:20px;cursor:nwse-resize;
-  display:flex;align-items:flex-end;justify-content:flex-end;
-  padding:3px;
-  opacity:.3;transition:opacity .2s;
-}
-.sv3-plan-resize:hover{opacity:.8;}
-.sv3-plan-resize svg{pointer-events:none;}
-
-/* GRILLE */
-.sv3-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-  gap:14px;
-}
-
-/* ═══ CARTE TABLE PREMIUM v4 ═══ */
-@keyframes sv3CardIn{0%{opacity:0;transform:translateY(10px) scale(.95)}100%{opacity:1;transform:none}}
-@keyframes sv3blink{0%,100%{opacity:1}50%{opacity:.3}}
-@keyframes sv3pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes sv3bar{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-@keyframes sv3OccGlow{0%,100%{box-shadow:0 0 0 0 rgba(240,112,96,0),0 4px 20px rgba(0,0,0,.4)}50%{box-shadow:0 0 0 4px rgba(240,112,96,.15),0 4px 20px rgba(0,0,0,.4)}}
-@keyframes sv3glow-green{0%,100%{box-shadow:0 0 6px 1px rgba(111,207,138,.5)}50%{box-shadow:0 0 16px 4px rgba(111,207,138,.7)}}
-@keyframes sv3glow-red{0%,100%{box-shadow:0 0 6px 1px rgba(240,112,96,.5)}50%{box-shadow:0 0 18px 5px rgba(240,112,96,.75)}}
-@keyframes sv3glow-blue{0%,100%{box-shadow:0 0 5px 1px rgba(106,172,218,.4)}50%{box-shadow:0 0 14px 3px rgba(106,172,218,.6)}}
-@keyframes sv3glow-orange{0%,100%{box-shadow:0 0 8px 2px rgba(240,160,96,.5)}50%{box-shadow:0 0 20px 6px rgba(240,160,96,.75)}}
-
-.sv3-table{
-  position:relative;cursor:pointer;
-  border-radius:18px;padding:0;
-  overflow:hidden;
-  animation:sv3CardIn .3s ease both;
-  transition:transform .18s ease;
-  display:flex;flex-direction:column;
-  min-height:160px;
-  user-select:none;
-}
-.sv3-table:hover{transform:translateY(-4px) scale(1.02)}
-.sv3-table:active{transform:scale(.97)}
-
-/* Fond coloré par statut */
-.sv3-table.libre{
-  background:linear-gradient(150deg,#0d1f12 0%,#0a0906 55%,#081409 100%);
-  border:1.5px solid rgba(61,122,78,.3);
-}
-.sv3-table.occupée{
-  background:linear-gradient(150deg,#1f0d0a 0%,#0a0906 55%,#160806 100%);
-  border:1.5px solid rgba(240,112,96,.35);
-  animation:sv3OccGlow 2.5s ease-in-out infinite;
-}
-.sv3-table.réservée{
-  background:linear-gradient(150deg,#0a1220 0%,#0a0906 55%,#080e18 100%);
-  border:1.5px solid rgba(106,172,218,.28);
-}
-.sv3-table.t-warn{
-  background:linear-gradient(150deg,#1f1608 0%,#0a0906 55%) !important;
-  border:1.5px solid rgba(240,160,96,.45) !important;
-  animation:sv3glow-orange 2s ease-in-out infinite !important;
-}
-.sv3-table.t-slow{
-  border:1.5px solid rgba(240,80,80,.55) !important;
-  animation:sv3glow-red 1.4s ease-in-out infinite !important;
-}
-
-/* Barre top colorée animée */
-.sv3-table::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,transparent 0%,var(--sv3-accent,#6fcf8a) 50%,transparent 100%);
-  background-size:200% 100%;
-  animation:sv3bar 2.5s linear infinite;
-  opacity:.8;
-}
-.sv3-table.libre{--sv3-accent:#6fcf8a}
-.sv3-table.occupée{--sv3-accent:#f07060}
-.sv3-table.réservée{--sv3-accent:#6aacda}
-.sv3-table.t-warn{--sv3-accent:#f0a060 !important}
-
-/* ZONE FORME TABLE */
-.sv3-t-shape{
-  display:flex;align-items:center;justify-content:center;
-  padding:16px 16px 8px;flex-shrink:0;
-  position:relative;
-}
-
-/* SVG Table */
-.sv3-t-svg{
-  filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));
-  transition:filter .2s;
-}
-.sv3-table:hover .sv3-t-svg{
-  filter:drop-shadow(0 4px 16px rgba(0,0,0,.6));
-}
-
-/* ZONE INFOS */
-.sv3-t-body{
-  padding:0 14px 14px;flex:1;
-  display:flex;flex-direction:column;gap:4px;
-}
-.sv3-t-row1{display:flex;align-items:center;justify-content:space-between}
-.sv3-t-num{
-  font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;
-  line-height:1;
-}
-.sv3-table.libre .sv3-t-num{color:#6fcf8a}
-.sv3-table.occupée .sv3-t-num{color:var(--gold2)}
-.sv3-table.réservée .sv3-t-num{color:#6aacda}
-
-.sv3-t-dot{
-  width:12px;height:12px;border-radius:50%;flex-shrink:0;
-}
-.sv3-table.libre .sv3-t-dot{background:#6fcf8a;animation:sv3glow-green 2.5s infinite}
-.sv3-table.occupée .sv3-t-dot{background:#f07060;animation:sv3glow-red 1.6s infinite}
-.sv3-table.réservée .sv3-t-dot{background:#6aacda;animation:sv3glow-blue 2.5s infinite}
-.sv3-table.t-warn .sv3-t-dot{background:#f0a060 !important;animation:sv3glow-orange 1.2s infinite !important}
-
-.sv3-t-status{
-  font-size:11px;font-weight:800;text-transform:uppercase;
-  letter-spacing:.5px;display:flex;align-items:center;gap:4px;
-}
-.sv3-table.libre .sv3-t-status{color:#6fcf8a}
-.sv3-table.occupée .sv3-t-status{color:#f07060}
-.sv3-table.réservée .sv3-t-status{color:#6aacda}
-
-.sv3-t-seats{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:3px}
-.sv3-t-zone{font-size:9px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:1px}
-.sv3-t-client{font-size:11px;color:var(--txt);font-weight:600;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sv3-t-items{font-size:9px;color:var(--muted);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-.sv3-t-timer{
-  font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px;
-  display:inline-flex;align-items:center;gap:4px;width:fit-content;margin-top:2px;
-}
-.sv3-t-timer.t-fresh{color:#6fcf8a;background:rgba(61,122,78,.15);border:1px solid rgba(61,122,78,.2)}
-.sv3-t-timer.t-ok{color:var(--sub);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
-.sv3-t-timer.t-warn{color:#f0a060;background:rgba(240,160,96,.15);border:1px solid rgba(240,160,96,.25);animation:sv3pulse 2s infinite}
-.sv3-t-timer.t-slow{color:#f07060;background:rgba(240,80,80,.15);border:1px solid rgba(240,80,80,.3);animation:sv3blink .9s infinite}
-
-.sv3-t-total{
-  font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;
-  color:var(--gold2);margin-top:auto;
-  text-shadow:0 0 10px rgba(201,151,58,.25);
-}
-
-/* Badge alerte coin */
-.sv3-t-alert{
-  position:absolute;top:8px;right:8px;z-index:2;
-  font-size:9px;font-weight:800;padding:3px 7px;
-  border-radius:6px;text-transform:uppercase;letter-spacing:.5px;
-}
-.sv3-t-alert.slow{background:rgba(240,80,80,.25);color:#f87171;border:1px solid rgba(240,80,80,.4);animation:sv3blink 1s infinite}
-.sv3-t-alert.warn{background:rgba(240,160,96,.2);color:#f0a060;border:1px solid rgba(240,160,96,.35)}
-.sv3-t-alert.wait{background:rgba(106,172,218,.15);color:#6aacda;border:1px solid rgba(106,172,218,.3)}
-
-/* Actions au hover */
-.sv3-t-actions{
-  display:flex;gap:4px;padding:8px 14px;
-  border-top:1px solid rgba(255,255,255,.05);
-  opacity:0;max-height:0;overflow:hidden;
-  transition:opacity .18s,max-height .18s;
-}
-.sv3-table:hover .sv3-t-actions{opacity:1;max-height:50px}
-.sv3-t-btn{
-  flex:1;padding:7px 5px;border-radius:9px;font-size:11px;font-weight:700;
+.pos-zone-btn{
+  padding:5px 14px;border-radius:18px;font-size:11px;font-weight:700;
   cursor:pointer;border:1px solid rgba(255,255,255,.1);
-  background:rgba(255,255,255,.06);color:var(--sub);
-  transition:all .12s;text-align:center;
+  color:var(--sub);background:rgba(255,255,255,.04);
+  transition:all .15s;
 }
-.sv3-t-btn:hover{background:rgba(255,255,255,.12);color:var(--txt);transform:translateY(-1px)}
-.sv3-t-btn.caisse{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.3);color:var(--gold2)}
-.sv3-t-btn.caisse:hover{background:rgba(201,151,58,.25)}
-.sv3-t-btn.libre-btn{background:rgba(61,122,78,.12);border-color:rgba(61,122,78,.3);color:#6fcf8a}
-.sv3-t-btn.libre-btn:hover{background:rgba(61,122,78,.25)}
+.pos-zone-btn.on{background:rgba(201,151,58,.14);border-color:rgba(201,151,58,.35);color:var(--gold2)}
 
-/* Dragging */
-.sv3-table.dragging{opacity:.4;transform:scale(.95)!important;border-style:dashed!important}
-.sv3-table.drag-over{border-color:rgba(201,151,58,.6)!important;background:rgba(201,151,58,.05)!important}
+/* ── GRILLE DE TABLES ── */
+.pos-plan{
+  flex:1;
+  padding:14px 16px 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:12px;
+  align-content:start;
+}
+@media(max-width:600px){.pos-plan{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;padding:10px 12px}}
+@media(min-width:1200px){.pos-plan{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}}
 
-/* Bouton nouveau */
+/* ── CARTE TABLE ── */
+.pos-tbl{
+  position:relative;
+  border-radius:20px;
+  border:2px solid rgba(255,255,255,.08);
+  background:rgba(14,13,11,.95);
+  cursor:pointer;
+  user-select:none;
+  touch-action:manipulation;
+  transition:transform .12s ease, box-shadow .15s ease, border-color .15s;
+  animation:pos-fade-in .25s ease both;
+  overflow:hidden;
+  aspect-ratio:1 / 1.05;
+  display:flex;flex-direction:column;
+  min-height:130px;
+}
+.pos-tbl::before{
+  content:'';
+  position:absolute;inset:0;
+  border-radius:18px;
+  opacity:0;
+  transition:opacity .15s;
+  pointer-events:none;
+}
+.pos-tbl:active{animation:pos-tap .2s ease}
+.pos-tbl:hover{transform:translateY(-3px);z-index:10}
+
+/* Statuts */
+.pos-tbl.libre{
+  border-color:rgba(111,207,138,.3);
+}
+.pos-tbl.libre::before{background:radial-gradient(circle at 30% 30%,rgba(111,207,138,.06),transparent 60%);opacity:1}
+.pos-tbl.libre:hover{border-color:rgba(111,207,138,.6);box-shadow:0 8px 28px rgba(111,207,138,.12)}
+
+.pos-tbl.occupee{
+  border-color:rgba(240,160,96,.4);
+}
+.pos-tbl.occupee::before{background:radial-gradient(circle at 30% 30%,rgba(240,160,96,.08),transparent 60%);opacity:1}
+.pos-tbl.occupee:hover{border-color:rgba(240,160,96,.7);box-shadow:0 8px 28px rgba(240,160,96,.14)}
+
+.pos-tbl.apayer{
+  border-color:rgba(201,151,58,.5);
+  animation:pos-slow-pulse 2.5s ease-in-out infinite;
+}
+.pos-tbl.apayer::before{background:radial-gradient(circle at 30% 30%,rgba(201,151,58,.1),transparent 60%);opacity:1}
+.pos-tbl.apayer:hover{box-shadow:0 8px 30px rgba(201,151,58,.2)}
+
+.pos-tbl.reservee{
+  border-color:rgba(106,172,218,.3);
+  animation:pos-resa-pulse 3s ease-in-out infinite;
+}
+.pos-tbl.reservee::before{background:radial-gradient(circle at 30% 30%,rgba(106,172,218,.07),transparent 60%);opacity:1}
+
+.pos-tbl.lente{
+  border-color:rgba(240,80,80,.5)!important;
+  animation:pos-slow-pulse 1.6s ease-in-out infinite!important;
+}
+
+/* ── BANDE COULEUR TOP ── */
+.pos-tbl-bar{
+  height:4px;border-radius:20px 20px 0 0;flex-shrink:0;
+  transition:height .15s;
+}
+.pos-tbl:hover .pos-tbl-bar{height:5px}
+.pos-tbl.libre .pos-tbl-bar{background:linear-gradient(90deg,#3d7a4e,#6fcf8a)}
+.pos-tbl.occupee .pos-tbl-bar{background:linear-gradient(90deg,#c97830,#f0a060)}
+.pos-tbl.apayer .pos-tbl-bar{background:linear-gradient(90deg,#c9973a,#f5d070);box-shadow:0 0 8px rgba(201,151,58,.4)}
+.pos-tbl.reservee .pos-tbl-bar{background:linear-gradient(90deg,#2d5f8a,#6aacda)}
+.pos-tbl.lente .pos-tbl-bar{background:linear-gradient(90deg,#b5392a,#f07060)!important;animation:pos-blink 1s infinite}
+
+/* ── CONTENU TABLE ── */
+.pos-tbl-body{
+  flex:1;display:flex;flex-direction:column;
+  padding:12px 12px 8px;
+  position:relative;z-index:1;
+}
+.pos-tbl-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:700;line-height:1;
+  margin-bottom:2px;
+}
+.pos-tbl.libre .pos-tbl-num{color:#6fcf8a}
+.pos-tbl.occupee .pos-tbl-num{color:#f0a060}
+.pos-tbl.apayer .pos-tbl-num{color:var(--gold2)}
+.pos-tbl.reservee .pos-tbl-num{color:#6aacda}
+.pos-tbl.lente .pos-tbl-num{color:#f07060!important}
+
+.pos-tbl-cvt{font-size:11px;color:var(--muted);margin-bottom:8px}
+.pos-tbl-cvt span{font-weight:700;color:var(--sub)}
+
+.pos-tbl-stat{
+  font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 8px;border-radius:8px;width:fit-content;
+  margin-bottom:auto;
+}
+.pos-tbl.libre .pos-tbl-stat{color:#6fcf8a;background:rgba(111,207,138,.1);border:1px solid rgba(111,207,138,.18)}
+.pos-tbl.occupee .pos-tbl-stat{color:#f0a060;background:rgba(240,160,96,.1);border:1px solid rgba(240,160,96,.18)}
+.pos-tbl.apayer .pos-tbl-stat{color:var(--gold2);background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.25)}
+.pos-tbl.reservee .pos-tbl-stat{color:#6aacda;background:rgba(106,172,218,.1);border:1px solid rgba(106,172,218,.18)}
+.pos-tbl.lente .pos-tbl-stat{color:#f07060!important;background:rgba(240,80,80,.1)!important;border-color:rgba(240,80,80,.25)!important}
+
+.pos-tbl-timer{font-size:10px;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:3px}
+.pos-tbl-timer.slow{color:#f07060;font-weight:700;animation:pos-blink 1s infinite}
+.pos-tbl-timer.warn{color:#f0a060;font-weight:700}
+
+.pos-tbl-total{
+  font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;
+  color:var(--gold2);margin-top:4px;
+}
+
+/* ── FOOTER TABLE ── */
+.pos-tbl-footer{
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:7px 10px;
+  display:flex;gap:5px;
+  opacity:0;
+  max-height:0;overflow:hidden;
+  transition:opacity .15s,max-height .18s;
+}
+.pos-tbl:hover .pos-tbl-footer{opacity:1;max-height:44px}
+.pos-tbl-fbtn{
+  flex:1;padding:6px 4px;border-radius:9px;
+  font-size:10px;font-weight:700;cursor:pointer;border:1px solid;
+  transition:all .12s;text-align:center;background:rgba(255,255,255,.04);
+  color:var(--sub);border-color:rgba(255,255,255,.1);
+}
+.pos-tbl-fbtn:hover{background:rgba(255,255,255,.1);color:var(--txt)}
+.pos-tbl-fbtn.enc{background:rgba(201,151,58,.1);color:var(--gold2);border-color:rgba(201,151,58,.25)}
+.pos-tbl-fbtn.enc:hover{background:rgba(201,151,58,.22)}
+.pos-tbl-fbtn.lib{background:rgba(61,122,78,.1);color:#6fcf8a;border-color:rgba(61,122,78,.22)}
+.pos-tbl-fbtn.lib:hover{background:rgba(61,122,78,.22)}
+
+/* ── BADGE CLIENT ── */
+.pos-tbl-client{font-size:10px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── BOUTON AJOUTER TABLE ── */
+.pos-tbl-add{
+  border-radius:20px;border:2px dashed rgba(255,255,255,.1);
+  background:rgba(255,255,255,.02);
+  cursor:pointer;transition:all .18s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  aspect-ratio:1 / 1.05;min-height:130px;
+  color:var(--muted);
+}
+.pos-tbl-add:hover{border-color:rgba(201,151,58,.3);background:rgba(201,151,58,.04);color:var(--gold2);transform:scale(1.02)}
+.pos-tbl-add-ico{font-size:24px;opacity:.4;transition:opacity .15s}
+.pos-tbl-add:hover .pos-tbl-add-ico{opacity:.7}
+.pos-tbl-add-lbl{font-size:11px;font-weight:600;letter-spacing:.3px}
+
+/* ── EMPTY STATE ── */
+.pos-empty{
+  grid-column:1/-1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 20px;gap:14px;color:var(--muted);
+}
+
+/* ── MODAL RAPIDE TABLE ── */
+.pos-quick-modal{
+  position:fixed;inset:0;z-index:500;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:0 0 0;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(4px);
+  animation:pos-fade-in .15s ease;
+}
+.pos-quick-sheet{
+  background:var(--ink2);
+  border:1px solid rgba(255,255,255,.08);
+  border-bottom:none;
+  border-radius:24px 24px 0 0;
+  padding:20px 20px 32px;
+  width:100%;max-width:480px;
+  animation:pos-sheet-up .2s cubic-bezier(.4,0,.2,1);
+}
+@keyframes pos-sheet-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.pos-quick-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.15);margin:0 auto 16px}
+.pos-quick-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;margin-bottom:4px}
+.pos-quick-meta{font-size:12px;color:var(--muted);margin-bottom:18px}
+.pos-quick-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pos-quick-btn{
+  padding:16px 12px;border-radius:16px;border:1px solid;
+  font-size:13px;font-weight:700;cursor:pointer;
+  transition:all .15s;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.pos-quick-btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.pos-quick-btn .pqb-ico{font-size:22px}
+.pos-quick-btn.pqb-cmd{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.3);color:var(--gold2)}
+.pos-quick-btn.pqb-enc{background:rgba(61,122,78,.12);border-color:rgba(61,122,78,.3);color:#6fcf8a}
+.pos-quick-btn.pqb-lib{background:rgba(45,95,138,.1);border-color:rgba(45,95,138,.25);color:#6aacda}
+.pos-quick-btn.pqb-new{background:rgba(200,154,255,.08);border-color:rgba(200,154,255,.2);color:#c89aff}
+.pos-quick-btn.pqb-full{grid-column:1/-1}
+.pos-quick-cancel{margin-top:12px;width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);font-size:13px;font-weight:600;color:var(--sub);cursor:pointer;transition:all .15s}
+.pos-quick-cancel:hover{color:var(--txt);background:rgba(255,255,255,.07)}
+.pos-quick-items{font-size:11px;color:var(--muted);background:rgba(255,255,255,.04);border-radius:10px;padding:10px 12px;margin-bottom:14px;line-height:1.7}
+.pos-quick-total{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold2);text-align:right;margin-bottom:14px}
+
+/* compat anciens selecteurs */
 .sv3-btn-tout{background:linear-gradient(108deg,#7a4a08,#c9973a,#f5d070,#c9973a);background-size:250% 100%;color:#060300;font-size:12px;font-weight:800;padding:9px 18px;border-radius:9px;border:none;cursor:pointer;box-shadow:0 3px 14px rgba(201,151,58,.35);transition:all .2s}
 .sv3-btn-tout:hover{background-position:70%;transform:translateY(-1px)}
 
@@ -5454,76 +5371,50 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- SALLE -->
   <div id="page-salle" class="page">
+  <div class="pos-salle-wrap">
 
-  <div>
-    <!-- TOP BAR -->
-    <div class="sv3-header">
-      <div>
-        <div class="sv3-title">Plan de salle</div>
-        <div class="sv3-sub">
-          <span class="sv3-live"></span>
-          <span id="sv3-sub">Service en cours</span>
-        </div>
-      </div>
-      <div class="sv3-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openModal('mo-table')">+ Table</button>
-        <button class="sv3-btn-tout" onclick="openModal('mo-commande')">🍽️ Nouvelle commande</button>
+    <!-- BARRE STATUT -->
+    <div class="pos-statbar">
+      <div class="pos-statbar-kpi occ"><div class="pos-statbar-dot"></div><span id="ps-occ">0</span>&nbsp;occupée(s)</div>
+      <div class="pos-statbar-kpi lib"><div class="pos-statbar-dot"></div><span id="ps-lib">0</span>&nbsp;libre(s)</div>
+      <div class="pos-statbar-kpi pay"><div class="pos-statbar-dot"></div><span id="ps-pay">0</span>&nbsp;à payer</div>
+      <div class="pos-statbar-kpi res"><div class="pos-statbar-dot"></div><span id="ps-res">0</span>&nbsp;réservée(s)</div>
+      <div class="pos-statbar-right">
+        <span class="pos-statbar-ca-lbl">CA</span>
+        <span class="pos-statbar-ca" id="ps-ca">—</span>
+        <button class="btn btn-ghost btn-sm" onclick="openModal('mo-table')" style="margin-left:8px">+ Table</button>
       </div>
     </div>
-
-    <!-- KPIs -->
-    <div class="sv3-kpis" id="sv3-kpis"></div>
-
-    <!-- ALERTES DYNAMIQUES -->
-    <div class="sv3-alertes" id="sv3-alertes"></div>
 
     <!-- FILTRES ZONES -->
-    <div class="sv3-zones" id="sv3-zones"></div>
+    <div class="pos-zones" id="ps-zones" style="display:none"></div>
 
-    <!-- TOGGLE VUE -->
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
-      <div class="sv3-view-toggle">
-        <button class="sv3-view-btn on" id="sv3-btn-plan" onclick="sv3SetView('plan',this)">🗺️ Plan libre</button>
-        <button class="sv3-view-btn" id="sv3-btn-liste" onclick="sv3SetView('liste',this)">▦ Liste</button>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span id="sv3-edit-hint" style="font-size:10px;color:var(--muted)">Glissez les tables pour les repositionner</span>
-        <button class="sv3-view-btn" id="sv3-btn-edit" onclick="sv3ToggleEdit()" style="padding:5px 12px">✏️ Éditer plan</button>
-      </div>
-    </div>
+    <!-- GRILLE TABLES -->
+    <div class="pos-plan" id="ps-plan"></div>
 
-    <!-- BARRE EDITION -->
-    <div class="sv3-plan-edit-bar" id="sv3-edit-bar">
-      <span>✏️ Mode édition actif</span>
-      <span class="sv3-plan-edit-hint">Glissez les tables pour les repositionner</span>
-      <button class="sv3-view-btn on" onclick="sv3ToggleEdit()" style="padding:4px 12px;font-size:10px">✓ Terminer</button>
-    </div>
-
-    <!-- FILTRES ZONES (liste seulement) -->
-    <div class="sv3-zones" id="sv3-zones" style="display:none"></div>
-
-    <!-- PLAN LIBRE -->
-    <div id="sv3-plan-container">
-      <div class="sv3-plan-wrap" id="sv3-plan-wrap" style="height:600px">
-        <div class="sv3-plan-grid-bg"></div>
-        <div class="sv3-plan-label">Chez Romu · Plan de salle</div>
-        <div id="sv3-plan-tables"></div>
-        <div class="sv3-plan-legend">
-          <div class="sv3-plan-leg-item"><div class="sv3-plan-leg-dot" style="background:#6fcf8a;box-shadow:0 0 6px #6fcf8a"></div>Libre</div>
-          <div class="sv3-plan-leg-item"><div class="sv3-plan-leg-dot" style="background:#f07060;box-shadow:0 0 6px #f07060"></div>Occupée</div>
-          <div class="sv3-plan-leg-item"><div class="sv3-plan-leg-dot" style="background:#6aacda;box-shadow:0 0 6px #6aacda"></div>Réservée</div>
-        </div>
-        <div class="sv3-plan-resize" id="sv3-plan-resize" title="Redimensionner">
-          <svg width="12" height="12" viewBox="0 0 12 12"><path d="M0 12L12 0M5 12L12 5M10 12L12 10" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/></svg>
-        </div>
-      </div>
-    </div>
-
-    <!-- GRILLE TABLES (liste) -->
-    <div class="sv3-grid" id="salle-grid" style="display:none"></div>
-  </div>
   </div>
 
+  <!-- MODAL RAPIDE (bottom sheet) -->
+  <div class="pos-quick-modal" id="ps-modal" style="display:none" onclick="if(event.target===this)psCloseModal()">
+    <div class="pos-quick-sheet" id="ps-sheet">
+      <div class="pos-quick-handle"></div>
+      <div class="pos-quick-title" id="ps-modal-title">Table —</div>
+      <div class="pos-quick-meta" id="ps-modal-meta"></div>
+      <div class="pos-quick-items" id="ps-modal-items" style="display:none"></div>
+      <div class="pos-quick-total" id="ps-modal-total" style="display:none"></div>
+      <div class="pos-quick-btns" id="ps-modal-btns"></div>
+      <button class="pos-quick-cancel" onclick="psCloseModal()">Annuler</button>
+    </div>
+  </div>
+
+  <!-- IDs COMPAT -->
+  <span id="b-occ" style="display:none">0</span>
+  <div id="sv3-kpis" style="display:none"></div>
+  <div id="sv3-alertes" style="display:none"></div>
+  <div id="sv3-zones" style="display:none"></div>
+  <div id="salle-grid" style="display:none"></div>
+  <div id="sv3-plan-container" style="display:none"></div>
+  </div>
   <!-- COMMANDES -->
   <div id="page-commandes" class="page">
 
@@ -10554,511 +10445,314 @@ function sv3InitDrag(){
   });
 }
 
-// ══ PLAN LIBRE — état ══
-let _sv3View = 'plan'; // 'plan' | 'liste'
-let _sv3EditMode = false;
-let _sv3PopupOpen = null;
+// ═══════════════════════════════════════════════
+// PLAN DE SALLE POS — Tablette serveur
+// ═══════════════════════════════════════════════
 
-function sv3SetView(v, btn){
-  _sv3View = v;
-  document.querySelectorAll('.sv3-view-btn[id^="sv3-btn-"]').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  const planC = document.getElementById('sv3-plan-container');
-  const listC = document.getElementById('salle-grid');
-  const editArea = document.getElementById('sv3-btn-edit')?.parentElement;
-  const zonesEl = document.getElementById('sv3-zones');
-  if(v==='plan'){
-    if(planC) planC.style.display='block';
-    if(listC) listC.style.display='none';
-    if(editArea) editArea.style.display='flex';
-    if(zonesEl) zonesEl.style.display='none';
-    rSallePlan();
-  } else {
-    if(planC) planC.style.display='none';
-    if(listC) listC.style.display='grid';
-    if(editArea) editArea.style.display='none';
-    if(zonesEl){
-      zonesEl.style.display='flex';
-      zonesEl.dataset.built='';
-    }
-    rSalleListe();
-  }
-}
+let _psZone = 'Tous';
+let _psLongPressTimer = null;
+let _psModalTblId = null;
 
-function sv3ToggleEdit(){
-  _sv3EditMode = !_sv3EditMode;
-  const bar = document.getElementById('sv3-edit-bar');
-  const btn = document.getElementById('sv3-btn-edit');
-  const hint = document.getElementById('sv3-edit-hint');
-  if(bar) bar.classList.toggle('show', _sv3EditMode);
-  if(btn) btn.classList.toggle('on', _sv3EditMode);
-  if(hint) hint.style.display = _sv3EditMode ? 'none' : 'inline';
-  sv3ClosePopup();
-  rSallePlan();
-}
-
-function sv3ClosePopup(){
-  if(_sv3PopupOpen){
-    _sv3PopupOpen.remove();
-    _sv3PopupOpen = null;
-  }
-}
-
-// ══ PLAN LIBRE — rendu ══
-function rSallePlan(){
-  const tables = DB.tables||[];
-  const wrap = document.getElementById('sv3-plan-wrap');
-  const container = document.getElementById('sv3-plan-tables');
-  if(!container) return;
-
-  // Assigner positions par défaut si absentes
-  const wrapW = (wrap?.offsetWidth||800) - 40;
-  const wrapH = (wrap?.offsetHeight||600) - 40;
-  const cols = Math.max(3, Math.ceil(Math.sqrt(tables.length * 1.5)));
-  tables.forEach((t,i)=>{
-    if(t.planX == null || t.planY == null){
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      t.planX = 30 + col * Math.floor(wrapW/cols);
-      t.planY = 40 + row * 140;
-    }
-  });
-
-  container.innerHTML = '';
-  sv3ClosePopup();
-
-  if(!tables.length){
-    container.innerHTML = `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:var(--muted)">
-      <div style="font-size:48px;opacity:.2;margin-bottom:14px">🪑</div>
-      <p style="margin-bottom:14px">Aucune table — ajoutez votre plan de salle</p>
-      <button class="btn btn-gold btn-sm" onclick="openModal('mo-table')">+ Ajouter une table</button>
-    </div>`;
-    return;
-  }
-
-  tables.forEach(t=>{
-    const el = sv3MakePlanTable(t);
-    container.appendChild(el);
-    sv3InitPlanDrag(el, t);
-  });
-
-  // Init resize du plan
-  sv3InitPlanResize();
-}
-
-function sv3MakePlanTable(t){
-  const stat = t.stat||'libre';
-  const col = stat==='libre'?'#6fcf8a':stat==='occupée'?'#f07060':'#6aacda';
-  const fill = stat==='libre'?'rgba(61,122,78,.18)':stat==='occupée'?'rgba(181,57,42,.18)':'rgba(45,95,138,.18)';
-  const stroke = stat==='libre'?'rgba(111,207,138,.7)':stat==='occupée'?'rgba(240,112,96,.7)':'rgba(106,172,218,.6)';
-  const glowColor = stat==='libre'?'rgba(111,207,138,.4)':stat==='occupée'?'rgba(240,112,96,.4)':'rgba(106,172,218,.35)';
-
-  const cmdsT = (DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payée');
-  const total = cmdsT.reduce((s,c)=>s+(+c.total||0),0);
-  const ti = stat==='occupée'?_timerInfo(t.id):null;
-
-  // Dimensions selon couverts
-  const cvt = t.cvt||2;
-  const isRound = cvt<=4;
-  const size = isRound ? 90 : cvt<=6 ? 110 : 130;
-
-  // SVG table plan (plus grand, plus lisible)
-  const svgContent = sv3PlanTableSVG(t, size, col, fill, stroke);
-
-  // Texte overlay
-  const timerTxt = ti ? (ti.mins>=90?'🔴':ti.mins>=60?'⚠️':'⏱')+' '+ti.str : '';
-  const totalTxt = total>0 ? eur(total) : '';
-
-  const div = document.createElement('div');
-  div.className = 'sv3-plan-table';
-  div.dataset.id = t.id;
-  div.style.cssText = `left:${t.planX}px;top:${t.planY}px;z-index:${stat==='occupée'?10:5};`;
-  div.innerHTML = `
-    <svg class="sv3-ptbl-svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
-      ${svgContent}
-      <!-- Numéro table -->
-      <text x="${size/2}" y="${size/2+2}" text-anchor="middle" dominant-baseline="middle"
-        font-family="'Cormorant Garamond',serif" font-size="${size>100?22:18}" font-weight="700"
-        fill="${col}" filter="url(#glow${t.id})">T${t.num}</text>
-      ${timerTxt?`<text x="${size/2}" y="${size/2+20}" text-anchor="middle" dominant-baseline="middle"
-        font-family="'Outfit',sans-serif" font-size="9" font-weight="600" fill="${col}" opacity=".8">${timerTxt}</text>`:''}
-      ${totalTxt?`<text x="${size/2}" y="${size/2+(timerTxt?33:20)}" text-anchor="middle" dominant-baseline="middle"
-        font-family="'Cormorant Garamond',serif" font-size="11" font-weight="700" fill="${col}" opacity=".9">${totalTxt}</text>`:''}
-      <defs>
-        <filter id="glow${t.id}" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="2" result="blur"/>
-          <feFlood flood-color="${col}" flood-opacity=".5" result="color"/>
-          <feComposite in="color" in2="blur" operator="in" result="shadow"/>
-          <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-    </svg>
-    ${stat==='occupée'&&ti?.mins>=90?`<div style="position:absolute;top:-6px;right:-6px;width:14px;height:14px;background:#f07060;border-radius:50%;border:2px solid var(--ink);animation:sv3blink 1s infinite"></div>`:''}
-    ${stat==='réservée'?`<div style="position:absolute;top:-6px;right:-6px;width:14px;height:14px;background:#6aacda;border-radius:50%;border:2px solid var(--ink)"></div>`:''}
-  `;
-
-  // Clic = popup (si pas en mode drag)
-  div.addEventListener('click', e=>{
-    if(div.dataset.dragged==='1'){div.dataset.dragged='0';return;}
-    e.stopPropagation();
-    sv3OpenPlanPopup(t.id, div);
-  });
-
-  return div;
-}
-
-function sv3PlanTableSVG(t, size, col, fill, stroke){
-  const cvt = t.cvt||2;
-  const isRound = cvt<=4;
-  const cx = size/2, cy = size/2;
-  const chairs = [];
-
-  if(isRound){
-    const tableR = size*0.22;
-    const chairR = size*0.38;
-    const n = Math.min(cvt,8);
-    for(let i=0;i<n;i++){
-      const angle = (i/n)*2*Math.PI - Math.PI/2;
-      const x = cx+chairR*Math.cos(angle);
-      const y = cy+chairR*Math.sin(angle);
-      chairs.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size*0.07}" fill="${fill}" stroke="${stroke}" stroke-width="1.5" opacity=".8"/>`);
-    }
-    const glow = col.replace('rgb','').replace('(','').replace(')','');
-    return chairs.join('')+
-      `<circle cx="${cx}" cy="${cy}" r="${tableR}" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
-       <circle cx="${cx}" cy="${cy}" r="${tableR-4}" fill="none" stroke="${col}" stroke-width=".5" opacity=".3"/>`;
-  } else {
-    // Rectangle
-    const tw = size*0.5, th = size*0.35;
-    const tx = cx-tw/2, ty = cy-th/2;
-    const perTop = Math.ceil(cvt/2);
-    const perSide = Math.floor(cvt/2);
-    for(let j=0;j<perTop;j++){
-      const x = tx + (j+1)*tw/(perTop+1);
-      chairs.push(`<ellipse cx="${x.toFixed(1)}" cy="${(ty-size*0.1).toFixed(1)}" rx="${size*0.07}" ry="${size*0.06}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`);
-    }
-    for(let j=0;j<perSide;j++){
-      const x = tx + (j+1)*tw/(perSide+1);
-      chairs.push(`<ellipse cx="${x.toFixed(1)}" cy="${(ty+th+size*0.1).toFixed(1)}" rx="${size*0.07}" ry="${size*0.06}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`);
-    }
-    return chairs.join('')+
-      `<rect x="${tx}" y="${ty}" width="${tw}" height="${th}" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
-       <rect x="${tx+3}" y="${ty+3}" width="${tw-6}" height="${th-6}" rx="6" fill="none" stroke="${col}" stroke-width=".5" opacity=".3"/>`;
-  }
-}
-
-function sv3OpenPlanPopup(id, el){
-  sv3ClosePopup();
-  const t = DB.tables.find(x=>x.id===id);
-  if(!t) return;
-
-  const cmdsT = (DB.commandes||[]).filter(c=>c.tbl===id&&c.stat!=='payée');
-  const total = cmdsT.reduce((s,c)=>s+(+c.total||0),0);
-  const ti = _timerInfo(id);
-  const col = t.stat==='libre'?'#6fcf8a':t.stat==='occupée'?'#f07060':'#6aacda';
-
-  const pop = document.createElement('div');
-  pop.className = 'sv3-ptbl-popup';
-
-  // Position relative au parent plan-tables
-  const elRect = el.getBoundingClientRect();
-  const wrapRect = document.getElementById('sv3-plan-wrap').getBoundingClientRect();
-  let left = t.planX + (el.offsetWidth||90) + 10;
-  let top = t.planY;
-  // Anti-débordement
-  if(left + 175 > wrapRect.width - 20) left = t.planX - 185;
-  if(top + 220 > wrapRect.height - 20) top = Math.max(10, wrapRect.height - 230);
-
-  pop.style.cssText = `left:${left}px;top:${top}px;`;
-
-  const itemsHtml = cmdsT.length&&cmdsT[0]?.items?.length
-    ? cmdsT[0].items.slice(0,3).map(x=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{};return `${p.ico||'🍽️'} ${p.nom||'?'}${x.q>1?' ×'+x.q:''}`;}).join(' · ')
-    : '';
-
-  pop.innerHTML = `
-    <button class="sv3-ptbl-pop-close" onclick="sv3ClosePopup()">✕</button>
-    <div class="sv3-ptbl-pop-title" style="color:${col}">Table ${t.num}</div>
-    <div class="sv3-ptbl-pop-meta">👥 ${t.cvt} cvt${t.zone?' · '+t.zone:''}${ti?' · ⏱ '+ti.str:''}</div>
-    ${itemsHtml?`<div style="font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.6">${itemsHtml}</div>`:''}
-    ${total?`<div class="sv3-ptbl-pop-total">${eur(total)}</div>`:''}
-    <div class="sv3-ptbl-pop-btns">
-      ${t.stat==='occupée'?`
-        <button class="sv3-ptbl-pop-btn gold" onclick="openCaisseForTable(${id});sv3ClosePopup()">💳 Caisse</button>
-        <button class="sv3-ptbl-pop-btn green" onclick="sv3LibererTable(${id});sv3ClosePopup()">✓ Libérer</button>
-      `:t.stat==='libre'?`
-        <button class="sv3-ptbl-pop-btn gold" onclick="sv3OccuperTable(${id});sv3ClosePopup()">▶ Ouvrir</button>
-        <button class="sv3-ptbl-pop-btn blue" onclick="setTblStat(${id},'réservée');sv3ClosePopup()">📅 Réserver</button>
-      `:`
-        <button class="sv3-ptbl-pop-btn gold" onclick="sv3OccuperTable(${id});sv3ClosePopup()">▶ Installer</button>
-        <button class="sv3-ptbl-pop-btn green" onclick="sv3LibererTable(${id});sv3ClosePopup()">✓ Libérer</button>
-      `}
-      <button class="sv3-ptbl-pop-btn full" onclick="editTable(${id});sv3ClosePopup()">✏️ Modifier la table</button>
-    </div>
-  `;
-
-  document.getElementById('sv3-plan-tables').appendChild(pop);
-  _sv3PopupOpen = pop;
-
-  // Fermer si clic ailleurs
-  setTimeout(()=>{
-    document.addEventListener('click', sv3ClosePopup, {once:true});
-  }, 50);
-}
-
-// ══ DRAG LIBRE SUR LE PLAN ══
-function sv3InitPlanDrag(el, t){
-  let startX, startY, startLeft, startTop, moved;
-  const wrap = document.getElementById('sv3-plan-wrap');
-
-  function onMove(ex, ey){
-    const dx = ex - startX;
-    const dy = ey - startY;
-    if(Math.abs(dx)+Math.abs(dy) > 4) moved = true;
-    if(!moved) return;
-    el.classList.add('dragging-plan');
-    sv3ClosePopup();
-    const wW = wrap.offsetWidth - el.offsetWidth - 10;
-    const wH = wrap.offsetHeight - el.offsetHeight - 10;
-    const newX = Math.max(10, Math.min(wW, startLeft + dx));
-    const newY = Math.max(10, Math.min(wH, startTop + dy));
-    el.style.left = newX+'px';
-    el.style.top = newY+'px';
-    t.planX = newX; t.planY = newY;
-  }
-
-  function onEnd(){
-    el.classList.remove('dragging-plan');
-    if(moved){ el.dataset.dragged='1'; saveDB(); }
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-    document.removeEventListener('touchmove', onTouchMove);
-    document.removeEventListener('touchend', onTouchEnd);
-  }
-
-  function onMouseMove(e){ onMove(e.clientX, e.clientY); }
-  function onMouseUp(){ onEnd(); }
-  function onTouchMove(e){ e.preventDefault(); onMove(e.touches[0].clientX, e.touches[0].clientY); }
-  function onTouchEnd(){ onEnd(); }
-
-  el.addEventListener('mousedown', e=>{
-    if(e.button!==0) return;
-    startX=e.clientX; startY=e.clientY;
-    startLeft=t.planX||0; startTop=t.planY||0;
-    moved=false;
-    e.preventDefault();
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
-
-  el.addEventListener('touchstart', e=>{
-    startX=e.touches[0].clientX; startY=e.touches[0].clientY;
-    startLeft=t.planX||0; startTop=t.planY||0;
-    moved=false;
-    document.addEventListener('touchmove', onTouchMove, {passive:false});
-    document.addEventListener('touchend', onTouchEnd);
-  }, {passive:true});
-}
-
-// ══ RESIZE DU PLAN ══
-function sv3InitPlanResize(){
-  const handle = document.getElementById('sv3-plan-resize');
-  const wrap = document.getElementById('sv3-plan-wrap');
-  if(!handle||!wrap) return;
-  handle.onmousedown = null;
-  handle.onmousedown = e=>{
-    e.preventDefault();
-    const startY = e.clientY;
-    const startH = wrap.offsetHeight;
-    const onMove = e2=>{
-      const newH = Math.max(350, startH + (e2.clientY - startY));
-      wrap.style.height = newH+'px';
-    };
-    const onUp = ()=>{
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseup', onUp);
-    };
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-  };
-}
-
-// ══ VUE LISTE (ancienne grille) ══
-function rSalleListe(){
-  const tables = DB.tables||[];
-  let list = tables;
-  if(_salleZoneFilter!=='Tous') list=list.filter(t=>t.zone===_salleZoneFilter);
-  list=[...list].sort((a,b)=>{
-    const score=t=>{
-      if(t.stat!=='occupée') return t.stat==='réservée'?1:0;
-      const m=_timerInfo(t.id)?.mins||0;
-      return m>=90?100:m>=60?50:10;
-    };
-    return score(b)-score(a);
-  });
-  const gridEl=document.getElementById('salle-grid');
-  if(!gridEl) return;
-  if(!list.length){
-    gridEl.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted)">
-      <div style="font-size:48px;opacity:.2;margin-bottom:14px">🪑</div>
-      <p style="margin-bottom:16px">Aucune table — ajoutez votre plan de salle</p>
-      <button class="btn btn-gold btn-sm" onclick="openModal('mo-table')">+ Ajouter une table</button>
-    </div>`;
-    return;
-  }
-  gridEl.innerHTML=list.map((t,i)=>{
-    const cmdsT=(DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payée');
-    const total=cmdsT.reduce((s,c)=>s+(+c.total||0),0);
-    const ti=t.stat==='occupée'?_timerInfo(t.id):null;
-    const tblExtraCls=ti?.tblCls?' '+ti.tblCls:'';
-    const svg=sv3TableSVG(t);
-    let timerHtml='';
-    if(ti){const ico=ti.cls==='t-fresh'?'🟢':ti.cls==='t-ok'?'⏱':ti.cls==='t-warn'?'⚠️':'🔴';timerHtml='<div class="sv3-t-timer '+ti.cls+'">'+ico+' '+ti.str+'</div>';}
-    let alertBadge='';
-    if(ti?.mins>=90) alertBadge='<div class="sv3-t-alert slow">🔴 Lent</div>';
-    else if(ti?.mins>=60) alertBadge='<div class="sv3-t-alert warn">⚠ Attente</div>';
-    else if(t.stat==='réservée') alertBadge='<div class="sv3-t-alert wait">📅 Résa</div>';
-    const clientHtml=t.clientNom?'<div class="sv3-t-client">👤 '+t.clientNom+'</div>':
-      (t.stat==='réservée'&&DB.reservations?(()=>{const r=(DB.reservations||[]).find(r=>r.tbl==t.id&&r.stat!=='annulé');return r?'<div class="sv3-t-client">👤 '+r.nom+'</div>':''})():'');
-    const itemsHtml=cmdsT.length&&cmdsT[0]?.items?.length?'<div class="sv3-t-items">'+cmdsT[0].items.slice(0,3).map(x=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{};return (p.ico||'')+(p.nom?p.nom.split(' ')[0]:'?');}).join(' · ')+'</div>':'';
-    let actionsHtml='';
-    if(t.stat==='occupée'){actionsHtml='<button class="sv3-t-btn caisse" onclick="event.stopPropagation();openCaisseForTable('+t.id+')">💳 Caisse</button>'+'<button class="sv3-t-btn libre-btn" onclick="event.stopPropagation();sv3LibererTable('+t.id+')">✓ Libérer</button>';}
-    else if(t.stat==='libre'){actionsHtml='<button class="sv3-t-btn caisse" onclick="event.stopPropagation();sv3OccuperTable('+t.id+')">▶ Ouvrir</button>'+'<button class="sv3-t-btn" onclick="event.stopPropagation();editTable('+t.id+')">✏</button>';}
-    else{actionsHtml='<button class="sv3-t-btn caisse" onclick="event.stopPropagation();sv3OccuperTable('+t.id+')">▶ Installer</button>'+'<button class="sv3-t-btn" onclick="event.stopPropagation();editTable('+t.id+')">✏</button>';}
-    const statIco=t.stat==='libre'?'✓ Libre':t.stat==='occupée'?'● En service':'◈ Réservée';
-    return '<div class="sv3-table '+t.stat+tblExtraCls+'" onclick="openTableDetail('+t.id+')" style="animation-delay:'+i*.04+'s">'+alertBadge+'<div class="sv3-t-shape">'+svg+'</div>'+'<div class="sv3-t-body">'+'<div class="sv3-t-row1"><div class="sv3-t-num">T'+t.num+'</div><div class="sv3-t-dot"></div></div>'+'<div class="sv3-t-status">'+statIco+'</div>'+'<div class="sv3-t-seats">👥 '+t.cvt+' couvert'+(t.cvt>1?'s':'')+(t.zone?' · <span class="sv3-t-zone">'+t.zone+'</span>':'')+'</div>'+clientHtml+timerHtml+itemsHtml+(total>0?'<div class="sv3-t-total">'+eur(total)+'</div>':'')+'</div>'+'<div class="sv3-t-actions" onclick="event.stopPropagation()">'+actionsHtml+'</div>'+'</div>';
-  }).join('');
+// Statut réel d'une table (libre / occupee / apayer / reservee)
+function _psTblStat(t){
+  if(t.stat==='réservée') return 'reservee';
+  if(t.stat==='libre')    return 'libre';
+  // occupée — vérifier si des commandes sont en statut "servi" (à payer)
+  const cmds = (DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée');
+  if(cmds.length>0 && cmds.every(c=>c.stat==='servi')) return 'apayer';
+  return 'occupee';
 }
 
 function rSalle(){
-  const tables=DB.tables||[];
-  const libre=tables.filter(t=>t.stat==='libre').length;
-  const occ=tables.filter(t=>t.stat==='occupée').length;
-  const resa=tables.filter(t=>t.stat==='réservée').length;
-  const caTotal=(DB.commandes||[]).filter(c=>c.stat!=='payée'&&c.tbl).reduce((s,c)=>s+(+c.total||0),0);
-  const g=id=>document.getElementById(id);
+  const tables = DB.tables||[];
+  const occ    = tables.filter(t=>t.stat==='occupée').length;
+  const lib    = tables.filter(t=>t.stat==='libre').length;
+  const res    = tables.filter(t=>t.stat==='réservée').length;
+  const caTotal= (DB.commandes||[]).filter(c=>c.stat!=='payé'&&c.stat!=='payée'&&c.tbl).reduce((s,c)=>s+(+c.total||0),0);
 
-  (g('b-occ')||{}).textContent=occ;
+  // Compter les "à payer"
+  const apayer = tables.filter(t=>{
+    const cmds=(DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée');
+    return cmds.length>0&&cmds.every(c=>c.stat==='servi');
+  }).length;
 
-  if(g('sv3-sub')){
-    const lents=tables.filter(t=>t.stat==='occupée'&&(_timerInfo(t.id)?.mins||0)>=90).length;
-    if(lents>0) g('sv3-sub').textContent=`⚠️ ${lents} table(s) en service lent · CA : ${eur(caTotal)}`;
-    else if(occ>0) g('sv3-sub').textContent=`${occ} table(s) en service · CA en cours : ${eur(caTotal)}`;
-    else g('sv3-sub').textContent='Salle libre · prêt pour le service';
+  // Badges sidebar & statbar
+  const g = id=>document.getElementById(id);
+  if(g('b-occ')) g('b-occ').textContent=occ;
+  if(g('ps-occ')) g('ps-occ').textContent=occ;
+  if(g('ps-lib')) g('ps-lib').textContent=lib;
+  if(g('ps-pay')) g('ps-pay').textContent=apayer;
+  if(g('ps-res')) g('ps-res').textContent=res;
+  if(g('ps-ca'))  g('ps-ca').textContent=caTotal>0?eur(Math.round(caTotal)):'—';
+
+  // Sous-titre topbar
+  const lents=tables.filter(t=>t.stat==='occupée'&&(_timerInfo(t.id)?.mins||0)>=90).length;
+  const sv3sub=g('sv3-sub');
+  if(sv3sub){
+    if(lents>0) sv3sub.textContent=`⚠️ ${lents} table(s) lente(s)`;
+    else if(occ>0) sv3sub.textContent=`${occ} table(s) en service`;
+    else sv3sub.textContent='Salle libre';
   }
 
-  const lentsCount=tables.filter(t=>t.stat==='occupée'&&(_timerInfo(t.id)?.mins||0)>=60).length;
-  const kpiEl=g('sv3-kpis');
-  if(kpiEl) kpiEl.innerHTML=`
-    <div class="sv3-kpi" style="--sv3k:#6fcf8a;border-top:3px solid #6fcf8a;background:rgba(30,50,35,.5)">
-      <div class="sv3-kpi-val" style="color:#6fcf8a">${libre}</div>
-      <div class="sv3-kpi-lbl">🟢 Libres</div>
-    </div>
-    <div class="sv3-kpi" style="border-top:3px solid #f07060;background:rgba(50,20,18,.5)">
-      <div class="sv3-kpi-val" style="color:#f07060">${occ}</div>
-      <div class="sv3-kpi-lbl">🔴 Occupées</div>
-    </div>
-    <div class="sv3-kpi" style="border-top:3px solid ${lentsCount>0?'#f0a060':'#6aacda'};background:${lentsCount>0?'rgba(50,35,15,.5)':'rgba(20,35,55,.5)'}">
-      <div class="sv3-kpi-val" style="color:${lentsCount>0?'#f0a060':'#6aacda'}">${lentsCount||resa}</div>
-      <div class="sv3-kpi-lbl">${lentsCount>0?'⚠️ Service lent':'🔵 Réservées'}</div>
-    </div>
-    <div class="sv3-kpi" style="border-top:3px solid var(--gold2);background:rgba(30,22,8,.5)">
-      <div class="sv3-kpi-val" style="color:var(--gold2);font-size:${caTotal>1000?'20':'26'}px">${eur(caTotal)}</div>
-      <div class="sv3-kpi-lbl">💰 CA en cours</div>
+  // Zones
+  const zonesEl = g('ps-zones');
+  if(zonesEl){
+    const zones = ['Tous',...new Set(tables.map(t=>t.zone).filter(Boolean))];
+    if(zones.length>1){
+      zonesEl.style.display='flex';
+      if(!zonesEl.dataset.built){
+        zonesEl.dataset.built='1';
+        zonesEl.innerHTML=zones.map(z=>`<button class="pos-zone-btn${z==='Tous'?' on':''}" onclick="psSetZone('${z}',this)">${z==='Tous'?'Toutes':z}</button>`).join('');
+      }
+    }
+  }
+
+  // Grille
+  const plan = g('ps-plan');
+  if(!plan) return;
+
+  let list = tables;
+  if(_psZone!=='Tous') list=list.filter(t=>t.zone===_psZone);
+
+  // Tri : lentes > à payer > occupées > réservées > libres
+  list = [...list].sort((a,b)=>{
+    const score = t=>{
+      const st=_psTblStat(t);
+      const mins=_timerInfo(t.id)?.mins||0;
+      if(st==='occupee'&&mins>=90) return 100;
+      if(st==='apayer') return 80;
+      if(st==='occupee') return 50;
+      if(st==='reservee') return 20;
+      return 0;
+    };
+    return score(b)-score(a);
+  });
+
+  if(!list.length){
+    plan.innerHTML=`<div class="pos-empty">
+      <div style="font-size:48px;opacity:.2">🪑</div>
+      <p style="font-size:13px">Aucune table — ajoutez votre plan de salle</p>
+      <button class="btn btn-gold btn-sm" onclick="openModal('mo-table')">+ Ajouter une table</button>
     </div>`;
-
-  const alertesEl=g('sv3-alertes');
-  if(alertesEl){
-    const alertes=[];
-    tables.filter(t=>t.stat==='occupée').forEach(t=>{
-      const ti=_timerInfo(t.id);if(!ti) return;
-      if(ti.mins>=90) alertes.push({cls:'a-crit',txt:`T${t.num} — service lent (${ti.str})`,id:t.id});
-      else if(ti.mins>=60) alertes.push({cls:'a-slow',txt:`T${t.num} — ${ti.str} en table`,id:t.id});
-    });
-    tables.filter(t=>t.stat==='réservée').forEach(t=>alertes.push({cls:'a-wait',txt:`T${t.num} — en attente d'installation`,id:t.id}));
-    alertesEl.innerHTML=alertes.length
-      ?alertes.map(a=>`<div class="sv3-alerte ${a.cls}" onclick="sv3OpenPlanPopup(${a.id},document.querySelector('[data-id=\'${a.id}\']')||document.body)"><div class="sv3-alerte-dot"></div>${a.txt}</div>`).join('')
-      :`<div style="font-size:11px;color:var(--muted);padding:4px 0">✅ Aucune alerte — service fluide</div>`;
+    return;
   }
 
-  // Zones (vue liste)
-  const zonesEl=g('sv3-zones');
-  if(zonesEl&&!zonesEl.dataset.built){
-    zonesEl.dataset.built='1';
-    const zones=['Tous',...new Set(tables.map(t=>t.zone).filter(Boolean))];
-    if(zones.length>1) zonesEl.innerHTML=zones.map(z=>`<button class="sv3-zone-btn${z==='Tous'?' on':''}" onclick="sv3SetZone('${z}',this)">${z==='Tous'?'🏠 Toutes':z}</button>`).join('');
-  }
+  // Rebuild seulement si nécessaire (évite les flashs)
+  const hash = list.map(t=>t.id+'|'+t.stat+'|'+_psTblStat(t)+'|'+((DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée').reduce((s,c)=>s+(+c.total||0),0))).join(',');
+  if(plan.dataset.hash===hash) return;
+  plan.dataset.hash=hash;
 
-  if(_sv3View==='plan') rSallePlan();
-  else rSalleListe();
+  plan.innerHTML = list.map((t,i)=>psMakeTbl(t,i)).join('') +
+    `<div class="pos-tbl-add" onclick="openModal('mo-table')">
+       <div class="pos-tbl-add-ico">＋</div>
+       <div class="pos-tbl-add-lbl">Nouvelle table</div>
+     </div>`;
+
+  // Drag & drop repositionnement
+  psInitDrag();
 }
 
-function sv3SetZone(zone, btn){
-  _salleZoneFilter=zone;
-  document.querySelectorAll('.sv3-zone-btn').forEach(b=>b.classList.toggle('on',b===btn));
+function psMakeTbl(t,i){
+  const st = _psTblStat(t);
+  const cmds = (DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée');
+  const total = cmds.reduce((s,c)=>s+(+c.total||0),0);
+  const ti = _timerInfo(t.id);
+  const isLente = t.stat==='occupée'&&(ti?.mins||0)>=90;
+  const cls = isLente?'lente':st;
+
+  const statLabel = {
+    libre:'● Libre',
+    occupee:'▶ En service',
+    apayer:'💳 À payer',
+    reservee:'📅 Réservée',
+    lente:'⚠ Attente',
+  }[cls]||'';
+
+  const timerHtml = ti ? `<div class="pos-tbl-timer${ti.mins>=90?' slow':ti.mins>=60?' warn':''}">⏱ ${ti.str}</div>` : '';
+  const totalHtml = total>0 ? `<div class="pos-tbl-total">${eur(total)}</div>` : '';
+
+  // Client (résa)
+  const clientNom = t.clientNom || (()=>{
+    if(t.stat!=='réservée') return '';
+    const r=(DB.reservations||[]).find(r=>r.tbl==t.id&&r.stat!=='annulé');
+    return r?r.nom:'';
+  })();
+  const clientHtml = clientNom?`<div class="pos-tbl-client">👤 ${clientNom}</div>`:'';
+
+  // Boutons footer
+  let footer = '';
+  if(st==='occupee'||st==='apayer'||cls==='lente'){
+    footer=`<div class="pos-tbl-footer">
+      <button class="pos-tbl-fbtn enc" onclick="event.stopPropagation();openCaisseForTable(${t.id})">💳 Encaisser</button>
+      <button class="pos-tbl-fbtn lib" onclick="event.stopPropagation();sv3LibererTable(${t.id})">✓ Libérer</button>
+    </div>`;
+  } else if(st==='libre'){
+    footer=`<div class="pos-tbl-footer">
+      <button class="pos-tbl-fbtn enc" onclick="event.stopPropagation();psOuvrir(${t.id})">▶ Ouvrir</button>
+      <button class="pos-tbl-fbtn" onclick="event.stopPropagation();editTable(${t.id})">✏ Modifier</button>
+    </div>`;
+  }
+
+  return `<div class="pos-tbl ${cls}"
+    data-id="${t.id}"
+    style="animation-delay:${i*0.04}s"
+    onclick="psClickTable(${t.id})"
+    oncontextmenu="event.preventDefault();psLongPress(${t.id})">
+    <div class="pos-tbl-bar"></div>
+    <div class="pos-tbl-body">
+      <div class="pos-tbl-num">${t.num}</div>
+      <div class="pos-tbl-cvt"><span>${t.cvt}</span> couvert${t.cvt>1?'s':''}${t.zone?' · '+t.zone:''}</div>
+      <div class="pos-tbl-stat">${statLabel}</div>
+      ${clientHtml}
+      ${timerHtml}
+      ${totalHtml}
+    </div>
+    ${footer}
+  </div>`;
+}
+
+// ── CLIC TABLE : action directe ──
+function psClickTable(id){
+  const t = DB.tables.find(x=>x.id===id);
+  if(!t) return;
+  const st = _psTblStat(t);
+
+  // Libre → ouvrir directement + commande
+  if(st==='libre'){
+    psOuvrir(id);
+    return;
+  }
+  // Occupée ou à payer → bottom sheet rapide
+  psOpenModal(id);
+}
+
+function psOuvrir(id){
+  window._salleTimes = window._salleTimes||{};
+  window._salleTimes[id] = Date.now();
+  setTblStat(id,'occupée');
+  // Aller directement à la caisse avec cette table
+  openCaisseForTable(id);
+}
+
+function psSetZone(z,btn){
+  _psZone=z;
+  document.querySelectorAll('.pos-zone-btn').forEach(b=>b.classList.toggle('on',b===btn));
+  document.getElementById('ps-plan').dataset.hash='';
   rSalle();
 }
 
+// ── BOTTOM SHEET ──
+function psOpenModal(id){
+  const t = DB.tables.find(x=>x.id===id);
+  if(!t) return;
+  _psModalTblId = id;
+  const st = _psTblStat(t);
+  const cmds = (DB.commandes||[]).filter(c=>c.tbl===id&&c.stat!=='payé'&&c.stat!=='payée');
+  const total = cmds.reduce((s,c)=>s+(+c.total||0),0);
+  const ti = _timerInfo(id);
+  const col = st==='libre'?'#6fcf8a':st==='occupee'?'#f0a060':st==='apayer'?'var(--gold2)':'#6aacda';
+
+  const modal = document.getElementById('ps-modal');
+  const g = id2=>document.getElementById(id2);
+
+  g('ps-modal-title').innerHTML=`<span style="color:${col}">Table ${t.num}</span>`;
+  g('ps-modal-meta').textContent=`${t.cvt} couvert${t.cvt>1?'s':''}${t.zone?' · '+t.zone:''}${ti?' · ⏱ '+ti.str:''}`;
+
+  // Items en cours
+  const itemsEl = g('ps-modal-items');
+  if(cmds.length&&cmds[0]?.items?.length){
+    itemsEl.style.display='block';
+    itemsEl.textContent=cmds[0].items.slice(0,4).map(x=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{};return `${p.ico||'🍽️'} ${p.nom||'?'}${x.q>1?' ×'+x.q:''}`;}).join(' · ')+(cmds[0].items.length>4?'  …':'');
+  } else {
+    itemsEl.style.display='none';
+  }
+
+  const totalEl = g('ps-modal-total');
+  if(total>0){ totalEl.style.display='block'; totalEl.textContent=eur(total); }
+  else totalEl.style.display='none';
+
+  // Boutons selon statut
+  let btns='';
+  if(st==='occupee'||st==='apayer'){
+    btns=`
+      <button class="pos-quick-btn pqb-cmd pqb-full" onclick="openCaisseForTable(${id});psCloseModal()">
+        <span class="pqb-ico">🧾</span>Voir / Modifier la commande
+      </button>
+      <button class="pos-quick-btn pqb-enc" onclick="openCaisseForTable(${id});psCloseModal()">
+        <span class="pqb-ico">💳</span>Encaisser
+      </button>
+      <button class="pos-quick-btn pqb-lib" onclick="sv3LibererTable(${id});psCloseModal()">
+        <span class="pqb-ico">✓</span>Libérer
+      </button>`;
+  } else if(st==='reservee'){
+    btns=`
+      <button class="pos-quick-btn pqb-cmd pqb-full" onclick="psOuvrir(${id});psCloseModal()">
+        <span class="pqb-ico">▶</span>Installer & Ouvrir commande
+      </button>
+      <button class="pos-quick-btn pqb-lib" onclick="setTblStat(${id},'libre');psCloseModal()">
+        <span class="pqb-ico">✓</span>Libérer
+      </button>
+      <button class="pos-quick-btn pqb-new" onclick="editTable(${id});psCloseModal()">
+        <span class="pqb-ico">✏️</span>Modifier
+      </button>`;
+  }
+  g('ps-modal-btns').innerHTML=btns;
+  modal.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function psCloseModal(){
+  const m=document.getElementById('ps-modal');
+  if(m) m.style.display='none';
+  document.body.style.overflow='';
+  _psModalTblId=null;
+}
+
+function psLongPress(id){
+  psOpenModal(id);
+}
+
+// ── DRAG REPOSITIONNEMENT (positions libres) ──
+function psInitDrag(){
+  // Drag classique HTML5 pour réordonner — on swap les numéros
+  let dragId=null;
+  document.querySelectorAll('.pos-tbl').forEach(el=>{
+    el.draggable=true;
+    el.addEventListener('dragstart',e=>{dragId=+el.dataset.id;e.dataTransfer.effectAllowed='move';setTimeout(()=>el.style.opacity='.4',0)});
+    el.addEventListener('dragend',()=>{el.style.opacity='';dragId=null;document.querySelectorAll('.pos-tbl').forEach(x=>x.classList.remove('drag-ov'))});
+    el.addEventListener('dragover',e=>{e.preventDefault();if(+el.dataset.id!==dragId)el.classList.add('drag-ov')});
+    el.addEventListener('dragleave',()=>el.classList.remove('drag-ov'));
+    el.addEventListener('drop',e=>{
+      e.preventDefault();el.classList.remove('drag-ov');
+      if(!dragId||+el.dataset.id===dragId) return;
+      const a=DB.tables.find(t=>t.id===dragId),b=DB.tables.find(t=>t.id===+el.dataset.id);
+      if(!a||!b) return;
+      const tmp=a.num;a.num=b.num;b.num=tmp;
+      saveDB();
+      document.getElementById('ps-plan').dataset.hash='';
+      rSalle();
+      toast('Tables échangées 🔄','info');
+    });
+  });
+}
+
+// ── COMPAT anciens appels ──
 function sv3OccuperTable(id){
+  window._salleTimes=window._salleTimes||{};
   window._salleTimes[id]=Date.now();
   setTblStat(id,'occupée');
   toast('Table ouverte ▶');
 }
-
 function sv3LibererTable(id){
-  delete window._salleTimes[id];
+  delete (window._salleTimes||{})[id];
   setTblStat(id,'libre');
   toast('Table libérée ✓');
 }
-
-function openCaisseForTable(id){
-  nav('caisse',null);
-  setTimeout(()=>{
-    const sel=document.getElementById('tk-table');
-    if(sel){sel.value=id;posUpdateTable();}
-  },120);
-}
-
-function openTableDetail(id){
-  const t=DB.tables.find(x=>x.id===id);
-  if(!t) return;
-  const cmdsT=(DB.commandes||[]).filter(c=>c.tbl===id&&c.stat!=='payée');
-  const total=cmdsT.reduce((s,c)=>s+(+c.total||0),0);
-  const now=Date.now();
-  const debut=window._salleTimes[id];
-  const mins=debut?Math.floor((now-debut)/60000):0;
-  const timeStr=debut?(mins>=60?`${Math.floor(mins/60)}h${String(mins%60).padStart(2,'0')}`:`${mins}min`):'—';
-  const statColor={libre:'#6fcf8a',occupée:'#f07060',réservée:'#6aacda'}[t.stat]||'var(--sub)';
-
-  document.getElementById('sv3-modal-overlay')?.remove();
-  const html=`<div id="sv3-modal-overlay" class="sv3-modal-overlay" onclick="if(event.target.id==='sv3-modal-overlay')this.remove()">
-    <div class="sv3-modal">
-      <div class="sv3-modal-drag"></div>
-      <div class="sv3-modal-header">
-        <div>
-          <div class="sv3-modal-num" style="color:${statColor}">Table ${t.num}</div>
-          <div class="sv3-modal-meta">👥 ${t.cvt} couverts${t.zone?' · '+t.zone:''} · ⏱ ${timeStr}</div>
-        </div>
-        <button onclick="document.getElementById('sv3-modal-overlay').remove()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:var(--sub);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px">✕</button>
-      </div>
-      ${cmdsT.length?`<div style="background:var(--ink3);border:1px solid var(--line);border-radius:10px;padding:13px;margin-bottom:14px">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Commande en cours</div>
-        <div style="font-size:12px;color:var(--sub);line-height:1.8">${cmdsT.map(c=>(c.items||[]).map(x=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{nom:'?',ico:'🍽️'};return `${p.ico} ${p.nom}${x.q>1?' ×'+x.q:''}`;}).join(' · ')).join('<br>')}</div>
-        ${total?`<div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)">${eur(total)}</div>`:''}
-      </div>`:''}
-      <div class="sv3-modal-actions">
-        <button class="sv3-modal-btn gold" onclick="openCaisseForTable(${id});document.getElementById('sv3-modal-overlay').remove()">🖥️ Ouvrir la caisse</button>
-        <button class="sv3-modal-btn green" onclick="sv3LibererTable(${id});document.getElementById('sv3-modal-overlay').remove()">✓ Libérer la table</button>
-        <button class="sv3-modal-btn blue" onclick="setTblStat(${id},'réservée');document.getElementById('sv3-modal-overlay').remove()">📅 Marquer réservée</button>
-        <button class="sv3-modal-btn red" onclick="setTblStat(${id},'occupée');window._salleTimes[${id}]=Date.now();document.getElementById('sv3-modal-overlay').remove()">● Occuper la table</button>
-        <button class="sv3-modal-btn ghost" onclick="editTable(${id});document.getElementById('sv3-modal-overlay').remove()" style="grid-column:1/-1">✏ Modifier la table</button>
-      </div>
-    </div>
-  </div>`;
-  document.body.insertAdjacentHTML('beforeend',html);
-}
-
-
-
+function openTableDetail(id){ psOpenModal(id); }
+function sv3SetView(){}
+function sv3ToggleEdit(){}
+function rSallePlan(){ rSalle(); }
+function rSalleListe(){ rSalle(); }
 // ═══ PLATS ═══
 function savePlat(){
   const nom=document.getElementById('pl-nom').value.trim();if(!nom){toast('Nom requis','err');return;}
