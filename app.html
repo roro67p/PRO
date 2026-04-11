@@ -7009,11 +7009,20 @@ tbody td { padding:13px 14px; font-size:13px; }
       align-content:start;
     }
     .tsv-pcard{
-      background:transparent;border:none;
-      padding:6px 4px 10px;display:flex;flex-direction:column;
+      background:var(--s2);border:1px solid var(--br2);
+      border-radius:16px;
+      padding:12px 8px 12px;display:flex;flex-direction:column;
       align-items:center;cursor:pointer;text-align:center;
       transition:all .18s;gap:8px;
+      position:relative;overflow:hidden;
     }
+    .tsv-pcard::before{
+      content:'';position:absolute;inset:0;border-radius:16px;
+      opacity:.18;transition:opacity .2s;
+      background:var(--pcard-bg,transparent);
+    }
+    .tsv-pcard:active{transform:scale(.93)}
+    .tsv-pcard:active::before{opacity:.28}
     .tsv-pcard:active{transform:scale(.9)}
     .tsv-pcard .pc-plate{
       width:92px;height:92px;border-radius:50%;
@@ -24765,7 +24774,8 @@ const CAT_BG={'Entrées':'linear-gradient(145deg,#1a3520,#0f2010)','Viandes':'li
     const photo=PLAT_PHOTOS[p.id]||'';
     const bg=CAT_BG[p.cat]||'linear-gradient(145deg,#1e2230,#111520)';
     const plateStyle=photo?`background:${bg};background-image:url('${photo}');background-size:cover;background-position:center;font-size:0`:`background:${bg}`;
-    return `<div class="tsv-pcard" onclick="tsv_addItem(${p.id})">
+    const cardBg=CAT_BG[p.cat]||'linear-gradient(145deg,#1e2230,#111520)';
+    return `<div class="tsv-pcard" style="--pcard-bg:${cardBg}" onclick="tsv_addItem(${p.id})">
       <div class="pc-plate" style="${plateStyle}">
         ${photo?'':'🍽️'}
       </div>
