@@ -2023,270 +2023,360 @@ tbody td { padding:13px 14px; font-size:13px; }
 /* ══ SALLE ══ */
 
 /* ═══════════════════════════════════════════════════════════
-   PLAN DE SALLE POS — Tablette serveur
+   PLAN DE SALLE — MODE SERVICE
+   Design : POS tablette · Zéro bruit · Action immédiate
 ═══════════════════════════════════════════════════════════ */
-@keyframes pos-fade-in{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-@keyframes pos-blink{0%,100%{opacity:1}50%{opacity:.35}}
-@keyframes pos-slow-pulse{0%,100%{box-shadow:0 0 0 0 rgba(240,80,80,0)}50%{box-shadow:0 0 0 6px rgba(240,80,80,.18)}}
-@keyframes pos-resa-pulse{0%,100%{box-shadow:0 0 0 0 rgba(106,172,218,0)}50%{box-shadow:0 0 0 6px rgba(106,172,218,.18)}}
-@keyframes pos-tap{0%{transform:scale(1)}40%{transform:scale(.93)}100%{transform:scale(1)}}
-@keyframes pos-new{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
 
-/* ── PAGE WRAPPER ── */
-.pos-salle-wrap{display:flex;flex-direction:column;gap:0;height:100%;min-height:calc(100vh - 56px)}
+/* ── ANIMATIONS ── */
+@keyframes fl-in   {from{opacity:0;transform:scale(.88) translateY(8px)}to{opacity:1;transform:none}}
+@keyframes fl-tap  {0%{transform:scale(1)}35%{transform:scale(.91)}100%{transform:scale(1)}}
+@keyframes fl-pay  {0%,100%{box-shadow:0 0 0 0 rgba(232,184,75,0)}55%{box-shadow:0 0 0 8px rgba(232,184,75,.12)}}
+@keyframes fl-late {0%,100%{box-shadow:0 0 0 0 rgba(240,80,80,0)}55%{box-shadow:0 0 0 8px rgba(240,80,80,.18)}}
+@keyframes fl-dot  {0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.4)}}
+@keyframes fl-sheet{from{transform:translateY(100%);opacity:.6}to{transform:translateY(0);opacity:1}}
+@keyframes fl-over {from{opacity:0}to{opacity:1}}
+@keyframes fl-sel  {0%{outline-offset:0px}50%{outline-offset:4px}100%{outline-offset:0px}}
 
-/* ── BARRE STATUT ── */
-.pos-statbar{
+/* ── PAGE ── */
+#page-salle.page{padding:0;display:flex;flex-direction:column;height:calc(100vh - 56px);overflow:hidden}
+@media(max-width:768px){#page-salle.page{height:calc(100vh - 50px)}}
+
+/* ── TOPBAR STATUT ── */
+.fl-top{
   display:flex;align-items:center;gap:8px;
-  padding:10px 16px;
-  background:rgba(10,9,7,.95);
-  border-bottom:1px solid rgba(255,255,255,.06);
-  flex-wrap:wrap;
-  position:sticky;top:56px;z-index:40;
+  padding:0 16px;height:52px;flex-shrink:0;
+  background:rgba(8,7,6,.98);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  position:relative;z-index:20;
 }
-.pos-statbar-kpi{
-  display:flex;align-items:center;gap:8px;
-  padding:7px 14px;border-radius:22px;
-  border:1px solid;
-  font-size:13px;font-weight:700;cursor:default;
-  transition:all .15s;
+.fl-kpi{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:20px;border:1px solid;
+  font-size:12px;font-weight:700;letter-spacing:.2px;cursor:default;
+  transition:transform .12s;
 }
-.pos-statbar-kpi.occ{background:rgba(240,112,96,.1);border-color:rgba(240,112,96,.25);color:#f07060}
-.pos-statbar-kpi.lib{background:rgba(111,207,138,.1);border-color:rgba(111,207,138,.25);color:#6fcf8a}
-.pos-statbar-kpi.pay{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.25);color:var(--gold2)}
-.pos-statbar-kpi.res{background:rgba(106,172,218,.1);border-color:rgba(106,172,218,.25);color:#6aacda}
-.pos-statbar-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.pos-statbar-kpi.occ .pos-statbar-dot{background:#f07060;animation:pulse-dot 1.4s infinite}
-.pos-statbar-kpi.lib .pos-statbar-dot{background:#6fcf8a}
-.pos-statbar-kpi.pay .pos-statbar-dot{background:var(--gold2);animation:pulse-dot 2s infinite}
-.pos-statbar-kpi.res .pos-statbar-dot{background:#6aacda}
-.pos-statbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
-.pos-statbar-ca{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2)}
-.pos-statbar-ca-lbl{font-size:10px;color:var(--muted);margin-right:4px}
+.fl-kpi:hover{transform:scale(1.04)}
+.fl-kpi.k-occ{background:rgba(240,112,96,.08);border-color:rgba(240,112,96,.2);color:#f07060}
+.fl-kpi.k-lib{background:rgba(111,207,138,.08);border-color:rgba(111,207,138,.2);color:#6fcf8a}
+.fl-kpi.k-pay{background:rgba(232,184,75,.1);border-color:rgba(232,184,75,.25);color:#e8b84b}
+.fl-kpi.k-res{background:rgba(106,172,218,.08);border-color:rgba(106,172,218,.2);color:#6aacda}
+.fl-kpi-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.fl-kpi.k-occ .fl-kpi-dot{background:#f07060;animation:fl-dot 1.4s infinite}
+.fl-kpi.k-lib .fl-kpi-dot{background:#6fcf8a}
+.fl-kpi.k-pay .fl-kpi-dot{background:#e8b84b;animation:fl-dot 2.2s infinite}
+.fl-kpi.k-res .fl-kpi-dot{background:#6aacda}
+.fl-top-sep{width:1px;height:22px;background:rgba(255,255,255,.08);margin:0 4px}
+.fl-top-ca{margin-left:auto;display:flex;align-items:baseline;gap:5px}
+.fl-top-ca-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.fl-top-ca-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2)}
+.fl-top-add{
+  margin-left:10px;
+  padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);color:var(--sub);font-size:11px;font-weight:700;
+  cursor:pointer;transition:all .15s;
+}
+.fl-top-add:hover{background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.25);color:var(--gold2)}
 
 /* ── ZONES FILTER ── */
-.pos-zones{
-  display:flex;gap:6px;padding:10px 16px 0;flex-wrap:wrap;
+.fl-zones{
+  display:none;align-items:center;gap:6px;
+  padding:8px 16px;
+  background:rgba(8,7,6,.9);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  flex-wrap:wrap;flex-shrink:0;
 }
-.pos-zone-btn{
-  padding:5px 14px;border-radius:18px;font-size:11px;font-weight:700;
-  cursor:pointer;border:1px solid rgba(255,255,255,.1);
-  color:var(--sub);background:rgba(255,255,255,.04);
-  transition:all .15s;
+.fl-zones.show{display:flex}
+.fl-zone-btn{
+  padding:4px 14px;border-radius:16px;font-size:11px;font-weight:700;
+  cursor:pointer;border:1px solid rgba(255,255,255,.09);
+  color:var(--sub);background:transparent;transition:all .14s;
 }
-.pos-zone-btn.on{background:rgba(201,151,58,.14);border-color:rgba(201,151,58,.35);color:var(--gold2)}
+.fl-zone-btn:hover{color:var(--txt);border-color:rgba(255,255,255,.2)}
+.fl-zone-btn.on{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.3);color:var(--gold2)}
 
-/* ── GRILLE DE TABLES ── */
-.pos-plan{
-  flex:1;
-  padding:14px 16px 20px;
+/* ── CORPS PRINCIPAL : grille + panneau ── */
+.fl-body{
+  flex:1;overflow:hidden;
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  gap:12px;
+  grid-template-columns:1fr;
+  position:relative;
+}
+/* Quand table sélectionnée sur desktop → panneau latéral */
+.fl-body.has-panel{grid-template-columns:1fr 280px}
+@media(max-width:860px){.fl-body.has-panel{grid-template-columns:1fr}}
+
+/* ── GRILLE TABLES ── */
+.fl-grid{
+  overflow-y:auto;overflow-x:hidden;
+  padding:14px 14px 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(152px,1fr));
+  gap:10px;
   align-content:start;
 }
-@media(max-width:600px){.pos-plan{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;padding:10px 12px}}
-@media(min-width:1200px){.pos-plan{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}}
+@media(max-width:600px){
+  .fl-grid{padding:10px;gap:8px;grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+}
+@media(min-width:1100px){
+  .fl-grid{grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
+}
+
+/* Scrollbar discrète */
+.fl-grid::-webkit-scrollbar{width:3px}
+.fl-grid::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
 
 /* ── CARTE TABLE ── */
-.pos-tbl{
+.fl-tbl{
   position:relative;
-  border-radius:20px;
-  border:2px solid rgba(255,255,255,.08);
-  background:rgba(14,13,11,.95);
+  border-radius:18px;
+  border:2px solid rgba(255,255,255,.07);
+  background:rgba(14,13,11,.96);
   cursor:pointer;
   user-select:none;
   touch-action:manipulation;
-  transition:transform .12s ease, box-shadow .15s ease, border-color .15s;
-  animation:pos-fade-in .25s ease both;
+  transition:transform .14s cubic-bezier(.4,0,.2,1), box-shadow .14s, border-color .14s;
+  animation:fl-in .22s ease both;
   overflow:hidden;
-  aspect-ratio:1 / 1.05;
+  min-height:148px;
   display:flex;flex-direction:column;
-  min-height:130px;
+  aspect-ratio:9/10;
 }
-.pos-tbl::before{
-  content:'';
-  position:absolute;inset:0;
-  border-radius:18px;
-  opacity:0;
-  transition:opacity .15s;
-  pointer-events:none;
-}
-.pos-tbl:active{animation:pos-tap .2s ease}
-.pos-tbl:hover{transform:translateY(-3px);z-index:10}
+.fl-tbl:hover{transform:translateY(-3px)}
+.fl-tbl:active{animation:fl-tap .18s ease}
+.fl-tbl.selected{outline:2px solid var(--fl-accent,#6fcf8a);outline-offset:2px;animation:fl-sel .3s ease}
 
-/* Statuts */
-.pos-tbl.libre{
-  border-color:rgba(111,207,138,.3);
+/* Bande couleur top */
+.fl-tbl-stripe{
+  height:5px;flex-shrink:0;
+  border-radius:16px 16px 0 0;
+  transition:height .14s;
 }
-.pos-tbl.libre::before{background:radial-gradient(circle at 30% 30%,rgba(111,207,138,.06),transparent 60%);opacity:1}
-.pos-tbl.libre:hover{border-color:rgba(111,207,138,.6);box-shadow:0 8px 28px rgba(111,207,138,.12)}
+.fl-tbl:hover .fl-tbl-stripe{height:7px}
 
-.pos-tbl.occupee{
-  border-color:rgba(240,160,96,.4);
-}
-.pos-tbl.occupee::before{background:radial-gradient(circle at 30% 30%,rgba(240,160,96,.08),transparent 60%);opacity:1}
-.pos-tbl.occupee:hover{border-color:rgba(240,160,96,.7);box-shadow:0 8px 28px rgba(240,160,96,.14)}
+/* ── STATUTS ── */
+/* LIBRE */
+.fl-tbl.st-libre{border-color:rgba(111,207,138,.22)}
+.fl-tbl.st-libre .fl-tbl-stripe{background:linear-gradient(90deg,#2d6b3e,#6fcf8a,#a8f0c0)}
+.fl-tbl.st-libre:hover{border-color:rgba(111,207,138,.5);box-shadow:0 6px 24px rgba(111,207,138,.1)}
+.fl-tbl.st-libre .fl-tbl-num{color:#6fcf8a}
+.fl-tbl.st-libre .fl-tbl-badge{color:#6fcf8a;background:rgba(111,207,138,.08);border-color:rgba(111,207,138,.15)}
 
-.pos-tbl.apayer{
-  border-color:rgba(201,151,58,.5);
-  animation:pos-slow-pulse 2.5s ease-in-out infinite;
-}
-.pos-tbl.apayer::before{background:radial-gradient(circle at 30% 30%,rgba(201,151,58,.1),transparent 60%);opacity:1}
-.pos-tbl.apayer:hover{box-shadow:0 8px 30px rgba(201,151,58,.2)}
+/* OCCUPÉE */
+.fl-tbl.st-occ{border-color:rgba(240,160,96,.25)}
+.fl-tbl.st-occ .fl-tbl-stripe{background:linear-gradient(90deg,#8a4a10,#f0a060,#ffd09e)}
+.fl-tbl.st-occ:hover{border-color:rgba(240,160,96,.55);box-shadow:0 6px 24px rgba(240,160,96,.1)}
+.fl-tbl.st-occ .fl-tbl-num{color:#f0a060}
+.fl-tbl.st-occ .fl-tbl-badge{color:#f0a060;background:rgba(240,160,96,.08);border-color:rgba(240,160,96,.15)}
 
-.pos-tbl.reservee{
-  border-color:rgba(106,172,218,.3);
-  animation:pos-resa-pulse 3s ease-in-out infinite;
-}
-.pos-tbl.reservee::before{background:radial-gradient(circle at 30% 30%,rgba(106,172,218,.07),transparent 60%);opacity:1}
+/* À PAYER */
+.fl-tbl.st-pay{border-color:rgba(232,184,75,.35);animation:fl-pay 2.8s ease-in-out infinite}
+.fl-tbl.st-pay .fl-tbl-stripe{background:linear-gradient(90deg,#9a7010,#e8b84b,#f5d070);box-shadow:0 0 10px rgba(232,184,75,.3)}
+.fl-tbl.st-pay:hover{border-color:rgba(232,184,75,.7);box-shadow:0 6px 28px rgba(232,184,75,.18)}
+.fl-tbl.st-pay .fl-tbl-num{color:#e8b84b}
+.fl-tbl.st-pay .fl-tbl-badge{color:#e8b84b;background:rgba(232,184,75,.1);border-color:rgba(232,184,75,.25)}
 
-.pos-tbl.lente{
-  border-color:rgba(240,80,80,.5)!important;
-  animation:pos-slow-pulse 1.6s ease-in-out infinite!important;
-}
+/* RÉSERVÉE */
+.fl-tbl.st-res{border-color:rgba(106,172,218,.2)}
+.fl-tbl.st-res .fl-tbl-stripe{background:linear-gradient(90deg,#1e4a72,#6aacda,#a8d4f0)}
+.fl-tbl.st-res:hover{border-color:rgba(106,172,218,.45);box-shadow:0 6px 22px rgba(106,172,218,.09)}
+.fl-tbl.st-res .fl-tbl-num{color:#6aacda}
+.fl-tbl.st-res .fl-tbl-badge{color:#6aacda;background:rgba(106,172,218,.08);border-color:rgba(106,172,218,.15)}
 
-/* ── BANDE COULEUR TOP ── */
-.pos-tbl-bar{
-  height:4px;border-radius:20px 20px 0 0;flex-shrink:0;
-  transition:height .15s;
-}
-.pos-tbl:hover .pos-tbl-bar{height:5px}
-.pos-tbl.libre .pos-tbl-bar{background:linear-gradient(90deg,#3d7a4e,#6fcf8a)}
-.pos-tbl.occupee .pos-tbl-bar{background:linear-gradient(90deg,#c97830,#f0a060)}
-.pos-tbl.apayer .pos-tbl-bar{background:linear-gradient(90deg,#c9973a,#f5d070);box-shadow:0 0 8px rgba(201,151,58,.4)}
-.pos-tbl.reservee .pos-tbl-bar{background:linear-gradient(90deg,#2d5f8a,#6aacda)}
-.pos-tbl.lente .pos-tbl-bar{background:linear-gradient(90deg,#b5392a,#f07060)!important;animation:pos-blink 1s infinite}
+/* LENTE (>90min) */
+.fl-tbl.st-late{border-color:rgba(240,80,80,.45)!important;animation:fl-late 1.8s ease-in-out infinite!important}
+.fl-tbl.st-late .fl-tbl-stripe{background:linear-gradient(90deg,#8a1a1a,#f07060,#ff9e90)!important;animation:fl-dot .9s infinite}
+.fl-tbl.st-late .fl-tbl-num{color:#f07060!important}
+.fl-tbl.st-late .fl-tbl-badge{color:#f07060!important;background:rgba(240,80,80,.1)!important;border-color:rgba(240,80,80,.25)!important}
 
-/* ── CONTENU TABLE ── */
-.pos-tbl-body{
-  flex:1;display:flex;flex-direction:column;
-  padding:12px 12px 8px;
+/* ── CONTENU CARTE ── */
+.fl-tbl-body{
+  flex:1;padding:11px 13px 9px;
+  display:flex;flex-direction:column;gap:0;
   position:relative;z-index:1;
 }
-.pos-tbl-num{
+.fl-tbl-num{
   font-family:'Cormorant Garamond',serif;
-  font-size:36px;font-weight:700;line-height:1;
-  margin-bottom:2px;
+  font-size:42px;font-weight:700;line-height:1;
+  margin-bottom:1px;
+  transition:transform .12s;
 }
-.pos-tbl.libre .pos-tbl-num{color:#6fcf8a}
-.pos-tbl.occupee .pos-tbl-num{color:#f0a060}
-.pos-tbl.apayer .pos-tbl-num{color:var(--gold2)}
-.pos-tbl.reservee .pos-tbl-num{color:#6aacda}
-.pos-tbl.lente .pos-tbl-num{color:#f07060!important}
-
-.pos-tbl-cvt{font-size:11px;color:var(--muted);margin-bottom:8px}
-.pos-tbl-cvt span{font-weight:700;color:var(--sub)}
-
-.pos-tbl-stat{
-  font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;
-  display:inline-flex;align-items:center;gap:4px;
-  padding:3px 8px;border-radius:8px;width:fit-content;
-  margin-bottom:auto;
+.fl-tbl:hover .fl-tbl-num{transform:scale(1.04) translateX(2px)}
+.fl-tbl-cvt{font-size:11px;color:var(--muted);margin-bottom:7px;font-weight:500}
+.fl-tbl-badge{
+  font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;
+  padding:3px 8px;border-radius:7px;border:1px solid;
+  width:fit-content;margin-bottom:auto;
 }
-.pos-tbl.libre .pos-tbl-stat{color:#6fcf8a;background:rgba(111,207,138,.1);border:1px solid rgba(111,207,138,.18)}
-.pos-tbl.occupee .pos-tbl-stat{color:#f0a060;background:rgba(240,160,96,.1);border:1px solid rgba(240,160,96,.18)}
-.pos-tbl.apayer .pos-tbl-stat{color:var(--gold2);background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.25)}
-.pos-tbl.reservee .pos-tbl-stat{color:#6aacda;background:rgba(106,172,218,.1);border:1px solid rgba(106,172,218,.18)}
-.pos-tbl.lente .pos-tbl-stat{color:#f07060!important;background:rgba(240,80,80,.1)!important;border-color:rgba(240,80,80,.25)!important}
-
-.pos-tbl-timer{font-size:10px;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:3px}
-.pos-tbl-timer.slow{color:#f07060;font-weight:700;animation:pos-blink 1s infinite}
-.pos-tbl-timer.warn{color:#f0a060;font-weight:700}
-
-.pos-tbl-total{
-  font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;
-  color:var(--gold2);margin-top:4px;
+.fl-tbl-timer{
+  display:flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:700;margin-top:5px;color:var(--muted);
 }
+.fl-tbl-timer.t-warn{color:#f0a060}
+.fl-tbl-timer.t-late{color:#f07060;animation:fl-dot 1s infinite}
+.fl-tbl-total{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-weight:700;color:var(--gold2);
+  margin-top:4px;
+}
+.fl-tbl-client{font-size:10px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* ── FOOTER TABLE ── */
-.pos-tbl-footer{
+/* Footer actions (hover/touch) */
+.fl-tbl-foot{
+  display:flex;gap:4px;
+  padding:6px 10px;
   border-top:1px solid rgba(255,255,255,.05);
-  padding:7px 10px;
-  display:flex;gap:5px;
-  opacity:0;
-  max-height:0;overflow:hidden;
-  transition:opacity .15s,max-height .18s;
+  opacity:0;max-height:0;overflow:hidden;
+  transition:opacity .14s,max-height .16s;
 }
-.pos-tbl:hover .pos-tbl-footer{opacity:1;max-height:44px}
-.pos-tbl-fbtn{
-  flex:1;padding:6px 4px;border-radius:9px;
-  font-size:10px;font-weight:700;cursor:pointer;border:1px solid;
-  transition:all .12s;text-align:center;background:rgba(255,255,255,.04);
-  color:var(--sub);border-color:rgba(255,255,255,.1);
+.fl-tbl:hover .fl-tbl-foot,.fl-tbl.selected .fl-tbl-foot{opacity:1;max-height:40px}
+.fl-tbl-fbt{
+  flex:1;padding:5px 4px;border-radius:8px;
+  font-size:10px;font-weight:800;cursor:pointer;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);color:var(--sub);
+  transition:all .11s;text-align:center;letter-spacing:.2px;
 }
-.pos-tbl-fbtn:hover{background:rgba(255,255,255,.1);color:var(--txt)}
-.pos-tbl-fbtn.enc{background:rgba(201,151,58,.1);color:var(--gold2);border-color:rgba(201,151,58,.25)}
-.pos-tbl-fbtn.enc:hover{background:rgba(201,151,58,.22)}
-.pos-tbl-fbtn.lib{background:rgba(61,122,78,.1);color:#6fcf8a;border-color:rgba(61,122,78,.22)}
-.pos-tbl-fbtn.lib:hover{background:rgba(61,122,78,.22)}
+.fl-tbl-fbt:hover{background:rgba(255,255,255,.1);color:var(--txt);transform:translateY(-1px)}
+.fl-tbl-fbt.f-enc{background:rgba(232,184,75,.1);border-color:rgba(232,184,75,.22);color:#e8b84b}
+.fl-tbl-fbt.f-enc:hover{background:rgba(232,184,75,.2)}
+.fl-tbl-fbt.f-lib{background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.2);color:#6fcf8a}
+.fl-tbl-fbt.f-lib:hover{background:rgba(61,122,78,.22)}
+.fl-tbl-fbt.f-cmd{background:rgba(240,160,96,.09);border-color:rgba(240,160,96,.18);color:#f0a060}
+.fl-tbl-fbt.f-cmd:hover{background:rgba(240,160,96,.2)}
 
-/* ── BADGE CLIENT ── */
-.pos-tbl-client{font-size:10px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* ── DRAG OVER ── */
+.fl-tbl.drag-ov{border-color:rgba(201,151,58,.6)!important;background:rgba(201,151,58,.06)!important}
+.fl-tbl.dragging{opacity:.3;transform:scale(.95);border-style:dashed!important}
 
-/* ── BOUTON AJOUTER TABLE ── */
-.pos-tbl-add{
-  border-radius:20px;border:2px dashed rgba(255,255,255,.1);
-  background:rgba(255,255,255,.02);
+/* ── BOUTON AJOUTER ── */
+.fl-add-tbl{
+  border-radius:18px;border:2px dashed rgba(255,255,255,.09);
+  background:rgba(255,255,255,.015);
   cursor:pointer;transition:all .18s;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  aspect-ratio:1 / 1.05;min-height:130px;
-  color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  min-height:148px;aspect-ratio:9/10;
+  color:rgba(255,255,255,.2);
 }
-.pos-tbl-add:hover{border-color:rgba(201,151,58,.3);background:rgba(201,151,58,.04);color:var(--gold2);transform:scale(1.02)}
-.pos-tbl-add-ico{font-size:24px;opacity:.4;transition:opacity .15s}
-.pos-tbl-add:hover .pos-tbl-add-ico{opacity:.7}
-.pos-tbl-add-lbl{font-size:11px;font-weight:600;letter-spacing:.3px}
+.fl-add-tbl:hover{border-color:rgba(201,151,58,.28);background:rgba(201,151,58,.04);color:rgba(201,151,58,.6);transform:scale(1.02)}
+.fl-add-tbl-ico{font-size:22px;transition:transform .15s}
+.fl-add-tbl:hover .fl-add-tbl-ico{transform:scale(1.15) rotate(8deg)}
+.fl-add-tbl-lbl{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 
 /* ── EMPTY STATE ── */
-.pos-empty{
+.fl-empty{
   grid-column:1/-1;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:60px 20px;gap:14px;color:var(--muted);
+  padding:70px 20px;gap:14px;
+}
+.fl-empty-ico{font-size:52px;opacity:.15}
+.fl-empty-txt{font-size:13px;color:var(--muted)}
+
+/* ── PANNEAU LATÉRAL (desktop) ── */
+.fl-panel{
+  border-left:1px solid rgba(255,255,255,.07);
+  background:rgba(10,9,7,.98);
+  display:none;flex-direction:column;
+  overflow:hidden;
+}
+.fl-body.has-panel .fl-panel{display:flex}
+@media(max-width:860px){.fl-body.has-panel .fl-panel{display:none}}
+
+.fl-panel-head{
+  padding:18px 18px 14px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  flex-shrink:0;
+}
+.fl-panel-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:40px;font-weight:700;line-height:1;margin-bottom:3px;
+}
+.fl-panel-meta{font-size:11px;color:var(--muted)}
+.fl-panel-timer{font-size:12px;font-weight:700;margin-top:6px;display:flex;align-items:center;gap:5px}
+.fl-panel-timer.t-warn{color:#f0a060}
+.fl-panel-timer.t-late{color:#f07060}
+
+.fl-panel-body{flex:1;overflow-y:auto;padding:14px 18px}
+.fl-panel-sec{margin-bottom:14px}
+.fl-panel-sec-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);font-weight:700;margin-bottom:8px}
+.fl-panel-items{font-size:11px;color:var(--sub);line-height:1.8}
+.fl-panel-total{
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:700;color:var(--gold2);
+  padding:12px 0;
 }
 
-/* ── MODAL RAPIDE TABLE ── */
-.pos-quick-modal{
-  position:fixed;inset:0;z-index:500;
-  display:flex;align-items:flex-end;justify-content:center;
-  padding:0 0 0;
-  background:rgba(0,0,0,.6);
-  backdrop-filter:blur(4px);
-  animation:pos-fade-in .15s ease;
+.fl-panel-btns{
+  flex-shrink:0;padding:14px 18px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;flex-direction:column;gap:8px;
 }
-.pos-quick-sheet{
-  background:var(--ink2);
-  border:1px solid rgba(255,255,255,.08);
-  border-bottom:none;
-  border-radius:24px 24px 0 0;
-  padding:20px 20px 32px;
-  width:100%;max-width:480px;
-  animation:pos-sheet-up .2s cubic-bezier(.4,0,.2,1);
-}
-@keyframes pos-sheet-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.pos-quick-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.15);margin:0 auto 16px}
-.pos-quick-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;margin-bottom:4px}
-.pos-quick-meta{font-size:12px;color:var(--muted);margin-bottom:18px}
-.pos-quick-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.pos-quick-btn{
-  padding:16px 12px;border-radius:16px;border:1px solid;
+.fl-panel-btn{
+  width:100%;padding:13px 16px;border-radius:12px;
   font-size:13px;font-weight:700;cursor:pointer;
-  transition:all .15s;text-align:center;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
+  border:1px solid;transition:all .14s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  letter-spacing:.2px;
 }
-.pos-quick-btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
-.pos-quick-btn .pqb-ico{font-size:22px}
-.pos-quick-btn.pqb-cmd{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.3);color:var(--gold2)}
-.pos-quick-btn.pqb-enc{background:rgba(61,122,78,.12);border-color:rgba(61,122,78,.3);color:#6fcf8a}
-.pos-quick-btn.pqb-lib{background:rgba(45,95,138,.1);border-color:rgba(45,95,138,.25);color:#6aacda}
-.pos-quick-btn.pqb-new{background:rgba(200,154,255,.08);border-color:rgba(200,154,255,.2);color:#c89aff}
-.pos-quick-btn.pqb-full{grid-column:1/-1}
-.pos-quick-cancel{margin-top:12px;width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);font-size:13px;font-weight:600;color:var(--sub);cursor:pointer;transition:all .15s}
-.pos-quick-cancel:hover{color:var(--txt);background:rgba(255,255,255,.07)}
-.pos-quick-items{font-size:11px;color:var(--muted);background:rgba(255,255,255,.04);border-radius:10px;padding:10px 12px;margin-bottom:14px;line-height:1.7}
-.pos-quick-total{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold2);text-align:right;margin-bottom:14px}
+.fl-panel-btn:hover{transform:translateY(-1px);filter:brightness(1.12)}
+.fl-panel-btn:active{transform:scale(.98)}
+.fl-panel-btn.pb-cmd{background:rgba(240,160,96,.1);border-color:rgba(240,160,96,.25);color:#f0a060}
+.fl-panel-btn.pb-enc{background:rgba(232,184,75,.12);border-color:rgba(232,184,75,.3);color:#e8b84b}
+.fl-panel-btn.pb-lib{background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.22);color:#6fcf8a}
+.fl-panel-close{
+  position:absolute;top:10px;right:10px;
+  width:26px;height:26px;border-radius:7px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  color:var(--sub);font-size:13px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .12s;
+}
+.fl-panel-close:hover{background:rgba(255,255,255,.12);color:var(--txt)}
 
-/* compat anciens selecteurs */
+/* ── BOTTOM SHEET (mobile) ── */
+.fl-sheet-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(3px);
+  animation:fl-over .15s ease;
+  display:none;
+}
+.fl-sheet-overlay.open{display:block}
+.fl-sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(16,14,11,.98);
+  border-top:1px solid rgba(255,255,255,.1);
+  border-radius:22px 22px 0 0;
+  padding:0 0 env(safe-area-inset-bottom,16px);
+  animation:fl-sheet .2s cubic-bezier(.4,0,.2,1);
+  max-width:480px;margin:0 auto;
+}
+.fl-sheet-drag{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin:12px auto 16px}
+.fl-sheet-head{padding:0 20px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.fl-sheet-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:2px}
+.fl-sheet-meta{font-size:12px;color:var(--muted)}
+.fl-sheet-items{padding:12px 20px;font-size:12px;color:var(--sub);line-height:1.7;border-bottom:1px solid rgba(255,255,255,.05)}
+.fl-sheet-total{padding:10px 20px;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);text-align:right}
+.fl-sheet-btns{padding:8px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.fl-sheet-btn{
+  width:100%;padding:15px;border-radius:14px;
+  font-size:14px;font-weight:800;cursor:pointer;
+  border:1px solid;transition:all .13s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.fl-sheet-btn:hover{filter:brightness(1.1)}
+.fl-sheet-btn:active{transform:scale(.98)}
+.fl-sheet-btn.sb-cmd{background:rgba(240,160,96,.12);border-color:rgba(240,160,96,.28);color:#f0a060}
+.fl-sheet-btn.sb-enc{background:rgba(232,184,75,.14);border-color:rgba(232,184,75,.35);color:#e8b84b}
+.fl-sheet-btn.sb-lib{background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.22);color:#6fcf8a}
+.fl-sheet-cancel{
+  margin:0 16px 8px;padding:12px;border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);
+  font-size:13px;font-weight:600;color:var(--sub);cursor:pointer;
+  transition:all .12s;width:calc(100% - 32px);
+}
+.fl-sheet-cancel:hover{color:var(--txt);background:rgba(255,255,255,.07)}
+
+/* compat */
 .sv3-btn-tout{background:linear-gradient(108deg,#7a4a08,#c9973a,#f5d070,#c9973a);background-size:250% 100%;color:#060300;font-size:12px;font-weight:800;padding:9px 18px;border-radius:9px;border:none;cursor:pointer;box-shadow:0 3px 14px rgba(201,151,58,.35);transition:all .2s}
 .sv3-btn-tout:hover{background-position:70%;transform:translateY(-1px)}
 
@@ -5371,49 +5461,66 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- SALLE -->
   <div id="page-salle" class="page">
-  <div class="pos-salle-wrap">
 
-    <!-- BARRE STATUT -->
-    <div class="pos-statbar">
-      <div class="pos-statbar-kpi occ"><div class="pos-statbar-dot"></div><span id="ps-occ">0</span>&nbsp;occupée(s)</div>
-      <div class="pos-statbar-kpi lib"><div class="pos-statbar-dot"></div><span id="ps-lib">0</span>&nbsp;libre(s)</div>
-      <div class="pos-statbar-kpi pay"><div class="pos-statbar-dot"></div><span id="ps-pay">0</span>&nbsp;à payer</div>
-      <div class="pos-statbar-kpi res"><div class="pos-statbar-dot"></div><span id="ps-res">0</span>&nbsp;réservée(s)</div>
-      <div class="pos-statbar-right">
-        <span class="pos-statbar-ca-lbl">CA</span>
-        <span class="pos-statbar-ca" id="ps-ca">—</span>
-        <button class="btn btn-ghost btn-sm" onclick="openModal('mo-table')" style="margin-left:8px">+ Table</button>
+    <!-- TOPBAR STATUT -->
+    <div class="fl-top">
+      <div class="fl-kpi k-occ"><div class="fl-kpi-dot"></div><span id="fl-occ">0</span>&nbsp;occupée</div>
+      <div class="fl-kpi k-lib"><div class="fl-kpi-dot"></div><span id="fl-lib">0</span>&nbsp;libre</div>
+      <div class="fl-kpi k-pay"><div class="fl-kpi-dot"></div><span id="fl-pay">0</span>&nbsp;à payer</div>
+      <div class="fl-kpi k-res" id="fl-kpi-res" style="display:none"><div class="fl-kpi-dot"></div><span id="fl-res">0</span>&nbsp;résa</div>
+      <div class="fl-top-sep"></div>
+      <div class="fl-top-ca">
+        <span class="fl-top-ca-lbl">CA</span>
+        <span class="fl-top-ca-val" id="fl-ca">—</span>
+      </div>
+      <button class="fl-top-add" onclick="openModal('mo-table')">+ Table</button>
+    </div>
+
+    <!-- ZONES -->
+    <div class="fl-zones" id="fl-zones"></div>
+
+    <!-- CORPS -->
+    <div class="fl-body" id="fl-body">
+      <!-- GRILLE -->
+      <div class="fl-grid" id="fl-grid"></div>
+      <!-- PANNEAU LATÉRAL -->
+      <div class="fl-panel" id="fl-panel">
+        <div style="position:relative">
+          <button class="fl-panel-close" onclick="flDeselect()">✕</button>
+        </div>
+        <div class="fl-panel-head" id="fl-panel-head"></div>
+        <div class="fl-panel-body" id="fl-panel-body"></div>
+        <div class="fl-panel-btns" id="fl-panel-btns"></div>
       </div>
     </div>
 
-    <!-- FILTRES ZONES -->
-    <div class="pos-zones" id="ps-zones" style="display:none"></div>
-
-    <!-- GRILLE TABLES -->
-    <div class="pos-plan" id="ps-plan"></div>
-
-  </div>
-
-  <!-- MODAL RAPIDE (bottom sheet) -->
-  <div class="pos-quick-modal" id="ps-modal" style="display:none" onclick="if(event.target===this)psCloseModal()">
-    <div class="pos-quick-sheet" id="ps-sheet">
-      <div class="pos-quick-handle"></div>
-      <div class="pos-quick-title" id="ps-modal-title">Table —</div>
-      <div class="pos-quick-meta" id="ps-modal-meta"></div>
-      <div class="pos-quick-items" id="ps-modal-items" style="display:none"></div>
-      <div class="pos-quick-total" id="ps-modal-total" style="display:none"></div>
-      <div class="pos-quick-btns" id="ps-modal-btns"></div>
-      <button class="pos-quick-cancel" onclick="psCloseModal()">Annuler</button>
+    <!-- BOTTOM SHEET (mobile) -->
+    <div class="fl-sheet-overlay" id="fl-sheet-overlay" onclick="if(event.target===this)flCloseSheet()">
+      <div class="fl-sheet" id="fl-sheet">
+        <div class="fl-sheet-drag"></div>
+        <div class="fl-sheet-head" id="fl-sheet-head"></div>
+        <div class="fl-sheet-items" id="fl-sheet-items" style="display:none"></div>
+        <div class="fl-sheet-total" id="fl-sheet-total" style="display:none"></div>
+        <div class="fl-sheet-btns" id="fl-sheet-btns"></div>
+        <button class="fl-sheet-cancel" onclick="flCloseSheet()">Annuler</button>
+      </div>
     </div>
-  </div>
 
-  <!-- IDs COMPAT -->
-  <span id="b-occ" style="display:none">0</span>
-  <div id="sv3-kpis" style="display:none"></div>
-  <div id="sv3-alertes" style="display:none"></div>
-  <div id="sv3-zones" style="display:none"></div>
-  <div id="salle-grid" style="display:none"></div>
-  <div id="sv3-plan-container" style="display:none"></div>
+    <!-- IDs COMPAT -->
+    <span id="b-occ" style="display:none">0</span>
+    <div id="sv3-kpis" style="display:none"></div>
+    <div id="sv3-alertes" style="display:none"></div>
+    <div id="sv3-zones" style="display:none"></div>
+    <div id="salle-grid" style="display:none"></div>
+    <div id="sv3-plan-container" style="display:none"></div>
+    <div id="ps-modal" style="display:none"></div>
+    <div id="ps-plan" style="display:none"></div>
+    <div id="ps-zones" style="display:none"></div>
+    <span id="ps-occ" style="display:none"></span>
+    <span id="ps-lib" style="display:none"></span>
+    <span id="ps-pay" style="display:none"></span>
+    <span id="ps-res" style="display:none"></span>
+    <span id="ps-ca" style="display:none"></span>
   </div>
   <!-- COMMANDES -->
   <div id="page-commandes" class="page">
@@ -10445,314 +10552,413 @@ function sv3InitDrag(){
   });
 }
 
-// ═══════════════════════════════════════════════
-// PLAN DE SALLE POS — Tablette serveur
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// PLAN DE SALLE — MODE SERVICE
+// Flow : table → commande → encaissement → retour salle
+// ═══════════════════════════════════════════════════════
 
-let _psZone = 'Tous';
-let _psLongPressTimer = null;
-let _psModalTblId = null;
+let _flSel = null;   // id table sélectionnée (desktop panel)
+let _flZone = 'Tous';
+let _flHash = '';    // anti-flashs
 
-// Statut réel d'une table (libre / occupee / apayer / reservee)
-function _psTblStat(t){
-  if(t.stat==='réservée') return 'reservee';
-  if(t.stat==='libre')    return 'libre';
-  // occupée — vérifier si des commandes sont en statut "servi" (à payer)
-  const cmds = (DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée');
-  if(cmds.length>0 && cmds.every(c=>c.stat==='servi')) return 'apayer';
-  return 'occupee';
+/* ── Calcul statut réel d'une table ── */
+function _flStat(t){
+  if(t.stat === 'réservée') return 'res';
+  if(t.stat === 'libre')    return 'libre';
+  // occupée → vérifier si toutes les commandes actives sont "servi"
+  const cmds = (DB.commandes||[]).filter(c => c.tbl===t.id && c.stat!=='payé' && c.stat!=='payée');
+  if(!cmds.length) return 'libre'; // plus de commandes actives
+  if(cmds.every(c => c.stat==='servi')) return 'pay';
+  return 'occ';
 }
 
+/* ── Render principal ── */
 function rSalle(){
   const tables = DB.tables||[];
-  const occ    = tables.filter(t=>t.stat==='occupée').length;
-  const lib    = tables.filter(t=>t.stat==='libre').length;
-  const res    = tables.filter(t=>t.stat==='réservée').length;
-  const caTotal= (DB.commandes||[]).filter(c=>c.stat!=='payé'&&c.stat!=='payée'&&c.tbl).reduce((s,c)=>s+(+c.total||0),0);
+  const occ  = tables.filter(t=>t.stat==='occupée').length;
+  const lib  = tables.filter(t=>t.stat==='libre').length;
+  const res  = tables.filter(t=>t.stat==='réservée').length;
+  const pay  = tables.filter(t=>_flStat(t)==='pay').length;
+  const caTotal = (DB.commandes||[])
+    .filter(c=>c.stat!=='payé'&&c.stat!=='payée'&&c.tbl)
+    .reduce((s,c)=>s+(+c.total||0),0);
 
-  // Compter les "à payer"
-  const apayer = tables.filter(t=>{
-    const cmds=(DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée');
-    return cmds.length>0&&cmds.every(c=>c.stat==='servi');
-  }).length;
+  const g = id => document.getElementById(id);
 
-  // Badges sidebar & statbar
-  const g = id=>document.getElementById(id);
-  if(g('b-occ')) g('b-occ').textContent=occ;
-  if(g('ps-occ')) g('ps-occ').textContent=occ;
-  if(g('ps-lib')) g('ps-lib').textContent=lib;
-  if(g('ps-pay')) g('ps-pay').textContent=apayer;
-  if(g('ps-res')) g('ps-res').textContent=res;
-  if(g('ps-ca'))  g('ps-ca').textContent=caTotal>0?eur(Math.round(caTotal)):'—';
+  // Topbar
+  if(g('fl-occ')) g('fl-occ').textContent = occ;
+  if(g('fl-lib')) g('fl-lib').textContent = lib;
+  if(g('fl-pay')) g('fl-pay').textContent = pay;
+  if(g('fl-res')) g('fl-res').textContent = res;
+  if(g('fl-kpi-res')) g('fl-kpi-res').style.display = res>0?'flex':'none';
+  if(g('fl-ca'))  g('fl-ca').textContent  = caTotal>0 ? eur(Math.round(caTotal)) : '—';
 
-  // Sous-titre topbar
-  const lents=tables.filter(t=>t.stat==='occupée'&&(_timerInfo(t.id)?.mins||0)>=90).length;
-  const sv3sub=g('sv3-sub');
-  if(sv3sub){
-    if(lents>0) sv3sub.textContent=`⚠️ ${lents} table(s) lente(s)`;
-    else if(occ>0) sv3sub.textContent=`${occ} table(s) en service`;
-    else sv3sub.textContent='Salle libre';
-  }
+  // Compat badges sidebar
+  if(g('b-occ'))  g('b-occ').textContent  = occ;
+  if(g('ps-occ')) g('ps-occ').textContent = occ;
 
   // Zones
-  const zonesEl = g('ps-zones');
-  if(zonesEl){
-    const zones = ['Tous',...new Set(tables.map(t=>t.zone).filter(Boolean))];
-    if(zones.length>1){
-      zonesEl.style.display='flex';
-      if(!zonesEl.dataset.built){
-        zonesEl.dataset.built='1';
-        zonesEl.innerHTML=zones.map(z=>`<button class="pos-zone-btn${z==='Tous'?' on':''}" onclick="psSetZone('${z}',this)">${z==='Tous'?'Toutes':z}</button>`).join('');
-      }
-    }
-  }
+  _flBuildZones(tables);
 
   // Grille
-  const plan = g('ps-plan');
-  if(!plan) return;
+  _flBuildGrid(tables);
+
+  // Actualiser panneau si ouvert
+  if(_flSel) _flRenderPanel(_flSel);
+}
+
+/* ── Zones ── */
+function _flBuildZones(tables){
+  const el = document.getElementById('fl-zones');
+  if(!el) return;
+  const zones = ['Tous', ...new Set(tables.map(t=>t.zone).filter(Boolean))];
+  if(zones.length < 3){ el.classList.remove('show'); return; }
+  el.classList.add('show');
+  if(el.dataset.built) return;
+  el.dataset.built = '1';
+  el.innerHTML = zones.map(z=>`<button class="fl-zone-btn${z==='Tous'?' on':''}" onclick="flSetZone('${z}',this)">${z==='Tous'?'Toutes':z}</button>`).join('');
+}
+
+function flSetZone(z, btn){
+  _flZone = z;
+  document.querySelectorAll('.fl-zone-btn').forEach(b=>b.classList.toggle('on',b===btn));
+  _flHash = ''; _flBuildGrid(DB.tables||[]);
+}
+
+/* ── Grille ── */
+function _flBuildGrid(tables){
+  const grid = document.getElementById('fl-grid');
+  if(!grid) return;
 
   let list = tables;
-  if(_psZone!=='Tous') list=list.filter(t=>t.zone===_psZone);
+  if(_flZone !== 'Tous') list = list.filter(t=>t.zone===_flZone);
 
   // Tri : lentes > à payer > occupées > réservées > libres
   list = [...list].sort((a,b)=>{
-    const score = t=>{
-      const st=_psTblStat(t);
-      const mins=_timerInfo(t.id)?.mins||0;
-      if(st==='occupee'&&mins>=90) return 100;
-      if(st==='apayer') return 80;
-      if(st==='occupee') return 50;
-      if(st==='reservee') return 20;
+    const score = t => {
+      const st = _flStat(t);
+      const mins = _timerInfo(t.id)?.mins||0;
+      if(t.stat==='occupée' && mins>=90) return 200;
+      if(st==='pay')   return 100;
+      if(st==='occ')   return 50;
+      if(st==='res')   return 20;
       return 0;
     };
     return score(b)-score(a);
   });
 
+  // Hash pour éviter les rebuilds inutiles
+  const hash = list.map(t=>`${t.id}|${t.stat}|${_flStat(t)}|${(DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée').reduce((s,c)=>s+(+c.total||0),0).toFixed(0)}`).join(',');
+  if(hash === _flHash) return;
+  _flHash = hash;
+
   if(!list.length){
-    plan.innerHTML=`<div class="pos-empty">
-      <div style="font-size:48px;opacity:.2">🪑</div>
-      <p style="font-size:13px">Aucune table — ajoutez votre plan de salle</p>
-      <button class="btn btn-gold btn-sm" onclick="openModal('mo-table')">+ Ajouter une table</button>
+    grid.innerHTML = `<div class="fl-empty">
+      <div class="fl-empty-ico">🪑</div>
+      <div class="fl-empty-txt">Aucune table — ajoutez votre plan de salle</div>
+      <button class="btn btn-gold btn-sm" style="margin-top:10px" onclick="openModal('mo-table')">+ Ajouter une table</button>
     </div>`;
     return;
   }
 
-  // Rebuild seulement si nécessaire (évite les flashs)
-  const hash = list.map(t=>t.id+'|'+t.stat+'|'+_psTblStat(t)+'|'+((DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée').reduce((s,c)=>s+(+c.total||0),0))).join(',');
-  if(plan.dataset.hash===hash) return;
-  plan.dataset.hash=hash;
-
-  plan.innerHTML = list.map((t,i)=>psMakeTbl(t,i)).join('') +
-    `<div class="pos-tbl-add" onclick="openModal('mo-table')">
-       <div class="pos-tbl-add-ico">＋</div>
-       <div class="pos-tbl-add-lbl">Nouvelle table</div>
+  grid.innerHTML = list.map((t,i)=>_flTblHTML(t,i)).join('') +
+    `<div class="fl-add-tbl" onclick="openModal('mo-table')">
+       <div class="fl-add-tbl-ico">＋</div>
+       <div class="fl-add-tbl-lbl">Ajouter</div>
      </div>`;
 
-  // Drag & drop repositionnement
-  psInitDrag();
+  _flInitDrag();
 }
 
-function psMakeTbl(t,i){
-  const st = _psTblStat(t);
+/* ── HTML d'une table ── */
+function _flTblHTML(t, i){
+  const st   = _flStat(t);
   const cmds = (DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payé'&&c.stat!=='payée');
-  const total = cmds.reduce((s,c)=>s+(+c.total||0),0);
-  const ti = _timerInfo(t.id);
-  const isLente = t.stat==='occupée'&&(ti?.mins||0)>=90;
-  const cls = isLente?'lente':st;
+  const total= cmds.reduce((s,c)=>s+(+c.total||0),0);
+  const ti   = _timerInfo(t.id);
+  const isLate = t.stat==='occupée' && (ti?.mins||0)>=90;
+  const cls  = isLate ? 'st-late' : {libre:'st-libre',occ:'st-occ',pay:'st-pay',res:'st-res'}[st]||'st-libre';
+  const isSel= _flSel===t.id;
 
-  const statLabel = {
-    libre:'● Libre',
-    occupee:'▶ En service',
-    apayer:'💳 À payer',
-    reservee:'📅 Réservée',
-    lente:'⚠ Attente',
+  const badgeLabel = isLate ? '⚠ Attente' : {
+    'st-libre':'● Libre','st-occ':'▶ En cours','st-pay':'💳 À payer','st-res':'📅 Réservée'
   }[cls]||'';
 
-  const timerHtml = ti ? `<div class="pos-tbl-timer${ti.mins>=90?' slow':ti.mins>=60?' warn':''}">⏱ ${ti.str}</div>` : '';
-  const totalHtml = total>0 ? `<div class="pos-tbl-total">${eur(total)}</div>` : '';
+  const timerHtml = ti ? `<div class="fl-tbl-timer${ti.mins>=90?' t-late':ti.mins>=60?' t-warn':''}">⏱ ${ti.str}</div>` : '';
+  const totalHtml = total>0 ? `<div class="fl-tbl-total">${eur(total)}</div>` : '';
 
-  // Client (résa)
-  const clientNom = t.clientNom || (()=>{
-    if(t.stat!=='réservée') return '';
-    const r=(DB.reservations||[]).find(r=>r.tbl==t.id&&r.stat!=='annulé');
-    return r?r.nom:'';
-  })();
-  const clientHtml = clientNom?`<div class="pos-tbl-client">👤 ${clientNom}</div>`:'';
+  const clientNom = t.clientNom||((t.stat==='réservée')?(()=>{
+    const r=(DB.reservations||[]).find(r=>r.tbl==t.id&&r.stat!=='annulé');return r?r.nom:'';
+  })():'');
+  const clientHtml = clientNom ? `<div class="fl-tbl-client">👤 ${clientNom}</div>` : '';
 
-  // Boutons footer
-  let footer = '';
-  if(st==='occupee'||st==='apayer'||cls==='lente'){
-    footer=`<div class="pos-tbl-footer">
-      <button class="pos-tbl-fbtn enc" onclick="event.stopPropagation();openCaisseForTable(${t.id})">💳 Encaisser</button>
-      <button class="pos-tbl-fbtn lib" onclick="event.stopPropagation();sv3LibererTable(${t.id})">✓ Libérer</button>
-    </div>`;
+  // Boutons footer contextuel
+  let footBtns = '';
+  if(st==='occ'||st==='pay'||isLate){
+    footBtns = `<button class="fl-tbl-fbt f-cmd" onclick="event.stopPropagation();flGoCmd(${t.id})">Commande</button>
+                <button class="fl-tbl-fbt f-enc" onclick="event.stopPropagation();flGoEnc(${t.id})">Encaisser</button>
+                <button class="fl-tbl-fbt f-lib" onclick="event.stopPropagation();flLiberer(${t.id})">Libérer</button>`;
   } else if(st==='libre'){
-    footer=`<div class="pos-tbl-footer">
-      <button class="pos-tbl-fbtn enc" onclick="event.stopPropagation();psOuvrir(${t.id})">▶ Ouvrir</button>
-      <button class="pos-tbl-fbtn" onclick="event.stopPropagation();editTable(${t.id})">✏ Modifier</button>
-    </div>`;
+    footBtns = `<button class="fl-tbl-fbt f-cmd" onclick="event.stopPropagation();flOuvrir(${t.id})">Ouvrir</button>`;
+  } else if(st==='res'){
+    footBtns = `<button class="fl-tbl-fbt f-cmd" onclick="event.stopPropagation();flOuvrir(${t.id})">Installer</button>
+                <button class="fl-tbl-fbt f-lib" onclick="event.stopPropagation();flLiberer(${t.id})">Libérer</button>`;
   }
 
-  return `<div class="pos-tbl ${cls}"
+  return `<div class="fl-tbl ${cls}${isSel?' selected':''}"
     data-id="${t.id}"
-    style="animation-delay:${i*0.04}s"
-    onclick="psClickTable(${t.id})"
-    oncontextmenu="event.preventDefault();psLongPress(${t.id})">
-    <div class="pos-tbl-bar"></div>
-    <div class="pos-tbl-body">
-      <div class="pos-tbl-num">${t.num}</div>
-      <div class="pos-tbl-cvt"><span>${t.cvt}</span> couvert${t.cvt>1?'s':''}${t.zone?' · '+t.zone:''}</div>
-      <div class="pos-tbl-stat">${statLabel}</div>
-      ${clientHtml}
-      ${timerHtml}
-      ${totalHtml}
+    style="animation-delay:${Math.min(i,.12)*0.045}s"
+    onclick="flClickTable(${t.id})">
+    <div class="fl-tbl-stripe"></div>
+    <div class="fl-tbl-body">
+      <div class="fl-tbl-num">${t.num}</div>
+      <div class="fl-tbl-cvt">${t.cvt} cvt${t.cvt>1?'s':''}${t.zone?' · '+t.zone:''}</div>
+      <div class="fl-tbl-badge">${badgeLabel}</div>
+      ${clientHtml}${timerHtml}${totalHtml}
     </div>
-    ${footer}
+    <div class="fl-tbl-foot">${footBtns}</div>
   </div>`;
 }
 
-// ── CLIC TABLE : action directe ──
-function psClickTable(id){
-  const t = DB.tables.find(x=>x.id===id);
+/* ── CLIC TABLE — logique centrale ── */
+function flClickTable(id){
+  const t  = DB.tables.find(x=>x.id===id);
   if(!t) return;
-  const st = _psTblStat(t);
+  const st = _flStat(t);
 
-  // Libre → ouvrir directement + commande
-  if(st==='libre'){
-    psOuvrir(id);
+  // Mobile (< 860px) → bottom sheet
+  if(window.innerWidth < 860){
+    if(st === 'libre'){
+      // Libre → action directe : ouvrir + caisse
+      flOuvrir(id);
+    } else {
+      flOpenSheet(id);
+    }
     return;
   }
-  // Occupée ou à payer → bottom sheet rapide
-  psOpenModal(id);
-}
 
-function psOuvrir(id){
-  window._salleTimes = window._salleTimes||{};
-  window._salleTimes[id] = Date.now();
-  setTblStat(id,'occupée');
-  // Aller directement à la caisse avec cette table
-  openCaisseForTable(id);
-}
-
-function psSetZone(z,btn){
-  _psZone=z;
-  document.querySelectorAll('.pos-zone-btn').forEach(b=>b.classList.toggle('on',b===btn));
-  document.getElementById('ps-plan').dataset.hash='';
-  rSalle();
-}
-
-// ── BOTTOM SHEET ──
-function psOpenModal(id){
-  const t = DB.tables.find(x=>x.id===id);
-  if(!t) return;
-  _psModalTblId = id;
-  const st = _psTblStat(t);
-  const cmds = (DB.commandes||[]).filter(c=>c.tbl===id&&c.stat!=='payé'&&c.stat!=='payée');
-  const total = cmds.reduce((s,c)=>s+(+c.total||0),0);
-  const ti = _timerInfo(id);
-  const col = st==='libre'?'#6fcf8a':st==='occupee'?'#f0a060':st==='apayer'?'var(--gold2)':'#6aacda';
-
-  const modal = document.getElementById('ps-modal');
-  const g = id2=>document.getElementById(id2);
-
-  g('ps-modal-title').innerHTML=`<span style="color:${col}">Table ${t.num}</span>`;
-  g('ps-modal-meta').textContent=`${t.cvt} couvert${t.cvt>1?'s':''}${t.zone?' · '+t.zone:''}${ti?' · ⏱ '+ti.str:''}`;
-
-  // Items en cours
-  const itemsEl = g('ps-modal-items');
-  if(cmds.length&&cmds[0]?.items?.length){
-    itemsEl.style.display='block';
-    itemsEl.textContent=cmds[0].items.slice(0,4).map(x=>{const p=(DB.plats||[]).find(p=>p.id===x.pid)||{};return `${p.ico||'🍽️'} ${p.nom||'?'}${x.q>1?' ×'+x.q:''}`;}).join(' · ')+(cmds[0].items.length>4?'  …':'');
-  } else {
-    itemsEl.style.display='none';
+  // Desktop → panneau latéral
+  if(_flSel === id){
+    // Re-clic → action directe
+    if(st === 'libre') flOuvrir(id);
+    else flGoCmd(id);
+    return;
   }
+  flSelect(id);
+}
 
-  const totalEl = g('ps-modal-total');
-  if(total>0){ totalEl.style.display='block'; totalEl.textContent=eur(total); }
-  else totalEl.style.display='none';
+/* ── Sélection panneau ── */
+function flSelect(id){
+  _flSel = id;
+  document.getElementById('fl-body')?.classList.add('has-panel');
+  // Mettre selected sur la carte
+  document.querySelectorAll('.fl-tbl').forEach(el=>{
+    el.classList.toggle('selected', +el.dataset.id===id);
+  });
+  _flRenderPanel(id);
+}
+
+function flDeselect(){
+  _flSel = null;
+  document.getElementById('fl-body')?.classList.remove('has-panel');
+  document.querySelectorAll('.fl-tbl').forEach(el=>el.classList.remove('selected'));
+}
+
+function _flRenderPanel(id){
+  const t = DB.tables.find(x=>x.id===id);
+  const head = document.getElementById('fl-panel-head');
+  const body = document.getElementById('fl-panel-body');
+  const btns = document.getElementById('fl-panel-btns');
+  if(!t||!head||!body||!btns) return;
+
+  const st    = _flStat(t);
+  const cmds  = (DB.commandes||[]).filter(c=>c.tbl===id&&c.stat!=='payé'&&c.stat!=='payée');
+  const total = cmds.reduce((s,c)=>s+(+c.total||0),0);
+  const ti    = _timerInfo(id);
+  const col   = {libre:'#6fcf8a',occ:'#f0a060',pay:'#e8b84b',res:'#6aacda'}[st]||'#6fcf8a';
+
+  head.innerHTML = `
+    <div class="fl-panel-num" style="color:${col}">Table ${t.num}</div>
+    <div class="fl-panel-meta">${t.cvt} couvert${t.cvt>1?'s':''}${t.zone?' · '+t.zone:''}</div>
+    ${ti?`<div class="fl-panel-timer${ti.mins>=90?' t-late':ti.mins>=60?' t-warn':''}">⏱ ${ti.str}</div>`:''}`;
+
+  let bodyHTML = '';
+  if(cmds.length && cmds[0]?.items?.length){
+    const items = cmds[0].items.slice(0,5).map(x=>{
+      const p=(DB.plats||[]).find(p=>p.id===x.pid)||{};
+      return `${p.ico||'🍽️'} ${p.nom||'?'}${x.q>1?' ×'+x.q:''}`;
+    }).join('<br>');
+    bodyHTML += `<div class="fl-panel-sec">
+      <div class="fl-panel-sec-lbl">Commande</div>
+      <div class="fl-panel-items">${items}${cmds[0].items.length>5?'<br>…':''}</div>
+    </div>`;
+  }
+  if(total>0) bodyHTML += `<div class="fl-panel-total">${eur(total)}</div>`;
+  body.innerHTML = bodyHTML || `<div style="color:var(--muted);font-size:12px;padding:8px 0">Table libre</div>`;
 
   // Boutons selon statut
-  let btns='';
-  if(st==='occupee'||st==='apayer'){
-    btns=`
-      <button class="pos-quick-btn pqb-cmd pqb-full" onclick="openCaisseForTable(${id});psCloseModal()">
-        <span class="pqb-ico">🧾</span>Voir / Modifier la commande
-      </button>
-      <button class="pos-quick-btn pqb-enc" onclick="openCaisseForTable(${id});psCloseModal()">
-        <span class="pqb-ico">💳</span>Encaisser
-      </button>
-      <button class="pos-quick-btn pqb-lib" onclick="sv3LibererTable(${id});psCloseModal()">
-        <span class="pqb-ico">✓</span>Libérer
-      </button>`;
-  } else if(st==='reservee'){
-    btns=`
-      <button class="pos-quick-btn pqb-cmd pqb-full" onclick="psOuvrir(${id});psCloseModal()">
-        <span class="pqb-ico">▶</span>Installer & Ouvrir commande
-      </button>
-      <button class="pos-quick-btn pqb-lib" onclick="setTblStat(${id},'libre');psCloseModal()">
-        <span class="pqb-ico">✓</span>Libérer
-      </button>
-      <button class="pos-quick-btn pqb-new" onclick="editTable(${id});psCloseModal()">
-        <span class="pqb-ico">✏️</span>Modifier
-      </button>`;
+  let btnHTML = '';
+  if(st==='libre'){
+    btnHTML = `<button class="fl-panel-btn pb-cmd" onclick="flOuvrir(${id})">▶ Ouvrir & Commander</button>`;
+  } else if(st==='occ'){
+    btnHTML = `
+      <button class="fl-panel-btn pb-cmd" onclick="flGoCmd(${id})">🧾 Voir la commande</button>
+      <button class="fl-panel-btn pb-enc" onclick="flGoEnc(${id})">💳 Encaisser</button>
+      <button class="fl-panel-btn pb-lib" onclick="flLiberer(${id})">✓ Libérer</button>`;
+  } else if(st==='pay'){
+    btnHTML = `
+      <button class="fl-panel-btn pb-enc" onclick="flGoEnc(${id})">💳 Encaisser maintenant</button>
+      <button class="fl-panel-btn pb-cmd" onclick="flGoCmd(${id})">🧾 Voir la commande</button>
+      <button class="fl-panel-btn pb-lib" onclick="flLiberer(${id})">✓ Libérer</button>`;
+  } else if(st==='res'){
+    btnHTML = `
+      <button class="fl-panel-btn pb-cmd" onclick="flOuvrir(${id})">▶ Installer la table</button>
+      <button class="fl-panel-btn pb-lib" onclick="flLiberer(${id})">✓ Libérer</button>`;
   }
-  g('ps-modal-btns').innerHTML=btns;
-  modal.style.display='flex';
+  btns.innerHTML = btnHTML;
+}
+
+/* ── BOTTOM SHEET ── */
+function flOpenSheet(id){
+  const t   = DB.tables.find(x=>x.id===id);
+  if(!t) return;
+  const st    = _flStat(t);
+  const cmds  = (DB.commandes||[]).filter(c=>c.tbl===id&&c.stat!=='payé'&&c.stat!=='payée');
+  const total = cmds.reduce((s,c)=>s+(+c.total||0),0);
+  const ti    = _timerInfo(id);
+  const col   = {libre:'#6fcf8a',occ:'#f0a060',pay:'#e8b84b',res:'#6aacda'}[st]||'#6fcf8a';
+
+  const g = x=>document.getElementById(x);
+
+  g('fl-sheet-head').innerHTML = `
+    <div class="fl-sheet-num" style="color:${col}">Table ${t.num}</div>
+    <div class="fl-sheet-meta">${t.cvt} couvert${t.cvt>1?'s':''}${t.zone?' · '+t.zone:''}${ti?' · ⏱ '+ti.str:''}`;
+
+  // Items
+  const itemsEl = g('fl-sheet-items');
+  if(cmds.length && cmds[0]?.items?.length){
+    itemsEl.style.display='block';
+    itemsEl.textContent = cmds[0].items.slice(0,4).map(x=>{
+      const p=(DB.plats||[]).find(p=>p.id===x.pid)||{};
+      return `${p.ico||'🍽️'} ${p.nom||'?'}${x.q>1?' ×'+x.q:''}`;
+    }).join(' · ')+(cmds[0].items.length>4?'…':'');
+  } else { itemsEl.style.display='none'; }
+
+  const totEl = g('fl-sheet-total');
+  if(total>0){ totEl.style.display='block'; totEl.textContent=eur(total); }
+  else totEl.style.display='none';
+
+  let btns='';
+  if(st==='occ'||st==='pay'){
+    btns=`<button class="fl-sheet-btn sb-cmd" onclick="flGoCmd(${id});flCloseSheet()">🧾 Voir la commande</button>
+          <button class="fl-sheet-btn sb-enc" onclick="flGoEnc(${id});flCloseSheet()">💳 Encaisser</button>
+          <button class="fl-sheet-btn sb-lib" onclick="flLiberer(${id});flCloseSheet()">✓ Libérer la table</button>`;
+  } else if(st==='res'){
+    btns=`<button class="fl-sheet-btn sb-cmd" onclick="flOuvrir(${id});flCloseSheet()">▶ Installer & Commander</button>
+          <button class="fl-sheet-btn sb-lib" onclick="flLiberer(${id});flCloseSheet()">✓ Libérer</button>`;
+  }
+  g('fl-sheet-btns').innerHTML = btns;
+
+  g('fl-sheet-overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
 
-function psCloseModal(){
-  const m=document.getElementById('ps-modal');
-  if(m) m.style.display='none';
+function flCloseSheet(){
+  document.getElementById('fl-sheet-overlay')?.classList.remove('open');
   document.body.style.overflow='';
-  _psModalTblId=null;
 }
 
-function psLongPress(id){
-  psOpenModal(id);
+/* ── ACTIONS ── */
+function flOuvrir(id){
+  window._salleTimes = window._salleTimes||{};
+  window._salleTimes[id] = Date.now();
+  setTblStat(id,'occupée');
+  flDeselect(); flCloseSheet();
+  openCaisseForTable(id);
 }
 
-// ── DRAG REPOSITIONNEMENT (positions libres) ──
-function psInitDrag(){
-  // Drag classique HTML5 pour réordonner — on swap les numéros
+function flGoCmd(id){
+  flDeselect(); flCloseSheet();
+  openCaisseForTable(id);
+}
+
+function flGoEnc(id){
+  flDeselect(); flCloseSheet();
+  openCaisseForTable(id);
+}
+
+function flLiberer(id){
+  delete (window._salleTimes||{})[id];
+  setTblStat(id,'libre');
+  if(_flSel===id) flDeselect();
+  flCloseSheet();
+  _flHash=''; rSalle();
+  toast('Table libérée ✓');
+}
+
+// openCaisseForTable → nav caisse + charger table
+// Définie une seule fois ici pour éviter les doublons
+if(!window._openCaisseForTableDefined){
+  window._openCaisseForTableDefined = true;
+  window.openCaisseForTable = function(id){
+    nav('caisse',null);
+    setTimeout(()=>{
+      const sel=document.getElementById('tk-table');
+      if(sel){ sel.value=id; posUpdateTable(); }
+    },120);
+  };
+}
+
+/* ── DRAG & DROP (réordonnement) ── */
+function _flInitDrag(){
   let dragId=null;
-  document.querySelectorAll('.pos-tbl').forEach(el=>{
+  document.querySelectorAll('.fl-tbl').forEach(el=>{
     el.draggable=true;
-    el.addEventListener('dragstart',e=>{dragId=+el.dataset.id;e.dataTransfer.effectAllowed='move';setTimeout(()=>el.style.opacity='.4',0)});
-    el.addEventListener('dragend',()=>{el.style.opacity='';dragId=null;document.querySelectorAll('.pos-tbl').forEach(x=>x.classList.remove('drag-ov'))});
+    el.addEventListener('dragstart',e=>{
+      dragId=+el.dataset.id;
+      e.dataTransfer.effectAllowed='move';
+      setTimeout(()=>el.classList.add('dragging'),0);
+    });
+    el.addEventListener('dragend',()=>{
+      el.classList.remove('dragging'); dragId=null;
+      document.querySelectorAll('.fl-tbl').forEach(x=>x.classList.remove('drag-ov'));
+    });
     el.addEventListener('dragover',e=>{e.preventDefault();if(+el.dataset.id!==dragId)el.classList.add('drag-ov')});
     el.addEventListener('dragleave',()=>el.classList.remove('drag-ov'));
     el.addEventListener('drop',e=>{
-      e.preventDefault();el.classList.remove('drag-ov');
+      e.preventDefault(); el.classList.remove('drag-ov');
       if(!dragId||+el.dataset.id===dragId) return;
       const a=DB.tables.find(t=>t.id===dragId),b=DB.tables.find(t=>t.id===+el.dataset.id);
       if(!a||!b) return;
-      const tmp=a.num;a.num=b.num;b.num=tmp;
-      saveDB();
-      document.getElementById('ps-plan').dataset.hash='';
-      rSalle();
+      [a.num,b.num]=[b.num,a.num];
+      saveDB(); _flHash=''; rSalle();
       toast('Tables échangées 🔄','info');
     });
   });
 }
 
-// ── COMPAT anciens appels ──
-function sv3OccuperTable(id){
-  window._salleTimes=window._salleTimes||{};
-  window._salleTimes[id]=Date.now();
-  setTblStat(id,'occupée');
-  toast('Table ouverte ▶');
+/* ── AUTO-REFRESH ── */
+if(!window._flRefreshInterval){
+  window._flRefreshInterval = setInterval(()=>{
+    if(document.getElementById('page-salle')?.classList.contains('active')){
+      _flHash=''; rSalle();
+    }
+  }, 30000);
 }
-function sv3LibererTable(id){
-  delete (window._salleTimes||{})[id];
-  setTblStat(id,'libre');
-  toast('Table libérée ✓');
+
+/* ── COMPAT anciens appels ── */
+function sv3OccuperTable(id){ flOuvrir(id); }
+function sv3LibererTable(id){ flLiberer(id); }
+function openTableDetail(id){
+  if(window.innerWidth<860) flOpenSheet(id); else flSelect(id);
 }
-function openTableDetail(id){ psOpenModal(id); }
 function sv3SetView(){}
 function sv3ToggleEdit(){}
-function rSallePlan(){ rSalle(); }
-function rSalleListe(){ rSalle(); }
+function rSallePlan(){ _flHash=''; rSalle(); }
+function rSalleListe(){ _flHash=''; rSalle(); }
+function psClickTable(id){ flClickTable(id); }
+function psCloseModal(){ flCloseSheet(); }
+function psOuvrir(id){ flOuvrir(id); }
 // ═══ PLATS ═══
 function savePlat(){
   const nom=document.getElementById('pl-nom').value.trim();if(!nom){toast('Nom requis','err');return;}
