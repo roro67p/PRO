@@ -5025,59 +5025,8 @@ tbody td { padding:13px 14px; font-size:13px; }
 .pin-welcome-role{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:1px}
 
 
-/* ═══ PRÉVISION FRÉQUENTATION ═══ */
-.prev-wrap{margin-top:20px}
-.prev-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-.prev-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);display:flex;align-items:center;gap:8px}
-.prev-badge{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:12px;background:rgba(111,207,138,.1);border:1px solid rgba(111,207,138,.2);color:#6fcf8a}
-.prev-subtitle{font-size:11px;color:var(--muted)}
-.prev-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px}
-@media(max-width:700px){.prev-grid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:400px){.prev-grid{grid-template-columns:repeat(2,1fr)}}
-.prev-day{
-  background:rgba(14,13,11,.95);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:16px;padding:14px 10px;
-  text-align:center;
-  transition:all .18s;cursor:default;
-  position:relative;overflow:hidden;
-}
-.prev-day::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;background:var(--prev-col,rgba(201,151,58,.4))}
-.prev-day:hover{transform:translateY(-3px);border-color:var(--prev-col,rgba(201,151,58,.3));box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.prev-day.today{border-color:rgba(232,184,75,.4);background:rgba(232,184,75,.06)}
-.prev-day.today .prev-day-num{color:#e8b84b}
-.prev-day-name{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px}
-.prev-day-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--txt);line-height:1;margin-bottom:8px}
-.prev-day-cvt{font-size:13px;font-weight:700;color:var(--prev-col,var(--gold2));margin-bottom:2px}
-.prev-day-ca{font-size:10px;color:var(--muted)}
-.prev-day-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin:8px 0 4px;overflow:hidden}
-.prev-day-bar-fill{height:100%;border-radius:2px;background:var(--prev-col,var(--gold));transition:width .8s cubic-bezier(.4,0,.2,1)}
-.prev-day-conf{font-size:9px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:3px}
-.prev-day-conf.high{color:#6fcf8a}
-.prev-day-conf.med{color:#f0a060}
-.prev-day-conf.low{color:var(--muted)}
-
-.prev-insights{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-@media(max-width:600px){.prev-insights{grid-template-columns:1fr}}
-.prev-insight{background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px}
-.prev-insight-ico{font-size:24px;flex-shrink:0}
-.prev-insight-body{flex:1;min-width:0}
-.prev-insight-val{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);line-height:1}
-.prev-insight-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
-.prev-insight-sub{font-size:11px;color:var(--sub);margin-top:2px}
-
-.prev-heatmap{background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px}
-.prev-heatmap-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--sub);margin-bottom:14px}
-.prev-heat-grid{display:grid;grid-template-columns:40px repeat(14,1fr);gap:3px}
-.prev-heat-cell{height:22px;border-radius:4px;background:rgba(255,255,255,.04);transition:all .1s;cursor:default}
-.prev-heat-cell:hover{transform:scale(1.1);z-index:2}
-.prev-heat-lbl{font-size:9px;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
-.prev-heat-hlbl{font-size:9px;color:var(--muted);text-align:center;padding-bottom:2px}
-.prev-alert{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;margin-bottom:8px;border:1px solid;font-size:12px}
-.prev-alert.rush{background:rgba(240,112,96,.08);border-color:rgba(240,112,96,.2);color:#f07060}
-.prev-alert.fort{background:rgba(232,184,75,.08);border-color:rgba(232,184,75,.2);color:#e8b84b}
-.prev-alert.calme{background:rgba(111,207,138,.08);border-color:rgba(111,207,138,.2);color:#6fcf8a}
-
+/* Briefing */
+#briefing-test-banner.show{display:flex}
 </style>
 </head>
 <body>
@@ -5166,7 +5115,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       <!-- Plus -->
       <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('service-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
       <div id="service-extra" style="display:none">
-        <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">🎤</span>Commande vocale</div>
+        <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">📢</span>Message équipe</div>
         <div class="nav-item" onclick="nav('cloture',this)"><span class="ni-ico">🔐</span>Clôture de caisse</div>
         <div class="nav-item" onclick="nav('messagerie',this)"><span class="ni-ico">💬</span>Messagerie<span class="ni-badge" id="b-msg">0</span></div>
         <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
@@ -6285,30 +6234,7 @@ tbody td { padding:13px 14px; font-size:13px; }
         <div id="st-rush"></div>
       </div>
     </div>
-
-    <!-- PRÉVISION FRÉQUENTATION -->
-    <div class="prev-wrap">
-      <div class="prev-header">
-        <div>
-          <div class="prev-title">🔮 Prévision des 7 prochains jours <span class="prev-badge">IA</span></div>
-          <div class="prev-subtitle">Basée sur votre historique · Couverts & CA estimés</div>
-        </div>
-        <button class="btn btn-ghost btn-sm" onclick="rPrevision()">↺ Actualiser</button>
-      </div>
-      <!-- Insights -->
-      <div class="prev-insights" id="prev-insights"></div>
-      <!-- Alertes -->
-      <div id="prev-alerts"></div>
-      <!-- Grille 7 jours -->
-      <div class="prev-grid" id="prev-grid"></div>
-      <!-- Heatmap heures -->
-      <div class="prev-heatmap">
-        <div class="prev-heatmap-title">🌡️ Prévision affluence par heure (semaine à venir)</div>
-        <div id="prev-heatmap"></div>
-      </div>
-    </div>
-
-    </div>
+  </div>
 
   <div id="page-menuJour" class="page">
     <div class="page-header">
@@ -6999,53 +6925,141 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- COMMANDE VOCALE -->
+  <!-- BRIEFING DU SOIR -->
+  <div id="page-briefing" class="page">
+  <div>
+
+    <div style="margin-bottom:24px">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--gold2)">🎙️ Briefing du soir</h2>
+      <div style="font-size:13px;color:var(--sub);margin-top:4px">Écris ton message — l'app le lit à voix haute pour toute l'équipe</div>
+    </div>
+
+    <!-- ZONE PRINCIPALE -->
+    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(201,151,58,.2);border-radius:20px;overflow:hidden;margin-bottom:16px">
+
+      <!-- Status bar -->
+      <div style="background:linear-gradient(135deg,rgba(201,151,58,.1),rgba(201,151,58,.03));padding:14px 20px;border-bottom:1px solid rgba(201,151,58,.1);display:flex;align-items:center;gap:10px">
+        <div id="brief-dot" style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s"></div>
+        <div style="font-size:12px;font-weight:700;color:var(--sub)" id="brief-status">En attente</div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--muted)">Voix :</span>
+          <select id="brief-voix" class="form-select" style="font-size:12px;padding:4px 8px;min-width:140px">
+            <option value="">Française auto</option>
+          </select>
+          <select id="brief-speed" class="form-select" style="font-size:12px;padding:4px 8px;width:90px">
+            <option value="0.8">Lente</option>
+            <option value="0.9" selected>Normale</option>
+            <option value="1.1">Rapide</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Textarea -->
+      <div style="padding:20px">
+        <textarea id="brief-msg"
+          style="width:100%;min-height:200px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;color:var(--txt);font-size:16px;line-height:1.8;font-family:'Outfit',sans-serif;resize:vertical;outline:none;transition:border .15s;box-sizing:border-box"
+          placeholder="Ce soir préparez-vous, gros service !&#10;Anniversaire surprise table 12.&#10;Jean-Rachid au bar ce soir.&#10;Bon courage à tous !"
+          onfocus="this.style.borderColor='rgba(201,151,58,.5)'"
+          onblur="this.style.borderColor='rgba(255,255,255,.08)'"
+        ></textarea>
+
+        <!-- Boutons -->
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button onclick="document.getElementById('brief-msg').value=''" style="padding:12px 18px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--sub);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+            🗑️ Effacer
+          </button>
+          <button id="brief-btn" onclick="briefLire()" style="flex:1;padding:14px;border-radius:12px;background:linear-gradient(135deg,rgba(201,151,58,.25),rgba(201,151,58,.12));border:1px solid rgba(201,151,58,.5);color:var(--gold2);font-size:16px;font-weight:800;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:10px">
+            <span id="brief-btn-ico" style="font-size:22px">📢</span>
+            <span id="brief-btn-lbl">Lire à l'équipe</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES RAPIDES -->
+    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px;margin-bottom:16px">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--sub);margin-bottom:12px">⚡ Messages rapides</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <button onclick="briefCharge('Ce soir gros service, tout le monde en alerte !')" class="brief-quick">🔥 Ce soir gros service, tout le monde en alerte !</button>
+        <button onclick="briefCharge('Attention rupture de stock ce soir, pas de cabillaud.')" class="brief-quick">⚠️ Attention rupture de stock ce soir.</button>
+        <button onclick="briefCharge('Excellent travail ce soir, continuez comme ca !')" class="brief-quick">💪 Excellent travail, continuez comme ça !</button>
+        <button onclick="briefCharge('Reunions equipe apres le service, restez tous.')" class="brief-quick">👋 Réunion équipe après le service.</button>
+        <button onclick="briefCharge('On pousse le vin rouge ce soir, pensez a le proposer.')" class="brief-quick">🍷 On pousse le vin rouge ce soir.</button>
+      </div>
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--sub);margin-bottom:12px">📜 Derniers messages</div>
+      <div id="brief-histo"></div>
+    </div>
+
+  </div>
+  </div>
+
   <div id="page-vocale" class="page">
-    <div class="page-header"><h2>🎤 Commande rapide</h2></div>
-    <div class="alert alert-info" style="margin-bottom:16px">Tapez rapidement une commande — "Table 3, deux entrecôtes, une salade César" — l'app détecte tout automatiquement !</div>
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-title">⚡ Saisie intelligente</div>
-      <textarea id="vocale-input" class="form-input" rows="3"
-        placeholder='Ex: "Table 3, deux entrecôtes saignant, une salade César"'
-        oninput="analyserTexteVocalLive(this.value)"
-        style="font-size:15px;line-height:1.6;margin-bottom:10px"></textarea>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost" style="flex:1" onclick="document.getElementById('vocale-input').value='';document.getElementById('vocale-result').style.display='none'">🗑 Effacer</button>
-        <button class="btn btn-gold" style="flex:1" onclick="analyserTexteVocal()">🔍 Analyser</button>
+  <div>
+
+    <!-- HEADER -->
+    <div style="margin-bottom:24px">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--gold2)">📢 Message équipe</h2>
+      <div style="font-size:13px;color:var(--sub);margin-top:4px">Écris ton message — l'app le lit à voix haute pour toute l'équipe</div>
+    </div>
+
+    <!-- ZONE PRINCIPALE -->
+    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(201,151,58,.2);border-radius:20px;overflow:hidden;margin-bottom:16px">
+
+      <!-- Barre top -->
+      <div style="background:linear-gradient(135deg,rgba(201,151,58,.1),rgba(201,151,58,.03));padding:16px 20px;border-bottom:1px solid rgba(201,151,58,.1);display:flex;align-items:center;gap:10px">
+        <div id="msg-status-dot" style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0"></div>
+        <div style="font-size:12px;font-weight:700;color:var(--sub)" id="msg-status-txt">En attente</div>
+        <div style="margin-left:auto;font-size:11px;color:var(--muted)" id="msg-voix-info">Voix : détection auto</div>
+      </div>
+
+      <!-- Textarea gros -->
+      <div style="padding:20px">
+        <textarea id="msg-texte"
+          style="width:100%;min-height:160px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;color:var(--txt);font-size:16px;line-height:1.7;font-family:'Outfit',sans-serif;resize:vertical;outline:none;transition:border .15s;box-sizing:border-box"
+          placeholder="Ce soir préparez-vous, gros service ! Anniversaire surprise table 12. Jean-Rachid au bar ce soir. Merci l'équipe !"
+          onfocus="this.style.borderColor='rgba(201,151,58,.4)'"
+          onblur="this.style.borderColor='rgba(255,255,255,.08)'"
+        ></textarea>
+
+        <!-- Boutons action -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+          <button onclick="msgEffacer()" style="padding:14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--sub);font-size:13px;font-weight:700;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+            🗑️ Effacer
+          </button>
+          <button id="btn-msg-lire" onclick="msgLire()" style="padding:14px;border-radius:12px;background:linear-gradient(135deg,rgba(201,151,58,.2),rgba(201,151,58,.1));border:1px solid rgba(201,151,58,.4);color:var(--gold2);font-size:15px;font-weight:800;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">
+            <span id="btn-msg-ico" style="font-size:20px">📢</span>
+            <span id="btn-msg-lbl">Lire à l'équipe</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Sélection rapide table -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-title">🪑 Sélection rapide de table</div>
-      <div id="vocale-tables-rapides" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    <!-- MESSAGES RAPIDES PRÉDÉFINIS -->
+    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px;margin-bottom:16px">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--sub);margin-bottom:14px">⚡ Messages rapides</div>
+      <div style="display:flex;flex-direction:column;gap:8px" id="msg-rapides"></div>
     </div>
 
-    <!-- Suggestions intelligentes -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-title">⭐ Suggestions rapides</div>
-      <div style="margin-bottom:10px">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">🏆 Plus commandés</div>
-        <div id="vocale-top-plats" style="display:flex;flex-wrap:wrap;gap:6px"></div>
-      </div>
-      <div style="margin-bottom:10px">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">⚡ Suggestions rapides</div>
-        <div id="vocale-suggestions" style="display:flex;flex-wrap:wrap;gap:6px"></div>
-      </div>
-    </div>
-    <div class="card" id="vocale-result" style="display:none">
-      <div class="card-title">✅ Commande détectée</div>
-      <div id="vocale-parsed"></div>
-      <div style="display:flex;gap:8px;margin-top:14px">
-        <button class="btn btn-ghost" style="flex:1" onclick="resetVocale()">🔄 Recommencer</button>
-        <button class="btn btn-gold" style="flex:1" onclick="validerCmdVocale()">✅ Créer la commande</button>
-      </div>
+    <!-- HISTORIQUE -->
+    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--sub);margin-bottom:14px">📜 Derniers messages</div>
+      <div id="msg-historique"></div>
     </div>
 
-    <!-- Exemples cliquables -->
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">💡 Exemples — tap pour tester</div>
-      <div style="display:flex;flex-direction:column;gap:8px" id="vocale-exemples"></div>
-    </div>
+    <!-- IDs compat ancienne page -->
+    <div id="vocale-tables-rapides" style="display:none"></div>
+    <div id="vocale-top-plats" style="display:none"></div>
+    <div id="vocale-suggestions" style="display:none"></div>
+    <div id="vocale-result" style="display:none"></div>
+    <div id="vocale-parsed" style="display:none"></div>
+    <div id="vocale-exemples" style="display:none"></div>
+    <textarea id="vocale-input" style="display:none"></textarea>
+
+  </div>
   </div>
 
 <!-- TABLETTE SERVEUR -->
@@ -10160,7 +10174,7 @@ function renderEtabSelector(){
 }
 
 // ═══ NAV ═══
-const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',briefing:'Briefing du soir',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
+const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Message équipe',briefing:'Briefing du soir',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
 let _recentPages=JSON.parse(localStorage.getItem('cr_recents')||'[]');
 function addRecent(name){
   if(name==='dash') return;
@@ -10963,6 +10977,365 @@ function openTableDetail(id){
   document.body.insertAdjacentHTML('beforeend',html);
 }
 
+
+
+// ═══ BRIEFING DU SOIR ═══
+var _briefingTestMode = false;
+var _briefingEnLecture = false;
+var _briefingHistorique = JSON.parse(localStorage.getItem('briefing_histo')||'[]');
+
+function rBriefing(){
+  // Charger les voix
+  var loadV = function(){
+    var sel = document.getElementById('brief-voix');
+    if(!sel||!window.speechSynthesis) return;
+    var vfr = window.speechSynthesis.getVoices().filter(function(v){return v.lang.startsWith('fr');});
+    if(!vfr.length) return;
+    sel.innerHTML = '<option value="">Française auto</option>';
+    vfr.forEach(function(v){
+      var o=document.createElement('option');
+      o.value=v.name; o.textContent=v.name+(v.localService?' (local)':' (web)');
+      sel.appendChild(o);
+    });
+  };
+  loadV();
+  if(window.speechSynthesis) window.speechSynthesis.onvoiceschanged = loadV;
+  // Charger historique
+  var histo = JSON.parse(localStorage.getItem('brief_histo')||'[]');
+  var el = document.getElementById('brief-histo');
+  if(el){
+    if(!histo.length){ el.innerHTML='<div style="color:var(--muted);font-size:12px">Aucun message envoyé</div>'; }
+    else {
+      el.innerHTML = histo.slice(0,5).map(function(h){
+        return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
+          +'<span style="font-size:16px">📢</span>'
+          +'<div style="flex:1;min-width:0"><div style="font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+h.txt+'</div>'
+          +'<div style="font-size:10px;color:var(--muted)">'+h.date+' · '+h.heure+'</div></div>'
+          +'<button onclick="briefCharge('+JSON.stringify(h.txt)+')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--sub);border-radius:8px;padding:3px 9px;font-size:10px;cursor:pointer">↺</button>'
+          +'</div>';
+      }).join('');
+    }
+  }
+}
+
+function briefCharge(txt){
+  var ta=document.getElementById('brief-msg');
+  if(ta){ta.value=txt;ta.focus();}
+}
+
+function briefLire(){
+  if(!window.speechSynthesis){toast('Synthèse vocale non supportée','err');return;}
+  var ta=document.getElementById('brief-msg');
+  var txt=(ta?ta.value:'').trim();
+  if(!txt){toast('Écris un message !','warn');ta&&ta.focus();return;}
+
+  var btn=document.getElementById('brief-btn');
+  var ico=document.getElementById('brief-btn-ico');
+  var lbl=document.getElementById('brief-btn-lbl');
+  var dot=document.getElementById('brief-dot');
+  var status=document.getElementById('brief-status');
+
+  if(window._briefLecture){
+    window.speechSynthesis.cancel();
+    window._briefLecture=false;
+    if(ico)ico.textContent='📢'; if(lbl)lbl.textContent="Lire à l'équipe";
+    if(btn)btn.style.background='linear-gradient(135deg,rgba(201,151,58,.25),rgba(201,151,58,.12))';
+    if(dot)dot.style.background='var(--muted)'; if(status)status.textContent='Arrêté';
+    return;
+  }
+
+  // Bip d'attention
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [880,660].forEach(function(f,i){
+      var o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=f; g.gain.setValueAtTime(0.3,ctx.currentTime+i*0.12);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.12+0.1);
+      o.start(ctx.currentTime+i*0.12); o.stop(ctx.currentTime+i*0.12+0.1);
+    });
+  }catch(e){}
+
+  setTimeout(function(){
+    var texte=txt;
+    var voixNom=(document.getElementById('brief-voix')||{}).value||'';
+    var vitesse=+((document.getElementById('brief-speed')||{}).value||0.9);
+    var voices=window.speechSynthesis.getVoices();
+    var voix=voixNom?voices.find(function(v){return v.name===voixNom;}):
+      voices.find(function(v){return v.lang.startsWith('fr')&&v.name.toLowerCase().includes('thomas');})||
+      voices.find(function(v){return v.lang.startsWith('fr');});
+
+    var utt=new SpeechSynthesisUtterance(texte);
+    utt.lang='fr-FR'; utt.rate=vitesse; utt.pitch=1.05; utt.volume=1.0;
+    if(voix) utt.voice=voix;
+
+    utt.onstart=function(){
+      window._briefLecture=true;
+      if(ico)ico.textContent='⏹'; if(lbl)lbl.textContent='Arrêter';
+      if(btn)btn.style.background='rgba(240,112,96,.2)';
+      if(dot){dot.style.background='#6fcf8a';dot.style.animation='pulse-dot 1s infinite';}
+      if(status)status.textContent='En lecture...';
+    };
+    utt.onend=function(){
+      window._briefLecture=false;
+      if(ico)ico.textContent='✅'; if(lbl)lbl.textContent='Message envoyé !';
+      if(btn)btn.style.background='rgba(111,207,138,.15)';
+      if(dot){dot.style.background='#6fcf8a';dot.style.animation='';}
+      if(status)status.textContent='Terminé ✓';
+      setTimeout(function(){
+        if(ico)ico.textContent='📢'; if(lbl)lbl.textContent="Lire à l'équipe";
+        if(btn)btn.style.background='linear-gradient(135deg,rgba(201,151,58,.25),rgba(201,151,58,.12))';
+        if(dot)dot.style.background='var(--muted)'; if(status)status.textContent='En attente';
+      },2500);
+      // Bip fin
+      try{
+        var ctx2=new(window.AudioContext||window.webkitAudioContext)();
+        var o2=ctx2.createOscillator(),g2=ctx2.createGain();
+        o2.connect(g2);g2.connect(ctx2.destination);
+        o2.frequency.value=880; g2.gain.setValueAtTime(0.2,ctx2.currentTime);
+        g2.gain.exponentialRampToValueAtTime(0.001,ctx2.currentTime+0.2);
+        o2.start(ctx2.currentTime); o2.stop(ctx2.currentTime+0.2);
+      }catch(e){}
+      // Sauvegarder
+      var histo=JSON.parse(localStorage.getItem('brief_histo')||'[]');
+      var now=new Date();
+      histo.unshift({txt:txt,date:now.toLocaleDateString('fr-FR'),heure:now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
+      if(histo.length>10)histo=histo.slice(0,10);
+      localStorage.setItem('brief_histo',JSON.stringify(histo));
+      rBriefing();
+    };
+    window.speechSynthesis.speak(utt);
+  },350);
+}
+function briefingUpdateCountdown(){
+  var el=document.getElementById('briefing-countdown');
+  var sub=document.getElementById('briefing-timer-sub');
+  if(!el) return;
+  var now=new Date(), target=new Date();
+  target.setHours(17,0,0,0);
+  if(now.getHours()>=17) target.setDate(target.getDate()+1);
+  var diff=Math.max(0,target-now);
+  var h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+  el.textContent=(h>0?h+'h':'')+String(m).padStart(2,'0')+'m'+String(s).padStart(2,'0');
+  el.style.color=h===0&&m<30?'#f0a060':'var(--gold2)';
+  if(sub) sub.textContent=h===0&&m===0?'Briefing imminent !':h===0&&m<30?'Moins de 30 minutes':'Chaque jour a 17h00';
+}
+
+function briefingModeTest(){
+  _briefingTestMode=true;
+  var b=document.getElementById('briefing-test-banner');
+  if(b){b.style.display='flex';}
+  var btn=document.getElementById('btn-briefing-test');
+  if(btn){btn.style.background='rgba(200,154,255,.15)';}
+  briefingGenerer();
+}
+function briefingModeReel(){
+  _briefingTestMode=false;
+  var b=document.getElementById('briefing-test-banner');
+  if(b){b.style.display='none';}
+  var btn=document.getElementById('btn-briefing-test');
+  if(btn){btn.style.background='';}
+  briefingGenerer();
+}
+
+function briefingGetDonnees(){
+  var today=td(), now=new Date();
+  if(_briefingTestMode){
+    return {test:true,dateStr:today,heureStr:'17:00',nomResto:DB.params.nom||'Chez Romu',
+      meteo:{ico:'❄️',temp:6,desc:'Froid et humide',saison:'Hiver'},
+      resas:[{nom:'Martin',cvt:4,h:'19h30',notes:'Anniversaire Marie !',stat:'confirmé'},
+             {nom:'Dupont',cvt:2,h:'20h00',notes:'',stat:'confirmé'},
+             {nom:'Famille Bernard',cvt:6,h:'20h30',notes:'Allergie noix',stat:'confirmé'}],
+      totalCvt:12, stocksRupture:['Cabillaud','Foie gras'], stocksBas:['Vin rouge','Creme fraiche'],
+      topPlats:['Entrecote grille','Soupe a l\'oignon','Tarte Tatin'],
+      caHier:1240, anniversaires:[{nom:'Anniversaire Marie',table:'(Martin)'}],
+      allergenes:[{nom:'Famille Bernard',allergie:'Allergie noix'}],
+      equipe:['Sophie','Tom','Chef Marco'], menusJour:['Soupe a l\'oignon','Magret','Mousse choco']};
+  }
+  var resas=(DB.reservations||[]).filter(function(r){return r.date===today&&r.stat!=='annulé';});
+  var totalCvt=resas.reduce(function(s,r){return s+(+r.cvt||0);},0);
+  var stocksRupture=(DB.stocks||[]).filter(function(s){return s.qte<=0;}).map(function(s){return s.nom;});
+  var stocksBas=(DB.stocks||[]).filter(function(s){return s.qte>0&&s.qte<=s.seuil;}).map(function(s){return s.nom;});
+  var topPlats=[...(DB.plats||[])].filter(function(p){return p.vendu>0;}).sort(function(a,b){return b.vendu-a.vendu;}).slice(0,3).map(function(p){return p.nom;});
+  var hier=new Date();hier.setDate(hier.getDate()-1);
+  var hierStr=hier.toISOString().slice(0,10);
+  var caHier=(DB.ventes||[]).filter(function(v){return v.date===hierStr;}).reduce(function(s,v){return s+(+v.ttc||0);},0);
+  var anniversaires=resas.filter(function(r){return r.notes&&r.notes.toLowerCase().includes('anniv');}).map(function(r){return {nom:r.notes,table:'('+r.nom+')'};});
+  var allergenes=resas.filter(function(r){return r.notes&&(r.notes.toLowerCase().includes('allergi')||r.notes.toLowerCase().includes('intol'));}).map(function(r){return {nom:r.nom,allergie:r.notes};});
+  var mois=now.getMonth();
+  var meteo=mois>=11||mois<=1?{ico:'❄️',temp:6,desc:'Froid',saison:'Hiver'}:mois<=4?{ico:'🌸',temp:14,desc:'Doux',saison:'Printemps'}:mois<=7?{ico:'☀️',temp:28,desc:'Chaud',saison:'Ete'}:{ico:'🍂',temp:12,desc:'Frais',saison:'Automne'};
+  return {test:false,dateStr:today,heureStr:String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'),
+    nomResto:DB.params.nom||'Chez Romu',meteo:meteo,resas:resas,totalCvt:totalCvt,
+    stocksRupture:stocksRupture,stocksBas:stocksBas,topPlats:topPlats,caHier:caHier,
+    anniversaires:anniversaires,allergenes:allergenes,
+    equipe:(DB.personnel||[]).filter(function(p){return p.stat==='actif';}).map(function(p){return p.nom;}).slice(0,5),
+    menusJour:(DB.menuJour&&DB.menuJour.plats?DB.menuJour.plats.map(function(p){return p.nom;}):[])}; 
+}
+
+function briefingGenerer(){
+  var data=briefingGetDonnees();
+  var jours=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  var wd=new Date().getDay();
+  var lines=[];
+  lines.push('Bonsoir, voici votre briefing du '+jours[wd]+' soir pour '+data.nomResto+'.');
+  lines.push('');
+  lines.push(data.meteo.ico+' Meteo : '+data.meteo.desc+', '+data.meteo.temp+'C ce soir. '+(data.meteo.temp<12?'Pensez a pousser les plats chauds.':data.meteo.temp>22?'Mettez en avant les plats frais.':'Bonne soiree.'));
+  lines.push('');
+  if(data.totalCvt>0){
+    lines.push('Reservations : '+data.resas.length+' table(s) ce soir, soit '+data.totalCvt+' couvert(s).');
+    if(data.totalCvt>=20) lines.push('Soir charge — renforcez l\'equipe.');
+  } else {
+    lines.push('Aucune reservation ce soir. Service a la carte.');
+  }
+  lines.push('');
+  if(data.anniversaires&&data.anniversaires.length>0){
+    data.anniversaires.forEach(function(a){lines.push('Anniversaire detecte : '+a.nom+' '+a.table+' — Prevoyez une attention !');});
+    lines.push('');
+  }
+  if(data.allergenes&&data.allergenes.length>0){
+    lines.push('IMPORTANT — ALLERGENES :');
+    data.allergenes.forEach(function(a){lines.push(a.nom+' : '+a.allergie);});
+    lines.push('');
+  }
+  if(data.stocksRupture.length>0) lines.push('Ruptures : '+data.stocksRupture.join(', ')+'. Retirez ces plats.');
+  if(data.stocksBas.length>0) lines.push('Stocks bas : '+data.stocksBas.join(', ')+'.');
+  if(data.topPlats[0]) lines.push('Best-seller ce soir : '+data.topPlats[0]+'.');
+  if(data.caHier>0) lines.push('CA hier : '+eur(data.caHier)+'. Objectif : faire mieux !');
+  if(data.equipe&&data.equipe.length>0) lines.push('Equipe : '+data.equipe.join(', ')+'.');
+  lines.push('');
+  lines.push('Bon service ! ✨');
+
+  // Afficher date
+  var now=new Date();
+  var el=document.getElementById('briefing-date-heure');
+  if(el) el.textContent=(data.test?'[TEST] ':'')+now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})+' · '+data.heureStr;
+
+  // Afficher texte
+  var texteEl=document.getElementById('briefing-texte');
+  if(texteEl){
+    var html='';
+    lines.forEach(function(line){
+      if(!line.trim()){html+='<br>';return;}
+      var isAlert=line.indexOf('ALLERGE')!==-1||line.indexOf('Rupture')!==-1;
+      html+='<div style="margin-bottom:4px;'+(isAlert?'padding:6px 10px;background:rgba(240,112,96,.08);border-radius:8px;':'')+'">'+line+'</div>';
+    });
+    texteEl.innerHTML=html;
+  }
+
+  // Status
+  var status=document.getElementById('briefing-status');
+  if(status){status.textContent=data.test?'Mode Test':'Genere';status.style.color='#6fcf8a';status.style.background='rgba(111,207,138,.1)';status.style.borderColor='rgba(111,207,138,.2)';}
+
+  // Resas
+  var resasEl=document.getElementById('briefing-resas');
+  if(resasEl){
+    if(!data.resas.length){resasEl.innerHTML='<div style="color:var(--muted);font-size:12px">Aucune reservation ce soir</div>';}
+    else{
+      var rHtml='';
+      data.resas.slice(0,6).forEach(function(r){
+        rHtml+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)">';
+        rHtml+='<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:700;color:var(--gold2);min-width:42px">'+(r.h||'—')+'</div>';
+        rHtml+='<div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--txt)">'+(r.nom||'—')+'</div>';
+        rHtml+='<div style="font-size:10px;color:var(--muted)">'+r.cvt+' cvts'+(r.notes?' · '+r.notes.slice(0,30):'')+'</div></div></div>';
+      });
+      resasEl.innerHTML=rHtml;
+    }
+  }
+
+  // Stocks
+  var stocksEl=document.getElementById('briefing-stocks');
+  if(stocksEl){
+    var sHtml='';
+    data.stocksRupture.forEach(function(n){sHtml+='<div style="padding:6px 10px;background:rgba(240,112,96,.08);border-radius:8px;margin-bottom:6px;font-size:12px;color:#f07060">🔴 '+n+' — Rupture</div>';});
+    data.stocksBas.forEach(function(n){sHtml+='<div style="padding:6px 10px;background:rgba(240,160,96,.08);border-radius:8px;margin-bottom:6px;font-size:12px;color:#f0a060">🟡 '+n+' — Stock bas</div>';});
+    if(!sHtml) sHtml='<div style="color:#6fcf8a;font-size:12px">✅ Stocks OK</div>';
+    stocksEl.innerHTML=sHtml;
+  }
+
+  // Suggestions
+  var sugEl=document.getElementById('briefing-suggestions');
+  if(sugEl){
+    var sug='';
+    var platsDispos=(DB.plats||[]).filter(function(p){return p.dispo==='dispo';});
+    if(data.meteo.temp<12){
+      var chauds=platsDispos.filter(function(p){var n=(p.nom+' '+(p.cat||'')).toLowerCase();return n.includes('soupe')||n.includes('gratin')||n.includes('fondue')||n.includes('daube');}).slice(0,2);
+      chauds.forEach(function(p){sug+='<div style="background:rgba(240,112,96,.1);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--txt)">🔥 '+(p.ico||'')+(p.nom||'')+'<div style="font-size:10px;color:var(--sub);margin-top:2px">Temps froid · plat chaud recommande</div></div>';});
+    }
+    if(data.topPlats[0]){
+      var best=(DB.plats||[]).find(function(p){return p.nom===data.topPlats[0];});
+      if(best) sug+='<div style="background:rgba(201,151,58,.1);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--txt)">🏆 '+(best.ico||'')+(best.nom||'')+'<div style="font-size:10px;color:var(--sub);margin-top:2px">Best-seller · toujours populaire</div></div>';
+    }
+    if(!sug) sug='<div style="color:var(--muted);font-size:12px">Lancez le mode demo pour des suggestions</div>';
+    sugEl.innerHTML=sug;
+  }
+
+  // Sauvegarder historique
+  if(!data.test){
+    var texteComplet=lines.filter(function(l){return l.trim();}).join('. ');
+    _briefingHistorique.unshift({date:data.dateStr,heure:data.heureStr,texte:texteComplet,cvt:data.totalCvt,resas:data.resas.length});
+    if(_briefingHistorique.length>7) _briefingHistorique=_briefingHistorique.slice(0,7);
+    localStorage.setItem('briefing_histo',JSON.stringify(_briefingHistorique));
+  }
+}
+
+function briefingLire(){
+  if(!window.speechSynthesis){toast('Synthese vocale non supportee','err');return;}
+  if(_briefingEnLecture){
+    window.speechSynthesis.cancel();
+    _briefingEnLecture=false;
+    var btn=document.getElementById('btn-briefing-play');
+    if(btn){btn.textContent='▶ Lire';btn.style.background='';}
+    var s=document.getElementById('briefing-status');
+    if(s){s.textContent='Arrete';s.style.color='var(--sub)';}
+    return;
+  }
+  var data=briefingGetDonnees();
+  var jours=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  var wd=new Date().getDay();
+  var texte='Bonsoir, briefing du '+jours[wd]+' soir pour '+data.nomResto+'. ';
+  texte+=data.meteo.desc+', '+data.meteo.temp+' degres. ';
+  if(data.totalCvt>0) texte+=data.resas.length+' tables reservees, '+data.totalCvt+' couverts ce soir. ';
+  else texte+='Aucune reservation ce soir. ';
+  if(data.anniversaires&&data.anniversaires.length>0) texte+='Attention anniversaire detecte ! ';
+  if(data.allergenes&&data.allergenes.length>0) texte+='IMPORTANT allergenes : '+data.allergenes.map(function(a){return a.nom+' '+a.allergie;}).join('. ')+'. ';
+  if(data.stocksRupture.length>0) texte+='Ruptures de stock : '+data.stocksRupture.join(', ')+'. ';
+  if(data.topPlats[0]) texte+='Best seller ce soir : '+data.topPlats[0]+'. ';
+  if(data.caHier>0) texte+='CA hier : '+Math.round(data.caHier)+' euros. Faites mieux ce soir ! ';
+
+  // Ajouter le message personnalisé si rempli
+  var custom = (document.getElementById('briefing-custom')||{}).value||'';
+  if(custom.trim()) texte += ' ' + custom.trim() + '.';
+
+  texte+=' Bon service !';
+
+  // Voix choisie
+  var voixSel = (document.getElementById('briefing-voix-sel')||{}).value||'';
+  var vitesse = +(document.getElementById('briefing-vitesse')||{}).value||0.92;
+  var voices=window.speechSynthesis.getVoices();
+  var vfr = voixSel
+    ? voices.find(function(v){return v.name===voixSel;})
+    : voices.find(function(v){return v.lang.startsWith('fr')&&v.name.toLowerCase().includes('thomas');}) || voices.find(function(v){return v.lang.startsWith('fr');});
+
+  var utt=new SpeechSynthesisUtterance(texte);
+  utt.lang='fr-FR'; utt.rate=vitesse; utt.pitch=1.0; utt.volume=1.0;
+  if(vfr) utt.voice=vfr;
+
+  utt.onstart=function(){
+    _briefingEnLecture=true;
+    var btn=document.getElementById('btn-briefing-play');
+    if(btn){btn.textContent='⏹ Arreter';btn.style.background='rgba(240,112,96,.2)';}
+    var s=document.getElementById('briefing-status');
+    if(s){s.textContent='En lecture...';s.style.color='#6fcf8a';}
+  };
+  utt.onend=function(){
+    _briefingEnLecture=false;
+    var btn=document.getElementById('btn-briefing-play');
+    if(btn){btn.textContent='▶ Lire';btn.style.background='';}
+    var s=document.getElementById('briefing-status');
+    if(s){s.textContent='Termine ✓';s.style.color='#6fcf8a';}
+  };
+  window.speechSynthesis.speak(utt);
+}
 
 
 // ═══ PLATS ═══
@@ -17817,206 +18190,7 @@ function rStats(){
         <div style="width:60px;font-size:12px;color:var(--amber);text-align:right">${eur(v)}</div>
       </div>`).join('')
     :'<div style="color:var(--muted);font-size:13px">Aucune donnée</div>';
-
-  try{ rPrevision(); }catch(e){ console.warn('prev:',e); }}
-
-
-// ═══════════════════════════════════════════════
-// PRÉVISION DE FRÉQUENTATION
-// ═══════════════════════════════════════════════
-function rPrevision(){
-  var JOURS = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  var JOURS_PLEIN = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-  var ventes = DB.ventes||[];
-  var reservas = DB.reservations||[];
-
-  // Historique par jour de semaine
-  var histByWD = [];
-  var histByWDHour = [];
-  for(var i=0;i<7;i++){
-    histByWD.push({cvt:[],ca:[],nb:0});
-    histByWDHour.push(Array(24).fill(0));
-  }
-
-  var byDate = {};
-  ventes.forEach(function(v){
-    if(!v.date) return;
-    if(!byDate[v.date]) byDate[v.date]={cvt:0,ca:0,hours:{}};
-    byDate[v.date].cvt += (+v.cvt||0);
-    byDate[v.date].ca  += (+v.ttc||0);
-    var h = v.t ? +v.t.split(':')[0] : 12;
-    if(!isNaN(h)) byDate[v.date].hours[h] = (byDate[v.date].hours[h]||0) + (+v.cvt||0);
-  });
-
-  Object.keys(byDate).forEach(function(date){
-    var data = byDate[date];
-    var wd = new Date(date).getDay();
-    histByWD[wd].cvt.push(data.cvt);
-    histByWD[wd].ca.push(data.ca);
-    histByWD[wd].nb++;
-    Object.keys(data.hours).forEach(function(h){
-      histByWDHour[wd][+h] += data.hours[h];
-    });
-  });
-
-  var avgByWD = histByWD.map(function(d){
-    var avgCvt = d.cvt.length ? Math.round(d.cvt.reduce(function(s,v){return s+v},0)/d.cvt.length) : null;
-    var avgCa  = d.ca.length  ? Math.round(d.ca.reduce(function(s,v){return s+v},0)/d.ca.length)   : null;
-    var maxCvt = d.cvt.length ? Math.max.apply(null,d.cvt) : null;
-    var trend = d.cvt.length>=4 ?
-      d.cvt.slice(-3).reduce(function(s,v){return s+v},0)/3 - d.cvt.slice(0,3).reduce(function(s,v){return s+v},0)/3 : 0;
-    return {avgCvt:avgCvt, avgCa:avgCa, maxCvt:maxCvt, nb:d.nb, trend:trend};
-  });
-
-  var today = new Date();
-  var days7 = [];
-  for(var i=0;i<7;i++){
-    var d = new Date(today);
-    d.setDate(today.getDate()+i);
-    days7.push(d);
-  }
-
-  var maxAvgCvt = Math.max.apply(null, avgByWD.map(function(d){return d.avgCvt||0}).concat([1]));
-  var maxAvgCa  = Math.max.apply(null, avgByWD.map(function(d){return d.avgCa||0}).concat([1]));
-
-  // ── Grille 7 jours ──
-  var gridEl = document.getElementById('prev-grid');
-  if(gridEl){
-    var html = '';
-    days7.forEach(function(d,i){
-      var wd = d.getDay();
-      var avg = avgByWD[wd];
-      var isToday = (i===0);
-      var dateStr = d.toISOString().slice(0,10);
-      var resaList = reservas.filter(function(r){return r.date===dateStr&&r.stat!=='annulé';});
-      var resaCount = resaList.length;
-      var resaCvt = resaList.reduce(function(s,r){return s+(+r.cvt||0);},0);
-      var trendBonus = avg.trend>0 ? Math.round(avg.trend*0.5) : 0;
-      var prevCvt = avg.avgCvt!==null ? Math.max(0,avg.avgCvt+trendBonus+resaCvt) : null;
-      var prevCa  = avg.avgCa!==null  ? Math.round(avg.avgCa*(1+(trendBonus/Math.max(avg.avgCvt||1,1)))) : null;
-      var barPct  = avg.avgCvt ? Math.round(avg.avgCvt/maxAvgCvt*100) : 5;
-      var intensity = avg.avgCvt ? avg.avgCvt/maxAvgCvt : 0;
-      var col = intensity>=.8?'rgba(240,112,96,.6)':intensity>=.6?'rgba(240,160,96,.55)':intensity>=.4?'rgba(232,184,75,.5)':intensity>=.2?'rgba(111,207,138,.5)':'rgba(106,172,218,.4)';
-      var confCls = avg.nb>=8?'high':avg.nb>=3?'med':'low';
-      var confTxt = avg.nb>=8?'Fiable ●●●':avg.nb>=3?'Moyen ●●○':'Faible ●○○';
-
-      html += '<div class="prev-day'+(isToday?' today':'')+'" style="--prev-col:'+col+'">';
-      html += '<div class="prev-day-name">'+JOURS[wd]+(isToday?' <span style="color:#e8b84b">· Auj</span>':'')+'</div>';
-      html += '<div class="prev-day-num">'+d.getDate()+'</div>';
-      if(prevCvt!==null){
-        html += '<div class="prev-day-cvt">~'+prevCvt+' cvts</div>';
-        html += '<div class="prev-day-ca">'+(prevCa?'~'+eur(prevCa):'—')+'</div>';
-      } else {
-        html += '<div class="prev-day-cvt" style="color:var(--muted);font-size:11px">Pas de données</div>';
-      }
-      if(resaCount>0){
-        html += '<div style="font-size:9px;color:#6aacda;margin-top:3px">📅 '+resaCount+' résa · '+resaCvt+' cvts</div>';
-      }
-      html += '<div class="prev-day-bar"><div class="prev-day-bar-fill" style="width:'+barPct+'%"></div></div>';
-      html += '<div class="prev-day-conf '+confCls+'">'+confTxt+'</div>';
-      html += '</div>';
-    });
-    gridEl.innerHTML = html;
-  }
-
-  // ── Insights ──
-  var insightsEl = document.getElementById('prev-insights');
-  if(insightsEl){
-    var weekCA = days7.reduce(function(s,d){return s+(avgByWD[d.getDay()].avgCa||0);},0);
-    var weekCvt = days7.reduce(function(s,d){return s+(avgByWD[d.getDay()].avgCvt||0);},0);
-
-    var bestDay = null;
-    days7.forEach(function(d,i){
-      var avg = avgByWD[d.getDay()];
-      if(avg.avgCvt!==null && (bestDay===null || avg.avgCvt > avgByWD[days7[bestDay].getDay()].avgCvt)) bestDay = i;
-    });
-
-    var totalByHour = Array(24).fill(0);
-    histByWDHour.forEach(function(wd){wd.forEach(function(v,h){totalByHour[h]+=v;});});
-    var rushHour = totalByHour.indexOf(Math.max.apply(null,totalByHour));
-
-    var html2 = '';
-    html2 += '<div class="prev-insight"><div class="prev-insight-ico">🎯</div><div class="prev-insight-body">';
-    html2 += '<div class="prev-insight-val">~'+weekCvt+' cvts</div>';
-    html2 += '<div class="prev-insight-lbl">Semaine prévue</div>';
-    html2 += '<div class="prev-insight-sub">'+(weekCA>0?'~'+eur(weekCA)+' CA estimé':'Basé sur historique')+'</div>';
-    html2 += '</div></div>';
-
-    html2 += '<div class="prev-insight"><div class="prev-insight-ico">🔥</div><div class="prev-insight-body">';
-    html2 += '<div class="prev-insight-val">'+(bestDay!==null?JOURS_PLEIN[days7[bestDay].getDay()]:'—')+'</div>';
-    html2 += '<div class="prev-insight-lbl">Meilleur jour prévu</div>';
-    html2 += '<div class="prev-insight-sub">'+(bestDay!==null?'~'+avgByWD[days7[bestDay].getDay()].avgCvt+' couverts attendus':'Pas assez de données')+'</div>';
-    html2 += '</div></div>';
-
-    html2 += '<div class="prev-insight"><div class="prev-insight-ico">⏰</div><div class="prev-insight-body">';
-    html2 += '<div class="prev-insight-val">'+(totalByHour[rushHour]>0?String(rushHour).padStart(2,'0')+'h':'—')+'</div>';
-    html2 += '<div class="prev-insight-lbl">Heure de rush</div>';
-    html2 += '<div class="prev-insight-sub">Pic historique</div>';
-    html2 += '</div></div>';
-
-    insightsEl.innerHTML = html2;
-  }
-
-  // ── Alertes ──
-  var alertsEl = document.getElementById('prev-alerts');
-  if(alertsEl){
-    var alerts = [];
-    days7.forEach(function(d,i){
-      var wd = d.getDay();
-      var avg = avgByWD[wd];
-      if(!avg.avgCvt) return;
-      var intensity2 = avg.avgCvt/maxAvgCvt;
-      var dateStr2 = d.toISOString().slice(0,10);
-      var resaList2 = reservas.filter(function(r){return r.date===dateStr2&&r.stat!=='annulé';});
-      var resaCvt2 = resaList2.reduce(function(s,r){return s+(+r.cvt||0);},0);
-      var label = i===0?"Aujourd'hui":i===1?'Demain':JOURS_PLEIN[wd];
-      if(intensity2>=.8) alerts.push({cls:'rush',ico:'🔴',txt:label+' — Soirée chargée',sub:'~'+avg.avgCvt+" couverts · Preparez l'equipe"});
-      else if(intensity2>=.6) alerts.push({cls:'fort',ico:'⚡',txt:label+' — Service soutenu',sub:"~"+avg.avgCvt+" couverts · Stock a verifier"});
-      else if(intensity2<.3 && avg.nb>=3) alerts.push({cls:'calme',ico:'🟢',txt:label+' — Service calme prevu',sub:"~"+avg.avgCvt+" couverts · Ideal pour formation"});
-      if(resaList2.length>=3) alerts.push({cls:'fort',ico:'📅',txt:label+' — '+resaList2.length+' reservation(s)',sub:resaCvt2+" couverts reserves · Anticipez la mise en place"});
-    });
-    var alertHtml = '';
-    alerts.slice(0,4).forEach(function(a){
-      alertHtml += '<div class="prev-alert '+a.cls+'">';
-      alertHtml += '<span style="font-size:18px;flex-shrink:0">'+a.ico+'</span>';
-      alertHtml += '<div><div style="font-weight:700">'+a.txt+'</div><div style="opacity:.7;margin-top:1px">'+a.sub+'</div></div>';
-      alertHtml += '</div>';
-    });
-    alertsEl.innerHTML = alertHtml;
-  }
-
-  // ── Heatmap ──
-  var hmEl = document.getElementById('prev-heatmap');
-  if(!hmEl) return;
-  var hours = [];
-  for(var h=10;h<=23;h++) hours.push(h);
-  var maxHeat = 1;
-  histByWDHour.forEach(function(wd){hours.forEach(function(h){if(wd[h]>maxHeat) maxHeat=wd[h];});});
-
-  var hmHtml = '<div class="prev-heat-grid">';
-  hmHtml += '<div class="prev-heat-lbl"></div>';
-  hours.forEach(function(h){hmHtml += '<div class="prev-heat-hlbl">'+h+'h</div>';});
-  [1,2,3,4,5,6,0].forEach(function(wd){
-    hmHtml += '<div class="prev-heat-lbl">'+JOURS[wd]+'</div>';
-    hours.forEach(function(h){
-      var v = histByWDHour[wd][h]||0;
-      var pct2 = v/maxHeat;
-      var bg = pct2>=.8?'rgba(240,80,80,.8)':pct2>=.6?'rgba(240,150,60,.7)':pct2>=.4?'rgba(232,184,75,.6)':pct2>=.2?'rgba(111,207,138,.4)':pct2>0?'rgba(106,172,218,.25)':'rgba(255,255,255,.04)';
-      hmHtml += '<div class="prev-heat-cell" style="background:'+bg+'" title="'+JOURS[wd]+' '+h+'h"></div>';
-    });
-  });
-  hmHtml += '</div>';
-  hmHtml += '<div style="display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--muted)">';
-  hmHtml += '<span>Faible</span>';
-  ['rgba(106,172,218,.25)','rgba(111,207,138,.4)','rgba(232,184,75,.6)','rgba(240,150,60,.7)','rgba(240,80,80,.8)'].forEach(function(bg){
-    hmHtml += '<div style="width:18px;height:10px;border-radius:3px;background:'+bg+'"></div>';
-  });
-  hmHtml += '<span>Fort</span></div>';
-  hmEl.innerHTML = hmHtml;
 }
-
-
-
 
 function drawBarChart(canvasId, data, labels){
   const canvas=document.getElementById(canvasId);
@@ -21589,72 +21763,172 @@ function lancerCarteClient(){
 let vocaleCmdData=null;
 
 function rVocale(){
-  // Tables rapides
-  const tablesEl=document.getElementById('vocale-tables-rapides');
-  if(tablesEl){
-    tablesEl.innerHTML=(DB.tables||[]).map(t=>`
-      <button onclick="selectTableVocale(${t.num})"
-        style="padding:8px 14px;border-radius:8px;background:${t.stat==='libre'?'var(--ink3)':'rgba(181,57,42,.2)'};
-        border:2px solid ${t.stat==='libre'?'var(--line)':t.stat==='occupée'?'var(--red)':'var(--blue)'};
-        color:var(--txt);font-size:13px;font-weight:600;cursor:pointer">
-        T${t.num}<br><span style="font-size:9px;color:var(--muted)">${t.zone}</span>
-      </button>`).join('');
+  // Messages rapides prédéfinis
+  var _msgHisto = JSON.parse(localStorage.getItem('msg_equipe_histo')||'[]');
+  var rapides = [
+    {ico:'🔥', txt:"Ce soir gros service, tout le monde en alerte !"},
+    {ico:'🎂', txt:"Anniversaire surprise table 12 ce soir, ne rien dire au client !"},
+    {ico:'⚠️', txt:"Attention rupture de stock ce soir, pas de cabillaud."},
+    {ico:'👋', txt:"Réunion équipe après le service, restez tous."},
+    {ico:'💪', txt:"Excellent travail ce soir, continuez comme ça !"},
+    {ico:'🍷', txt:"On pousse le vin rouge ce soir, pensez à le proposer."},
+  ];
+
+  var el = document.getElementById('msg-rapides');
+  if(el){
+    el.innerHTML = rapides.map(function(m){
+      return '<button onclick="msgCharger('+JSON.stringify(m.txt)+')" style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;cursor:pointer;transition:all .15s;text-align:left;width:100%" onmouseover="this.style.background=\'rgba(201,151,58,.06)\';this.style.borderColor=\'rgba(201,151,58,.2)\'" onmouseout="this.style.background=\'rgba(255,255,255,.03)\';this.style.borderColor=\'rgba(255,255,255,.07)\'">'
+        +'<span style="font-size:20px;flex-shrink:0">'+m.ico+'</span>'
+        +'<span style="font-size:13px;color:var(--txt)">'+m.txt+'</span>'
+        +'<span style="margin-left:auto;font-size:16px;color:var(--muted)">›</span>'
+        +'</button>';
+    }).join('');
   }
 
-  // Top plats les plus vendus
-  const topEl=document.getElementById('vocale-top-plats');
-  if(topEl){
-    const plats=(DB.plats||[]).filter(p=>p.dispo==='dispo');
-    const sorted=plats.slice().sort((a,b)=>(b.vendu||0)-(a.vendu||0));
-    const afficher=sorted.slice(0,8);
-    topEl.innerHTML=afficher.map(p=>`
-      <button onclick="ajouterSuggestion('${p.nom.replace(/'/g,"\'")}')"
-        style="display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:8px;
-        background:var(--ink3);border:1px solid var(--line);color:var(--txt);font-size:12px;cursor:pointer">
-        <span>${p.ico}</span><span>${p.nom.split(' ').slice(0,3).join(' ')}</span>
-        <span style="color:var(--gold2);font-size:10px">${eur(p.prix)}</span>
-      </button>`).join('');
+  // Historique
+  var histoEl = document.getElementById('msg-historique');
+  if(histoEl){
+    if(!_msgHisto.length){
+      histoEl.innerHTML = '<div style="color:var(--muted);font-size:12px">Aucun message envoyé pour l\'instant</div>';
+    } else {
+      histoEl.innerHTML = _msgHisto.slice(0,5).map(function(m){
+        return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
+          +'<span style="font-size:16px">📢</span>'
+          +'<div style="flex:1;min-width:0"><div style="font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+m.txt+'</div>'
+          +'<div style="font-size:10px;color:var(--muted);margin-top:2px">'+m.date+' à '+m.heure+'</div></div>'
+          +'<button onclick="msgCharger('+JSON.stringify(m.txt)+')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--sub);border-radius:8px;padding:4px 10px;font-size:10px;cursor:pointer">↺</button>'
+          +'</div>';
+      }).join('');
+    }
   }
 
-  // Suggestions rapides courantes
-  const sugEl=document.getElementById('vocale-suggestions');
-  if(sugEl){
-    const suggestions=[
-      {ico:'🫗',label:"Carafe d'eau",val:"carafe d'eau"},
-      {ico:'BOI',label:'Café',val:'café expresso'},
-      {ico:'VIN',label:'Bordeaux',val:'bordeaux rouge'},
-      {ico:'VIN',label:'Vin blanc',val:'bourgogne blanc'},
-      {ico:'BOI',label:'Coca',val:'coca-cola'},
-      {ico:'BOI',label:'Eau minérale',val:'eau minérale'},
-      {ico:'DES',label:'Crème brûlée',val:'crème brûlée'},
-      {ico:'VIN',label:'Champagne',val:'champagne brut'},
-    ];
-    sugEl.innerHTML=suggestions.map(s=>`
-      <button onclick="ajouterSuggestion('${s.val.replace(/'/g,"\'")}')"
-        style="display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:8px;
-        background:rgba(201,151,58,.08);border:1px solid rgba(201,151,58,.2);color:var(--gold2);font-size:12px;cursor:pointer">
-        ${s.ico} ${s.label}
-      </button>`).join('');
+  // Voix dispo
+  if(window.speechSynthesis){
+    var voices = window.speechSynthesis.getVoices();
+    var vfr = voices.find(function(v){return v.lang.startsWith('fr');});
+    var infoEl = document.getElementById('msg-voix-info');
+    if(infoEl) infoEl.textContent = vfr ? 'Voix : '+vfr.name.split(' ')[0] : 'Voix : française auto';
+  }
+}
+
+function msgCharger(txt){
+  var ta = document.getElementById('msg-texte');
+  if(ta){ ta.value=txt; ta.focus(); }
+}
+
+function msgEffacer(){
+  var ta = document.getElementById('msg-texte');
+  if(ta){ ta.value=''; ta.focus(); }
+  var dot = document.getElementById('msg-status-dot');
+  var stxt = document.getElementById('msg-status-txt');
+  if(dot) dot.style.background='var(--muted)';
+  if(stxt) stxt.textContent='En attente';
+}
+
+function msgLire(){
+  if(!window.speechSynthesis){ toast('Synthèse vocale non supportée par ce navigateur','err'); return; }
+
+  var ta = document.getElementById('msg-texte');
+  var texte = ta ? ta.value.trim() : '';
+  if(!texte){ toast('Écris un message avant de lire !','warn'); ta&&ta.focus(); return; }
+
+  // Si déjà en lecture → stopper
+  var btn = document.getElementById('btn-msg-lire');
+  var ico = document.getElementById('btn-msg-ico');
+  var lbl = document.getElementById('btn-msg-lbl');
+  var dot = document.getElementById('msg-status-dot');
+  var stxt = document.getElementById('msg-status-txt');
+
+  if(window._msgEnLecture){
+    window.speechSynthesis.cancel();
+    window._msgEnLecture = false;
+    if(btn) btn.style.background='linear-gradient(135deg,rgba(201,151,58,.2),rgba(201,151,58,.1))';
+    if(ico) ico.textContent='📢';
+    if(lbl) lbl.textContent="Lire à l'équipe";
+    if(dot){ dot.style.background='var(--muted)'; dot.style.animation=''; }
+    if(stxt) stxt.textContent='Arrêté';
+    return;
   }
 
-  // Exemples
-  const exemplesEl=document.getElementById('vocale-exemples');
-  if(exemplesEl){
-    const plats=DB.plats||[];
-    const p1=plats[0]?.nom||'Soupe à l\'oignon';
-    const p2=plats[2]?.nom||'Salade César';
-    const p3=plats[6]?.nom||'Bœuf Bourguignon';
-    const exemples=[
-      `Table 1, deux ${p1} et un ${p2}`,
-      `Table 3, trois ${p3}`,
-      `Table 5, un ${p1}, deux ${p2} et trois cafés`,
-    ];
-    exemplesEl.innerHTML=exemples.map(ex=>`
-      <div onclick="simulerVocale('${ex.replace(/'/g,"\\'")}')"
-        style="padding:10px 14px;background:var(--ink3);border-radius:8px;font-size:13px;color:var(--sub);cursor:pointer;border:1px solid var(--line)">
-        💬 <em>${ex}</em>
-      </div>`).join('');
-  }
+  // Son d'intro (bip d'attention)
+  try{
+    var ctx = new (window.AudioContext||window.webkitAudioContext)();
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.setValueAtTime(660, ctx.currentTime+0.1);
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.3);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime+0.3);
+  }catch(e){}
+
+  // Délai pour laisser le bip se terminer
+  setTimeout(function(){
+    var nomResto = DB.params&&DB.params.nom ? DB.params.nom : 'Chez Romu';
+    var texteComplet = 'Attention équipe ' + nomResto + '. ' + texte;
+
+    var utt = new SpeechSynthesisUtterance(texteComplet);
+    utt.lang = 'fr-FR';
+    utt.rate = 0.88;
+    utt.pitch = 1.05;
+    utt.volume = 1.0;
+
+    var voices = window.speechSynthesis.getVoices();
+    var vfr = voices.find(function(v){return v.lang.startsWith('fr')&&v.name.toLowerCase().includes('thomas');})
+           || voices.find(function(v){return v.lang.startsWith('fr');});
+    if(vfr) utt.voice = vfr;
+
+    utt.onstart = function(){
+      window._msgEnLecture = true;
+      if(btn) btn.style.background='rgba(240,112,96,.2)';
+      if(ico) ico.textContent='⏹';
+      if(lbl) lbl.textContent='Arrêter';
+      if(dot){ dot.style.background='#6fcf8a'; dot.style.animation='pulse-dot 1s infinite'; }
+      if(stxt) stxt.textContent='En cours de lecture...';
+    };
+
+    utt.onend = function(){
+      window._msgEnLecture = false;
+      if(btn) btn.style.background='linear-gradient(135deg,rgba(201,151,58,.2),rgba(201,151,58,.1))';
+      if(ico) ico.textContent='✅';
+      if(lbl) lbl.textContent='Message envoyé !';
+      if(dot){ dot.style.background='#6fcf8a'; dot.style.animation=''; }
+      if(stxt) stxt.textContent='Message lu ✓';
+      // Remettre le bouton après 2 secondes
+      setTimeout(function(){
+        if(ico) ico.textContent='📢';
+        if(lbl) lbl.textContent="Lire à l'équipe";
+        if(dot) dot.style.background='var(--muted)';
+        if(stxt) stxt.textContent='En attente';
+      }, 2000);
+
+      // Son de fin
+      try{
+        var ctx2 = new (window.AudioContext||window.webkitAudioContext)();
+        var osc2 = ctx2.createOscillator();
+        var gain2 = ctx2.createGain();
+        osc2.connect(gain2); gain2.connect(ctx2.destination);
+        osc2.frequency.setValueAtTime(660, ctx2.currentTime);
+        osc2.frequency.setValueAtTime(880, ctx2.currentTime+0.1);
+        gain2.gain.setValueAtTime(0.2, ctx2.currentTime);
+        gain2.gain.exponentialRampToValueAtTime(0.001, ctx2.currentTime+0.25);
+        osc2.start(ctx2.currentTime);
+        osc2.stop(ctx2.currentTime+0.25);
+      }catch(e){}
+
+      // Sauvegarder en historique
+      var histo = JSON.parse(localStorage.getItem('msg_equipe_histo')||'[]');
+      var now = new Date();
+      histo.unshift({txt:texte, date:now.toLocaleDateString('fr-FR'), heure:now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
+      if(histo.length>10) histo=histo.slice(0,10);
+      localStorage.setItem('msg_equipe_histo', JSON.stringify(histo));
+      rVocale();
+    };
+
+    window.speechSynthesis.speak(utt);
+  }, 400);
 }
 
 function ajouterSuggestion(nomPlat){
