@@ -5109,6 +5109,9 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" onclick="nav('sauvegarde',this)"><span class="ni-ico">💾</span>Sauvegarde</div>
       <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
       <div class="nav-item" onclick="activerModeDemo()" style="color:#c9a84c"><span class="ni-ico">🎭</span>Mode Démo</div>
+      <div class="nav-item" onclick="rapportJournalier()"><span class="ni-ico">📊</span>Rapport journalier</div>
+      <div class="nav-item" onclick="exempleRapport()" style="color:#c9973a"><span class="ni-ico">👁</span>Exemple rapport</div>
+      <div class="nav-item" onclick="exempleTicket()" style="color:#c9973a"><span class="ni-ico">🧾</span>Exemple ticket</div>
     </div>
   </div>
 
@@ -5189,6 +5192,8 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="actions-card">
         <div class="actions-title">Actions rapides</div>
         <button class="action-btn" style="background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.4)" onclick="activerModeDemo()"><div class="action-btn-ico">🎭</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9a84c">Mode Démo</div><div class="action-btn-sub">Charger données réalistes</div></div><span class="action-btn-arrow" style="color:#c9a84c">›</span></button>
+        <button class="action-btn" onclick="rapportJournalier()"><div class="action-btn-ico">📊</div><div class="action-btn-info"><div class="action-btn-lbl">Rapport journalier</div><div class="action-btn-sub">Bilan du service · impression PDF</div></div><span class="action-btn-arrow">›</span></button>
+        <button class="action-btn" onclick="exempleRapport()" style="border-color:rgba(201,151,58,.3)"><div class="action-btn-ico">👁</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9973a">Exemple rapport</div><div class="action-btn-sub">Voir avec données de démo</div></div><span class="action-btn-arrow" style="color:#c9973a">›</span></button>
         <button class="action-btn action-cmd" onclick="nav('commandes',null);openModal('mo-commande')"><div class="action-btn-ico">📋</div><div class="action-btn-info"><div class="action-btn-lbl">Nouvelle commande</div><div class="action-btn-sub">Saisir une commande table</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-caisse" onclick="nav('caisse',null)"><div class="action-btn-ico">💳</div><div class="action-btn-info"><div class="action-btn-lbl">Ouvrir la caisse</div><div class="action-btn-sub">Encaissement & tickets</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-salle" onclick="nav('salle',null)"><div class="action-btn-ico">🗺️</div><div class="action-btn-info"><div class="action-btn-lbl">Voir la salle</div><div class="action-btn-sub">Plan des tables en temps réel</div></div><span class="action-btn-arrow">›</span></button>
@@ -8882,6 +8887,7 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div class="modal-body"><div id="ticket-preview-zone" style="background:#fff;color:#111;border-radius:8px;padding:24px;font-family:'Courier New',monospace;font-size:13px;line-height:1.8"></div></div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('mo-ticket-print')">Fermer</button>
+      <button class="btn btn-ghost" onclick="exempleTicket()" style="border-color:rgba(201,151,58,.4);color:#c9973a">👁 Exemple</button>
       <button class="btn btn-gold" onclick="printTicketNow()">🖨️ Imprimer</button>
     </div>
   </div>
@@ -10908,41 +10914,67 @@ function payer(mode){
 }
 
 function showTicketPrint(v){
-  const pNom=document.getElementById('p-nom')?.value||'Mon Restaurant';
+  const pNom=(document.getElementById('p-nom')?.value||'Mon Restaurant').toUpperCase();
   const pAdr=document.getElementById('p-adr')?.value||'';
   const pTel=document.getElementById('p-tel')?.value||'';
   const pSiret=document.getElementById('p-siret')?.value||'';
-  const pMentions='TVA non applicable, art. 293B du CGI';
-  const sep='─'.repeat(32);
+  const tvaRate=(DB.params?.tva||10);
   const items=v.items||[];
-  let lines=``;
-  lines+=`<div style="text-align:center;margin-bottom:12px">`;
-  lines+=`<div style="font-size:18px;font-weight:700;letter-spacing:2px">${pNom.toUpperCase()}</div>`;
-  if(pAdr)lines+=`<div style="font-size:11px;color:#555;margin-top:2px">${pAdr}</div>`;
-  if(pTel)lines+=`<div style="font-size:11px;color:#555">Tél : ${pTel}</div>`;
-  lines+=`</div>`;
-  lines+=`<div style="border-top:1px dashed #ccc;border-bottom:1px dashed #ccc;padding:8px 0;margin-bottom:10px;font-size:11px;color:#555;text-align:center">${v.date} ${v.t}${v.tbl&&v.tbl!=='—'?' · '+v.tbl:''}</div>`;
-  if(items.length){
-    items.forEach(x=>{
-      const name=x.nom.length>22?x.nom.slice(0,21)+'…':x.nom;
-      const prix=eur(x.px*x.q).replace(' ',' ');
-      lines+=`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span>${x.ico} ${name}${x.q>1?' x'+x.q:''}</span><span>${prix}</span></div>`;
+  const numTicket=v.id?String(v.id).padStart(4,'0'):'0001';
+
+  // Reconstruire les items avec noms depuis DB
+  const itemsRendus=items.map(x=>{
+    if(x.nom) return x;
+    const p=(DB.plats||[]).find(p=>p.id===x.pid)||{nom:'Article',prix:0,ico:'🍽️'};
+    return {nom:p.nom,ico:'🍽️',px:p.prix,q:x.q||1};
+  });
+
+  let html=`<div style="font-family:'Courier New',Courier,monospace;max-width:320px;margin:0 auto;padding:16px;font-size:13px;color:#1a1a1a;line-height:1.5">
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:20px;font-weight:900;letter-spacing:3px;margin-bottom:4px">${pNom}</div>
+      ${pAdr?'<div style="font-size:11px;color:#555">'+pAdr+'</div>':''}
+      ${pTel?'<div style="font-size:11px;color:#555">☎ '+pTel+'</div>':''}
+      <div style="font-size:11px;color:#888;margin-top:4px">◆ ◆ ◆</div>
+    </div>
+    <div style="border-top:2px dashed #999;border-bottom:2px dashed #999;padding:7px 0;margin-bottom:12px;font-size:11px;color:#555">
+      <div style="display:flex;justify-content:space-between"><span>Ticket N° ${numTicket}</span><span>${v.date||td()} ${v.t||''}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-top:2px"><span>${v.tbl&&v.tbl!=='—'?'Table '+String(v.tbl).replace('T',''):''}</span><span>${v.cvt?v.cvt+' couvert(s)':''}</span></div>
+    </div>
+    <div style="margin-bottom:12px">`;
+
+  if(itemsRendus.length){
+    itemsRendus.forEach(x=>{
+      const nom=x.nom.length>24?x.nom.slice(0,23)+'…':x.nom;
+      const total=((+(x.px)||0)*(x.q||1)).toFixed(2).replace('.',',');
+      const pu=(+(x.px)||0).toFixed(2).replace('.',',');
+      html+='<div style="padding:4px 0;border-bottom:1px dotted #ddd"><div style="display:flex;justify-content:space-between;font-weight:600"><span>'+nom+(x.q>1?' ×'+x.q:'')+'</span><span>'+total+' €</span></div>'+(x.q>1?'<div style="font-size:11px;color:#888;padding-left:8px">'+pu+' € / unité</div>':'')+'</div>';
     });
+  } else {
+    html+='<div style="font-size:11px;color:#888;padding:8px;text-align:center">— Détail non disponible —</div>';
   }
-  lines+=`<div style="border-top:1px dashed #ccc;margin:10px 0;padding-top:8px">`;
-  lines+=`<div style="display:flex;justify-content:space-between;font-size:11px;color:#555;padding:2px 0"><span>Sous-total HT</span><span>${eur(v.ht)}</span></div>`;
-  lines+=`<div style="display:flex;justify-content:space-between;font-size:11px;color:#555;padding:2px 0"><span>TVA (${v.tvaPct||10}%)</span><span>${eur(v.tva)}</span></div>`;
-  lines+=`<div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;padding:6px 0;border-top:1px solid #333;margin-top:4px"><span>TOTAL TTC</span><span>${eur(v.ttc)}</span></div>`;
-  lines+=`<div style="display:flex;justify-content:space-between;font-size:11px;color:#555;padding:2px 0"><span>Règlement</span><span>${v.mode}</span></div>`;
-  lines+=`</div>`;
-  if(pSiret)lines+=`<div style="font-size:10px;color:#aaa;text-align:center;margin-top:8px">SIRET : ${pSiret}</div>`;
-  const nf525=DB.params?.nf525||'';
-  if(nf525)lines+=`<div style="font-size:10px;color:#aaa;text-align:center;margin-top:4px">Logiciel certifié NF525 · ${nf525}</div>`;
-  lines+=`<div style="font-size:10px;color:#aaa;text-align:center;margin-top:4px;border-top:1px dashed #ddd;padding-top:8px">Merci de votre visite !</div>`;
-  document.getElementById('ticket-preview-zone').innerHTML=lines;
+
+  const ttc=+(v.ttc)||0;
+  const ht=+(v.ht)||(ttc/(1+tvaRate/100));
+  const tva=+(v.tva)||(ttc-ht);
+
+  html+=`</div>
+    <div style="border-top:2px dashed #999;padding-top:10px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#555;padding:2px 0"><span>Sous-total HT</span><span>${ht.toFixed(2).replace('.',',')} €</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#555;padding:2px 0"><span>TVA ${tvaRate}%</span><span>${tva.toFixed(2).replace('.',',')} €</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:17px;font-weight:900;padding:8px 0;border-top:2px solid #1a1a1a;margin-top:6px"><span>TOTAL TTC</span><span>${ttc.toFixed(2).replace('.',',')} €</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#333;padding:3px 0"><span>Règlement</span><span>${v.mode||'CB'}</span></div>
+    </div>
+    <div style="border-top:2px dashed #999;padding-top:10px;text-align:center">
+      ${pSiret?'<div style="font-size:10px;color:#888">SIRET : '+pSiret+'</div>':''}
+      <div style="font-size:10px;color:#888;margin-top:2px">TVA acquittée sur les encaissements</div>
+      <div style="font-size:10px;color:#888">Logiciel Romu POS — Conforme LFR 2016</div>
+      <div style="font-size:13px;font-weight:700;margin-top:10px;letter-spacing:2px">✦ Merci de votre visite ✦</div>
+    </div>
+  </div>`;
+
+  document.getElementById('ticket-preview-zone').innerHTML=html;
   openModal('mo-ticket-print');
 }
-
 function printTicketFromVente(id){
   const v=DB.ventes.find(x=>x.id===id);if(v)showTicketPrint(v);
 }
@@ -25495,6 +25527,192 @@ function lancerConfettis(){
     const m=document.getElementById('confetti-msg');
     if(m){ m.style.transition='opacity .8s'; m.style.opacity='0'; setTimeout(()=>m.remove(),800); }
   },4500);
+}
+
+
+// ═══════════════════════════════════════
+// RAPPORT JOURNALIER
+// ═══════════════════════════════════════
+function rapportJournalier(){
+  const today=td();
+  const ventes=(DB.ventes||[]).filter(v=>v.date===today);
+  const cmds=(DB.commandes||[]).filter(c=>c.date===today);
+  const resas=(DB.reservations||[]).filter(r=>r.date===today);
+
+  const ca=ventes.reduce((s,v)=>s+(+v.ttc||0),0);
+  const ht=ventes.reduce((s,v)=>s+(+v.ht||0),0);
+  const tva=ventes.reduce((s,v)=>s+(+v.tva||0),0);
+  const couverts=ventes.reduce((s,v)=>s+(+v.cvt||0),0);
+  const nbTickets=ventes.length;
+  const ticket=nbTickets?ca/nbTickets:0;
+
+  // Mode CB vs Espèces
+  const cb=ventes.filter(v=>v.mode==='CB').reduce((s,v)=>s+(+v.ttc||0),0);
+  const esp=ventes.filter(v=>v.mode!=='CB').reduce((s,v)=>s+(+v.ttc||0),0);
+
+  // Top plats
+  const platCounts={};
+  cmds.forEach(cmd=>(cmd.items||[]).forEach(x=>{
+    const p=(DB.plats||[]).find(p=>p.id===x.pid)||{nom:'?'};
+    platCounts[p.nom]=(platCounts[p.nom]||0)+(x.q||1);
+  }));
+  const topPlats=Object.entries(platCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  // Heures de pointe
+  const byHour={};
+  ventes.forEach(v=>{
+    if(!v.t) return;
+    const h=v.t.split(':')[0];
+    byHour[h]=(byHour[h]||0)+(+v.ttc||0);
+  });
+  const pointe=Object.entries(byHour).sort((a,b)=>b[1]-a[1])[0];
+
+  const pNom=(document.getElementById('p-nom')?.value||'Mon Restaurant').toUpperCase();
+  const now=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Rapport — ${today}</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#f8f6f2;color:#1a1a1a;padding:24px;max-width:700px;margin:auto}
+    .header{text-align:center;padding:24px 0 20px;border-bottom:3px solid #c9973a;margin-bottom:24px}
+    .header h1{font-size:22px;font-weight:900;letter-spacing:3px;color:#1a1a1a}
+    .header .subtitle{font-size:12px;color:#888;margin-top:6px;letter-spacing:1px}
+    .header .date{font-size:14px;font-weight:700;color:#c9973a;margin-top:4px}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .kpi{background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #e8e4dc;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .kpi-val{font-size:22px;font-weight:900;color:#c9973a;margin-bottom:4px}
+    .kpi-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#888;font-weight:600}
+    .section{background:#fff;border-radius:12px;padding:18px;margin-bottom:16px;border:1px solid #e8e4dc;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .section h2{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#c9973a;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #f0ebe0}
+    .row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dotted #e8e4dc}
+    .row:last-child{border-bottom:none}
+    .row .label{font-size:13px;color:#555}
+    .row .value{font-size:13px;font-weight:700;color:#1a1a1a}
+    .plat-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dotted #e8e4dc}
+    .plat-row:last-child{border-bottom:none}
+    .plat-rank{width:24px;height:24px;border-radius:50%;background:#c9973a;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .plat-nom{flex:1;font-size:13px;font-weight:600}
+    .plat-qty{font-size:13px;font-weight:800;color:#c9973a}
+    .bar-wrap{background:#f0ebe0;border-radius:4px;height:8px;flex:1;margin:0 10px;overflow:hidden}
+    .bar{height:100%;background:linear-gradient(90deg,#c9973a,#e8b84b);border-radius:4px;transition:width .3s}
+    .footer{text-align:center;padding-top:16px;border-top:2px dashed #c9973a;margin-top:8px;font-size:11px;color:#aaa}
+    @media print{body{background:#fff;padding:12px}.section,.kpi{box-shadow:none}}
+  </style></head><body>
+  <div class="header">
+    <h1>${pNom}</h1>
+    <div class="subtitle">RAPPORT JOURNALIER DE SERVICE</div>
+    <div class="date">📅 ${today} · Généré à ${now}</div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-val">${ca.toFixed(2).replace('.',',')} €</div><div class="kpi-lbl">CA TTC</div></div>
+    <div class="kpi"><div class="kpi-val">${nbTickets}</div><div class="kpi-lbl">Tables</div></div>
+    <div class="kpi"><div class="kpi-val">${couverts}</div><div class="kpi-lbl">Couverts</div></div>
+    <div class="kpi"><div class="kpi-val">${ticket.toFixed(2).replace('.',',')} €</div><div class="kpi-lbl">Ticket moyen</div></div>
+  </div>
+
+  <div class="section">
+    <h2>💰 Détail financier</h2>
+    <div class="row"><span class="label">Chiffre d'affaires HT</span><span class="value">${ht.toFixed(2).replace('.',',')} €</span></div>
+    <div class="row"><span class="label">TVA collectée</span><span class="value">${tva.toFixed(2).replace('.',',')} €</span></div>
+    <div class="row"><span class="label">CA TTC</span><span class="value" style="color:#c9973a;font-size:15px">${ca.toFixed(2).replace('.',',')} €</span></div>
+    <div class="row"><span class="label">Règlement CB</span><span class="value">${cb.toFixed(2).replace('.',',')} €</span></div>
+    <div class="row"><span class="label">Règlement Espèces</span><span class="value">${esp.toFixed(2).replace('.',',')} €</span></div>
+  </div>
+
+  <div class="section">
+    <h2>🏆 Top 5 plats vendus</h2>
+    ${topPlats.length?topPlats.map(([nom,qty],i)=>{
+      const max=topPlats[0][1];
+      return '<div class="plat-row"><div class="plat-rank">'+(i+1)+'</div><div class="plat-nom">'+nom+'</div><div class="bar-wrap"><div class="bar" style="width:'+(qty/max*100).toFixed(0)+'%"></div></div><div class="plat-qty">'+qty+'×</div></div>';
+    }).join(''):'<div style="color:#aaa;font-size:12px;text-align:center;padding:10px">Aucune donnée</div>'}
+  </div>
+
+  <div class="section">
+    <h2>📊 Service</h2>
+    <div class="row"><span class="label">Réservations du jour</span><span class="value">${resas.length}</span></div>
+    <div class="row"><span class="label">Commandes traitées</span><span class="value">${cmds.filter(c=>c.stat==='payé').length}</span></div>
+    <div class="row"><span class="label">Heure de pointe</span><span class="value">${pointe?pointe[0]+'h00 ('+pointe[1].toFixed(0)+' €)':'—'}</span></div>
+    <div class="row"><span class="label">Ticket moyen / couvert</span><span class="value">${couverts?(ca/couverts).toFixed(2).replace('.',','):0} €</span></div>
+  </div>
+
+  <div class="footer">
+    ${pNom} · Rapport généré par Romu POS · ${today} ${now}<br>
+    Ce document est conforme aux obligations de traçabilité NF525
+  </div>
+
+  <script>window.onload=()=>window.print()<\/script>
+  </body></html>`;
+
+  const w=window.open('','_blank','width=800,height=900');
+  if(!w){toast('Autorisez les popups','err');return;}
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+  toast('📊 Rapport journalier généré !','ok');
+}
+
+
+// ═══ EXEMPLES DÉMO ═══
+function exempleTicket(){
+  const vExemple={
+    id:42, date:td(), t:'20:34',
+    tbl:'T5', cvt:4, mode:'CB',
+    ht:72.73, ttc:80.0, tva:7.27, tvaPct:10,
+    items:[
+      {nom:'Foie gras mi-cuit',ico:'🍴',px:17.0,q:2},
+      {nom:'Magret de canard',ico:'🍴',px:27.0,q:1},
+      {nom:'Risotto aux truffes',ico:'🍴',px:22.0,q:1},
+      {nom:'Bordeaux rouge (75cl)',ico:'🍴',px:30.0,q:1},
+      {nom:'Crème brûlée',ico:'🍴',px:8.5,q:2},
+    ]
+  };
+  showTicketPrint(vExemple);
+}
+
+function exempleRapport(){
+  // Injecter temporairement des données de demo dans DB
+  const today=td();
+  const savedVentes=[...DB.ventes];
+  const savedCmds=[...DB.commandes];
+
+  DB.ventes=[
+    {id:1,date:today,t:'12:15',tbl:'T3',cvt:2,ht:31.8,ttc:35.0,tva:3.2,mode:'CB'},
+    {id:2,date:today,t:'12:30',tbl:'T5',cvt:4,ht:63.6,ttc:70.0,tva:6.4,mode:'CB'},
+    {id:3,date:today,t:'12:48',tbl:'T2',cvt:3,ht:54.5,ttc:60.0,tva:5.5,mode:'Espèces'},
+    {id:4,date:today,t:'13:10',tbl:'T7',cvt:2,ht:40.9,ttc:45.0,tva:4.1,mode:'CB'},
+    {id:5,date:today,t:'13:35',tbl:'T9',cvt:6,ht:109.1,ttc:120.0,tva:10.9,mode:'CB'},
+    {id:6,date:today,t:'13:58',tbl:'T4',cvt:2,ht:36.4,ttc:40.0,tva:3.6,mode:'Espèces'},
+    {id:7,date:today,t:'20:12',tbl:'T1',cvt:2,ht:45.5,ttc:50.0,tva:4.5,mode:'CB'},
+    {id:8,date:today,t:'20:34',tbl:'T5',cvt:4,ht:72.7,ttc:80.0,tva:7.3,mode:'CB'},
+    {id:9,date:today,t:'20:55',tbl:'T3',cvt:6,ht:109.1,ttc:120.0,tva:10.9,mode:'CB'},
+    {id:10,date:today,t:'21:20',tbl:'T8',cvt:8,ht:181.8,ttc:200.0,tva:18.2,mode:'CB'},
+    {id:11,date:today,t:'21:45',tbl:'T6',cvt:3,ht:63.6,ttc:70.0,tva:6.4,mode:'CB'},
+    {id:12,date:today,t:'22:10',tbl:'T2',cvt:4,ht:90.9,ttc:100.0,tva:9.1,mode:'Espèces'},
+  ];
+
+  DB.commandes=[
+    {id:1,date:today,t:'20:12',tbl:1,cvt:2,stat:'payé',items:[{pid:3,q:2},{pid:29,q:1}],total:52},
+    {id:2,date:today,t:'20:34',tbl:5,cvt:4,stat:'payé',items:[{pid:2,q:2},{pid:8,q:1},{pid:30,q:1},{pid:19,q:2}],total:80},
+    {id:3,date:today,t:'20:55',tbl:3,cvt:6,stat:'payé',items:[{pid:9,q:2},{pid:7,q:2},{pid:31,q:1},{pid:21,q:2}],total:120},
+    {id:4,date:today,t:'21:20',tbl:8,cvt:8,stat:'payé',items:[{pid:4,q:4},{pid:11,q:2},{pid:32,q:2},{pid:23,q:2}],total:200},
+    {id:5,date:today,t:'21:45',tbl:6,cvt:3,stat:'payé',items:[{pid:6,q:2},{pid:15,q:1},{pid:28,q:3}],total:70},
+    {id:6,date:today,t:'22:10',tbl:2,cvt:4,stat:'payé',items:[{pid:1,q:2},{pid:12,q:2},{pid:29,q:1},{pid:20,q:2}],total:100},
+  ];
+
+  DB.reservations=[
+    {id:1,date:today,h:'20:00',nom:'Famille Martin',cvt:4,stat:'confirmée'},
+    {id:2,date:today,h:'20:30',nom:'M. Dubois',cvt:2,stat:'confirmée'},
+    {id:3,date:today,h:'21:00',nom:'TechCorp',cvt:8,stat:'confirmée'},
+  ];
+
+  rapportJournalier();
+
+  // Restaurer après
+  setTimeout(()=>{
+    DB.ventes=savedVentes;
+    DB.commandes=savedCmds;
+  },500);
 }
 
 </script>
