@@ -14409,7 +14409,15 @@ function renderKDS(w){
 
     function kdsRefresh(){
       if(window.opener&&!window.opener.closed){
+        // Sauvegarder état son avant refresh
+        const wasEnabled=window._soundEnabled;
+        const savedCtx=window._audioCtx;
         window.opener.renderKDS(window);
+        // Restaurer état son après refresh
+        window._soundEnabled=wasEnabled;
+        window._audioCtx=savedCtx;
+        _soundEnabled=wasEnabled;
+        _audioCtx=savedCtx;
         // Détecter nouvelles commandes
         try{
           const cmds=window.opener.DB.commandes||[];
@@ -14439,14 +14447,31 @@ function renderKDS(w){
     // Auto-refresh rapide (3s)
     setInterval(kdsRefresh,3000);
     // Bouton activer son
-    let _audioCtx=null;
-    let _soundEnabled=false;
+    // Persister l'état son entre les refreshs
+    if(typeof window._audioCtx==='undefined') window._audioCtx=null;
+    if(typeof window._soundEnabled==='undefined') window._soundEnabled=false;
+    let _audioCtx=window._audioCtx;
+    let _soundEnabled=window._soundEnabled;
+    // Restaurer le bouton si son déjà activé
+    if(_soundEnabled){
+      document.addEventListener('DOMContentLoaded',()=>{
+        const btn=document.getElementById('kds-sound-btn');
+        if(btn){btn.textContent='🔊 Son ON';btn.style.background='rgba(46,204,113,.2)';btn.style.borderColor='rgba(46,204,113,.5)';btn.style.color='#2ecc71';}
+      });
+      // Restaurer immédiatement aussi
+      setTimeout(()=>{
+        const btn=document.getElementById('kds-sound-btn');
+        if(btn){btn.textContent='🔊 Son ON';btn.style.background='rgba(46,204,113,.2)';btn.style.borderColor='rgba(46,204,113,.5)';btn.style.color='#2ecc71';}
+      },50);
+    }
 
     function initAudio(){
       try{
         _audioCtx=new(window.AudioContext||window.webkitAudioContext)();
         if(_audioCtx.state==='suspended') _audioCtx.resume();
         _soundEnabled=true;
+        window._audioCtx=_audioCtx;
+        window._soundEnabled=true;
         playBeep(880,0.2,0.3);
         const btn=document.getElementById('kds-sound-btn');
         if(btn){btn.textContent='🔊 Son ON';btn.style.background='rgba(46,204,113,.2)';btn.style.borderColor='rgba(46,204,113,.5)';btn.style.color='#2ecc71';}
@@ -14483,9 +14508,53 @@ function renderKDS(w){
     }
   `;
 
-  w.document.open();
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cuisine — '+pNom+'</title><style>'+css+'</style></head><body>'+body+'<script>'+script+'<\/script></body></html>');
-  w.document.close();
+  // Si la fenêtre est déjà initialisée, juste mettre à jour le contenu
+  if(w._kdsInitialized){
+    const grid=w.document.getElementById('kds-grid-content');
+    if(grid) grid.innerHTML=body.replace(/<div class="kds-header">.*<\/div>\s*<div class="kds-grid">/s,'');
+    // Mettre à jour juste la grille et les compteurs
+    const parser=new w.DOMParser?w.DOMParser():null;
+    // Update simple: remplacer le body principal
+    const mainDiv=w.document.getElementById('kds-main');
+    if(mainDiv){
+      const tmp=w.document.createElement('div');
+      tmp.innerHTML=body;
+      mainDiv.innerHTML=tmp.querySelector('.kds-grid')?tmp.querySelector('.kds-grid').outerHTML:'';
+    }
+    // Update compteurs
+    const aP=(DB.commandes||[]).filter(c=>c.stat==='en-attente').length;
+    const enC=(DB.commandes||[]).filter(c=>c.stat==='en-cuisine').length;
+    const pr=(DB.commandes||[]).filter(c=>c.stat==='servi').length;
+    ['kds-count-prep','kds-count-cours','kds-count-pret'].forEach((id,i)=>{
+      const el=w.document.getElementById(id);
+      if(el) el.textContent=[aP,enC,pr][i];
+    });
+    return;
+  }
+  w._kdsInitialized=true;
+  // Ne réécrire que si première ouverture
+  if(!w._kdsReady){
+    w._kdsReady=true;
+    w.document.open();
+    w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cuisine — '+pNom+'</title><style>'+css+'</style></head><body><div id="kds-wrap">'+body+'</div><scr'+'ipt>'+script+'</scr'+'ipt></body></html>');
+    w.document.close();
+  } else {
+    // Mise à jour douce — seulement le wrap interne
+    const wrap=w.document.getElementById('kds-wrap');
+    if(wrap){
+      // Garder le son actif
+      const wasEnabled=w._soundEnabled;
+      const savedCtx=w._audioCtx;
+      wrap.innerHTML=body;
+      w._soundEnabled=wasEnabled;
+      w._audioCtx=savedCtx;
+      // Restaurer bouton
+      if(wasEnabled){
+        const btn=w.document.getElementById('kds-sound-btn');
+        if(btn){btn.textContent='🔊 Son ON';btn.style.background='rgba(46,204,113,.2)';btn.style.borderColor='rgba(46,204,113,.5)';btn.style.color='#2ecc71';}
+      }
+    }
+  }
 }
 
 
