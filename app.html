@@ -9542,6 +9542,11 @@ function renderRecents(){
     </div>`).join('');
 }
 function nav(name,el){
+  // Bloquer les employés non-admin — tablette uniquement
+  if(window._pinCurrentUser && window._pinCurrentUser.id !== 0 && name !== 'tablette'){
+    toast('⛔ Accès réservé à l\'administrateur','err');
+    return;
+  }
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
@@ -14783,8 +14788,20 @@ function pinEnter(welcomeEl){
   // Selon le rôle : Admin → dashboard, Employé → tablette serveur
   const u = _pinCurrentUser;
   if(u && u.id !== 0){
-    // Employé → tablette serveur directement
-    setTimeout(()=>nav('tablette', null), 450);
+    // Employé → tablette serveur directement + masquer sidebar
+    setTimeout(()=>{
+      nav('tablette', null);
+      const mobBtn=document.getElementById('mob-btn');
+      const sidebar=document.getElementById('sidebar');
+      if(mobBtn) mobBtn.style.display='none';
+      if(sidebar) sidebar.style.display='none';
+      // Badge mode serveur
+      const badge=document.createElement('div');
+      badge.id='serveur-badge';
+      badge.style.cssText='position:fixed;top:8px;right:12px;z-index:999;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:#c9a84c;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:.05em;pointer-events:none';
+      badge.textContent='🧑\u200d🍳 Mode Serveur — '+(u.prenom||u.nom);
+      document.body.appendChild(badge);
+    }, 450);
   } else {
     // Admin → dashboard normal
     if(u){
