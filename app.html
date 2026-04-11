@@ -14258,7 +14258,6 @@ function renderKDS(w){
   const pNom=document.getElementById('p-nom')?.value||'Chez Romu';
 
   // Commandes par colonne
-  console.log('[KDS] DB.commandes:', (DB.commandes||[]).length, (DB.commandes||[]).map(x=>x.stat));
   const aPrep=(DB.commandes||[]).filter(c=>c.stat==='en-attente').sort((a,b)=>a.id-b.id);
   const enCours=(DB.commandes||[]).filter(c=>c.stat==='en-cuisine').sort((a,b)=>a.id-b.id);
   const prets=(DB.commandes||[]).filter(c=>c.stat==='servi').sort((a,b)=>b.id-a.id).slice(0,8);
@@ -25180,79 +25179,112 @@ function activerModeDemo(){
   toast('🎭 Mode Démo lancé — le service tourne en automatique !','ok');
 
   // Scénario de service automatique
-  const t=today;
   const SCENARIO = [
-    // Commandes arrivent une par une avec son KDS
-    {delay:2000,  action:'nouvelle_cmd', tbl:1, cvt:2, stat:'en-attente', items:[{pid:3,q:2},{pid:29,q:1}], total:52.0, note:''},
+    // T1 arrive en-attente
+    {delay:2000,  action:'add_cmd', id:1, tbl:1, cvt:2, items:[{pid:3,q:2},{pid:29,q:1}], total:52.0, note:''},
     {delay:2100,  action:'notification', msg:'🆕 Table 1 — nouvelle commande !', type:'ok'},
     {delay:2200,  action:'kds_son', type:'new'},
 
-    {delay:5000,  action:'nouvelle_cmd', tbl:2, cvt:4, stat:'en-attente', items:[{pid:7,q:2},{pid:8,q:1},{pid:30,q:1}], total:102.0, note:'Sans gluten'},
+    // T2 arrive en-attente
+    {delay:5000,  action:'add_cmd', id:2, tbl:2, cvt:4, items:[{pid:7,q:2},{pid:8,q:1},{pid:30,q:1}], total:102.0, note:'Sans gluten'},
     {delay:5100,  action:'notification', msg:'🆕 Table 2 — nouvelle commande !', type:'ok'},
     {delay:5200,  action:'kds_son', type:'new'},
 
-    {delay:8000,  action:'cmd_update_last', offset:0, stat:'en-cuisine'},
+    // T1 passe en-cuisine
+    {delay:8000,  action:'set_stat', id:1, stat:'en-cuisine'},
     {delay:8100,  action:'notification', msg:'🔥 Table 1 — en cuisine !', type:'ok'},
     {delay:8200,  action:'kds_son', type:'cuisine'},
 
-    {delay:11000, action:'nouvelle_cmd', tbl:3, cvt:3, stat:'en-attente', items:[{pid:9,q:1},{pid:12,q:2}], total:94.0, note:''},
+    // T3 arrive en-attente
+    {delay:11000, action:'add_cmd', id:3, tbl:3, cvt:3, items:[{pid:9,q:1},{pid:12,q:2}], total:94.0, note:''},
     {delay:11100, action:'notification', msg:'🆕 Table 3 — nouvelle commande !', type:'ok'},
     {delay:11200, action:'kds_son', type:'new'},
 
-    {delay:14000, action:'cmd_update_last', offset:1, stat:'en-cuisine'},
+    // T2 passe en-cuisine
+    {delay:14000, action:'set_stat', id:2, stat:'en-cuisine'},
     {delay:14100, action:'notification', msg:'🔥 Table 2 — en cuisine !', type:'ok'},
     {delay:14200, action:'kds_son', type:'cuisine'},
 
-    {delay:17000, action:'cmd_update_last', offset:0, stat:'servi'},
+    // T1 prêt
+    {delay:17000, action:'set_stat', id:1, stat:'servi'},
     {delay:17100, action:'notification', msg:'✅ Table 1 — plats prêts !', type:'ok'},
     {delay:17200, action:'kds_son', type:'done'},
 
-    {delay:20000, action:'nouvelle_cmd', tbl:5, cvt:2, stat:'en-attente', items:[{pid:4,q:1},{pid:15,q:1}], total:36.0, note:'Allergie noix'},
+    // T5 arrive en-attente
+    {delay:20000, action:'add_cmd', id:4, tbl:5, cvt:2, items:[{pid:4,q:1},{pid:15,q:1}], total:36.0, note:'Allergie noix'},
     {delay:20100, action:'notification', msg:'🆕 Table 5 — commande reçue', type:'ok'},
     {delay:20200, action:'kds_son', type:'new'},
 
-    {delay:23000, action:'encaisse',     tbl:1, montant:52},
+    // T1 encaissée, table libérée
+    {delay:23000, action:'encaisse', tbl:1, montant:52},
     {delay:23100, action:'notification', msg:'💳 Table 1 encaissée — 52€', type:'ok'},
     {delay:23200, action:'kds_son', type:'encaisse'},
 
-    {delay:26000, action:'nouvelle_cmd', tbl:6, cvt:6, stat:'en-attente', items:[{pid:2,q:3},{pid:11,q:2}], total:115.0, note:''},
+    // T3 passe en-cuisine
+    {delay:25000, action:'set_stat', id:3, stat:'en-cuisine'},
+    {delay:25100, action:'kds_son', type:'cuisine'},
+
+    // T6 arrive en-attente
+    {delay:26000, action:'add_cmd', id:5, tbl:6, cvt:6, items:[{pid:2,q:3},{pid:11,q:2}], total:115.0, note:''},
     {delay:26100, action:'notification', msg:'🆕 Table 6 — grosse commande !', type:'warn'},
     {delay:26200, action:'kds_son', type:'new'},
 
-    {delay:29000, action:'cmd_update_last', offset:2, stat:'en-cuisine'},
-    {delay:29100, action:'kds_son', type:'new'},
+    // T5 passe en-cuisine
+    {delay:29000, action:'set_stat', id:4, stat:'en-cuisine'},
+    {delay:29100, action:'kds_son', type:'cuisine'},
 
-    {delay:32000, action:'cmd_update_last', offset:1, stat:'servi'},
+    // T2 prêt
+    {delay:32000, action:'set_stat', id:2, stat:'servi'},
     {delay:32100, action:'notification', msg:'✅ Table 2 — plats prêts !', type:'ok'},
     {delay:32200, action:'kds_son', type:'done'},
 
-    {delay:35000, action:'nouvelle_cmd', tbl:8, cvt:8, stat:'en-attente', items:[{pid:1,q:4},{pid:6,q:2}], total:62.0, note:'🎂 Anniversaire — surprise !'},
+    // T8 anniversaire en-attente
+    {delay:35000, action:'add_cmd', id:6, tbl:8, cvt:8, items:[{pid:1,q:4},{pid:6,q:2}], total:62.0, note:'🎂 Anniversaire — surprise !'},
     {delay:35100, action:'notification', msg:'🎂 Table 8 — anniversaire ! Préparez la surprise', type:'warn'},
     {delay:35200, action:'kds_son', type:'anniversaire'},
 
-    {delay:38000, action:'encaisse',     tbl:2, montant:102},
+    // T2 encaissée
+    {delay:38000, action:'encaisse', tbl:2, montant:102},
     {delay:38100, action:'notification', msg:'💳 Table 2 encaissée — 102€', type:'ok'},
     {delay:38200, action:'kds_son', type:'encaisse'},
 
-    {delay:41000, action:'cmd_update_last', offset:0, stat:'en-cuisine'},
-    {delay:41100, action:'kds_son', type:'new'},
+    // T6 passe en-cuisine
+    {delay:40000, action:'set_stat', id:5, stat:'en-cuisine'},
+    {delay:40100, action:'kds_son', type:'cuisine'},
 
-    {delay:44000, action:'cmd_update_last', offset:3, stat:'servi'},
+    // T8 passe en-cuisine
+    {delay:41000, action:'set_stat', id:6, stat:'en-cuisine'},
+    {delay:41100, action:'kds_son', type:'cuisine'},
+
+    // T3 prêt
+    {delay:44000, action:'set_stat', id:3, stat:'servi'},
     {delay:44100, action:'notification', msg:'✅ Table 3 — plats prêts !', type:'ok'},
     {delay:44200, action:'kds_son', type:'done'},
 
-    {delay:47000, action:'encaisse',     tbl:3, montant:94},
+    // T3 encaissée
+    {delay:47000, action:'encaisse', tbl:3, montant:94},
     {delay:47100, action:'notification', msg:'💳 Table 3 encaissée — 94€', type:'ok'},
     {delay:47200, action:'kds_son', type:'encaisse'},
 
-    {delay:50000, action:'cmd_update_last', offset:1, stat:'servi'},
+    // T5 prêt
+    {delay:50000, action:'set_stat', id:4, stat:'servi'},
     {delay:50100, action:'notification', msg:'✅ Table 5 — plats prêts !', type:'ok'},
     {delay:50200, action:'kds_son', type:'done'},
 
-    {delay:53000, action:'encaisse',     tbl:5, montant:36},
-    {delay:56000, action:'encaisse',     tbl:6, montant:115},
-    {delay:58000, action:'notification', msg:'🏆 Service excellent ! '+_demoCouverts+' couverts ce soir', type:'ok'},
-    {delay:59000, action:'confettis'},
+    // T6 prêt
+    {delay:53000, action:'set_stat', id:5, stat:'servi'},
+    {delay:53100, action:'kds_son', type:'done'},
+
+    // T5 encaissée
+    {delay:55000, action:'encaisse', tbl:5, montant:36},
+    {delay:55100, action:'kds_son', type:'encaisse'},
+
+    // T6 encaissée
+    {delay:57000, action:'encaisse', tbl:6, montant:115},
+    {delay:57100, action:'kds_son', type:'encaisse'},
+
+    {delay:59000, action:'notification', msg:'🏆 Service excellent ! '+_demoCouverts+' couverts ce soir', type:'ok'},
+    {delay:60000, action:'confettis'},
   ];
 
   // Lancer le scénario
@@ -25304,19 +25336,19 @@ function _demoExecuteStep(step){
       const ntbl=DB.tables.find(x=>x.id===step.tbl);
       if(ntbl){ ntbl.stat='occupe'; ntbl.cvt=step.cvt||2; saveDB(); }
       break;
-    case 'nouvelle_cmd':
-      const ncmd={id:DB.ids.c++,date:today,t:new Date().toTimeString().slice(0,5),tbl:step.tbl,cvt:step.cvt||2,stat:step.stat||'en-attente',note:step.note||'',items:step.items,total:step.total};
-      DB.commandes.push(ncmd);
+    case 'add_cmd':
+      // Ajouter commande avec ID fixe
+      DB.commandes=DB.commandes.filter(x=>x.id!==step.id);
+      DB.commandes.push({id:step.id,date:today,t:new Date().toTimeString().slice(0,5),tbl:step.tbl,cvt:step.cvt||2,stat:'en-attente',note:step.note||'',items:step.items,total:step.total});
+      DB.ids.c=Math.max(DB.ids.c,step.id+1);
       const ntbl2=DB.tables.find(x=>x.id===step.tbl);
       if(ntbl2) ntbl2.stat='occupe';
       saveDB();
       break;
-    case 'cmd_update_last':
-      // Met à jour la commande par position depuis la fin (offset 0 = dernière)
-      const actives=DB.commandes.filter(c=>c.stat!=='payé'&&c.stat!=='annulé');
-      const idx=actives.length-1-(step.offset||0);
-      if(actives[idx]) actives[idx].stat=step.stat;
-      saveDB();
+    case 'set_stat':
+      // Mettre à jour par ID fixe
+      const cmdById=DB.commandes.find(x=>x.id===step.id);
+      if(cmdById){ cmdById.stat=step.stat; saveDB(); }
       break;
     case 'kds_son':
       // Envoyer son au KDS si ouvert
