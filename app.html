@@ -14258,9 +14258,11 @@ function renderKDS(w){
   const pNom=document.getElementById('p-nom')?.value||'Chez Romu';
 
   // Commandes par colonne
+  console.log('[KDS] DB.commandes:', (DB.commandes||[]).length, (DB.commandes||[]).map(x=>x.stat));
   const aPrep=(DB.commandes||[]).filter(c=>c.stat==='en-attente').sort((a,b)=>a.id-b.id);
   const enCours=(DB.commandes||[]).filter(c=>c.stat==='en-cuisine').sort((a,b)=>a.id-b.id);
   const prets=(DB.commandes||[]).filter(c=>c.stat==='servi').sort((a,b)=>b.id-a.id).slice(0,8);
+  console.log('[KDS] prep:', aPrep.length, 'cuisine:', enCours.length, 'prets:', prets.length);
 
   const minutesAgo=(c)=>{
     let mins=0;
