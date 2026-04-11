@@ -4222,6 +4222,30 @@ tbody td { padding:13px 14px; font-size:13px; }
         </button>
       </div>
 
+      <!-- COMMANDES -->
+      <div class="dash-ac commandes" id="dash-ac-cmd" onclick="nav('salle',null)">
+        <div class="dash-ac-head">
+          <div class="dash-ac-ico">🧾</div>
+          <div class="dash-ac-badge neutral" id="dash-cmd-badge">—</div>
+        </div>
+        <div class="dash-ac-title">Commandes</div>
+        <div class="dash-ac-stats">
+          <div class="dash-ac-stat">
+            <span class="dash-ac-stat-lbl">En cours</span>
+            <span class="dash-ac-stat-val big" id="das-cmd-actif">—</span>
+          </div>
+          <div class="dash-ac-stat">
+            <span class="dash-ac-stat-lbl">En attente paie.</span>
+            <span class="dash-ac-stat-val orange" id="das-cmd-att">—</span>
+          </div>
+          <div class="dash-ac-stat">
+            <span class="dash-ac-stat-lbl">Payées auj.</span>
+            <span class="dash-ac-stat-val green" id="das-cmd-pay">—</span>
+          </div>
+        </div>
+        <button class="dash-ac-btn" onclick="event.stopPropagation();nav('salle',null);openModal('mo-commande')">
+          Prendre commande <span class="dash-ac-btn-arrow">›</span>
+        </button>
       </div>
 
       <!-- STOCKS -->
@@ -4300,16 +4324,6 @@ tbody td { padding:13px 14px; font-size:13px; }
         <div class="dash-vr-val" id="dvr-cli">—</div>
         <div class="dash-vr-sub" id="dvr-cli-sub">en salle</div>
       </div>
-    </div>
-
-    <!-- BOUTON MODE DÉMO -->
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button onclick="activerModeDemo()" style="display:flex;align-items:center;gap:8px;padding:11px 18px;border-radius:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:#c9a84c;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(201,168,76,.18)'" onmouseout="this.style.background='rgba(201,168,76,.1)'">
-        <span style="font-size:16px">🎭</span> Mode Démo — charger des données réalistes
-      </button>
-      <button onclick="rapportJournalier()" style="display:flex;align-items:center;gap:8px;padding:11px 18px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--sub);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
-        <span style="font-size:16px">📊</span> Rapport journalier
-      </button>
     </div>
 
     <!-- BAS : Commandes actives + Alertes -->
@@ -4419,6 +4433,7 @@ tbody td { padding:13px 14px; font-size:13px; }
     <span id="ps-res" style="display:none"></span>
     <span id="ps-ca" style="display:none"></span>
   </div>
+  <!-- COMMANDES -->
 
   <!-- CAISSE POS PREMIUM -->
   <div id="page-caisse" class="page">
@@ -9074,7 +9089,7 @@ function renderEtabSelector(){
 }
 
 // ═══ NAV ═══
-const TITLES={dash:'Dashboard',salle:'Plan de salle',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
+const TITLES={dash:'Dashboard',salle:'Plan de salle',commandes:'Commandes',caisse:'Caisse',menu:'Menu & Plats',reservations:'Réservations',stocks:'Stocks cuisine',personnel:'Personnel',fournisseurs:'Fournisseurs',finance:'Finance',rapports:'Rapports',params:'Paramètres',menuJour:'Menu du Jour',livraison:'Livraison',stats:'Stats mensuelles',configCaisse:'Config caisse',objectifs:'Objectifs',cmdFourn:'Commandes fournisseurs',modeServeur:'Mode serveur',fiches:'Fiches techniques',origine:'Origine produits',marges:'Analyse marges',avis:'Avis clients',acces:'Acces',frais:'Frais et Charges',presence:'Presence',dechets:'Dechets',haccp:'HACCP',banque:'Banque Pro',planning:'Planning visuel',location:'Location salle',etabs:'Etablissements',ecranClient:'Ecran client',qrmenu:'QR code menu',sauvegarde:'Sauvegarde',integrations:'Intégrations',documents:'Documents légaux',maintenance:'Maintenance équipements',incidents:'Registre des incidents',fidelite:'Carte de fidelite',budget:'Budget previsionnel',pourboires:'Pourboires',allergenes:'Allergenes',histoTables:'Historique tables',salaires:'Couts salariaux',paramsAvances:'Parametres avances',periodes:'Gestion des periodes',cloture:'Cloture de caisse',vip:'Clients VIP',carteOrigines:'Carte des origines',vocale:'Commande rapide',conges:'Conges et Absences','fiches-paie':'Fiches de paie',todo:'Taches et TODO',clients:'Clients',formation:'Formation équipe',carteEnLigne:'Carte & Menu en ligne'};
 let _recentPages=JSON.parse(localStorage.getItem('cr_recents')||'[]');
 function addRecent(name){
   if(name==='dash') return;
