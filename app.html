@@ -7016,12 +7016,13 @@ tbody td { padding:13px 14px; font-size:13px; }
     }
     .tsv-pcard:active{transform:scale(.9)}
     .tsv-pcard .pc-plate{
-      width:88px;height:88px;border-radius:50%;
+      width:92px;height:92px;border-radius:50%;
       background:linear-gradient(145deg,#2e3240,#1a1e2a);
-      border:4px solid rgba(255,255,255,.14);
+      border:4px solid rgba(255,255,255,.18);
       box-shadow:0 6px 22px rgba(0,0,0,.55),inset 0 2px 4px rgba(255,255,255,.09);
       display:flex;align-items:center;justify-content:center;
       font-size:38px;transition:all .18s;position:relative;flex-shrink:0;
+      overflow:hidden;
     }
     .tsv-pcard .pc-plate::before{
       content:'';position:absolute;inset:-7px;border-radius:50%;
@@ -24758,10 +24759,16 @@ function tsv_renderGrid(q=''){
   if(q) list=list.filter(p=>p.nom.toLowerCase().includes(q.toLowerCase()));
   const catCls=(cat)=>(TSV_CATS.find(c=>c.name===cat)||{cls:'cat-default'}).cls;
   if(!list.length){grid.innerHTML='<div style="grid-column:span 4;padding:30px;text-align:center;color:#3d4560;font-size:13px">Aucun plat</div>';return;}
+const CAT_BG={'Entrées':'linear-gradient(145deg,#1a3520,#0f2010)','Viandes':'linear-gradient(145deg,#3a1a12,#1e0e08)','Poissons':'linear-gradient(145deg,#0f2535,#081520)','Végétarien':'linear-gradient(145deg,#1a2e1a,#0f1e0f)','Plats':'linear-gradient(145deg,#2a1e10,#180f06)','Desserts':'linear-gradient(145deg,#2a1530,#150a1a)','Formules':'linear-gradient(145deg,#1a1a2e,#0f0f1a)','Boissons':'linear-gradient(145deg,#0f2028,#081218)','Vins':'linear-gradient(145deg,#2e1020,#180810)','Apéritifs':'linear-gradient(145deg,#2a1e08,#161006)'};
+    const PLAT_PHOTOS={1:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&q=70',2:'https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=200&q=70',3:'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=200&q=70',4:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=200&q=70',5:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&q=70',6:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&q=70',7:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=200&q=70',8:'https://images.unsplash.com/photo-1518492104633-130d0cc84637?w=200&q=70',9:'https://images.unsplash.com/photo-1558030006-450675393462?w=200&q=70',10:'https://images.unsplash.com/photo-1598103442097-8b74394b95c3?w=200&q=70',11:'https://images.unsplash.com/photo-1514516870897-e1abe057ca09?w=200&q=70',12:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200&q=70',13:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=200&q=70',14:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200&q=70',15:'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=200&q=70',16:'https://images.unsplash.com/photo-1619740455993-9d33a36b8d7a?w=200&q=70',17:'https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=200&q=70',18:'https://images.unsplash.com/photo-1607116667981-ff148a4e8e4a?w=200&q=70',19:'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=200&q=70',20:'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=200&q=70',21:'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=200&q=70',22:'https://images.unsplash.com/photo-1488477304112-4944851de03d?w=200&q=70',23:'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=200&q=70',24:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200&q=70',25:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=200&q=70',26:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=200&q=70',27:'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=200&q=70',28:'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=200&q=70',29:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=200&q=70',30:'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=200&q=70',31:'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=200&q=70',32:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=70',33:'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=200&q=70',34:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200&q=70',35:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200&q=70',36:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=200&q=70',37:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=200&q=70',38:'https://images.unsplash.com/photo-1544025162-d76694265947?w=200&q=70',39:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&q=70',40:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=200&q=70',41:'https://images.unsplash.com/photo-1528712306091-ed0763094c98?w=200&q=70',42:'https://images.unsplash.com/photo-1593001874117-c99c800e3eb0?w=200&q=70',43:'https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=200&q=70',44:'https://images.unsplash.com/photo-1535400255456-984b09c1e96e?w=200&q=70',45:'https://images.unsplash.com/photo-1548940740-204726a19be3?w=200&q=70',46:'https://images.unsplash.com/photo-1544025162-d76694265947?w=200&q=70',47:'https://images.unsplash.com/photo-1518492104633-130d0cc84637?w=200&q=70'};
   grid.innerHTML=list.map(p=>{
-    const ico=p.ico&&p.ico.length<=4?'🍽️':(p.ico||'🍽️');
+    const photo=PLAT_PHOTOS[p.id]||'';
+    const bg=CAT_BG[p.cat]||'linear-gradient(145deg,#1e2230,#111520)';
+    const plateStyle=photo?`background:${bg};background-image:url('${photo}');background-size:cover;background-position:center;font-size:0`:`background:${bg}`;
     return `<div class="tsv-pcard" onclick="tsv_addItem(${p.id})">
-      <div class="pc-plate">${ico}</div>
+      <div class="pc-plate" style="${plateStyle}">
+        ${photo?'':'🍽️'}
+      </div>
       <div class="pc-nom">${p.nom}</div>
       <div class="pc-prix">${tsv_eur(p.prix)}</div>
     </div>`;
