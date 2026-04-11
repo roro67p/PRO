@@ -11562,8 +11562,7 @@ function nav(name,el){
   // Accès libre - pas de restriction par rôle
   document.querySelectorAll('.page').forEach(p=>{
     p.classList.remove('active');
-    // Remettre display:none pour les pages spéciales
-    if(['page-tablette','page-caisseRapide','page-todo'].some(id=>p.id===id)) p.style.display='none';
+    p.style.display='none';
   });
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const pg = document.getElementById('page-'+name);
