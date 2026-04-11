@@ -14244,9 +14244,10 @@ setInterval(tick,1000); tick();
 function navKDS(){
   const w=window.open('','kds','width=1280,height=800');
   if(!w){toast('Autorisez les popups pour le mode cuisine','err');return;}
+  window._kdsWin=w;
   renderKDS(w);
   const iv=setInterval(()=>{
-    if(w.closed){clearInterval(iv);return;}
+    if(w.closed){clearInterval(iv);window._kdsWin=null;return;}
     renderKDS(w);
   },3000);
 }
@@ -14532,29 +14533,21 @@ function renderKDS(w){
     return;
   }
   w._kdsInitialized=true;
-  // Ne réécrire que si première ouverture
-  if(!w._kdsReady){
-    w._kdsReady=true;
-    w.document.open();
-    w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cuisine — '+pNom+'</title><style>'+css+'</style></head><body><div id="kds-wrap">'+body+'</div><scr'+'ipt>'+script+'</scr'+'ipt></body></html>');
-    w.document.close();
-  } else {
-    // Mise à jour douce — seulement le wrap interne
-    const wrap=w.document.getElementById('kds-wrap');
-    if(wrap){
-      // Garder le son actif
-      const wasEnabled=w._soundEnabled;
-      const savedCtx=w._audioCtx;
-      wrap.innerHTML=body;
-      w._soundEnabled=wasEnabled;
-      w._audioCtx=savedCtx;
-      // Restaurer bouton
-      if(wasEnabled){
-        const btn=w.document.getElementById('kds-sound-btn');
-        if(btn){btn.textContent='🔊 Son ON';btn.style.background='rgba(46,204,113,.2)';btn.style.borderColor='rgba(46,204,113,.5)';btn.style.color='#2ecc71';}
-      }
+  // Sauvegarder état son avant réécriture
+  const _wasSoundEnabled = w._soundEnabled || false;
+
+  w.document.open();
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cuisine — '+pNom+'</title><style>'+css+'</style></head><body>'+body+'<scr'+'ipt>'+script+'</scr'+'ipt></body></html>');
+  w.document.close();
+
+  // Restaurer état son après réécriture
+  setTimeout(()=>{
+    w._soundEnabled = _wasSoundEnabled;
+    if(_wasSoundEnabled){
+      const btn=w.document.getElementById('kds-sound-btn');
+      if(btn){btn.textContent='🔊 Son ON';btn.style.background='rgba(46,204,113,.2)';btn.style.borderColor='rgba(46,204,113,.5)';btn.style.color='#2ecc71';}
     }
-  }
+  },100);
 }
 
 
@@ -25275,6 +25268,8 @@ function _demoExecuteStep(step){
   try{ rDash(); }catch(e){}
   try{ rCmds(); }catch(e){}
   try{ rSalle(); }catch(e){}
+  // Refresh KDS si ouvert
+  try{ if(window._kdsWin&&!window._kdsWin.closed) renderKDS(window._kdsWin); }catch(e){}
 }
 
 let _demoNotifTimeout=null;
