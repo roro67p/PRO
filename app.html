@@ -25308,48 +25308,53 @@ function activerModeDemo(){
 }
 
 function _demoExecuteStep(step){
-  if(!_demoInterval && step.action !== 'notification') return; // démo stoppée
+  if(!_demoInterval && step.action !== 'notification') return;
   const today=td();
+  const hNow=new Date().toTimeString().slice(0,5);
   switch(step.action){
     case 'notification':
       toast(step.msg, step.type||'ok');
       _demoNotif(step.msg);
       break;
-    case 'cmd_update':
-      const cmd=DB.commandes.find(c=>c.id===step.id);
-      if(cmd){ cmd.stat=step.stat; saveDB(); }
+    case 'cmd_update': {
+      const _cu=DB.commandes.find(c=>c.id===step.id);
+      if(_cu){ _cu.stat=step.stat; saveDB(); }
       break;
-    case 'encaisse':
-      const t=DB.tables.find(x=>x.id===step.tbl);
-      if(t){ t.stat='libre'; }
+    }
+    case 'encaisse': {
+      const _et=DB.tables.find(x=>x.id===step.tbl);
+      if(_et){ _et.stat='libre'; }
       _demoCa+=step.montant;
       DB.ventes.push({id:DB.ids.v++,date:today,t:new Date().toTimeString().slice(0,5),tbl:'T'+step.tbl,cvt:2,ht:Math.round(step.montant/1.1*100)/100,ttc:step.montant,tva:Math.round(step.montant*0.0909*100)/100,mode:'CB'});
       saveDB();
       break;
-    case 'nouvelle_cmd':
+    }
+    case 'nouvelle_cmd': {
       DB.commandes.push({id:DB.ids.c++,date:today,t:new Date().toTimeString().slice(0,5),tbl:step.tbl,cvt:step.cvt,stat:'prise',note:step.note||'',items:step.items,total:step.total});
-      const nt=DB.tables.find(x=>x.id===step.tbl);
-      if(nt) nt.stat='occupe';
+      const _nt=DB.tables.find(x=>x.id===step.tbl);
+      if(_nt) _nt.stat='occupe';
       saveDB();
       break;
-    case 'nouvelle_table':
-      const ntbl=DB.tables.find(x=>x.id===step.tbl);
-      if(ntbl){ ntbl.stat='occupe'; ntbl.cvt=step.cvt||2; saveDB(); }
+    }
+    case 'nouvelle_table': {
+      const _ntbl=DB.tables.find(x=>x.id===step.tbl);
+      if(_ntbl){ _ntbl.stat='occupe'; _ntbl.cvt=step.cvt||2; saveDB(); }
       break;
-    case 'add_cmd':
-      // Ajouter commande avec ID fixe
+    }
+    case 'add_cmd': {
       DB.commandes=DB.commandes.filter(x=>x.id!==step.id);
-      DB.commandes.push({id:step.id,date:today,t:new Date().toTimeString().slice(0,5),tbl:step.tbl,cvt:step.cvt||2,stat:'en-attente',note:step.note||'',items:step.items,total:step.total});
+      DB.commandes.push({id:step.id,date:today,t:hNow,tbl:step.tbl,cvt:step.cvt||2,stat:'en-attente',note:step.note||'',items:step.items,total:step.total});
       DB.ids.c=Math.max(DB.ids.c,step.id+1);
-      const ntbl2=DB.tables.find(x=>x.id===step.tbl);
-      if(ntbl2) ntbl2.stat='occupe';
+      const _at=DB.tables.find(x=>x.id===step.tbl);
+      if(_at) _at.stat='occupe';
       saveDB();
       break;
-    case 'set_stat':
-      // Mettre à jour par ID fixe
-      const cmdById=DB.commandes.find(x=>x.id===step.id);
-      if(cmdById){ cmdById.stat=step.stat; saveDB(); }
+    }
+    case 'set_stat': {
+      const _ss=DB.commandes.find(x=>x.id===step.id);
+      if(_ss){ _ss.stat=step.stat; saveDB(); }
       break;
+    }
     case 'kds_son':
       // Envoyer son au KDS si ouvert
       try{
