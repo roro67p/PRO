@@ -11572,7 +11572,7 @@ function nav(name,el){
     // Pages avec display:none inline — forcer flex
     const flexPages = ['tablette','caisseRapide','todo'];
     if(flexPages.includes(name)) pg.style.display='flex';
-    else pg.style.display='';
+    else pg.style.display='block';
   }
   if(el)el.classList.add('active');
   (document.getElementById('pt')||{}).textContent=TITLES[name]||name;
