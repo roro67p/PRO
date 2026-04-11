@@ -11574,15 +11574,10 @@ function renderRecents(){
     </div>`).join('');
 }
 function nav(name,el){
-  // Bloquer les employés non-admin — tablette uniquement
-  const _allowedForServeur = ['tablette','salle','commandes','reservations'];
-  if(window._pinCurrentUser && window._pinCurrentUser.id !== 0 && !_allowedForServeur.includes(name)){
-    toast('⛔ Accès réservé à l\'administrateur','err');
-    return;
-  }
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>{ p.classList.remove('active'); p.style.display='none'; });
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+name)?.classList.add('active');
+  const _pg=document.getElementById('page-'+name);
+  if(_pg){ _pg.classList.add('active'); _pg.style.display=['tablette','caisseRapide','todo'].includes(name)?'flex':'block'; }
   if(el)el.classList.add('active');
   (document.getElementById('pt')||{}).textContent=TITLES[name]||name;
   openGrpFor(name);
@@ -18136,7 +18131,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Init récents
   setTimeout(renderRecents, 200);
   // Init écran PIN (désactivé - pour réactiver décommenter la ligne suivante)
-  // setTimeout(pinInit, 100);
+  // // pinInit désactivé
   const pinScr=document.getElementById('pin-screen');if(pinScr)pinScr.style.display='none';
   const rsDate = document.getElementById('rs-date');
   const rsHeure = document.getElementById('rs-heure');
@@ -29978,6 +29973,66 @@ function crPayer(mode){
   crShowCats();
   toast('✅ Encaissé '+crEur(total)+' — '+mode,'ok');
   rDash();
+}
+
+
+// ══ FONCTIONS MANQUANTES ══
+function rhSetFiltre(f,btn){
+  window._rhFilter=f;
+  document.querySelectorAll('.prs-f-btn').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  if(typeof rRh==='function')rRh();
+}
+function openAbsModal(empId){
+  const emp=(DB.personnel||[]).find(e=>e.id==empId);
+  if(!emp){toast('Employé introuvable','err');return;}
+  const existing=document.getElementById('abs-quick-modal');
+  if(existing)existing.remove();
+  const modal=document.createElement('div');
+  modal.id='abs-quick-modal';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center';
+  modal.innerHTML=`<div style="background:var(--ink3);border:1px solid var(--line2);border-radius:16px;padding:24px;width:340px;max-width:90vw">
+    <div style="font-size:16px;font-weight:700;color:var(--gold2);margin-bottom:16px">📅 Absence — ${emp.prenom} ${emp.nom}</div>
+    <div style="margin-bottom:12px"><div class="form-label">Type</div>
+    <select class="form-select" id="abs-type-sel">
+      <option value="maladie">🤒 Maladie</option>
+      <option value="conge">🏖️ Congé</option>
+      <option value="accident">🚑 Accident</option>
+      <option value="autre">📌 Autre</option>
+    </select></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div><div class="form-label">Du</div><input type="date" class="form-input" id="abs-date-start" value="${new Date().toISOString().split('T')[0]}"/></div>
+      <div><div class="form-label">Au</div><input type="date" class="form-input" id="abs-date-end" value="${new Date().toISOString().split('T')[0]}"/></div>
+    </div>
+    <div style="margin-bottom:16px"><div class="form-label">Note</div><input type="text" class="form-input" id="abs-note" placeholder="Optionnel..."/></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost" style="flex:1" onclick="document.getElementById('abs-quick-modal').remove()">Annuler</button>
+      <button class="btn btn-gold" style="flex:1" onclick="saveAbsQuick(${empId})">Enregistrer</button>
+    </div></div>`;
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+  document.body.appendChild(modal);
+}
+function saveAbsQuick(empId){
+  if(!DB.absences)DB.absences=[];
+  const type=document.getElementById('abs-type-sel')?.value||'autre';
+  const debut=document.getElementById('abs-date-start')?.value;
+  const fin=document.getElementById('abs-date-end')?.value;
+  const note=document.getElementById('abs-note')?.value||'';
+  if(!debut||!fin){toast('Dates requises','err');return;}
+  DB.absences.push({id:Date.now(),empId,type,debut,fin,note});
+  saveDB();
+  document.getElementById('abs-quick-modal')?.remove();
+  toast('Absence enregistrée ✅');
+  if(typeof rRh==='function')rRh();
+}
+function fiche_platChange(platId){
+  if(!platId)return;
+  const plat=(DB.plats||[]).find(p=>String(p.id)===String(platId));
+  if(!plat)return;
+  const nomField=document.getElementById('ficheM-nom');
+  if(nomField&&!nomField.value)nomField.value=plat.nom||'';
+  const idField=document.getElementById('ficheM-platId');
+  if(idField)idField.value=platId;
 }
 
 </script>
