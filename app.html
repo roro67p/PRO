@@ -7009,20 +7009,12 @@ tbody td { padding:13px 14px; font-size:13px; }
       align-content:start;
     }
     .tsv-pcard{
-      background:var(--s2);border:1px solid var(--br2);
-      border-radius:16px;
-      padding:12px 8px 12px;display:flex;flex-direction:column;
+      background:transparent;border:none;
+      padding:10px 4px 10px;display:flex;flex-direction:column;
       align-items:center;cursor:pointer;text-align:center;
       transition:all .18s;gap:8px;
-      position:relative;overflow:hidden;
-    }
-    .tsv-pcard::before{
-      content:'';position:absolute;inset:0;border-radius:16px;
-      opacity:.18;transition:opacity .2s;
-      background:var(--pcard-bg,transparent);
     }
     .tsv-pcard:active{transform:scale(.93)}
-    .tsv-pcard:active::before{opacity:.28}
     .tsv-pcard:active{transform:scale(.9)}
     .tsv-pcard .pc-plate{
       width:92px;height:92px;border-radius:50%;
