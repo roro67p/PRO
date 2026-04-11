@@ -10407,7 +10407,45 @@ function loadDB(){
     // Migration: clients pour utilisateurs existants
     if(!DB.clients) DB.clients=[];
     if(!DB.ids.cl) DB.ids.cl=1;
+    // Migration: photos et emojis sur les plats
+    migratePhotosPlats();
   }catch(e){}
+}
+
+function migratePhotosPlats(){
+  const CAT_EMOJI={
+    'Entrées':'🥗','Viandes':'🥩','Poissons':'🐟','Desserts':'🍮',
+    'Vins':'🍷','Boissons':'🥤','Apéritifs':'🥂','Formules':'🍽️',
+    'Végétarien':'🥦','Plats':'🍲','Accompagnements':'🍟'
+  };
+  const CAT_PHOTO={
+    'Entrées':'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',
+    'Viandes':'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',
+    'Poissons':'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',
+    'Desserts':'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',
+    'Vins':'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',
+    'Boissons':'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',
+    'Apéritifs':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+    'Formules':'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80',
+    'Végétarien':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',
+    'Plats':'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',
+    'Accompagnements':'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80'
+  };
+  const OLD_CODES=['ENT','VIA','POI','DES','VIN','BOI','APE','FOR','VEG','PLA','ACC'];
+  let changed=false;
+  (DB.plats||[]).forEach(p=>{
+    // Corriger l'emoji si c'est encore un code texte
+    if(OLD_CODES.includes(p.ico)){
+      p.ico=CAT_EMOJI[p.cat]||'🍽️';
+      changed=true;
+    }
+    // Ajouter photo si manquante
+    if(!p.photo&&p.cat){
+      p.photo=CAT_PHOTO[p.cat]||'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80';
+      changed=true;
+    }
+  });
+  if(changed) saveDB();
 }
 function saveEtabs(){
   localStorage.setItem('maison_etabs',JSON.stringify(DB_ETABS));
@@ -11868,8 +11906,8 @@ function rMenu(){
     const isTop=topVendu&&topVendu.id===p.id;
     const isMarge=topMarge&&topMarge.id===p.id;
     const photoHtml=p.photo
-      ?`<img loading="lazy" class="mn2-gcard-photo" src="${p.photo}" alt="${p.nom}" onerror="this.outerHTML='<div class=\'mn2-gcard-photo-placeholder\'>${p.ico||'🍽️'}</div>'">`
-      :`<div class="mn2-gcard-photo-placeholder">${p.ico||'🍽️'}</div>`;
+      ?`<img loading="lazy" class="mn2-gcard-photo" src="${p.photo}" alt="${p.nom}" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=\'mn2-gcard-photo-placeholder\'>'+(p&&p.ico?p.ico:'🍽️')+'</div>')">`
+      :`<div class="mn2-gcard-photo-placeholder">${p.ico&&p.ico.length<=2?p.ico:'🍽️'}</div>`;
     return `<div class="mn2-gcard${p.dispo==='indispo'?' indispo':''}" style="animation-delay:${i*.03}s">
       ${photoHtml}
       ${p.vendu>0?`<div class="mn2-gcard-vendu">🔥 ${p.vendu}</div>`:''}
@@ -11901,9 +11939,10 @@ function rMenu(){
     const mc=m>=60?'#6fcf8a':m>=40?'var(--gold2)':'#f07060';
     const isTop=topVendu&&topVendu.id===p.id;
     const isMarge=topMarge&&topMarge.id===p.id;
+    const safeIco=p.ico&&p.ico.length<=2?p.ico:'🍽️';
     const icoHtml=p.photo
-      ?`<div class="mn2-ico"><img loading="lazy" src="${p.photo}" alt="${p.nom}" onerror="this.parentElement.innerHTML='${p.ico||'🍽️'}'"/></div>`
-      :`<div class="mn2-ico" style="font-size:22px">${p.ico||'🍽️'}</div>`;
+      ?`<div class="mn2-ico"><img loading="lazy" src="${p.photo}" alt="${p.nom}" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:22px\'>${safeIco}</span>'"/></div>`
+      :`<div class="mn2-ico" style="font-size:22px">${safeIco}</div>`;
     return `<div class="mn2-card ${p.dispo||'dispo'}" id="mn2-card-${p.id}" style="animation-delay:${i*.02}s">
       ${icoHtml}
       <div class="mn2-info">
@@ -16981,8 +17020,9 @@ document.addEventListener('DOMContentLoaded', function(){
   }, 300);
   // Init récents
   setTimeout(renderRecents, 200);
-  // Init écran PIN
-  setTimeout(pinInit, 100);
+  // Init écran PIN (désactivé - pour réactiver décommenter la ligne suivante)
+  // setTimeout(pinInit, 100);
+  const pinScr=document.getElementById('pin-screen');if(pinScr)pinScr.style.display='none';
   const rsDate = document.getElementById('rs-date');
   const rsHeure = document.getElementById('rs-heure');
   if(rsDate) rsDate.value=td();
