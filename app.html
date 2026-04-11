@@ -403,6 +403,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 ═══════════════════════════════════════ */
 
 /* ── ANIMATIONS GLOBALES ── */
+@keyframes cuisine-pulse{0%,100%{opacity:1}50%{opacity:.4;color:#ff0000}}
 @keyframes urgentPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,120,48,.4)}50%{box-shadow:0 0 0 6px rgba(201,120,48,.0)}}
 @keyframes retardBlink{0%,100%{opacity:1}50%{opacity:.55}}
 @keyframes statusChange{0%{transform:scale(1.05);filter:brightness(1.3)}100%{transform:scale(1);filter:brightness(1)}}
@@ -2016,7 +2017,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 .dash-cmd-stat{font-size:9px;font-weight:800;text-transform:uppercase;padding:2px 8px;border-radius:10px;border:1px solid}
 .dash-cmd-stat.paye{color:#6fcf8a;border-color:rgba(61,122,78,.3);background:rgba(61,122,78,.1)}
 .dash-cmd-stat.attente{color:var(--amber);border-color:rgba(201,151,58,.3);background:rgba(201,151,58,.08)}
-.dash-cmd-stat.cuisine{color:#f07060;border-color:rgba(181,57,42,.3);background:rgba(181,57,42,.08)}
+.dash-cmd-stat.cuisine{color:#ff3322;border-color:rgba(255,51,34,.5);background:rgba(255,51,34,.12);animation:cuisine-pulse 1.2s ease-in-out infinite;font-weight:900}
 .dash-cmd-montant{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold2)}
 
 /* ══ SALLE ══ */
@@ -3099,8 +3100,8 @@ tbody td { padding:13px 14px; font-size:13px; }
 .cmd3-stat{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;border:1px solid;white-space:nowrap}
 .cmd3-stat.paye{color:#6fcf8a;background:rgba(61,122,78,.1);border-color:rgba(61,122,78,.25)}
 .cmd3-stat.attente{color:var(--amber);background:rgba(201,151,58,.1);border-color:rgba(201,151,58,.25)}
-.cmd3-stat.cuisine{color:#f07060;background:rgba(181,57,42,.1);border-color:rgba(181,57,42,.25)}
-.cmd3-stat.servi{color:#6aacda;background:rgba(45,95,138,.1);border-color:rgba(45,95,138,.25)}
+.cmd3-stat.cuisine{color:#ff3322;border-color:rgba(255,51,34,.5);background:rgba(255,51,34,.12);animation:cuisine-pulse 1.1s ease-in-out infinite;font-weight:900}
+.cmd3-stat.servi{color:#4ec9a0;border-color:rgba(78,201,160,.4);background:rgba(78,201,160,.1);font-weight:800}
 .cmd3-stat.annule{color:rgba(240,112,96,.5);background:rgba(181,57,42,.06);border-color:rgba(181,57,42,.15)}
 .cmd3-detail{background:var(--ink2);border:1px solid rgba(201,151,58,.18);border-radius:14px;padding:18px;position:sticky;top:0;height:fit-content;animation:cmdIn .2s ease;position:relative;overflow:hidden}
 .cmd3-detail::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold2),transparent)}
@@ -5107,6 +5108,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" onclick="nav('incidents',this)"><span class="ni-ico">⚠️</span>Registre incidents</div>
       <div class="nav-item" onclick="nav('sauvegarde',this)"><span class="ni-ico">💾</span>Sauvegarde</div>
       <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
+      <div class="nav-item" onclick="activerModeDemo()" style="color:#c9a84c"><span class="ni-ico">🎭</span>Mode Démo</div>
     </div>
   </div>
 
@@ -5186,6 +5188,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       </div>
       <div class="actions-card">
         <div class="actions-title">Actions rapides</div>
+        <button class="action-btn" style="background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.4)" onclick="activerModeDemo()"><div class="action-btn-ico">🎭</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9a84c">Mode Démo</div><div class="action-btn-sub">Charger données réalistes</div></div><span class="action-btn-arrow" style="color:#c9a84c">›</span></button>
         <button class="action-btn action-cmd" onclick="nav('commandes',null);openModal('mo-commande')"><div class="action-btn-ico">📋</div><div class="action-btn-info"><div class="action-btn-lbl">Nouvelle commande</div><div class="action-btn-sub">Saisir une commande table</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-caisse" onclick="nav('caisse',null)"><div class="action-btn-ico">💳</div><div class="action-btn-info"><div class="action-btn-lbl">Ouvrir la caisse</div><div class="action-btn-sub">Encaissement & tickets</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-salle" onclick="nav('salle',null)"><div class="action-btn-ico">🗺️</div><div class="action-btn-info"><div class="action-btn-lbl">Voir la salle</div><div class="action-btn-sub">Plan des tables en temps réel</div></div><span class="action-btn-arrow">›</span></button>
@@ -9543,7 +9546,8 @@ function renderRecents(){
 }
 function nav(name,el){
   // Bloquer les employés non-admin — tablette uniquement
-  if(window._pinCurrentUser && window._pinCurrentUser.id !== 0 && name !== 'tablette'){
+  const _allowedForServeur = ['tablette','salle','commandes','reservations'];
+  if(window._pinCurrentUser && window._pinCurrentUser.id !== 0 && !_allowedForServeur.includes(name)){
     toast('⛔ Accès réservé à l\'administrateur','err');
     return;
   }
@@ -10519,8 +10523,8 @@ function rCmds(){
   if(g('cmd3-list-count')) g('cmd3-list-count').textContent=`${list.length} commande(s)`;
   if(g('cmd3-sort-lbl')) g('cmd3-sort-lbl').textContent=_cmd3Sort==='desc'?'↓ Récent':'↑ Ancien';
 
-  const statMap={'en-attente':'attente','en-cuisine':'cuisine','servi':'attente','payé':'paye','annulé':'annule'};
-  const statLbl={'en-attente':'⏳ Attente','en-cuisine':'🔥 Cuisine','servi':'🍽 Servi','payé':'✓ Payé','annulé':'✕ Annulé'};
+  const statMap={'en-attente':'attente','en-cuisine':'cuisine','servi':'servi','payé':'paye','annulé':'annule','prise':'attente'};
+  const statLbl={'en-attente':'⏳ En attente','en-cuisine':'🔥 En cuisine','servi':'🍽️ Servi','payé':'✓ Payé','annulé':'✕ Annulé','prise':'📝 Prise'};
   const listEl=g('cmd3-list');
   if(listEl){
     if(!list.length){
@@ -14244,7 +14248,7 @@ function navKDS(){
   const iv=setInterval(()=>{
     if(w.closed){clearInterval(iv);return;}
     renderKDS(w);
-  },8000);
+  },3000);
 }
 
 function renderKDS(w){
@@ -14379,7 +14383,10 @@ function renderKDS(w){
 
   const body=`
     <div class="kds-header">
-      <div class="kds-logo">◈ ${pNom} — Cuisine</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="kds-logo">◈ ${pNom} — Cuisine</div>
+        <button id="kds-sound-btn" onclick="initAudio()" style="padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#888;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s">🔇 Activer le son</button>
+      </div>
       <div class="kds-clock" id="kds-clock">${timeStr}</div>
       <div class="kds-totals">
         <div class="kds-total-item prep"><div class="kds-total-val">${aPrep.length}</div><div class="kds-total-lbl">À préparer</div></div>
@@ -14395,15 +14402,85 @@ function renderKDS(w){
   `;
 
   const script=`
-    function kdsRefresh(){if(window.opener&&!window.opener.closed){window.opener.renderKDS(window);}else{location.reload();}}
-    function kdsAction(id,action){if(window.opener&&window.opener.kdsAction){window.opener.kdsAction(id,action);setTimeout(kdsRefresh,200);}else{alert('Fenêtre parente fermée — actualisez');}}
+
+
+    let _prevCmdIds=[];
+    let _prevUrgentIds=[];
+
+    function kdsRefresh(){
+      if(window.opener&&!window.opener.closed){
+        window.opener.renderKDS(window);
+        // Détecter nouvelles commandes
+        try{
+          const cmds=window.opener.DB.commandes||[];
+          const newPrep=cmds.filter(c=>c.stat==='en-attente').map(c=>c.id);
+          const newUrgent=cmds.filter(c=>c.stat==='en-cuisine'&&window.opener.getOrderAlertClass(c).includes('urgent')).map(c=>c.id);
+          const added=newPrep.filter(id=>!_prevCmdIds.includes(id));
+          const urgent=newUrgent.filter(id=>!_prevUrgentIds.includes(id));
+          if(added.length) playSound('new');
+          else if(urgent.length) playSound('urgent');
+          _prevCmdIds=newPrep;
+          _prevUrgentIds=newUrgent;
+        }catch(e){}
+      }else{location.reload();}
+    }
+    function kdsAction(id,action){
+      if(window.opener&&window.opener.kdsAction){
+        window.opener.kdsAction(id,action);
+        playSound('done');
+        setTimeout(kdsRefresh,300);
+      }else{alert('Fenêtre parente fermée — actualisez');}
+    }
     // Horloge live
     setInterval(()=>{
       const el=document.getElementById('kds-clock');
       if(el) el.textContent=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
     },1000);
-    // Auto-refresh
-    setInterval(kdsRefresh,10000);
+    // Auto-refresh rapide (3s)
+    setInterval(kdsRefresh,3000);
+    // Bouton activer son
+    let _audioCtx=null;
+    let _soundEnabled=false;
+
+    function initAudio(){
+      try{
+        _audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+        if(_audioCtx.state==='suspended') _audioCtx.resume();
+        _soundEnabled=true;
+        playBeep(880,0.2,0.3);
+        const btn=document.getElementById('kds-sound-btn');
+        if(btn){btn.textContent='🔊 Son ON';btn.style.background='rgba(46,204,113,.2)';btn.style.borderColor='rgba(46,204,113,.5)';btn.style.color='#2ecc71';}
+      }catch(e){console.log('Audio error:',e);}
+    }
+
+    function playBeep(freq,vol,dur){
+      if(!_audioCtx||!_soundEnabled) return;
+      try{
+        const osc=_audioCtx.createOscillator();
+        const gain=_audioCtx.createGain();
+        osc.connect(gain);gain.connect(_audioCtx.destination);
+        osc.type='sine';
+        osc.frequency.value=freq;
+        gain.gain.setValueAtTime(vol,_audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001,_audioCtx.currentTime+dur);
+        osc.start(_audioCtx.currentTime);
+        osc.stop(_audioCtx.currentTime+dur);
+      }catch(e){}
+    }
+
+    function playSound(type){
+      if(!_soundEnabled) return;
+      if(type==='new'){
+        playBeep(880,0.3,0.1);
+        setTimeout(()=>playBeep(1100,0.3,0.1),120);
+        setTimeout(()=>playBeep(1320,0.3,0.2),240);
+      } else if(type==='done'){
+        playBeep(660,0.25,0.15);
+        setTimeout(()=>playBeep(880,0.25,0.2),160);
+      } else if(type==='urgent'){
+        [0,220,440].forEach(t=>setTimeout(()=>playBeep(440,0.4,0.15),t));
+      }
+    }
   `;
 
   w.document.open();
@@ -14793,8 +14870,23 @@ function pinEnter(welcomeEl){
       nav('tablette', null);
       const mobBtn=document.getElementById('mob-btn');
       const sidebar=document.getElementById('sidebar');
-      if(mobBtn) mobBtn.style.display='none';
-      if(sidebar) sidebar.style.display='none';
+      // Garder le bouton menu mais filtrer les nav items
+      if(sidebar){
+        const allowed=['tablette','salle','commandes','reservations'];
+        sidebar.querySelectorAll('.nav-item').forEach(item=>{
+          const onclick=item.getAttribute('onclick')||'';
+          const match=onclick.match(/nav\('([^']+)'/);
+          const page=match?match[1]:'';
+          if(page && !allowed.includes(page)){
+            item.style.display='none';
+          }
+        });
+        // Masquer les groupes vides
+        sidebar.querySelectorAll('.sb-group').forEach(grp=>{
+          const visible=[...grp.querySelectorAll('.nav-item')].filter(i=>i.style.display!=='none');
+          if(!visible.length) grp.style.display='none';
+        });
+      }
       // Badge mode serveur
       const badge=document.createElement('div');
       badge.id='serveur-badge';
@@ -24584,27 +24676,41 @@ function animatePage(container){
 // ── BADGE URGENT / RETARD / NOUVEAU sur commandes ──
 function getOrderBadge(commande){
   if(!commande) return '';
+  // Ne pas afficher urgent/retard sur commandes terminées
+  if(['payé','annulé','servi'].includes(commande.stat)) return '';
   const now=Date.now();
-  const created=commande.ts||commande.id||now;
-  const age=Math.round((now-created)/60000); // minutes
-  if(commande.statut==='urgent'||age>25)
-    return '<span class="badge-urgent">Urgent</span>';
-  if(age>15)
-    return '<span class="badge-retard">En retard</span>';
-  if(age<3)
-    return '<span class="badge-nouveau">Nouveau</span>';
+  // Calculer l'âge depuis l'heure de la commande (format HH:MM)
+  let age=0;
+  if(commande.t){
+    const [h,m]=(commande.t||'').split(':').map(Number);
+    const today=new Date();
+    const cmdTime=new Date(today.getFullYear(),today.getMonth(),today.getDate(),h||0,m||0);
+    age=Math.round((now-cmdTime.getTime())/60000);
+  }
+  if(commande.prio==='urgente'||(commande.stat==='en-cuisine'&&age>30))
+    return '<span class="badge-urgent">⚡ Urgent</span>';
+  if(commande.stat==='en-cuisine'&&age>15)
+    return '<span class="badge-retard">⏰ Retard</span>';
+  if(age<5)
+    return '<span class="badge-nouveau">🆕 Nouveau</span>';
   return '';
 }
 
 // ── CLASSES ALERTE SUR LES LIGNES DE COMMANDES ──
 function getOrderAlertClass(commande){
   if(!commande) return '';
+  if(['payé','annulé','servi'].includes(commande.stat)) return '';
   const now=Date.now();
-  const created=commande.ts||commande.id||now;
-  const age=Math.round((now-created)/60000);
-  if(commande.statut==='urgent'||age>25) return 'cmd-urgent';
-  if(age>15) return 'cmd-late';
-  if(age<3) return 'cmd-new';
+  let age=0;
+  if(commande.t){
+    const [h,m]=(commande.t||'').split(':').map(Number);
+    const today=new Date();
+    const cmdTime=new Date(today.getFullYear(),today.getMonth(),today.getDate(),h||0,m||0);
+    age=Math.round((now-cmdTime.getTime())/60000);
+  }
+  if(commande.prio==='urgente'||(commande.stat==='en-cuisine'&&age>30)) return 'cmd-urgent';
+  if(commande.stat==='en-cuisine'&&age>15) return 'cmd-late';
+  if(age<5) return 'cmd-new';
   return '';
 }
 
@@ -24935,6 +25041,295 @@ function tsv_encaisser(){
   const e4=document.getElementById('tsv-tp-timer');if(e4)e4.textContent='00:00';
   tsv_renderChips();tsv_renderTicket();toast('💳 Table encaissée !','ok');
 }
+
+// ═══════════════════════════════════════
+// MODE DÉMO VIVANT — service automatique
+// ═══════════════════════════════════════
+let _demoInterval = null;
+let _demoStep = 0;
+let _demoCa = 0;
+let _demoCouverts = 0;
+let _demoStartTime = null;
+
+function activerModeDemo(){
+  // Stopper si déjà actif
+  if(_demoInterval){ desactiverModeDemo(); return; }
+
+  _demoStep = 0;
+  _demoCa = 380;
+  _demoCouverts = 18;
+  _demoStartTime = Date.now();
+
+  const today = td();
+
+  // Init tables
+  DB.tables.forEach(t=>t.stat='libre');
+  [[1,'occupe'],[2,'occupe'],[3,'occupe'],[5,'occupe'],[6,'occupe'],[8,'occupe'],[9,'occupe'],[4,'reservee']].forEach(([id,s])=>{
+    const t=DB.tables.find(x=>x.id===id);if(t)t.stat=s;
+  });
+
+  // Init ventes midi
+  DB.ventes=[
+    {id:1,date:today,t:'12:15',tbl:'T3',cvt:2,ht:31.8,ttc:35.0,tva:3.2,mode:'CB'},
+    {id:2,date:today,t:'12:30',tbl:'T5',cvt:4,ht:72.7,ttc:80.0,tva:7.3,mode:'CB'},
+    {id:3,date:today,t:'12:45',tbl:'T7',cvt:2,ht:40.9,ttc:45.0,tva:4.1,mode:'Espèces'},
+    {id:4,date:today,t:'13:10',tbl:'T2',cvt:3,ht:54.5,ttc:60.0,tva:5.5,mode:'CB'},
+    {id:5,date:today,t:'13:30',tbl:'T10',cvt:6,ht:109.1,ttc:120.0,tva:10.9,mode:'CB'},
+    {id:6,date:today,t:'13:55',tbl:'T4',cvt:2,ht:36.4,ttc:40.0,tva:3.6,mode:'Espèces'},
+  ];
+  DB.ids.v=7;
+
+  // Init commandes
+  DB.commandes=[
+    {id:1,date:today,t:'19:05',tbl:1,cvt:2,stat:'servi',note:'',items:[{pid:3,q:2},{pid:29,q:1}],total:52.0},
+    {id:2,date:today,t:'19:12',tbl:2,cvt:4,stat:'en-cuisine',note:'Sans gluten',items:[{pid:7,q:2},{pid:8,q:1},{pid:30,q:1}],total:102.0},
+    {id:3,date:today,t:'19:20',tbl:3,cvt:3,stat:'en-attente',note:'',items:[{pid:9,q:1},{pid:12,q:2}],total:94.0},
+    {id:4,date:today,t:'19:28',tbl:5,cvt:2,stat:'prise',note:'Allergie noix',items:[{pid:4,q:1},{pid:15,q:1}],total:36.0},
+    {id:5,date:today,t:'19:35',tbl:6,cvt:6,stat:'en-cuisine',note:'',items:[{pid:2,q:3},{pid:11,q:2}],total:115.0},
+    {id:6,date:today,t:'19:42',tbl:8,cvt:8,stat:'prise',note:'Anniversaire',items:[{pid:1,q:4},{pid:6,q:2}],total:62.0},
+    {id:7,date:today,t:'19:50',tbl:9,cvt:4,stat:'en-attente',note:'',items:[{pid:16,q:2},{pid:17,q:1}],total:51.0},
+  ];
+  DB.ids.c=8;
+
+  // Réservations
+  DB.reservations=[
+    {id:1,date:today,h:'20:00',nom:'Famille Martin',tel:'06 12 34 56 78',cvt:4,tbl:4,stat:'confirmée',note:'Anniversaire'},
+    {id:2,date:today,h:'20:15',nom:'M. Dubois',tel:'06 98 76 54 32',cvt:2,tbl:11,stat:'confirmée',note:''},
+    {id:3,date:today,h:'20:30',nom:'TechCorp',tel:'04 72 00 11 22',cvt:8,tbl:8,stat:'confirmée',note:'Dîner d\'affaires'},
+    {id:4,date:today,h:'21:00',nom:'Mme Lefebvre',tel:'06 55 44 33 22',cvt:3,tbl:7,stat:'en attente',note:'Végétarien x2'},
+  ];
+  DB.ids.r=5;
+
+  saveDB(); rDash();
+
+  // Ouvrir le KDS automatiquement
+  setTimeout(()=>{
+    if(confirm('🍳 Ouvrir l\'écran cuisine KDS pour la démo ?')){
+      navKDS();
+    }
+  },1000);
+
+  // Banner
+  const old=document.getElementById('demo-banner');if(old)old.remove();
+  const banner=document.createElement('div');
+  banner.id='demo-banner';
+  banner.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;background:linear-gradient(135deg,#c9a84c,#a8861e);color:#000;font-size:12px;font-weight:800;padding:8px 20px;border-radius:20px;box-shadow:0 4px 20px rgba(201,168,76,.4);letter-spacing:.05em;cursor:pointer';
+  banner.innerHTML='🎭 MODE DÉMO ACTIF — <span id="demo-ca">'+_demoCa+'</span>€ CA · <span id="demo-cvt">'+_demoCouverts+'</span> cvts';
+  banner.onclick=desactiverModeDemo;
+  banner.title='Cliquer pour désactiver';
+  document.body.appendChild(banner);
+
+  toast('🎭 Mode Démo lancé — le service tourne en automatique !','ok');
+
+  // Scénario de service automatique
+  const SCENARIO = [
+    {delay:4000,  action:'notification', msg:'🛎️ Table 3 — commande envoyée en cuisine', type:'ok'},
+    {delay:7000,  action:'cmd_update',   id:3, stat:'en-cuisine'},
+    {delay:10000, action:'notification', msg:'✅ Table 1 — plats servis', type:'ok'},
+    {delay:12000, action:'cmd_update',   id:2, stat:'servi'},
+    {delay:15000, action:'notification', msg:'💳 Table 1 — encaissement 52€', type:'ok'},
+    {delay:17000, action:'encaisse',     tbl:1, montant:52},
+    {delay:20000, action:'nouvelle_cmd', tbl:10, cvt:2, items:[{pid:5,q:2},{pid:28,q:2}], total:24.6, note:''},
+    {delay:22000, action:'notification', msg:'🆕 Table 10 — nouvelle commande arrivée', type:'warn'},
+    {delay:25000, action:'cmd_update',   id:4, stat:'en-cuisine'},
+    {delay:28000, action:'notification', msg:'🔥 Table 5 & 6 — en cuisine', type:'ok'},
+    {delay:30000, action:'cmd_update',   id:5, stat:'servi'},
+    {delay:33000, action:'cmd_update',   id:6, stat:'en-cuisine'},
+    {delay:35000, action:'notification', msg:'🎂 Table 8 — anniversaire ! Préparer la surprise', type:'warn'},
+    {delay:38000, action:'encaisse',     tbl:2, montant:102},
+    {delay:40000, action:'notification', msg:'💳 Table 2 — encaissement 102€', type:'ok'},
+    {delay:42000, action:'nouvelle_table', tbl:11, cvt:2},
+    {delay:44000, action:'notification', msg:'🪑 Table 11 — nouveaux clients installés', type:'ok'},
+    {delay:47000, action:'cmd_update',   id:7, stat:'en-cuisine'},
+    {delay:50000, action:'notification', msg:'⏰ Table 3 — en salle depuis 45 min', type:'warn'},
+    {delay:53000, action:'encaisse',     tbl:3, montant:94},
+    {delay:55000, action:'notification', msg:'💳 Table 3 — encaissement 94€ · CA: '+(_demoCa+94)+'€', type:'ok'},
+    {delay:58000, action:'cmd_update',   id:5, stat:'servi'},
+    {delay:61000, action:'notification', msg:'🏆 Service excellent ! '+_demoCouverts+' couverts ce soir', type:'ok'},
+    {delay:62000, action:'confettis'},
+  ];
+
+  // Lancer le scénario
+  SCENARIO.forEach(step => {
+    setTimeout(()=>_demoExecuteStep(step), step.delay);
+  });
+
+  // Ticker CA en temps réel (toutes les 8s)
+  _demoInterval = setInterval(()=>{
+    _demoCa += Math.floor(Math.random()*15+5);
+    _demoCouverts += Math.random()>0.7?2:0;
+    const caEl=document.getElementById('demo-ca');
+    const cvtEl=document.getElementById('demo-cvt');
+    if(caEl) caEl.textContent=_demoCa;
+    if(cvtEl) cvtEl.textContent=_demoCouverts;
+    // Refresh toutes les vues
+    try{ rDash(); }catch(e){}
+    try{ rCmds(); }catch(e){}
+    try{ rSalle(); }catch(e){}
+  }, 8000);
+}
+
+function _demoExecuteStep(step){
+  if(!_demoInterval && step.action !== 'notification') return; // démo stoppée
+  const today=td();
+  switch(step.action){
+    case 'notification':
+      toast(step.msg, step.type||'ok');
+      _demoNotif(step.msg);
+      break;
+    case 'cmd_update':
+      const cmd=DB.commandes.find(c=>c.id===step.id);
+      if(cmd){ cmd.stat=step.stat; saveDB(); }
+      break;
+    case 'encaisse':
+      const t=DB.tables.find(x=>x.id===step.tbl);
+      if(t){ t.stat='libre'; }
+      _demoCa+=step.montant;
+      DB.ventes.push({id:DB.ids.v++,date:today,t:new Date().toTimeString().slice(0,5),tbl:'T'+step.tbl,cvt:2,ht:Math.round(step.montant/1.1*100)/100,ttc:step.montant,tva:Math.round(step.montant*0.0909*100)/100,mode:'CB'});
+      saveDB();
+      break;
+    case 'nouvelle_cmd':
+      DB.commandes.push({id:DB.ids.c++,date:today,t:new Date().toTimeString().slice(0,5),tbl:step.tbl,cvt:step.cvt,stat:'prise',note:step.note||'',items:step.items,total:step.total});
+      const nt=DB.tables.find(x=>x.id===step.tbl);
+      if(nt) nt.stat='occupe';
+      saveDB();
+      break;
+    case 'nouvelle_table':
+      const ntbl=DB.tables.find(x=>x.id===step.tbl);
+      if(ntbl){ ntbl.stat='occupe'; ntbl.cvt=step.cvt||2; saveDB(); }
+      break;
+    case 'confettis':
+      lancerConfettis();
+      break;
+  }
+  // Refresh toutes les pages — toujours pour que les données soient à jour
+  try{ rDash(); }catch(e){}
+  try{ rCmds(); }catch(e){}
+  try{ rSalle(); }catch(e){}
+}
+
+let _demoNotifTimeout=null;
+function _demoNotif(msg){
+  let notif=document.getElementById('demo-notif');
+  if(!notif){
+    notif=document.createElement('div');
+    notif.id='demo-notif';
+    notif.style.cssText='position:fixed;top:60px;right:16px;z-index:9998;background:#1e2436;border:1px solid rgba(201,168,76,.4);color:#f0ebe0;font-size:12px;font-weight:700;padding:10px 16px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.5);max-width:260px;transition:all .3s;opacity:0;transform:translateX(20px)';
+    document.body.appendChild(notif);
+  }
+  notif.textContent=msg;
+  notif.style.opacity='1';
+  notif.style.transform='translateX(0)';
+  clearTimeout(_demoNotifTimeout);
+  _demoNotifTimeout=setTimeout(()=>{
+    notif.style.opacity='0';
+    notif.style.transform='translateX(20px)';
+  }, 3500);
+}
+
+function desactiverModeDemo(){
+  if(_demoInterval){ clearInterval(_demoInterval); _demoInterval=null; }
+  const b=document.getElementById('demo-banner');if(b)b.remove();
+  const n=document.getElementById('demo-notif');if(n)n.remove();
+  DB.tables.forEach(t=>t.stat='libre');
+  DB.commandes=[];DB.ventes=[];DB.reservations=[];
+  saveDB();rDash();
+  toast('Mode Démo désactivé','warn');
+}
+
+
+
+// ═══════════════════════════════════════
+// CONFETTIS FIN DE DÉMO
+// ═══════════════════════════════════════
+function lancerConfettis(){
+  const colors=['#c9a84c','#f5e4a0','#e8c96a','#ff6b6b','#4ecdc4','#45b7d1','#96ceb4','#ffeaa7','#dda0dd','#98d8c8'];
+  const canvas=document.createElement('canvas');
+  canvas.id='confetti-canvas';
+  canvas.style.cssText='position:fixed;inset:0;z-index:99999;pointer-events:none;width:100%;height:100%';
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  document.body.appendChild(canvas);
+  const ctx=canvas.getContext('2d');
+
+  const particles=[];
+  for(let i=0;i<220;i++){
+    particles.push({
+      x:Math.random()*canvas.width,
+      y:-20-Math.random()*200,
+      w:8+Math.random()*8,
+      h:4+Math.random()*4,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      rot:Math.random()*360,
+      rotSpeed:(Math.random()-0.5)*8,
+      vx:(Math.random()-0.5)*4,
+      vy:3+Math.random()*4,
+      alpha:1,
+      shape:Math.random()>0.5?'rect':'circle',
+    });
+  }
+
+  // Message fin de démo
+  const msg=document.createElement('div');
+  msg.id='confetti-msg';
+  msg.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:100000;text-align:center;animation:confetti-pop .5s cubic-bezier(.34,1.6,.64,1) both';
+  msg.innerHTML='<div style="font-size:52px;margin-bottom:12px">🏆</div>'
+    +'<div style="font-size:22px;font-weight:900;color:#c9a84c;text-shadow:0 2px 20px rgba(201,168,76,.6)">Excellent service !</div>'
+    +'<div style="font-size:14px;color:#e8dcc8;margin-top:8px;opacity:.8">'+Math.round(_demoCa)+'€ de CA · '+_demoCouverts+' couverts</div>';
+  document.body.appendChild(msg);
+
+  // Ajouter le keyframe pop
+  if(!document.getElementById('confetti-style')){
+    const st=document.createElement('style');
+    st.id='confetti-style';
+    st.textContent='@keyframes confetti-pop{from{opacity:0;transform:translate(-50%,-50%) scale(.5)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}';
+    document.head.appendChild(st);
+  }
+
+  let frame=0;
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    particles.forEach(p=>{
+      if(p.alpha<=0) return;
+      alive=true;
+      p.x+=p.vx;
+      p.y+=p.vy;
+      p.rot+=p.rotSpeed;
+      p.vy+=0.08; // gravité
+      if(p.y>canvas.height) p.alpha-=0.05;
+      ctx.save();
+      ctx.globalAlpha=p.alpha;
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.color;
+      if(p.shape==='circle'){
+        ctx.beginPath();
+        ctx.arc(0,0,p.w/2,0,Math.PI*2);
+        ctx.fill();
+      } else {
+        ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      }
+      ctx.restore();
+    });
+    if(alive) requestAnimationFrame(animate);
+    else {
+      setTimeout(()=>{
+        canvas.remove();
+        const m=document.getElementById('confetti-msg');
+        if(m){ m.style.transition='opacity .5s'; m.style.opacity='0'; setTimeout(()=>m.remove(),500); }
+      },500);
+    }
+  }
+  animate();
+
+  // Auto-remove après 5s
+  setTimeout(()=>{
+    const m=document.getElementById('confetti-msg');
+    if(m){ m.style.transition='opacity .8s'; m.style.opacity='0'; setTimeout(()=>m.remove(),800); }
+  },4500);
+}
+
 </script>
 
 </body>
