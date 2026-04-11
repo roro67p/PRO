@@ -6935,77 +6935,134 @@ tbody td { padding:13px 14px; font-size:13px; }
     @keyframes tsv-bl{0%,100%{opacity:1}50%{opacity:.2}}
 
     /* MAIN 3 COLONNES */
-    #tsv-main{flex:1;display:grid;grid-template-columns:96px 1fr 260px;overflow:hidden}
+    #tsv-main{flex:1;display:grid;grid-template-columns:130px 1fr 260px;overflow:hidden}
 
-    /* ── COLONNE GAUCHE : CATÉGORIES ── */
+    /* ── COLONNE GAUCHE : CATÉGORIES STYLE PINTEREST ── */
     #tsv-cats{
       background:var(--s1);border-right:1px solid var(--br2);
-      display:flex;flex-direction:column;gap:3px;
-      padding:6px 5px;overflow-y:auto;scrollbar-width:none;
+      display:flex;flex-direction:column;gap:8px;
+      padding:10px 8px;overflow-y:auto;scrollbar-width:none;
+      align-items:center;
     }
     #tsv-cats::-webkit-scrollbar{display:none}
     .tsv-ccat{
       display:flex;flex-direction:column;align-items:center;justify-content:center;
-      padding:14px 6px;border-radius:12px;cursor:pointer;transition:all .15s;
-      gap:5px;border:1.5px solid transparent;text-align:center;
+      width:110px;padding:0;border-radius:22px;cursor:pointer;transition:all .2s;
+      gap:0;border:none;text-align:center;position:relative;overflow:hidden;
     }
-    .tsv-ccat:active{transform:scale(.9)}
-    .tsv-ccat.active{
-      background:linear-gradient(160deg,rgba(201,168,76,.2),rgba(201,168,76,.06));
-      border-color:var(--gold);
-      box-shadow:0 0 12px rgba(201,168,76,.12);
+    .tsv-ccat:active{transform:scale(.92)}
+    .tsv-ccat .cc-bubble{
+      width:72px;height:72px;border-radius:18px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:0;transition:all .2s;
+      border:2px solid var(--br2);
+      box-shadow:0 4px 14px rgba(0,0,0,.4);
+      position:relative;overflow:hidden;
+      background-size:cover;background-position:center;
     }
-    .tsv-ccat .cc-ico{font-size:28px;line-height:1}
-    .tsv-ccat .cc-lbl{font-size:10px;font-weight:800;color:var(--sub);text-transform:uppercase;letter-spacing:.04em;line-height:1.1}
+    .tsv-ccat .cc-bubble::before{
+      content:'';position:absolute;inset:0;
+      background:rgba(0,0,0,.35);transition:background .2s;
+    }
+    .tsv-ccat.active .cc-bubble{
+      border-color:var(--gold2);
+      box-shadow:0 6px 20px rgba(201,168,76,.4);
+    }
+    .tsv-ccat.active .cc-bubble::before{
+      background:rgba(201,168,76,.25);
+    }
+    .tsv-ccat .cc-lbl{
+      font-size:11px;font-weight:800;color:var(--sub);
+      letter-spacing:.02em;line-height:1.2;
+      padding:6px 4px 2px;
+    }
     .tsv-ccat.active .cc-lbl{color:var(--gold2)}
-    .tsv-ccat .cc-nb{font-size:9px;color:var(--muted);background:var(--s3);padding:1px 5px;border-radius:8px;font-variant-numeric:tabular-nums}
+    .tsv-ccat .cc-nb{
+      font-size:10px;font-weight:700;color:var(--muted);
+      background:var(--s4);padding:2px 8px;border-radius:10px;
+      font-variant-numeric:tabular-nums;margin-top:2px;
+    }
     .tsv-ccat.active .cc-nb{background:rgba(201,168,76,.15);color:var(--gold)}
+    .tsv-ccat .cc-ico{display:none}
 
-    /* ── COLONNE CENTRE : GRILLE PLATS ── */
+    /* ── COLONNE CENTRE : GRILLE PLATS STYLE FIGMA POS ── */
     #tsv-menu{
       display:flex;flex-direction:column;overflow:hidden;
       border-right:1px solid var(--br2);background:var(--bg);
     }
     #tsv-menu-search{
-      padding:7px 10px;border-bottom:1px solid var(--br2);flex-shrink:0;
-      display:flex;align-items:center;gap:8px;background:var(--s1);
+      padding:8px 12px;border-bottom:1px solid var(--br2);flex-shrink:0;
+      display:flex;align-items:center;gap:10px;background:var(--s1);
     }
     #tsv-menu-search input{
-      flex:1;padding:6px 11px;border-radius:8px;background:var(--s2);
+      flex:1;padding:8px 14px;border-radius:20px;background:var(--s2);
       border:1px solid var(--br2);color:var(--txt);font-family:'Nunito',sans-serif;
       font-size:12px;outline:none;transition:border-color .15s;
     }
     #tsv-menu-search input:focus{border-color:var(--gold)}
     #tsv-menu-search input::placeholder{color:var(--muted)}
-    #tsv-menu-search .ms-cat{font-size:13px;font-weight:900;color:var(--gold2)}
+    #tsv-menu-search .ms-cat{font-size:14px;font-weight:900;color:var(--gold2);white-space:nowrap}
     #tsv-grid{
       display:grid;grid-template-columns:repeat(3,1fr);
-      gap:8px;padding:10px;overflow-y:auto;flex:1;
+      gap:10px;padding:12px;overflow-y:auto;flex:1;
       scrollbar-width:thin;scrollbar-color:var(--s4) transparent;
       align-content:start;
     }
     .tsv-pcard{
-      background:var(--s2);border:1.5px solid var(--br2);border-radius:14px;
-      padding:14px 10px;display:flex;flex-direction:column;
-      align-items:center;gap:7px;cursor:pointer;text-align:center;
-      transition:all .16s;position:relative;overflow:hidden;
+      background:var(--s2);border:1.5px solid var(--br2);border-radius:20px;
+      padding:0;display:flex;flex-direction:column;
+      align-items:stretch;cursor:pointer;text-align:center;
+      transition:all .18s;position:relative;overflow:hidden;
+      box-shadow:0 4px 16px rgba(0,0,0,.25);
     }
-    .tsv-pcard::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .12s}
-    .tsv-pcard:active::after{background:rgba(255,255,255,.06)}
-    .tsv-pcard:active{transform:scale(.91);border-color:var(--gold)}
+    .tsv-pcard:active{transform:scale(.93);border-color:var(--gold);box-shadow:0 2px 8px rgba(201,168,56,.2)}
     .tsv-pcard .pc-ico{
-      width:54px;height:54px;border-radius:14px;
+      height:100px;width:100%;border-radius:0;
       display:flex;align-items:center;justify-content:center;
-      font-size:30px;flex-shrink:0;border:1px solid var(--br2);
+      flex-shrink:0;border:none;position:relative;overflow:hidden;
+      background:transparent;
     }
-    .tsv-pcard .pc-nom{font-size:12px;font-weight:800;color:var(--txt);line-height:1.2}
-    .tsv-pcard .pc-prix{font-size:13px;font-weight:900;color:var(--gold2);font-variant-numeric:tabular-nums}
+    /* Assiette ronde */
+    .tsv-pcard .pc-plate{
+      width:74px;height:74px;border-radius:50%;
+      background:linear-gradient(145deg,#2a2e3a,#1a1e28);
+      border:3px solid rgba(255,255,255,.12);
+      box-shadow:0 4px 18px rgba(0,0,0,.5),inset 0 1px 2px rgba(255,255,255,.08);
+      display:flex;align-items:center;justify-content:center;
+      font-size:34px;position:relative;z-index:1;
+      transition:transform .18s;
+    }
+    .tsv-pcard:active .pc-plate{transform:scale(.9)}
+    .tsv-pcard .pc-plate::before{
+      content:'';position:absolute;inset:-6px;border-radius:50%;
+      border:1.5px solid rgba(255,255,255,.06);
+    }
+    .tsv-pcard .pc-body{
+      padding:10px 10px 12px;display:flex;flex-direction:column;gap:4px;
+    }
+    .tsv-pcard .pc-nom{font-size:12px;font-weight:800;color:var(--txt);line-height:1.25;text-align:left}
+    .tsv-pcard .pc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:2px}
+    .tsv-pcard .pc-prix{
+      font-size:13px;font-weight:900;color:var(--gold2);
+      font-variant-numeric:tabular-nums;
+    }
+    .tsv-pcard .pc-btn{
+      width:28px;height:28px;border-radius:50%;border:none;
+      background:linear-gradient(135deg,#c9a84c,#a8861e);
+      color:#000;font-size:20px;font-weight:900;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:all .12s;box-shadow:0 2px 8px rgba(201,168,76,.35);
+      flex-shrink:0;
+    }
+    .tsv-pcard .pc-btn:active{transform:scale(.8)}
+    .tsv-pcard .pc-add{display:none}
+    /* garder rétrocompat */
     .tsv-pcard .pc-add{
       position:absolute;top:5px;right:5px;
       width:20px;height:20px;border-radius:6px;
       background:rgba(201,168,76,.15);color:var(--gold2);
       font-size:14px;font-weight:900;border:none;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;
+      display:none;align-items:center;justify-content:center;
       opacity:0;transition:opacity .15s;
     }
     .tsv-pcard:hover .pc-add{opacity:1}
@@ -24674,10 +24731,24 @@ function tsv_renderCats(){
   const allCats=[...new Set(plats.map(p=>p.cat))];
   const cats=[{name:'Tous',ico:'🍴',cls:'cat-default'},...TSV_CATS.filter(c=>allCats.includes(c.name))];
   allCats.forEach(c=>{if(!TSV_CATS.find(x=>x.name===c)) cats.push({name:c,ico:'🍴',cls:'cat-default'});});
+  const CAT_PHOTOS={
+    'Tous':'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=60',
+    'Entrées':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&q=60',
+    'Viandes':'https://images.unsplash.com/photo-1558030006-450675393462?w=200&q=60',
+    'Poissons':'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200&q=60',
+    'Végétarien':'https://images.unsplash.com/photo-1543362906-acfc16c67564?w=200&q=60',
+    'Plats':'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=200&q=60',
+    'Desserts':'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=200&q=60',
+    'Formules':'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200&q=60',
+    'Boissons':'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&q=60',
+    'Vins':'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=200&q=60',
+    'Aperitifs':'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=200&q=60',
+  };
   el.innerHTML=cats.map(c=>{
     const nb=c.name==='Tous'?plats.length:plats.filter(p=>p.cat===c.name).length;
+    const photo=CAT_PHOTOS[c.name]||CAT_PHOTOS['Tous'];
     return `<div class="tsv-ccat ${c.name===_tsv_cat?'active':''}" onclick="tsv_setCat('${c.name}')">
-      <span class="cc-ico">${c.ico}</span>
+      <div class="cc-bubble" style="background-image:url('${photo}')"></div>
       <span class="cc-lbl">${c.name}</span>
       <span class="cc-nb">${nb}</span>
     </div>`;
@@ -24710,11 +24781,18 @@ function tsv_renderGrid(q=''){
   if(!list.length){grid.innerHTML='<div style="grid-column:span 4;padding:30px;text-align:center;color:#3d4560;font-size:13px">Aucun plat</div>';return;}
   grid.innerHTML=list.map(p=>{
     const ico=p.ico&&p.ico.length<=4?'🍽️':(p.ico||'🍽️');
-    return `<div class="tsv-pcard ${catCls(p.cat)}" onclick="tsv_addItem(${p.id})">
-      <button class="pc-add" onclick="event.stopPropagation();tsv_addItem(${p.id})">+</button>
-      <div class="pc-ico">${ico}</div>
-      <div class="pc-nom">${p.nom}</div>
-      <div class="pc-prix">${tsv_eur(p.prix)}</div>
+    const cls=catCls(p.cat);
+    return `<div class="tsv-pcard ${cls}" onclick="tsv_addItem(${p.id})">
+      <div class="pc-ico">
+        <div class="pc-plate">${ico}</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-nom">${p.nom}</div>
+        <div class="pc-footer">
+          <span class="pc-prix">${tsv_eur(p.prix)}</span>
+          <button class="pc-btn" onclick="event.stopPropagation();tsv_addItem(${p.id})">+</button>
+        </div>
+      </div>
     </div>`;
   }).join('');
 }
