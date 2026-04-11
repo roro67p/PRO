@@ -11575,11 +11575,7 @@ function renderRecents(){
 }
 function nav(name,el){
   // Bloquer les employés non-admin — tablette uniquement
-  const _allowedForServeur = ['tablette','salle','commandes','reservations'];
-  if(window._pinCurrentUser && window._pinCurrentUser.id !== 0 && !_allowedForServeur.includes(name)){
-    toast('⛔ Accès réservé à l\'administrateur','err');
-    return;
-  }
+
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+name)?.classList.add('active');
@@ -18136,7 +18132,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Init récents
   setTimeout(renderRecents, 200);
   // Init écran PIN (désactivé - pour réactiver décommenter la ligne suivante)
-  // setTimeout(pinInit, 100);
+  // const _ps=document.getElementById('pin-screen');if(_ps)_ps.style.display='none';
   const pinScr=document.getElementById('pin-screen');if(pinScr)pinScr.style.display='none';
   const rsDate = document.getElementById('rs-date');
   const rsHeure = document.getElementById('rs-heure');
