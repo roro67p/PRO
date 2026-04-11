@@ -5194,6 +5194,7 @@ tbody td { padding:13px 14px; font-size:13px; }
         <button class="action-btn" style="background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.4)" onclick="activerModeDemo()"><div class="action-btn-ico">🎭</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9a84c">Mode Démo</div><div class="action-btn-sub">Charger données réalistes</div></div><span class="action-btn-arrow" style="color:#c9a84c">›</span></button>
         <button class="action-btn" onclick="rapportJournalier()"><div class="action-btn-ico">📊</div><div class="action-btn-info"><div class="action-btn-lbl">Rapport journalier</div><div class="action-btn-sub">Bilan du service · impression PDF</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn" onclick="exempleRapport()" style="border-color:rgba(201,151,58,.3)"><div class="action-btn-ico">👁</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9973a">Exemple rapport</div><div class="action-btn-sub">Voir avec données de démo</div></div><span class="action-btn-arrow" style="color:#c9973a">›</span></button>
+        <button class="action-btn" onclick="exempleTicket()" style="border-color:rgba(201,151,58,.3)"><div class="action-btn-ico">🧾</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9973a">Exemple ticket</div><div class="action-btn-sub">Aperçu ticket de caisse</div></div><span class="action-btn-arrow" style="color:#c9973a">›</span></button>
         <button class="action-btn action-cmd" onclick="nav('commandes',null);openModal('mo-commande')"><div class="action-btn-ico">📋</div><div class="action-btn-info"><div class="action-btn-lbl">Nouvelle commande</div><div class="action-btn-sub">Saisir une commande table</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-caisse" onclick="nav('caisse',null)"><div class="action-btn-ico">💳</div><div class="action-btn-info"><div class="action-btn-lbl">Ouvrir la caisse</div><div class="action-btn-sub">Encaissement & tickets</div></div><span class="action-btn-arrow">›</span></button>
         <button class="action-btn action-salle" onclick="nav('salle',null)"><div class="action-btn-ico">🗺️</div><div class="action-btn-info"><div class="action-btn-lbl">Voir la salle</div><div class="action-btn-sub">Plan des tables en temps réel</div></div><span class="action-btn-arrow">›</span></button>
@@ -25667,7 +25668,50 @@ function exempleTicket(){
       {nom:'Crème brûlée',ico:'🍴',px:8.5,q:2},
     ]
   };
-  showTicketPrint(vExemple);
+  // Générer et imprimer directement
+  const pNom=(document.getElementById('p-nom')?.value||'CHEZ ROMU').toUpperCase();
+  const pAdr=document.getElementById('p-adr')?.value||'12 Rue de la Gastronomie, Lyon';
+  const pTel=document.getElementById('p-tel')?.value||'04 72 00 12 34';
+  const pSiret=document.getElementById('p-siret')?.value||'452 123 456 00018';
+  const v=vExemple;
+  const numTicket=String(v.id).padStart(4,'0');
+  let html=`<div style="font-family:'Courier New',Courier,monospace;max-width:320px;margin:0 auto;padding:16px;font-size:13px;color:#1a1a1a;line-height:1.5">
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:20px;font-weight:900;letter-spacing:3px;margin-bottom:4px">${pNom}</div>
+      <div style="font-size:11px;color:#555">${pAdr}</div>
+      <div style="font-size:11px;color:#555">☎ ${pTel}</div>
+      <div style="font-size:11px;color:#888;margin-top:4px">◆ ◆ ◆</div>
+    </div>
+    <div style="border-top:2px dashed #999;border-bottom:2px dashed #999;padding:7px 0;margin-bottom:12px;font-size:11px;color:#555">
+      <div style="display:flex;justify-content:space-between"><span>Ticket N° ${numTicket}</span><span>${v.date} ${v.t}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-top:2px"><span>Table ${v.tbl.replace('T','')}</span><span>${v.cvt} couverts</span></div>
+    </div>
+    <div style="margin-bottom:12px">`;
+  v.items.forEach(x=>{
+    const total=(x.px*x.q).toFixed(2).replace('.',',');
+    const pu=x.px.toFixed(2).replace('.',',');
+    html+='<div style="padding:4px 0;border-bottom:1px dotted #ddd"><div style="display:flex;justify-content:space-between;font-weight:600"><span>'+x.nom+(x.q>1?' ×'+x.q:'')+'</span><span>'+total+' €</span></div>'+(x.q>1?'<div style="font-size:11px;color:#888;padding-left:8px">'+pu+' € / unité</div>':'')+'</div>';
+  });
+  html+=`</div>
+    <div style="border-top:2px dashed #999;padding-top:10px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#555;padding:2px 0"><span>Sous-total HT</span><span>${v.ht.toFixed(2).replace('.',',')} €</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#555;padding:2px 0"><span>TVA 10%</span><span>${v.tva.toFixed(2).replace('.',',')} €</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:17px;font-weight:900;padding:8px 0;border-top:2px solid #1a1a1a;margin-top:6px"><span>TOTAL TTC</span><span>${v.ttc.toFixed(2).replace('.',',')} €</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#333;padding:3px 0"><span>Règlement</span><span>${v.mode}</span></div>
+    </div>
+    <div style="border-top:2px dashed #999;padding-top:10px;text-align:center">
+      <div style="font-size:10px;color:#888">SIRET : ${pSiret}</div>
+      <div style="font-size:10px;color:#888;margin-top:2px">TVA acquittée sur les encaissements</div>
+      <div style="font-size:10px;color:#888">Logiciel Romu POS — Conforme LFR 2016</div>
+      <div style="font-size:13px;font-weight:700;margin-top:10px;letter-spacing:2px">✦ Merci de votre visite ✦</div>
+      <div style="font-size:11px;color:#aaa;margin-top:4px">${pNom}</div>
+    </div>
+  </div>`;
+  const w=window.open('','_blank','width=400,height=650');
+  if(!w){toast('Autorisez les popups','err');return;}
+  w.document.open();
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Ticket N°'+numTicket+'</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#f8f6f2}@media print{body{background:#fff}}</style></head><body>'+html+'<script>window.onload=()=>window.print()<\/script></body></html>');
+  w.document.close();
 }
 
 function exempleRapport(){
