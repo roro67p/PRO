@@ -8028,6 +8028,71 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
 
+  <!-- PAGE HACCP -->
+  <div id="page-haccp" class="page">
+    <div class="page-header">
+      <h2>🧼 HACCP</h2>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="openHaccpTemp()">🌡 Température</button>
+        <button class="btn btn-gold btn-sm" onclick="openHaccpNett()">+ Nettoyage</button>
+      </div>
+    </div>
+    <div class="kpi-row" id="haccp-kpi"></div>
+    <div class="g2" style="margin-top:16px">
+      <div class="card">
+        <div class="card-title">🌡 Relevés température du jour</div>
+        <div id="haccp-temps"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🧹 Nettoyages</div>
+        <div id="haccp-nett"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">⚠️ Non-conformités ouvertes</div>
+      <div id="haccp-nc"></div>
+    </div>
+  </div>
+
+  <!-- PAGE AVIS -->
+  <div id="page-avis" class="page">
+    <div class="page-header">
+      <h2>⭐ Avis Clients</h2>
+      <button class="btn btn-gold btn-sm" onclick="openAvisModal()">+ Ajouter un avis</button>
+    </div>
+    <div class="kpi-row" id="avis-kpi"></div>
+    <div class="g2" style="margin-top:16px">
+      <div class="card">
+        <div class="card-title">📊 Répartition des notes</div>
+        <div id="avis-distrib"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📈 Tendances</div>
+        <div id="avis-tendances"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">💬 Derniers avis</div>
+      <div id="avis-list"></div>
+    </div>
+  </div>
+
+  <!-- PAGE CARTE ORIGINES -->
+  <div id="page-carteOrigines" class="page">
+    <div class="page-header">
+      <h2>🗺️ Carte des origines</h2>
+    </div>
+    <div style="background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;overflow:hidden">
+      <style id="carte-anim-style"></style>
+      <svg id="carte-monde-svg" viewBox="0 0 1000 500" style="width:100%;height:auto;display:block">
+        <rect width="1000" height="500" fill="var(--ink)"/>
+        <text x="500" y="250" text-anchor="middle" style="fill:var(--muted);font-size:14px">Carte en cours de chargement…</text>
+      </svg>
+      <g id="carte-pins"></g>
+    </div>
+    <div id="carte-legende" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>
+  </div>
+
   <div id="page-banque" class="page fin-page">
     <div class="fin-header">
       <div>
@@ -8787,7 +8852,8 @@ tbody td { padding:13px 14px; font-size:13px; }
   <div id="page-clients" class="page">
   <div>
     <!-- HEADER -->
-    <div class="cli-header">
+    <div id="cli-anniv-alert" style="display:none;margin-bottom:12px"></div>
+  <div class="cli-header">
       <div class="cli-title">👤 Clients CRM</div>
       <div class="cli-actions">
         <button class="cli-act-btn" onclick="openModal('mo-client')" title="Ajouter un client" style="background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.4);color:var(--gold2);font-size:18px">+</button>
@@ -10113,6 +10179,10 @@ tbody td { padding:13px 14px; font-size:13px; }
         <div id="obj-histo-list"></div>
       </div>
     </div>
+  <div class="card" style="margin-top:16px">
+    <div class="card-title">📋 Historique des objectifs</div>
+    <div id="tb-obj-histo"></div>
+  </div>
   </div>
 
   <!-- COMMANDES FOURNISSEURS -->
@@ -10800,16 +10870,17 @@ const DB = {
 };
 
 function initData(){
-  DB.tables=[
+  const DB_TABLES_DEFAULT=[
     {id:1,num:1,cvt:2,zone:'Salle',stat:'libre'},{id:2,num:2,cvt:2,zone:'Salle',stat:'libre'},
     {id:3,num:3,cvt:4,zone:'Salle',stat:'libre'},{id:4,num:4,cvt:4,zone:'Salle',stat:'libre'},
     {id:5,num:5,cvt:6,zone:'Salle',stat:'libre'},{id:6,num:6,cvt:6,zone:'Salle',stat:'libre'},
     {id:7,num:7,cvt:8,zone:'Salle',stat:'libre'},{id:8,num:8,cvt:10,zone:'Salle privée',stat:'libre'},
     {id:9,num:9,cvt:4,zone:'Terrasse',stat:'libre'},{id:10,num:10,cvt:4,zone:'Terrasse',stat:'libre'},
     {id:11,num:11,cvt:2,zone:'Terrasse',stat:'libre'},{id:12,num:12,cvt:2,zone:'Bar',stat:'libre'},
-  ]; DB.ids.t=13;
+  ];
+  DB.tables=JSON.parse(JSON.stringify(DB_TABLES_DEFAULT)); DB.ids.t=13;
 
-  DB.plats=[
+  const DB_PLATS_DEFAULT=[
     {id:1,nom:'Soupe à l\'oignon gratinée',ico:'🥗',photo:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',cat:'Entrées',prix:9.0,cout:2.5,dispo:'dispo',allerg:'Gluten, Lactose',desc:'Gruyère fondu, croutons maison',vendu:0,recette:[{stkId:5,qte:0.1},{stkId:10,qte:0.02}]},
     {id:2,nom:'Foie gras mi-cuit',ico:'🥗',photo:'https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&q=80',cat:'Entrées',prix:17.0,cout:7.0,dispo:'dispo',allerg:'Gluten',desc:'Brioche toastée, chutney de figues, fleur de sel',vendu:0,recette:[]},
     {id:3,nom:'Salade César maison',ico:'🥗',photo:'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400&q=80',cat:'Entrées',prix:11.0,cout:3.5,dispo:'dispo',allerg:'Gluten, Oeufs, Lactose',desc:'Romaine, parmesan, anchois, croûtons dorés',vendu:0,recette:[{stkId:6,qte:0.03},{stkId:7,qte:1},{stkId:10,qte:0.015}]},
@@ -11014,6 +11085,7 @@ function initData(){
   ];
   // Photos de référence pour migration
   DB._initPlats=[{"id": 1, "photo": "https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80"}, {"id": 2, "photo": "https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&q=80"}, {"id": 3, "photo": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400&q=80"}, {"id": 4, "photo": "https://images.unsplash.com/photo-1615361200141-f45040f367be?w=400&q=80"}, {"id": 5, "photo": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80"}, {"id": 6, "photo": "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80"}, {"id": 7, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 8, "photo": "https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80"}, {"id": 9, "photo": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80"}, {"id": 10, "photo": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80"}, {"id": 11, "photo": "https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80"}, {"id": 12, "photo": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80"}, {"id": 13, "photo": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80"}, {"id": 14, "photo": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80"}, {"id": 15, "photo": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80"}, {"id": 16, "photo": "https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80"}, {"id": 17, "photo": "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=400&q=80"}, {"id": 18, "photo": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80"}, {"id": 19, "photo": "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=400&q=80"}, {"id": 20, "photo": "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=400&q=80"}, {"id": 21, "photo": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80"}, {"id": 22, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 23, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 24, "photo": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80"}, {"id": 25, "photo": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80"}, {"id": 26, "photo": "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80"}, {"id": 27, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 28, "photo": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80"}, {"id": 29, "photo": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80"}, {"id": 30, "photo": "https://images.unsplash.com/photo-1474722883778-792e7990302f?w=400&q=80"}, {"id": 31, "photo": "https://images.unsplash.com/photo-1558618047-f4e60cde4b95?w=400&q=80"}, {"id": 32, "photo": "https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80"}, {"id": 33, "photo": "https://images.unsplash.com/photo-1543253687-c931c8e01820?w=400&q=80"}, {"id": 34, "photo": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80"}, {"id": 35, "photo": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80"}, {"id": 36, "photo": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80"}, {"id": 37, "photo": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80"}, {"id": 38, "photo": "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=400&q=80"}, {"id": 39, "photo": "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=400&q=80"}, {"id": 40, "photo": "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80"}, {"id": 41, "photo": "https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=400&q=80"}, {"id": 42, "photo": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80"}, {"id": 43, "photo": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80"}, {"id": 44, "photo": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80"}, {"id": 45, "photo": "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&q=80"}, {"id": 46, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 47, "photo": "https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80"}, {"id": 48, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 49, "photo": "https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80"}, {"id": 50, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 51, "photo": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80"}, {"id": 52, "photo": "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80"}, {"id": 53, "photo": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80"}, {"id": 54, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 55, "photo": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80"}, {"id": 56, "photo": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80"}, {"id": 57, "photo": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&q=80"}, {"id": 58, "photo": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80"}, {"id": 59, "photo": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&q=80"}, {"id": 60, "photo": "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80"}, {"id": 61, "photo": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80"}, {"id": 62, "photo": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80"}, {"id": 63, "photo": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80"}, {"id": 64, "photo": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&q=80"}, {"id": 65, "photo": "https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80"}, {"id": 66, "photo": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80"}, {"id": 67, "photo": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80"}, {"id": 68, "photo": "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80"}, {"id": 69, "photo": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80"}, {"id": 70, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 71, "photo": "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&q=80"}, {"id": 72, "photo": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80"}, {"id": 73, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 74, "photo": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80"}, {"id": 75, "photo": "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80"}, {"id": 76, "photo": "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=400&q=80"}, {"id": 77, "photo": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"}, {"id": 78, "photo": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80"}, {"id": 79, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 80, "photo": "https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80"}, {"id": 81, "photo": "https://images.unsplash.com/photo-1543253687-c931c8e01820?w=400&q=80"}, {"id": 82, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 83, "photo": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80"}, {"id": 84, "photo": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80"}, {"id": 85, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 86, "photo": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80"}, {"id": 87, "photo": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80"}, {"id": 88, "photo": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80"}, {"id": 89, "photo": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80"}, {"id": 90, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 91, "photo": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80"}, {"id": 92, "photo": "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&q=80"}, {"id": 93, "photo": "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80"}, {"id": 94, "photo": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80"}, {"id": 95, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 96, "photo": "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80"}, {"id": 97, "photo": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80"}, {"id": 98, "photo": "https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80"}, {"id": 99, "photo": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80"}, {"id": 100, "photo": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&q=80"}, {"id": 101, "photo": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80"}, {"id": 102, "photo": "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=400&q=80"}, {"id": 103, "photo": "https://images.unsplash.com/photo-1545014702-7b9bd4e9ed4d?w=400&q=80"}, {"id": 104, "photo": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80"}, {"id": 105, "photo": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400&q=80"}, {"id": 106, "photo": "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=400&q=80"}, {"id": 107, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 108, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 109, "photo": "https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80"}, {"id": 110, "photo": "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=400&q=80"}, {"id": 111, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 112, "photo": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80"}, {"id": 113, "photo": "https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80"}, {"id": 114, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 115, "photo": "https://images.unsplash.com/photo-1604908177522-9f8a2f3e58ec?w=400&q=80"}, {"id": 116, "photo": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80"}, {"id": 117, "photo": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&q=80"}, {"id": 118, "photo": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80"}, {"id": 119, "photo": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80"}, {"id": 120, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 121, "photo": "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=400&q=80"}, {"id": 122, "photo": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&q=80"}, {"id": 123, "photo": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&q=80"}, {"id": 124, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 125, "photo": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80"}, {"id": 126, "photo": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=80"}, {"id": 127, "photo": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80"}, {"id": 128, "photo": "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=80"}, {"id": 129, "photo": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80"}, {"id": 130, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 131, "photo": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80"}, {"id": 132, "photo": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"}, {"id": 133, "photo": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80"}, {"id": 134, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 135, "photo": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80"}, {"id": 136, "photo": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"}, {"id": 137, "photo": "https://images.unsplash.com/photo-1566633806827-abae330d90f6?w=400&q=80"}, {"id": 138, "photo": "https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=400&q=80"}, {"id": 139, "photo": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80"}, {"id": 140, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 141, "photo": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80"}, {"id": 142, "photo": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80"}, {"id": 143, "photo": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80"}, {"id": 144, "photo": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&q=80"}, {"id": 145, "photo": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80"}, {"id": 146, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 147, "photo": "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&q=80"}, {"id": 148, "photo": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80"}, {"id": 149, "photo": "https://images.unsplash.com/photo-1534353473418-4cfa0c0af28c?w=400&q=80"}, {"id": 150, "photo": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400&q=80"}, {"id": 151, "photo": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80"}, {"id": 152, "photo": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80"}, {"id": 153, "photo": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80"}, {"id": 154, "photo": "https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&q=80"}, {"id": 155, "photo": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80"}, {"id": 156, "photo": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80"}, {"id": 157, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 158, "photo": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80"}, {"id": 159, "photo": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80"}, {"id": 160, "photo": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=80"}, {"id": 161, "photo": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80"}, {"id": 162, "photo": "https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80"}, {"id": 163, "photo": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80"}, {"id": 164, "photo": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80"}, {"id": 165, "photo": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80"}, {"id": 166, "photo": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80"}, {"id": 167, "photo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80"}, {"id": 168, "photo": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80"}, {"id": 169, "photo": "https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80"}, {"id": 170, "photo": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80"}, {"id": 171, "photo": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80"}, {"id": 172, "photo": "https://images.unsplash.com/photo-1539581901139-3e8e4c5e1d14?w=400&q=80"}, {"id": 173, "photo": "https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&q=80"}, {"id": 174, "photo": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80"}, {"id": 175, "photo": "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=80"}];
+  DB.plats=JSON.parse(JSON.stringify(DB_PLATS_DEFAULT));
  DB.ids.p=176;
 
   DB.stocks=[
@@ -11080,7 +11152,7 @@ function initData(){
     {id:61,ico:'🥐',cat:'Boulangerie',nom:'Pâte brisée',qte:2,unit:'kg',seuil:0.5,pu:6},
   ]; DB.ids.s=62;
 
-  DB.personnel=[
+  const DB_PERSONNEL_DEFAULT=[
     {id:1,prenom:'Marie',nom:'Dupont',poste:'Cheffe de salle',taux:14.5,tel:'06 12 34 56 78',stat:'actif',joursRepos:['Dimanche','Lundi'],conges:[],absences:[]},
     {id:2,prenom:'Thomas',nom:'Bernard',poste:'Serveur',taux:12.0,tel:'06 23 45 67 89',stat:'actif',joursRepos:['Mercredi','Dimanche'],conges:[],absences:[]},
     {id:3,prenom:'Sophie',nom:'Martin',poste:'Serveuse',taux:12.0,tel:'06 34 56 78 90',stat:'actif',joursRepos:['Lundi','Mardi'],conges:[{debut:td(),fin:td(),note:'Congés annuels'}],absences:[]},
@@ -11316,6 +11388,12 @@ function getEtabKey(idx){ return 'maison_db_etab_'+idx; }
 function saveDB(){
   try{localStorage.setItem(getEtabKey(currentEtabId),JSON.stringify(DB));}catch(e){}
 }
+function initDefaultPlats(){
+  if(typeof DB_PLATS_DEFAULT!=='undefined') DB.plats=JSON.parse(JSON.stringify(DB_PLATS_DEFAULT));
+}
+function initDefaultTables(){
+  if(typeof DB_TABLES_DEFAULT !== 'undefined') DB.tables = JSON.parse(JSON.stringify(DB_TABLES_DEFAULT));
+}
 function loadDB(){
   try{
     // Charger la liste des établissements
@@ -11327,13 +11405,33 @@ function loadDB(){
     currentEtabId=idx<DB_ETABS.length?idx:0;
     const d=localStorage.getItem(getEtabKey(currentEtabId));
     if(d){const p=JSON.parse(d);Object.keys(p).forEach(k=>DB[k]=p[k]);}
-    // Migration: clients pour utilisateurs existants
-    if(!DB.clients) DB.clients=[];
+    // Migrations données de démo — toujours appliquer si collection vide
+    if(!DB.clients||!Array.isArray(DB.clients)) DB.clients=[];
     if(!DB.ids.cl) DB.ids.cl=1;
-    // Migration: formation - initialiser avec données de démo si vide
-    if(!DB.formation||!DB.formation.length) DB.formation=DB_FORMATION_DEFAULT||[];
-    // Migration: pointages
-    if(!DB.pointages) DB.pointages=[];
+    if(!DB.pointages||!Array.isArray(DB.pointages)) DB.pointages=[];
+    if(!DB.listeAttente||!Array.isArray(DB.listeAttente)) DB.listeAttente=[];
+    if(!DB.dechets||!Array.isArray(DB.dechets)) DB.dechets=[];
+    if(!DB.ventes||!Array.isArray(DB.ventes)) DB.ventes=[];
+    if(!DB.commandes||!Array.isArray(DB.commandes)) DB.commandes=[];
+    if(!DB.reservations||!Array.isArray(DB.reservations)) DB.reservations=[];
+    if(!DB.fournisseurs||!Array.isArray(DB.fournisseurs)) DB.fournisseurs=[];
+    // Données de démo — forcer si vide (localStorage peut avoir [] sauvegardé)
+    if(!DB.personnel||!DB.personnel.length){
+      DB.personnel=JSON.parse(JSON.stringify(DB_PERSONNEL_DEFAULT||[]));
+      DB.ids.e=DB.personnel.length+1;
+    }
+    if(!DB.formation||!DB.formation.length){
+      DB.formation=JSON.parse(JSON.stringify(DB_FORMATION_DEFAULT||[]));
+    }
+    if(!DB.plats||!DB.plats.length){
+      DB.plats=JSON.parse(JSON.stringify(DB_PLATS_DEFAULT||[]));
+      DB.ids.p=176;
+    }
+    if(!DB.tables||!DB.tables.length){
+      DB.tables=JSON.parse(JSON.stringify(DB_TABLES_DEFAULT||[]));
+      DB.ids.t=13;
+    }
+    if(!DB.stocks||!DB.stocks.length) DB._needInitStocks=true;
     // Migration: photos et emojis sur les plats
     migratePhotosPlats();
   }catch(e){}
@@ -11456,7 +11554,7 @@ function nav(name,el){
 }
 function render(n){
   ({dash:rDash,salle:rSalle,caisse:rCaisse,menu:rMenu,
-    reservations:rResa,stocks:rStocks,personnel:()=>{rPerso();rPersonnelPlanning();},
+    reservations:rResa,'resa-attente':rListeAttente,stocks:rStocks,personnel:()=>{rPerso();rPersonnelPlanning();},
     rh:rRh,
     fournisseurs:rFourn, finance:rFin,rapports:rRapports,
     menuJour:rMenuJour, livraison:rLivraison, stats:rStats,
@@ -11465,7 +11563,7 @@ function render(n){
     journal:rJournal,
     objectifs:rObjectifs, cmdFourn:rCmdFourn, params:rParams,
     fiches:rFiches, origine:rOrigine, marges:rMarges, avis:rAvis, acces:rAcces,
-    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, carteOrigines:rCarteOrigines, vocale:rVocale,briefing:rBriefing, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne,tablette:rTablette,caisseRapide:rCaisseRapide})[n]?.();
+    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, cave:rCave, 'resa-online':rResaOnline, carteOrigines:rCarteOrigines, vocale:rVocale,briefing:rBriefing, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne,tablette:rTablette,caisseRapide:rCaisseRapide})[n]?.();
 }
 function openSB(){document.getElementById('sidebar')?.classList.add('open');document.getElementById('overlay').style.display='block';}
 function closeSB(){document.getElementById('sidebar')?.classList.remove('open');document.getElementById('overlay').style.display='none';}
@@ -17894,6 +17992,20 @@ document.addEventListener('keydown', function(e){
 document.addEventListener('DOMContentLoaded', function(){
   loadDB();
   if(!DB.tables||DB.tables.length===0) initData();
+  // Forcer réinit données de démo si collections vides
+  if(!DB.personnel||!DB.personnel.length){
+    DB.personnel=JSON.parse(JSON.stringify(DB_PERSONNEL_DEFAULT||[]));
+    DB.ids.e=(DB.personnel.length||0)+1;
+    saveDB();
+  }
+  if(!DB.plats||!DB.plats.length){
+    DB.plats=JSON.parse(JSON.stringify(DB_PLATS_DEFAULT||[]));
+    DB.ids.p=176; saveDB();
+  }
+  if(!DB.formation||!DB.formation.length){
+    DB.formation=JSON.parse(JSON.stringify(DB_FORMATION_DEFAULT||[]));
+    saveDB();
+  }
   // Forcer reset cave si pas les bons vins
   setTimeout(function(){
     if(!DB.cave||!DB.cave.length||!DB.cave.find(v=>v.nom&&v.nom.includes('Margaux'))){
