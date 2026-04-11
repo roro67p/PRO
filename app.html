@@ -14263,15 +14263,19 @@ function renderKDS(w){
   const prets=(DB.commandes||[]).filter(c=>c.stat==='servi').sort((a,b)=>b.id-a.id).slice(0,8);
 
   const minutesAgo=(c)=>{
-    if(!c.heure) return '';
-    const mins=Math.floor((Date.now()-new Date(c.heure))/60000);
-    if(mins<1) return 'À l\'instant';
-    return `${mins} min`;
+    let mins=0;
+    if(c.heure){mins=Math.floor((Date.now()-new Date(c.heure))/60000);}
+    else if(c.t){const[h,m]=(c.t).split(':').map(Number);const ct=new Date();ct.setHours(h,m,0,0);mins=Math.floor((Date.now()-ct)/60000);}
+    else return '';
+    if(mins<1) return 'A l\'instant';
+    return mins+' min';
   };
 
   const urgence=(c)=>{
-    if(!c.heure) return '';
-    const mins=Math.floor((Date.now()-new Date(c.heure))/60000);
+    let mins=0;
+    if(c.heure){mins=Math.floor((Date.now()-new Date(c.heure))/60000);}
+    else if(c.t){const[h,m]=(c.t).split(':').map(Number);const ct=new Date();ct.setHours(h,m,0,0);mins=Math.floor((Date.now()-ct)/60000);}
+    else return '';
     if(mins>=20) return 'kds-urgent';
     if(mins>=12) return 'kds-warn';
     return '';
