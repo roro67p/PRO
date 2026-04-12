@@ -5971,6 +5971,39 @@ tbody td { padding:13px 14px; font-size:13px; }
 .mg-matrix-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--sub);margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .mg-plat-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .mg-plat-row:last-child{border-bottom:none}
+
+.dcc-gold-btn{width:100%;padding:18px 20px;background:linear-gradient(135deg,#c9973a,#f5d070,#c9973a);background-size:200%;border:none;border-radius:16px;cursor:pointer;display:flex;align-items:center;gap:14px;box-shadow:0 8px 32px rgba(201,151,58,.4);animation:goldShimmer 3s ease infinite;transition:all .2s;margin-bottom:12px}
+.dcc-gold-btn:hover{transform:translateY(-2px)}
+.dcc-gold-ico{font-size:28px}.dcc-gold-text{text-align:left;flex:1}
+.dcc-gold-label{font-size:15px;font-weight:800;color:#0c0800}.dcc-gold-sub{font-size:11px;color:rgba(12,8,0,.6);margin-top:2px}
+.dcc-gold-val{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:#0c0800;margin-left:auto}
+@keyframes goldShimmer{0%,100%{background-position:0%}50%{background-position:100%}}
+.dcc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.dcc-btn{position:relative;padding:16px 12px;border:none;border-radius:14px;cursor:pointer;text-align:left;transition:all .2s}
+.dcc-btn:hover{transform:translateY(-3px);filter:brightness(1.1)}
+.dcc-btn-ico{font-size:24px;margin-bottom:6px;display:block}.dcc-btn-lbl{font-size:12px;font-weight:800}.dcc-btn-val{font-size:11px;opacity:.75;margin-top:2px}
+.dcc-btn-arrow{position:absolute;top:10px;right:10px;font-size:14px;opacity:.5}
+.dcc-btn-salle{background:linear-gradient(135deg,#1a3d28,#2d6b40);color:#a8e6bc}
+.dcc-btn-resa{background:linear-gradient(135deg,#0d2a3d,#1e5070);color:#90c8e8}
+.dcc-btn-stk{background:linear-gradient(135deg,#3d1010,#6b2020);color:#f0a090}
+.dcc-btn-cmd{background:linear-gradient(135deg,#3d2a0a,#6b4a15);color:#f0c070}
+.dcc-sep{display:flex;align-items:center;gap:10px;margin:12px 0 10px;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted)}
+.dcc-sep::before,.dcc-sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.dcc-sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dcc-sec-btn{padding:12px;background:var(--ink2);border:1px solid var(--line);border-radius:12px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .18s;color:var(--txt)}
+.dcc-sec-btn:hover{border-color:rgba(201,151,58,.4);background:rgba(201,151,58,.06)}
+.dcc-sec-btn-ico{font-size:18px}.dcc-sec-btn-lbl{font-size:12px;font-weight:600}
+.kpi-card{background:rgba(22,18,12,.95)!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:16px!important;padding:20px!important;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.kpi-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:16px 16px 0 0;background:var(--kpi-acc,var(--gold2))!important;opacity:.8}
+.kpi-card::after{display:none!important}
+.kpi-card:hover{border-color:rgba(255,255,255,.2)!important;transform:translateY(-2px)}
+.kpi-card-inner{position:relative;z-index:1}
+.kpi-card-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:10px}
+.kpi-card-val{font-family:"Cormorant Garamond",serif!important;font-size:38px!important;font-weight:700!important;line-height:1!important;color:#fff!important;letter-spacing:-1.5px!important;margin-bottom:6px}
+.kpi-card-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:4px}
+.kpi-bar{height:3px;border-radius:2px;background:rgba(255,255,255,.06);margin-top:14px;overflow:hidden}
+.kpi-bar-fill{height:100%;border-radius:2px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.kpi-card.gold{--kpi-acc:#e8b84b}.kpi-card.green{--kpi-acc:#4ade80}.kpi-card.blue{--kpi-acc:#60a5fa}.kpi-card.orange{--kpi-acc:#fb923c}.kpi-card.red{--kpi-acc:#f87171}
 </style>
 </head>
 <body>
@@ -6132,17 +6165,16 @@ tbody td { padding:13px 14px; font-size:13px; }
       <span class="sb-grp-arrow" id="arr-finance">▸</span>
     </div>
     <div class="sb-group-body" id="body-finance" style="display:none">
-      <div class="nav-item" onclick="nav('finance',this)"><span class="ni-ico">◈</span>Comptabilité</div>
+      <div class="nav-item" onclick="nav('finance',this)"><span class="ni-ico">💶</span>Finance</div>
       <div class="nav-item" onclick="nav('rapports',this)"><span class="ni-ico">📊</span>Rapports</div>
-      <div class="nav-item" onclick="nav('stats',this)"><span class="ni-ico">▦</span>Stats mensuelles</div>
-      <div class="nav-item" onclick="nav('frais',this)"><span class="ni-ico">💸</span>Frais & Charges</div>
-      <div class="nav-item" onclick="nav('banque',this)"><span class="ni-ico">🏦</span>Banque Pro</div>
+      <div class="nav-item" onclick="nav('stats',this)"><span class="ni-ico">▦</span>Stats</div>
+      <div class="nav-item" onclick="nav('frais',this)"><span class="ni-ico">💸</span>Frais</div>
+      <div class="nav-item" onclick="nav('banque',this)"><span class="ni-ico">🏦</span>Banque</div>
       <div class="nav-item" onclick="nav('budget',this)"><span class="ni-ico">🎯</span>Budget</div>
       <div class="nav-item" onclick="nav('marges',this)"><span class="ni-ico">📈</span>Marges</div>
       <div class="nav-item" onclick="nav('objectifs',this)"><span class="ni-ico">🎯</span>Objectifs</div>
       <div class="nav-item" onclick="rapportJournalier()" style="color:var(--gold2)"><span class="ni-ico">📊</span>Rapport journalier</div>
-    </div>
-  </div>
+    </div>  </div>
 
   <!-- ═══ ADMINISTRATION ═══ -->
   <div class="sb-group" id="grp-admin">
@@ -6244,16 +6276,25 @@ tbody td { padding:13px 14px; font-size:13px; }
         <div class="ai-header"><div class="ai-dot"></div><span class="ai-title">Assistant intelligent</span></div>
         <div id="dash-ai-tips"></div>
       </div>
-      <div class="actions-card">
-        <div class="actions-title">Actions rapides</div>
-        <button class="action-btn" style="background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border-color:rgba(201,168,76,.4)" onclick="activerModeDemo()"><div class="action-btn-ico">🎭</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9a84c">Mode Démo</div><div class="action-btn-sub">Charger données réalistes</div></div><span class="action-btn-arrow" style="color:#c9a84c">›</span></button>
-        <button class="action-btn" onclick="rapportJournalier()"><div class="action-btn-ico">📊</div><div class="action-btn-info"><div class="action-btn-lbl">Rapport journalier</div><div class="action-btn-sub">Bilan du service · impression PDF</div></div><span class="action-btn-arrow">›</span></button>
-        <button class="action-btn" onclick="exempleRapport()" style="border-color:rgba(201,151,58,.3)"><div class="action-btn-ico">👁</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9973a">Exemple rapport</div><div class="action-btn-sub">Voir avec données de démo</div></div><span class="action-btn-arrow" style="color:#c9973a">›</span></button>
-        <button class="action-btn" onclick="exempleTicket()" style="border-color:rgba(201,151,58,.3)"><div class="action-btn-ico">🧾</div><div class="action-btn-info"><div class="action-btn-lbl" style="color:#c9973a">Exemple ticket</div><div class="action-btn-sub">Aperçu ticket de caisse</div></div><span class="action-btn-arrow" style="color:#c9973a">›</span></button>
-        <button class="action-btn action-cmd" onclick="nav('salle',null);openModal('mo-commande')"><div class="action-btn-ico">📋</div><div class="action-btn-info"><div class="action-btn-lbl">Nouvelle commande</div><div class="action-btn-sub">Saisir une commande table</div></div><span class="action-btn-arrow">›</span></button>
-        <button class="action-btn action-caisse" onclick="nav('caisse',null)"><div class="action-btn-ico">💳</div><div class="action-btn-info"><div class="action-btn-lbl">Ouvrir la caisse</div><div class="action-btn-sub">Encaissement & tickets</div></div><span class="action-btn-arrow">›</span></button>
-        <button class="action-btn action-salle" onclick="nav('salle',null)"><div class="action-btn-ico">🗺️</div><div class="action-btn-info"><div class="action-btn-lbl">Voir la salle</div><div class="action-btn-sub">Plan des tables en temps réel</div></div><span class="action-btn-arrow">›</span></button>
-        <button class="action-btn action-stock" onclick="nav('stocks',null)"><div class="action-btn-ico">📦</div><div class="action-btn-info"><div class="action-btn-lbl">Gérer les stocks</div><div class="action-btn-sub">Alertes & niveaux critiques</div></div><span class="action-btn-arrow">›</span></button>
+      <div class="actions-card" style="background:transparent;border:none;padding:0">
+        <button class="dcc-gold-btn" onclick="nav(&#39;caisse&#39;,null)">
+          <span class="dcc-gold-ico">◇</span>
+          <div class="dcc-gold-text"><div class="dcc-gold-label">Ouvrir la Caisse</div><div class="dcc-gold-sub">Encaissement &amp; tickets</div></div>
+          <div class="dcc-gold-val" id="dash-act-ca">0,00 €</div>
+        </button>
+        <div class="dcc-grid">
+          <button class="dcc-btn dcc-btn-salle" onclick="nav(&#39;salle&#39;,null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">⬡</span><div class="dcc-btn-lbl">Salle</div><div class="dcc-btn-val" id="dash-act-tables">— tables</div></button>
+          <button class="dcc-btn dcc-btn-resa" onclick="nav(&#39;reservations&#39;,null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">📅</span><div class="dcc-btn-lbl">Réservations</div><div class="dcc-btn-val" id="dash-act-resas">— ce soir</div></button>
+          <button class="dcc-btn dcc-btn-cmd" onclick="nav(&#39;salle&#39;,null);openModal(&#39;mo-commande&#39;)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">📋</span><div class="dcc-btn-lbl">Commande</div><div class="dcc-btn-val">Nouvelle table</div></button>
+          <button class="dcc-btn dcc-btn-stk" onclick="nav(&#39;stocks&#39;,null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">📦</span><div class="dcc-btn-lbl">Stocks</div><div class="dcc-btn-val" id="dash-act-stk">Vérifier</div></button>
+        </div>
+        <div class="dcc-sep">Actions secondaires</div>
+        <div class="dcc-sec-grid">
+          <button class="dcc-sec-btn" onclick="openModal(&#39;mo-resa&#39;)"><span class="dcc-sec-btn-ico">➕</span><div><div class="dcc-sec-btn-lbl">Nouvelle résa</div></div></button>
+          <button class="dcc-sec-btn" onclick="rapportJournalier()"><span class="dcc-sec-btn-ico">📊</span><div><div class="dcc-sec-btn-lbl">Rapport PDF</div></div></button>
+          <button class="dcc-sec-btn" onclick="nav(&#39;menu&#39;,null)"><span class="dcc-sec-btn-ico">≡</span><div><div class="dcc-sec-btn-lbl">Menu &amp; Plats</div></div></button>
+          <button class="dcc-sec-btn" onclick="ouvrirFinService()"><span class="dcc-sec-btn-ico">🌙</span><div><div class="dcc-sec-btn-lbl">Fin de service</div></div></button>
+        </div>
       </div>
     </div>
 
@@ -11408,54 +11449,17 @@ function miniSparkBars(values,color,h=28){
   return `<div style="display:flex;align-items:flex-end;gap:2px;height:${h}px">${values.map(v=>`<div style="flex:1;min-width:4px;border-radius:2px 2px 0 0;background:${color};opacity:${v>0?.3+.7*(v/max):.1};height:${Math.max(2,Math.round(v/max*h))}px;transition:height .4s ease"></div>`).join('')}</div>`;
 }
 function kpiCard(ico,val,lbl,color,opts={}){
-  const delay=opts.delay||0;
-  const sub=opts.sub||'';
-  const trend=opts.trend||'';
-  const bar=opts.bar;
-  const donut=opts.donut; // {pct}
-  const spark=opts.spark; // [values]
-  let trendHtml='';
-  if(trend==='up') trendHtml='<div class="kpi-card-trend up">↑ </div>';
-  else if(trend==='dn') trendHtml='<div class="kpi-card-trend dn">↓</div>';
-  const colorMap={gold:'var(--gold2)',green:'#6fcf8a',blue:'#6aacda',orange:'#f0a060',red:'#f07060',purple:'#c89aff'};
-  const accentCol=colorMap[color]||'#6fcf8a';
-  // Layout: donut à droite OU sparkline en bas
-  if(donut){
-    const uid='kpi'+Math.random().toString(36).slice(2,7);
-    setTimeout(()=>{
-      const el=document.getElementById(uid);
-      if(el&&typeof val==='string'&&val.includes('€')){
-        // Animate euro value
-        el.style.animation='none';el.offsetHeight;el.style.animation='dashValIn .5s ease both';
-      }
-    },delay+100);
-    return `<div class="kpi-card ${color}" style="animation-delay:${delay}ms">
-      <div class="kpi-card-inner">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-          <div style="flex:1">
-            <div class="kpi-card-lbl" style="margin-bottom:8px">${lbl}</div>
-            <div class="kpi-card-val" id="${uid}">${val}</div>
-            ${sub?`<div class="kpi-card-sub">${sub}</div>`:''}
-            ${trendHtml}
-          </div>
-          ${svgDonut(donut.pct,accentCol)}
-        </div>
-        <div class="kpi-card-bar" style="margin-top:10px"><div class="kpi-card-bar-fill" style="width:${donut.pct}%"></div></div>
-      </div>
-    </div>`;
-  }
-  return `<div class="kpi-card ${color}" style="animation-delay:${delay}ms">
-    <div class="kpi-card-inner">
-      <div class="kpi-card-top"><div class="kpi-card-ico">${ico}</div>${trendHtml}</div>
-      <div class="kpi-card-val">${val}</div>
-      <div class="kpi-card-lbl">${lbl}</div>
-      ${sub?`<div class="kpi-card-sub">${sub}</div>`:''}
-      ${spark?`<div style="margin-top:10px">${miniSparkBars(spark,accentCol)}</div>`:''}
-      ${bar?`<div class="kpi-card-bar"><div class="kpi-card-bar-fill" style="width:${bar.pct}%"></div></div>`:''}
-    </div>
-  </div>`;
+  const d=opts.delay||0,sub=opts.sub||'',donut=opts.donut,bar=opts.bar;
+  const cm={gold:'#e8b84b',green:'#4ade80',blue:'#60a5fa',orange:'#fb923c',red:'#f87171',purple:'#c084fc'};
+  const ac=cm[color]||'#e8b84b';
+  const pct=donut?donut.pct:bar||0;
+  const bH=pct?'<div class="kpi-bar"><div class="kpi-bar-fill" style="width:'+pct+'%;background:'+ac+'"></div></div>':'';
+  const sv=[.3,.5,.4,.65,.55,.75,.7,.85,pct?Math.min(1,pct/100):.8];
+  const W=80,H=26,pts=sv.map((v,i)=>((i*(W/(sv.length-1))).toFixed(1)+','+(H-v*H*.9).toFixed(1))).join(' ');
+  const ly=(H-sv[sv.length-1]*H*.9).toFixed(1);
+  const sp='<div style="margin-top:10px;opacity:.8"><svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'"><polyline points="'+pts+'" fill="none" stroke="'+ac+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+W+'" cy="'+ly+'" r="2.5" fill="'+ac+'"/></svg></div>';
+  return '<div class="kpi-card '+color+'" style="animation-delay:'+d+'ms"><div class="kpi-card-inner"><div class="kpi-card-lbl">'+lbl+'</div><div class="kpi-card-val">'+val+'</div>'+(sub?'<div class="kpi-card-sub">'+sub+'</div>':'')+sp+bH+'</div></div>';
 }
-
 function toast(msg,type='ok',duration=3200){
   const t=document.getElementById('toast');
   const ico=type==='ok'?'✓':type==='err'?'✕':type==='warn'?'⚠':type==='info'?'ℹ':'✓';
@@ -16942,42 +16946,40 @@ function rDash(){
         :`<div style="margin-top:10px;padding:9px 11px;background:rgba(61,122,78,.08);border:1px solid rgba(61,122,78,.2);border-radius:8px;font-size:12px;color:#6fcf8a">✅ Aucune commande en attente</div>`);
   }
 
-  // ── ALERTES waouh ──
+  // ── ALERTES PROACTIVES ──
   const alertesEl=set('d-alertes');
   if(alertesEl){
     const alertes=[];
-    const retard=DB.commandes.filter(c=>c.stat!=='payé'&&c.stat!=='servi');
-    if(retard.length>0) alertes.push({type:'urgent',txt:`${retard.length} commande(s) en attente`,sub:'Action requise immédiatement',ico:'⏳'});
-    stkAlerts.forEach(s=>alertes.push({type:'danger',txt:`Rupture : ${s.nom}`,sub:`${s.qte} ${s.unit} restant(s)`,ico:'📦'}));
-    const cmdFournUrgent=(DB.cmdFourn||[]).filter(c=>c.stat!=='reçue'&&c.stat!=='livré'&&c.stat!=='annulé'&&c.date&&c.date<td());
-    if(cmdFournUrgent.length>0) alertes.push({type:'danger',txt:`${cmdFournUrgent.length} commande(s) fournisseur en retard`,sub:'Vérifier les livraisons',ico:'🚚'});
-    const resaAttente=DB.reservations.filter(r=>r.date===today&&r.stat==='en-attente').length;
-    if(resaAttente>0) alertes.push({type:'warn',txt:`${resaAttente} réservation(s) à confirmer`,sub:'Répondre aux clients',ico:'📅'});
-    alertesEl.innerHTML=alertes.length>0?alertes.map(a=>{
-      const bg=a.type==='danger'?'rgba(181,57,42,.1)':a.type==='urgent'?'rgba(201,120,48,.1)':'rgba(201,151,58,.08)';
-      const border=a.type==='danger'?'rgba(181,57,42,.25)':a.type==='urgent'?'rgba(201,120,48,.25)':'rgba(201,151,58,.2)';
-      const col=a.type==='danger'?'#e88070':a.type==='urgent'?'#f0a060':'#e8b84b';
-      const anim=a.type==='danger'?'animation:retardBlink 1.8s infinite':a.type==='urgent'?'animation:urgentPulse 2s infinite':'';
-      return `<div style="display:flex;align-items:center;gap:10px;background:${bg};border:1px solid ${border};border-radius:9px;padding:11px 13px;margin-bottom:7px;${anim}">
-        <span style="font-size:18px;flex-shrink:0">${a.ico}</span>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:12px;font-weight:600;color:${col}">${a.txt}</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:1px">${a.sub}</div>
-        </div>
-        <span style="font-size:16px;color:${col};flex-shrink:0">›</span>
-      </div>`;
-    }).join('')
-    :`<div style="text-align:center;padding:24px 16px"><div style="font-size:28px;opacity:.4;margin-bottom:8px">✅</div><div style="font-size:12px;color:var(--muted)">Aucune alerte active</div></div>`;
-  }
-  // Appliquer classes d'alerte sur KPI cards
-  setTimeout(()=>{
-    const kpiCards=document.querySelectorAll('#dash-kpis .kpi-card');
-    if(kpiCards[2]&&actCmds>5) kpiCards[2].classList.add('kpi-urgent');
-    if(kpiCards[0]&&alrtStk>0){
-      const stkCard=document.getElementById('dash-stk-kpi');
-      if(stkCard) stkCard.classList.add('kpi-urgent');
+    const _n2=new Date(),_cH=_n2.getHours(),_cM=_n2.getMinutes(),_nM=_cH*60+_cM;
+    const _resJ=(DB.reservations||[]).filter(r=>r.date===today&&r.stat!=='annulé');
+    const _stkA=(DB.stocks||[]).filter(s=>+s.qte<=+s.seuil);
+    const _cmdsR=(DB.commandes||[]).filter(cmd=>{
+      if(['payé','annulé','servi'].includes(cmd.stat)) return false;
+      if(!cmd.heure) return false;
+      const [hh,mm]=cmd.heure.split(':').map(Number);
+      return (_nM-(hh*60+mm))>20;
+    });
+    if(_cmdsR.length>0) alertes.push({type:'urgent',ico:'⏱️',txt:_cmdsR.length+' commande'+(+_cmdsR.length>1?'s':'')+' en retard',sub:'Tables : '+_cmdsR.slice(0,3).map(cmd=>{const t=gT(cmd.tableId);return t?'T'+t.num:'?';}).join(', '),action:"nav('salle',null)",lbl:'Voir salle'});
+    _stkA.slice(0,3).forEach(s=>alertes.push({type:'danger',ico:'📦',txt:'Rupture : '+s.nom,sub:s.qte+' '+s.unit+' restant',action:"nav('stocks',null)",lbl:'Stocks'}));
+    const _resI=_resJ.filter(r=>{if(!r.h||['annulé','arrivé','assis'].includes(r.stat)) return false;const[rh,rm]=r.h.split(':').map(Number);const d=(rh*60+rm)-_nM;return d>=0&&d<=45;});
+    if(_resI.length>0) alertes.push({type:'warn',ico:'📅',txt:_resI.length+' résa imminente'+(+_resI.length>1?'s':''),sub:_resI.map(r=>r.nom.split(' ')[0]+' '+r.h).join(' · '),action:"nav('reservations',null)",lbl:'Réservations'});
+    const _resAtt=_resJ.filter(r=>r.stat==='en-attente').length;
+    if(_resAtt>0) alertes.push({type:'warn',ico:'⏳',txt:_resAtt+' résa à confirmer',sub:'En attente',action:"nav('reservations',null)",lbl:'Confirmer'});
+    if(!alertes.length){
+      alertesEl.innerHTML='<div style="display:flex;align-items:center;gap:10px;padding:14px;background:rgba(61,122,78,.08);border:1px solid rgba(61,122,78,.2);border-radius:12px"><span style="font-size:20px">✅</span><div><div style="font-size:13px;font-weight:600;color:#6fcf8a">Service nominal</div><div style="font-size:11px;color:var(--muted);margin-top:2px">Aucune alerte</div></div></div>';
+    } else {
+      const cols={urgent:{bg:'rgba(201,120,48,.1)',bd:'rgba(201,120,48,.3)',col:'#f0a060'},danger:{bg:'rgba(181,57,42,.1)',bd:'rgba(181,57,42,.3)',col:'#e88070'},warn:{bg:'rgba(201,151,58,.08)',bd:'rgba(201,151,58,.25)',col:'#e8b84b'}};
+      alertesEl.innerHTML=alertes.map(a=>{const col=cols[a.type]||cols.warn;return '<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:'+col.bg+';border:1px solid '+col.bd+';border-radius:12px;margin-bottom:8px;cursor:pointer" onclick="'+a.action+'"><div style="width:36px;height:36px;border-radius:10px;background:'+col.bg+';border:1px solid '+col.bd+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+a.ico+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;color:'+col.col+'">'+a.txt+'</div><div style="font-size:11px;color:var(--sub);margin-top:2px">'+a.sub+'</div></div><span style="font-size:11px;color:'+col.col+';padding:4px 8px;background:'+col.bg+';border:1px solid '+col.bd+';border-radius:8px;flex-shrink:0">'+a.lbl+' ›</span></div>';}).join('');
     }
-  },200);
+    const _tO=(DB.tables||[]).filter(t=>t.stat==='occupée'||t.stat==='occupee').length;
+    const _tT=(DB.tables||[]).length;
+    const _caJ2=(DB.ventes||[]).filter(v=>v.date===today).reduce((s,v)=>s+(+v.total||0),0);
+    const elT=document.getElementById('dash-act-tables'),elR=document.getElementById('dash-act-resas'),elC=document.getElementById('dash-act-ca'),elS=document.getElementById('dash-act-stk');
+    if(elT)elT.textContent=_tO+'/'+_tT+' tables occupées';
+    if(elR)elR.textContent=_resJ.length+' résa'+(+_resJ.length>1?'s':'')+' ce soir';
+    if(elC)elC.textContent=eur(_caJ2);
+    if(elS){elS.textContent=_stkA.length>0?_stkA.length+' alerte'+(+_stkA.length>1?'s':''):'Stocks OK';if(_stkA.length>0&&elS.parentElement)elS.parentElement.style.borderColor='rgba(181,57,42,.5)';}
+  }
 
   // ── TOP PLATS waouh ──
   const topEl=set('d-top');
