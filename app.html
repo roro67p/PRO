@@ -6003,10 +6003,15 @@ tbody td { padding:13px 14px; font-size:13px; }
 .kpi-bar{height:3px;border-radius:2px;background:rgba(255,255,255,.06);margin-top:14px;overflow:hidden}
 .kpi-bar-fill{height:100%;border-radius:2px;transition:width 1s cubic-bezier(.4,0,.2,1)}
 .kpi-card.gold{--kpi-acc:#e8b84b}.kpi-card.green{--kpi-acc:#4ade80}.kpi-card.blue{--kpi-acc:#60a5fa}.kpi-card.orange{--kpi-acc:#fb923c}.kpi-card.red{--kpi-acc:#f87171}
-.pg-tabs{display:flex;gap:0;background:var(--ink2);border-bottom:2px solid var(--line);margin:-28px -28px 16px -28px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
-.pg-tab{padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--sub);transition:all .15s;flex-shrink:0}
-.pg-tab.on{border-bottom-color:var(--gold);color:var(--gold2)}
-.pg-tab:hover{color:var(--txt)}
+.pg-tabs{display:flex;gap:10px;background:transparent;margin:-28px -28px 20px -28px;padding:16px 20px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.pg-tab{position:relative;padding:0;font-size:10px;font-weight:800;cursor:pointer;white-space:nowrap;color:rgba(255,255,255,.3);transition:all .3s cubic-bezier(.34,1.56,.64,1);flex-shrink:0;letter-spacing:1px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:5px}
+.pg-tab .tab-dot{width:32px;height:32px;border-radius:50%;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.pg-tab:hover{color:rgba(255,255,255,.6)}
+.pg-tab:hover .tab-dot{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);transform:scale(1.1)}
+.pg-tab.on{color:var(--gold2)}
+.pg-tab.on .tab-dot{background:linear-gradient(135deg,#c9973a,#f5d070);border-color:transparent;box-shadow:0 0 16px rgba(201,151,58,.5),0 0 4px rgba(201,151,58,.8);transform:scale(1.15);animation:tabGlow 2s ease-in-out infinite}
+@keyframes tabGlow{0%,100%{box-shadow:0 0 16px rgba(201,151,58,.5),0 0 4px rgba(201,151,58,.8)}50%{box-shadow:0 0 24px rgba(201,151,58,.8),0 0 8px rgba(245,208,112,.9)}}50%{opacity:.4;transform:scale(.6)}}
+.pg-tab.on::before{background:linear-gradient(135deg,rgba(245,208,112,.08),transparent)}
 </style>
 </head>
 <body>
@@ -6301,6 +6306,48 @@ tbody td { padding:13px 14px; font-size:13px; }
       </div>
     </div>
 
+    <!-- TABLEAU FINANCIER LIVE -->
+    <div style="margin-bottom:20px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+        <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite"></span>
+        Finances live
+      </div>
+      <!-- Ligne 1 : CA / Coût matière / Coût MO -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+        <div style="background:linear-gradient(135deg,rgba(201,151,58,.15),rgba(201,151,58,.05));border:1px solid rgba(201,151,58,.3);border-radius:14px;padding:14px">
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:6px">CA du soir</div>
+          <div style="font-family:Cormorant Garamond,serif;font-size:24px;font-weight:700;color:var(--gold2)" id="fin-ca">0 €</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="fin-ca-cvt">0 cvt</div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(248,113,113,.12),rgba(248,113,113,.04));border:1px solid rgba(248,113,113,.25);border-radius:14px;padding:14px">
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#f87171;font-weight:700;margin-bottom:6px">Coût matière</div>
+          <div style="font-family:Cormorant Garamond,serif;font-size:24px;font-weight:700;color:#f87171" id="fin-mat">0 €</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="fin-mat-pct">0% CA</div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(251,146,60,.12),rgba(251,146,60,.04));border:1px solid rgba(251,146,60,.25);border-radius:14px;padding:14px">
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#fb923c;font-weight:700;margin-bottom:6px">Main d'œuvre</div>
+          <div style="font-family:Cormorant Garamond,serif;font-size:24px;font-weight:700;color:#fb923c" id="fin-mo">0 €</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="fin-mo-pct">0% CA</div>
+        </div>
+      </div>
+      <!-- Ligne 2 : Marge brute / Seuil / Statut -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:14px">
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:6px">Marge nette</div>
+          <div style="font-family:Cormorant Garamond,serif;font-size:28px;font-weight:700" id="fin-marge">0 €</div>
+          <div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-top:8px">
+            <div id="fin-marge-bar" style="height:100%;border-radius:4px;transition:width 1s;width:0%"></div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="fin-marge-pct">0% marge</div>
+        </div>
+        <div style="border-radius:14px;padding:14px;border:2px solid" id="fin-seuil-card" style="background:var(--ink2)">
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px" id="fin-seuil-lbl">Seuil rentabilité</div>
+          <div style="font-family:Cormorant Garamond,serif;font-size:24px;font-weight:700" id="fin-seuil">—</div>
+          <div style="font-size:11px;font-weight:700;margin-top:6px" id="fin-seuil-stat">Calcul en cours...</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px" id="fin-seuil-sub"></div>
+        </div>
+      </div>
+    </div>
     <!-- TOP PLATS + SALLE + ALERTES -->
     <div class="dash-bottom">
       <div class="dash-section ds-top"><div class="dash-section-title">🏆 Performance plats</div><div id="d-top"></div>
@@ -6521,7 +6568,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- MENU -->
   <div id="page-menu" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="menu" onclick="nav(&#39;menu&#39;,null)">&#x2261; Plats</div><div class="pg-tab" data-page="menuJour" onclick="nav(&#39;menuJour&#39;,null)">&#x2600; Menu du jour</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="menu" onclick="nav(&#39;menu&#39;,null)"><div class="tab-dot">≡</div>&#x2261; Plats</div><div class="pg-tab" data-page="menuJour" onclick="nav(&#39;menuJour&#39;,null)"><div class="tab-dot">☀</div>&#x2600; Menu du jour</div></div>
 
   <div>
     <!-- HEADER -->
@@ -6564,7 +6611,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   
   <!-- RÉSERVATIONS -->
   <div id="page-reservations" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)">&#x1F4C5; Calendrier</div><div class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)">&#x23F3; Attente</div><div class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)">&#x1F310; En ligne</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Calendrier</div><div class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)"><div class="tab-dot">⏳</div>&#x23F3; Attente</div><div class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)"><div class="tab-dot">🌐</div>&#x1F310; En ligne</div></div>
 
   <div class="rs-page">
     <!-- HEADER -->
@@ -6666,7 +6713,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
   </div>
   <div id="page-resa-attente" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)">&#x1F4C5; Calendrier</div><div class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)">&#x23F3; Attente</div><div class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)">&#x1F310; En ligne</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Calendrier</div><div class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)"><div class="tab-dot">⏳</div>&#x23F3; Attente</div><div class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)"><div class="tab-dot">🌐</div>&#x1F310; En ligne</div></div>
 <div style="display:none"></div></div>
 
   <!-- STOCKS -->
@@ -6819,7 +6866,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   <!-- PERSONNEL & PAIE -->
   <!-- PAGE PRÉSENCES -->
   <div id="page-presence" class="page prs-page">
-<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">&#x1F393; Formation</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)"><div class="tab-dot">👥</div>&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)"><div class="tab-dot">🕐</div>&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)"><div class="tab-dot">🏖</div>&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)"><div class="tab-dot">💼</div>&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)"><div class="tab-dot">💶</div>&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)"><div class="tab-dot">🎓</div>&#x1F393; Formation</div></div>
 
 
   <!-- HEADER -->
@@ -6860,7 +6907,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
 
   <div id="page-rh" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">&#x1F393; Formation</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)"><div class="tab-dot">👥</div>&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)"><div class="tab-dot">🕐</div>&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)"><div class="tab-dot">🏖</div>&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)"><div class="tab-dot">💼</div>&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)"><div class="tab-dot">💶</div>&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)"><div class="tab-dot">🎓</div>&#x1F393; Formation</div></div>
 
 
   <div>
@@ -7288,7 +7335,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- STATS MENSUELLES -->
   <div id="page-stats" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">&#x1F4C8; Marges</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)"><div class="tab-dot">💶</div>&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)"><div class="tab-dot">📊</div>&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)"><div class="tab-dot">▦</div>&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)"><div class="tab-dot">💸</div>&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)"><div class="tab-dot">🏦</div>&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)"><div class="tab-dot">🎯</div>&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)"><div class="tab-dot">📈</div>&#x1F4C8; Marges</div></div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
       <div>
@@ -7349,7 +7396,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <div id="page-menuJour" class="page mj-page">
-<div class="pg-tabs"><div class="pg-tab" data-page="menu" onclick="nav(&#39;menu&#39;,null)">&#x2261; Plats</div><div class="pg-tab" data-page="menuJour" onclick="nav(&#39;menuJour&#39;,null)">&#x2600; Menu du jour</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="menu" onclick="nav(&#39;menu&#39;,null)"><div class="tab-dot">≡</div>&#x2261; Plats</div><div class="pg-tab" data-page="menuJour" onclick="nav(&#39;menuJour&#39;,null)"><div class="tab-dot">☀</div>&#x2600; Menu du jour</div></div>
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
@@ -7566,7 +7613,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   
   <!-- FOURNISSEURS -->
   <div id="page-fournisseurs" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="fournisseurs" onclick="nav(&#39;fournisseurs&#39;,null)">&#x25AB; Fournisseurs</div><div class="pg-tab" data-page="cmdFourn" onclick="nav(&#39;cmdFourn&#39;,null)">&#x1F4E6; Commandes</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="fournisseurs" onclick="nav(&#39;fournisseurs&#39;,null)"><div class="tab-dot">◫</div>&#x25AB; Fournisseurs</div><div class="pg-tab" data-page="cmdFourn" onclick="nav(&#39;cmdFourn&#39;,null)"><div class="tab-dot">📦</div>&#x1F4E6; Commandes</div></div>
 
   <div>
     <!-- HEADER -->
@@ -7603,7 +7650,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- FINANCE -->
   <div id="page-finance" class="page fin-page">
-<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">&#x1F4C8; Marges</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)"><div class="tab-dot">💶</div>&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)"><div class="tab-dot">📊</div>&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)"><div class="tab-dot">▦</div>&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)"><div class="tab-dot">💸</div>&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)"><div class="tab-dot">🏦</div>&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)"><div class="tab-dot">🎯</div>&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)"><div class="tab-dot">📈</div>&#x1F4C8; Marges</div></div>
 
 
     <!-- HEADER -->
@@ -7759,7 +7806,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   
   <!-- RAPPORTS -->
   <div id="page-rapports" class="page rp-page">
-<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">&#x1F4C8; Marges</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)"><div class="tab-dot">💶</div>&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)"><div class="tab-dot">📊</div>&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)"><div class="tab-dot">▦</div>&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)"><div class="tab-dot">💸</div>&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)"><div class="tab-dot">🏦</div>&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)"><div class="tab-dot">🎯</div>&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)"><div class="tab-dot">📈</div>&#x1F4C8; Marges</div></div>
 
 
   <!-- HEADER -->
@@ -7938,7 +7985,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   <!-- ANALYSE MARGES -->
   <!-- PAGE FRAIS & CHARGES -->
   <div id="page-frais" class="page fin-page">
-<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">&#x1F4C8; Marges</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)"><div class="tab-dot">💶</div>&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)"><div class="tab-dot">📊</div>&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)"><div class="tab-dot">▦</div>&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)"><div class="tab-dot">💸</div>&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)"><div class="tab-dot">🏦</div>&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)"><div class="tab-dot">🎯</div>&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)"><div class="tab-dot">📈</div>&#x1F4C8; Marges</div></div>
 
     <div class="fin-header">
       <div>
@@ -8165,7 +8212,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <div id="page-banque" class="page fin-page">
-<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">&#x1F4C8; Marges</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)"><div class="tab-dot">💶</div>&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)"><div class="tab-dot">📊</div>&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)"><div class="tab-dot">▦</div>&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)"><div class="tab-dot">💸</div>&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)"><div class="tab-dot">🏦</div>&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)"><div class="tab-dot">🎯</div>&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)"><div class="tab-dot">📈</div>&#x1F4C8; Marges</div></div>
 
     <div class="fin-header">
       <div>
@@ -8199,7 +8246,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <div id="page-marges" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">&#x1F4C8; Marges</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)"><div class="tab-dot">💶</div>&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)"><div class="tab-dot">📊</div>&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)"><div class="tab-dot">▦</div>&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)"><div class="tab-dot">💸</div>&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)"><div class="tab-dot">🏦</div>&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)"><div class="tab-dot">🎯</div>&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)"><div class="tab-dot">📈</div>&#x1F4C8; Marges</div></div>
 
   <div class="marges-wrap">
 
@@ -8926,7 +8973,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- CLIENTS -->
   <div id="page-clients" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)">&#x1F464; Clients</div><div class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)">&#x1F48E; VIP</div><div class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)">&#x1F381; Fidélité</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)"><div class="tab-dot">👤</div>&#x1F464; Clients</div><div class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)"><div class="tab-dot">💎</div>&#x1F48E; VIP</div><div class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)"><div class="tab-dot">🎁</div>&#x1F381; Fidélité</div></div>
 
   <div>
     <!-- HEADER -->
@@ -9004,7 +9051,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- CLIENTS VIP -->
   <div id="page-vip" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)">&#x1F464; Clients</div><div class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)">&#x1F48E; VIP</div><div class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)">&#x1F381; Fidélité</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)"><div class="tab-dot">👤</div>&#x1F464; Clients</div><div class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)"><div class="tab-dot">💎</div>&#x1F48E; VIP</div><div class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)"><div class="tab-dot">🎁</div>&#x1F381; Fidélité</div></div>
 
     <div class="page-header">
       <h2>⭐ Clients VIP</h2>
@@ -9100,7 +9147,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- RÉSERVATION EN LIGNE -->
   <div id="page-resa-online" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)">&#x1F4C5; Calendrier</div><div class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)">&#x23F3; Attente</div><div class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)">&#x1F310; En ligne</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Calendrier</div><div class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)"><div class="tab-dot">⏳</div>&#x23F3; Attente</div><div class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)"><div class="tab-dot">🌐</div>&#x1F310; En ligne</div></div>
 
     <div class="page-header">
       <h2>🌐 Réservation en ligne</h2>
@@ -9193,7 +9240,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- CONGÉS & ABSENCES -->
   <div id="page-conges" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">&#x1F393; Formation</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)"><div class="tab-dot">👥</div>&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)"><div class="tab-dot">🕐</div>&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)"><div class="tab-dot">🏖</div>&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)"><div class="tab-dot">💼</div>&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)"><div class="tab-dot">💶</div>&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)"><div class="tab-dot">🎓</div>&#x1F393; Formation</div></div>
 
     <div class="page-header">
       <h2>🏖️ Congés & Absences</h2>
@@ -9222,7 +9269,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- FICHES DE PAIE -->
   <div id="page-fiches-paie" class="page fp-page">
-<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">&#x1F393; Formation</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)"><div class="tab-dot">👥</div>&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)"><div class="tab-dot">🕐</div>&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)"><div class="tab-dot">🏖</div>&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)"><div class="tab-dot">💼</div>&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)"><div class="tab-dot">💶</div>&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)"><div class="tab-dot">🎓</div>&#x1F393; Formation</div></div>
 
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
@@ -9508,7 +9555,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   <div id="histo-tables-list"></div>
 
   <div id="page-salaires" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">&#x1F393; Formation</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)"><div class="tab-dot">👥</div>&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)"><div class="tab-dot">🕐</div>&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)"><div class="tab-dot">🏖</div>&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)"><div class="tab-dot">💼</div>&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)"><div class="tab-dot">💶</div>&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)"><div class="tab-dot">🎓</div>&#x1F393; Formation</div></div>
 
     <div class="page-header">
       <h2>👔 Coûts salariaux</h2>
@@ -9549,7 +9596,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- BUDGET PRÉVISIONNEL -->
   <div id="page-budget" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">&#x1F4C8; Marges</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)"><div class="tab-dot">💶</div>&#x25C8; Comptabilité</div><div class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)"><div class="tab-dot">📊</div>&#x1F4CA; Rapports</div><div class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)"><div class="tab-dot">▦</div>&#x25A6; Stats</div><div class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)"><div class="tab-dot">💸</div>&#x1F4B8; Frais</div><div class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)"><div class="tab-dot">🏦</div>&#x1F3E6; Banque</div><div class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)"><div class="tab-dot">🎯</div>&#x1F3AF; Budget</div><div class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)"><div class="tab-dot">📈</div>&#x1F4C8; Marges</div></div>
 
   <div>
     <div class="fn-header">
@@ -9894,7 +9941,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- CARTE DE FIDÉLITÉ -->
   <div id="page-fidelite" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)">&#x1F464; Clients</div><div class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)">&#x1F48E; VIP</div><div class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)">&#x1F381; Fidélité</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)"><div class="tab-dot">👤</div>&#x1F464; Clients</div><div class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)"><div class="tab-dot">💎</div>&#x1F48E; VIP</div><div class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)"><div class="tab-dot">🎁</div>&#x1F381; Fidélité</div></div>
 
     <div class="page-header">
       <h2>🎁 Carte de fidélité</h2>
@@ -10176,7 +10223,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   <!-- ÉTABLISSEMENTS -->
   <!-- PAGE PLANNING DÉDIÉ -->
   <div id="page-planning" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">&#x1F393; Formation</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)"><div class="tab-dot">👥</div>&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)"><div class="tab-dot">🕐</div>&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)"><div class="tab-dot">🏖</div>&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)"><div class="tab-dot">💼</div>&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)"><div class="tab-dot">💶</div>&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)"><div class="tab-dot">🎓</div>&#x1F393; Formation</div></div>
 
     <div class="pl4-header">
       <div>
@@ -10285,7 +10332,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <div id="page-cmdFourn" class="page">
-<div class="pg-tabs"><div class="pg-tab" data-page="fournisseurs" onclick="nav(&#39;fournisseurs&#39;,null)">&#x25AB; Fournisseurs</div><div class="pg-tab" data-page="cmdFourn" onclick="nav(&#39;cmdFourn&#39;,null)">&#x1F4E6; Commandes</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="fournisseurs" onclick="nav(&#39;fournisseurs&#39;,null)"><div class="tab-dot">◫</div>&#x25AB; Fournisseurs</div><div class="pg-tab" data-page="cmdFourn" onclick="nav(&#39;cmdFourn&#39;,null)"><div class="tab-dot">📦</div>&#x1F4E6; Commandes</div></div>
 
   <div class="cf2-wrap">
 
@@ -10397,7 +10444,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- FORMATION ÉQUIPE -->
   <div id="page-formation" class="page frm-page">
-<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">&#x1F393; Formation</div></div>
+<div class="pg-tabs"><div class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)"><div class="tab-dot">👥</div>&#x1F465; Personnel</div><div class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)"><div class="tab-dot">📅</div>&#x1F4C5; Planning</div><div class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)"><div class="tab-dot">🕐</div>&#x1F550; Présences</div><div class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)"><div class="tab-dot">🏖</div>&#x1F3D6; Congés</div><div class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)"><div class="tab-dot">💼</div>&#x1F4BC; Fiches paie</div><div class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)"><div class="tab-dot">💶</div>&#x1F454; Salaires</div><div class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)"><div class="tab-dot">🎓</div>&#x1F393; Formation</div></div>
 
 
   <!-- HEADER -->
@@ -17047,6 +17094,60 @@ function rDash(){
       alertesEl.innerHTML=alertes.map(a=>{const col=cols[a.type]||cols.warn;return '<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:'+col.bg+';border:1px solid '+col.bd+';border-radius:12px;margin-bottom:8px;cursor:pointer" onclick="'+a.action+'"><div style="width:36px;height:36px;border-radius:10px;background:'+col.bg+';border:1px solid '+col.bd+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+a.ico+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;color:'+col.col+'">'+a.txt+'</div><div style="font-size:11px;color:var(--sub);margin-top:2px">'+a.sub+'</div></div><span style="font-size:11px;color:'+col.col+';padding:4px 8px;background:'+col.bg+';border:1px solid '+col.bd+';border-radius:8px;flex-shrink:0">'+a.lbl+' ›</span></div>';}).join('');
     }
   }
+
+  // ── TABLEAU FINANCIER LIVE ──
+  const _caS=(DB.ventes||[]).filter(v=>v.date===today).reduce((s,v)=>s+(+v.total||0),0);
+  const _cvS=(DB.ventes||[]).filter(v=>v.date===today).reduce((s,v)=>s+(+v.couverts||0),0);
+  // Coût matière : 30% du CA par défaut, ou DB.params.foodCost si défini
+  const _fcPct=(DB.params&&DB.params.foodCost)||30;
+  const _moPct=(DB.params&&DB.params.moCost)||35;
+  const _fixDay=(DB.params&&DB.params.fraisFixJour)||200;
+  const _matS=Math.round(_caS*_fcPct/100);
+  const _moS=Math.round(_caS*_moPct/100);
+  const _margeS=_caS>0?_caS-_matS-_moS-_fixDay:0;
+  const _margePct=_caS>0?Math.round(_margeS/_caS*100):0;
+  const _seuilS=(DB.params&&DB.params.seuilJour)||(_fixDay*3);
+  const _seuilAtteint=_caS>=_seuilS;
+  const _seuilManque=Math.max(0,_seuilS-_caS);
+
+  const _set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  const _sty=(id,k,v)=>{const e=document.getElementById(id);if(e)e.style[k]=v;};
+
+  _set('fin-ca', _caS>0?eur(_caS):'—');
+  _set('fin-ca-cvt', _caS>0?(_cvS+' couvert'+(_cvS>1?'s':'')):'Aucune vente ce soir');
+  _set('fin-mat', _caS>0?eur(_matS):'—');
+  _set('fin-mat-pct', _fcPct+'% CA');
+  _set('fin-mo', _caS>0?eur(_moS):'—');
+  _set('fin-mo-pct', _moPct+'% CA');
+  _set('fin-marge', _caS>0?eur(_margeS):'—');
+  _set('fin-marge-pct', _caS>0?(_margePct+'% marge nette'):'En attente de ventes');
+  _set('fin-seuil', eur(_seuilS));
+  _set('fin-seuil-lbl', 'Seuil rentabilité');
+
+  // Couleur marge
+  const _margeCol=_margePct>=20?'#4ade80':_margePct>=10?'#e8b84b':'#f87171';
+  _sty('fin-marge','color',_margeCol);
+  setTimeout(()=>_sty('fin-marge-bar','width',Math.min(100,Math.max(0,_margePct*2))+'%'),200);
+  _sty('fin-marge-bar','background',_margeCol);
+
+  // Statut seuil
+  const _sc2=document.getElementById('fin-seuil-card');
+  if(_sc2){
+    if(_seuilAtteint){
+      _sc2.style.background='rgba(74,222,128,.08)';
+      _sc2.style.borderColor='rgba(74,222,128,.4)';
+      _set('fin-seuil-stat','✅ Seuil atteint !');
+      _sty('fin-seuil-stat','color','#4ade80');
+      _set('fin-seuil-sub','Bénéfice : '+eur(_margeS));
+    } else {
+      _sc2.style.background='rgba(248,113,113,.06)';
+      _sc2.style.borderColor='rgba(248,113,113,.3)';
+      _set('fin-seuil-stat','⚠️ '+eur(_seuilManque)+' manquants');
+      _sty('fin-seuil-stat','color','#f87171');
+      _set('fin-seuil-sub',Math.round(_seuilManque/(_caS||1)*_cvS)+' cvt nécessaires');
+    }
+  }
+
   // Live data boutons (toujours exécuté)
   const _tO2=(DB.tables||[]).filter(t=>t.stat==='occupée'||t.stat==='occupee').length;
   const _tT2=(DB.tables||[]).length;
