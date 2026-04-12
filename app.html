@@ -6041,93 +6041,91 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
-  <!-- SERVICE -->
+  <!-- ═══ SERVICE EN COURS ═══ -->
   <div class="sb-group" id="grp-service">
     <div class="sb-group-hd" onclick="toggleGrp('service')" style="--grp-col:#c9973a">
-      <span class="sb-grp-ico">🍽️</span><span class="sb-grp-lbl">Service</span>
+      <span class="sb-grp-ico">⚡</span><span class="sb-grp-lbl">Service</span>
       <span class="sb-grp-arrow" id="arr-service">▾</span>
     </div>
     <div class="sb-group-body" id="body-service">
       <div class="nav-item active" onclick="nav('dash',this)"><span class="ni-ico">◈</span>Dashboard</div>
       <div class="nav-item" onclick="nav('salle',this)"><span class="ni-ico">⬡</span>Plan de salle<span class="ni-badge a" id="b-occ">0</span></div>
-      <div class="nav-item" onclick="nav('tablette',this)"><span class="ni-ico">🧑‍🍳</span>Tablette serveur</div>
-      <div class="nav-item" onclick="nav('caisseRapide',this)"><span class="ni-ico">⚡</span>Caisse rapide</div>
-      <div class="nav-item" onclick="nav('caisse',this)"><span class="ni-ico">◇</span>Caisse</div>
       <div class="nav-item" onclick="nav('reservations',this)"><span class="ni-ico">◷</span>Réservations<span class="ni-badge g" id="b-resa">0</span></div>
-      <div class="nav-item" onclick="nav('briefing',this)"><span class="ni-ico">🎙️</span>Briefing du soir</div>
-      <div class="nav-item" onclick="navKDS()"><span class="ni-ico">📺</span>Écran cuisine</div>
-      <!-- Plus -->
-      <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('service-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
-      <div id="service-extra" style="display:none">
-        <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">📢</span>Message équipe</div>
-        <div class="nav-item" onclick="nav('cloture',this)"><span class="ni-ico">🔐</span>Clôture de caisse</div>
-        <div class="nav-item" onclick="nav('messagerie',this)"><span class="ni-ico">💬</span>Messagerie<span class="ni-badge" id="b-msg">0</span></div>
-        <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
-        <div class="nav-item" onclick="nav('journal',this)"><span class="ni-ico">📓</span>Journal de bord</div>
-        <div class="nav-item" onclick="nav('ecranClient',this)"><span class="ni-ico">🖥️</span>Écran client</div>
-        <div class="nav-item" onclick="nav('qrmenu',this)"><span class="ni-ico">📲</span>QR code menu</div>
-        <div class="nav-item" onclick="openModeServeur()"><span class="ni-ico">📱</span>Mode serveur</div>
-      </div>
+      <div class="nav-item" onclick="nav('caisse',this)"><span class="ni-ico">◇</span>Caisse</div>
+
+      <div class="nav-item" onclick="nav('stocks',this)"><span class="ni-ico">▤</span>Stocks<span class="ni-badge" id="b-stk">0</span></div>
+      <div class="nav-item" onclick="nav('commandes',this)" style="display:none"><span class="ni-ico">🍽️</span>Commandes</div>
     </div>
   </div>
 
-  <!-- RESTAURANT -->
+  <!-- ═══ SALLE & CLIENTS ═══ -->
   <div class="sb-group" id="grp-restaurant">
     <div class="sb-group-hd" onclick="toggleGrp('restaurant')" style="--grp-col:#3d7a4e">
-      <span class="sb-grp-ico">🥗</span><span class="sb-grp-lbl">Restaurant</span>
+      <span class="sb-grp-ico">🥗</span><span class="sb-grp-lbl">Salle & Clients</span>
       <span class="sb-grp-arrow" id="arr-restaurant">▸</span>
     </div>
     <div class="sb-group-body" id="body-restaurant" style="display:none">
+      <div class="nav-item" onclick="nav('tablette',this)"><span class="ni-ico">🧑‍🍳</span>Tablette serveur</div>
+      <div class="nav-item" onclick="navKDS()"><span class="ni-ico">📺</span>Écran cuisine</div>
+      <div class="nav-item" onclick="nav('clients',this)"><span class="ni-ico">👤</span>Clients<span class="ni-badge" id="b-cli" style="display:none">0</span></div>
+      <div class="nav-item" onclick="nav('fidelite',this)"><span class="ni-ico">🎁</span>Fidélité</div>
+      <div class="nav-item" onclick="nav('avis',this)"><span class="ni-ico">⭐</span>Avis clients</div>
+      <div class="nav-item" onclick="nav('location',this)"><span class="ni-ico">🎵</span>Location salle</div>
+      <div class="nav-item" onclick="nav('livraison',this)"><span class="ni-ico">🛵</span>Livraison<span class="ni-badge a" id="b-liv">0</span></div>
+      <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
+    </div>
+  </div>
+
+  <!-- ═══ CARTE & MENU ═══ -->
+  <div class="sb-group" id="grp-menu">
+    <div class="sb-group-hd" onclick="toggleGrp('menu')" style="--grp-col:#7a5c3d">
+      <span class="sb-grp-ico">≡</span><span class="sb-grp-lbl">Carte & Menu</span>
+      <span class="sb-grp-arrow" id="arr-menu">▸</span>
+    </div>
+    <div class="sb-group-body" id="body-menu" style="display:none">
       <div class="nav-item" onclick="nav('menu',this)"><span class="ni-ico">≡</span>Menu & Plats</div>
       <div class="nav-item" onclick="nav('menuJour',this)"><span class="ni-ico">☀</span>Menu du jour</div>
-      <div class="nav-item" onclick="nav('livraison',this)"><span class="ni-ico">🛵</span>Livraison<span class="ni-badge a" id="b-liv">0</span></div>
-      <div class="nav-item" onclick="nav('fidelite',this)"><span class="ni-ico">🎁</span>Fidélité clients</div>
-      <div class="nav-item" onclick="nav('clients',this)"><span class="ni-ico">👤</span>Clients</div>
-      <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('resto-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
-      <div id="resto-extra" style="display:none">
-        <div class="nav-item" onclick="nav('carteEnLigne',this)"><span class="ni-ico">🌐</span>Carte en ligne</div>
-        <div class="nav-item" onclick="nav('resa-online',this)"><span class="ni-ico">🌐</span>Résa en ligne</div>
-        <div class="nav-item" onclick="nav('fiches',this)"><span class="ni-ico">📋</span>Fiches techniques</div>
-        <div class="nav-item" onclick="nav('configCaisse',this)"><span class="ni-ico">⌨</span>Config caisse</div>
-        <div class="nav-item" onclick="nav('location',this)"><span class="ni-ico">🎵</span>Location salle</div>
-        <div class="nav-item" onclick="nav('vip',this)"><span class="ni-ico">⭐</span>Clients VIP</div>
-        <div class="nav-item" onclick="nav('cave',this)"><span class="ni-ico">🍷</span>Cave à vins</div>
-      </div>
+      <div class="nav-item" onclick="nav('cave',this)"><span class="ni-ico">🍷</span>Cave à vins</div>
+      <div class="nav-item" onclick="nav('fiches',this)"><span class="ni-ico">📋</span>Fiches techniques</div>
+      <div class="nav-item" onclick="nav('allergenes',this)"><span class="ni-ico">⚠️</span>Allergènes</div>
+      <div class="nav-item" onclick="nav('carteEnLigne',this)"><span class="ni-ico">🌐</span>Carte en ligne</div>
+      <div class="nav-item" onclick="nav('qrmenu',this)"><span class="ni-ico">📲</span>QR code menu</div>
     </div>
   </div>
 
-  <!-- PERSONNEL -->
-  <div class="sb-group" id="grp-personnel">
-    <div class="sb-group-hd" onclick="toggleGrp('personnel')" style="--grp-col:#5a7a9a">
-      <span class="sb-grp-ico">👥</span><span class="sb-grp-lbl">Personnel</span>
-      <span class="sb-grp-arrow" id="arr-personnel">▸</span>
-    </div>
-    <div class="sb-group-body" id="body-personnel" style="display:none">
-      <div class="nav-item" onclick="nav('rh',this)"><span class="ni-ico">👥</span>Personnel & Paie<span class="ni-badge g" id="b-prs">0</span></div>
-      <div class="nav-item" onclick="nav('planning',this)"><span class="ni-ico">📅</span>Planning visuel</div>
-      <div class="nav-item" onclick="nav('presence',this)"><span class="ni-ico">🕐</span>Présence & Pointage</div>
-      <div class="nav-item" onclick="nav('conges',this)"><span class="ni-ico">🏖️</span>Congés & Absences</div>
-      <div class="nav-item" onclick="nav('fiches-paie',this)"><span class="ni-ico">💼</span>Fiches de paie</div>
-      <div class="nav-item" onclick="nav('formation',this)"><span class="ni-ico">🎓</span>Formation</div>
-    </div>
-  </div>
-
-  <!-- GESTION -->
+  <!-- ═══ APPROVISIONNEMENT ═══ -->
   <div class="sb-group" id="grp-gestion">
     <div class="sb-group-hd" onclick="toggleGrp('gestion')" style="--grp-col:#2d5f8a">
-      <span class="sb-grp-ico">📦</span><span class="sb-grp-lbl">Gestion</span>
+      <span class="sb-grp-ico">📦</span><span class="sb-grp-lbl">Approvisionnement</span>
       <span class="sb-grp-arrow" id="arr-gestion">▸</span>
     </div>
     <div class="sb-group-body" id="body-gestion" style="display:none">
-      <div class="nav-item" onclick="nav('stocks',this)"><span class="ni-ico">▤</span>Stocks<span class="ni-badge" id="b-stk">0</span></div>
-      <div class="nav-item" onclick="nav('todo',this)"><span class="ni-ico">✅</span>Tâches & TODO<span class="ni-badge" id="b-todo">0</span></div>
       <div class="nav-item" onclick="nav('fournisseurs',this)"><span class="ni-ico">◫</span>Fournisseurs</div>
-      <div class="nav-item" onclick="nav('cmdFourn',this)"><span class="ni-ico">📦</span>Cmdes fournisseurs</div>
+      <div class="nav-item" onclick="nav('cmdFourn',this)"><span class="ni-ico">📦</span>Commandes fourn.</div>
       <div class="nav-item" onclick="nav('dechets',this)"><span class="ni-ico">♻️</span>Déchets</div>
+      <div class="nav-item" onclick="nav('origine',this)"><span class="ni-ico">🌿</span>Origines produits</div>
     </div>
   </div>
 
-  <!-- FINANCE -->
+  <!-- ═══ ÉQUIPE ═══ -->
+  <div class="sb-group" id="grp-personnel">
+    <div class="sb-group-hd" onclick="toggleGrp('personnel')" style="--grp-col:#5a7a9a">
+      <span class="sb-grp-ico">👥</span><span class="sb-grp-lbl">Équipe</span>
+      <span class="sb-grp-arrow" id="arr-personnel">▸</span>
+    </div>
+    <div class="sb-group-body" id="body-personnel" style="display:none">
+      <div class="nav-item" onclick="nav('rh',this)"><span class="ni-ico">👥</span>Personnel<span class="ni-badge g" id="b-prs">0</span></div>
+      <div class="nav-item" onclick="nav('planning',this)"><span class="ni-ico">📅</span>Planning</div>
+      <div class="nav-item" onclick="nav('presence',this)"><span class="ni-ico">🕐</span>Présences</div>
+      <div class="nav-item" onclick="nav('conges',this)"><span class="ni-ico">🏖️</span>Congés</div>
+      <div class="nav-item" onclick="nav('fiches-paie',this)"><span class="ni-ico">💼</span>Fiches de paie</div>
+      <div class="nav-item" onclick="nav('salaires',this)"><span class="ni-ico">👔</span>Coûts salariaux</div>
+      <div class="nav-item" onclick="nav('formation',this)"><span class="ni-ico">🎓</span>Formation</div>
+      <div class="nav-item" onclick="nav('pourboires',this)"><span class="ni-ico">💰</span>Pourboires</div>
+    </div>
+  </div>
+
+  <!-- ═══ FINANCE ═══ -->
   <div class="sb-group" id="grp-finance">
     <div class="sb-group-hd" onclick="toggleGrp('finance')" style="--grp-col:#8a5c2d">
       <span class="sb-grp-ico">💶</span><span class="sb-grp-lbl">Finance</span>
@@ -6135,52 +6133,43 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
     <div class="sb-group-body" id="body-finance" style="display:none">
       <div class="nav-item" onclick="nav('finance',this)"><span class="ni-ico">◈</span>Comptabilité</div>
-      <div class="nav-item" onclick="nav('rapports',this)"><span class="ni-ico">📊</span>Stats & Rapports</div>
+      <div class="nav-item" onclick="nav('rapports',this)"><span class="ni-ico">📊</span>Rapports</div>
+      <div class="nav-item" onclick="nav('stats',this)"><span class="ni-ico">▦</span>Stats mensuelles</div>
       <div class="nav-item" onclick="nav('frais',this)"><span class="ni-ico">💸</span>Frais & Charges</div>
       <div class="nav-item" onclick="nav('banque',this)"><span class="ni-ico">🏦</span>Banque Pro</div>
+      <div class="nav-item" onclick="nav('budget',this)"><span class="ni-ico">🎯</span>Budget</div>
+      <div class="nav-item" onclick="nav('marges',this)"><span class="ni-ico">📈</span>Marges</div>
+      <div class="nav-item" onclick="nav('objectifs',this)"><span class="ni-ico">🎯</span>Objectifs</div>
       <div class="nav-item" onclick="rapportJournalier()" style="color:var(--gold2)"><span class="ni-ico">📊</span>Rapport journalier</div>
-      <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('finance-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
-      <div id="finance-extra" style="display:none">
-        <div class="nav-item" onclick="nav('salaires',this)"><span class="ni-ico">👔</span>Coûts salariaux</div>
-        <div class="nav-item" onclick="nav('budget',this)"><span class="ni-ico">🎯</span>Budget</div>
-        <div class="nav-item" onclick="nav('pourboires',this)"><span class="ni-ico">💰</span>Pourboires</div>
-        <div class="nav-item" onclick="nav('marges',this)"><span class="ni-ico">📈</span>Marges</div>
-        <div class="nav-item" onclick="nav('stats',this)"><span class="ni-ico">▦</span>Stats mensuelles</div>
-      </div>
     </div>
   </div>
 
-  <!-- QUALITÉ + ADMIN fusionnés -->
+  <!-- ═══ ADMINISTRATION ═══ -->
   <div class="sb-group" id="grp-admin">
     <div class="sb-group-hd" onclick="toggleGrp('admin')" style="--grp-col:#5c5648">
       <span class="sb-grp-ico">⚙️</span><span class="sb-grp-lbl">Administration</span>
       <span class="sb-grp-arrow" id="arr-admin">▸</span>
     </div>
     <div class="sb-group-body" id="body-admin" style="display:none">
-      <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:6px 12px 2px;font-weight:700">Quotidien</div>
+      <div class="nav-item" onclick="nav('todo',this)"><span class="ni-ico">✅</span>Tâches<span class="ni-badge" id="b-todo">0</span></div>
+      <div class="nav-item" onclick="nav('messagerie',this)"><span class="ni-ico">💬</span>Communication<span class="ni-badge" id="b-msg">0</span></div>
+      <div class="nav-item" onclick="nav('haccp',this)"><span class="ni-ico">🧼</span>Qualité</div>
+      <div class="nav-item" onclick="nav('cloture',this)"><span class="ni-ico">🔐</span>Clôture caisse</div>
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:10px 12px 2px;font-weight:700">Gestion</div>
+      <div class="nav-item" onclick="nav('incidents',this)"><span class="ni-ico">⚠️</span>Incidents</div>
+      <div class="nav-item" onclick="nav('maintenance',this)"><span class="ni-ico">🔧</span>Maintenance</div>
+      <div class="nav-item" onclick="nav('resa-online',this)"><span class="ni-ico">🌐</span>Résa en ligne</div>
       <div class="nav-item" onclick="nav('sauvegarde',this)"><span class="ni-ico">💾</span>Sauvegarde</div>
-      <div class="nav-item" onclick="nav('haccp',this)"><span class="ni-ico">🧼</span>HACCP</div>
-      <div class="nav-item" onclick="nav('avis',this)"><span class="ni-ico">⭐</span>Avis clients</div>
-      <div class="nav-item" onclick="nav('objectifs',this)"><span class="ni-ico">🎯</span>Objectifs</div>
+      <div class="nav-item" onclick="nav('documents',this)"><span class="ni-ico">📋</span>Documents légaux</div>
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:10px 12px 2px;font-weight:700">Configuration</div>
+      <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
+      <div class="nav-item" onclick="nav('configCaisse',this)"><span class="ni-ico">⌨</span>Config caisse</div>
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:10px 12px 2px;font-weight:700">Outils</div>
+      <div class="nav-item" onclick="openModeServeur()"><span class="ni-ico">📱</span>Mode serveur</div>
+      <div class="nav-item" onclick="nav('ecranClient',this)"><span class="ni-ico">🖥️</span>Écran client</div>
       <div class="nav-item" onclick="activerModeDemo()" style="color:#c9a84c"><span class="ni-ico">🎭</span>Mode Démo</div>
-      <div class="nav-item" style="color:var(--muted);font-size:11px" onclick="toggleGrpExtra('admin-extra',this)"><span class="ni-ico">···</span>Plus d'options</div>
-      <div id="admin-extra" style="display:none">
-        <div class="nav-item" onclick="nav('acces',this)"><span class="ni-ico">🔐</span>Accès & Comptes</div>
-        <div class="nav-item" onclick="nav('etabs',this)"><span class="ni-ico">🏢</span>Établissements</div>
-        <div class="nav-item" onclick="nav('paramsAvances',this)"><span class="ni-ico">🎨</span>Paramètres avancés</div>
-        <div class="nav-item" onclick="nav('periodes',this)"><span class="ni-ico">📆</span>Périodes</div>
-        <div class="nav-item" onclick="nav('integrations',this)"><span class="ni-ico">📡</span>Intégrations</div>
-        <div class="nav-item" onclick="nav('documents',this)"><span class="ni-ico">📋</span>Documents légaux</div>
-        <div class="nav-item" onclick="nav('maintenance',this)"><span class="ni-ico">🔧</span>Maintenance</div>
-        <div class="nav-item" onclick="nav('incidents',this)"><span class="ni-ico">⚠️</span>Incidents</div>
-        <div class="nav-item" onclick="nav('allergenes',this)"><span class="ni-ico">⚠️</span>Allergènes</div>
-        <div class="nav-item" onclick="nav('origine',this)"><span class="ni-ico">🌿</span>Origine produits</div>
-        <div class="nav-item" onclick="nav('carteOrigines',this)"><span class="ni-ico">🗺️</span>Carte origines</div>
-        <div class="nav-item" onclick="exempleRapport()" style="color:#c9973a"><span class="ni-ico">👁</span>Exemple rapport</div>
-        <div class="nav-item" onclick="exempleTicket()" style="color:#c9973a"><span class="ni-ico">🧾</span>Exemple ticket</div>
-      </div>
-    </div>
-  </div>
+    </div>  </div>
 
   <div class="sb-status">
     <div class="status-card">
@@ -6378,6 +6367,14 @@ tbody td { padding:13px 14px; font-size:13px; }
   <!-- CAISSE POS PREMIUM -->
   <div id="page-caisse" class="page">
 
+  <!-- ONGLETS CAISSE -->
+  <div style="display:flex;gap:0;background:var(--ink2);border-bottom:2px solid var(--line);padding:0 16px;position:sticky;top:0;z-index:10">
+    <div id="caisse-tab-pos" onclick="switchCaisseTab('pos')" style="padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid var(--gold);margin-bottom:-2px;color:var(--gold2);transition:all .15s">◇ POS Complet</div>
+    <div id="caisse-tab-rapide" onclick="switchCaisseTab('rapide')" style="padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--sub);transition:all .15s">⚡ Mode Rapide</div>
+  </div>
+
+  <!-- CONTENU POS -->
+  <div id="caisse-view-pos">
   <div class="pos3" id="pos-wrap">
 
     <!-- ── GAUCHE TICKET ── -->
@@ -6476,6 +6473,7 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
   </div>
+  </div>
 
   <!-- MENU -->
   <div id="page-menu" class="page">
@@ -6528,9 +6526,8 @@ tbody td { padding:13px 14px; font-size:13px; }
         <div class="rs-sub"><span class="rs-live"></span><span id="rs-sub-txt">Service en cours</span></div>
       </div>
       <div class="rs-actions">
-        <button class="btn btn-ghost btn-sm" onclick="nav('resa-attente',this)">⏳ Attente<span id="b-attente" style="background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px"></span></button>
         <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="voirBlacklist()">⛔</button>
-        <button class="rs-btn-new" onclick="openModal('mo-resa')">+ Nouvelle réservation</button>
+        <button class="rs-btn-new" onclick="openModal(&#39;mo-resa&#39;)">+ Nouvelle réservation</button>
       </div>
     </div>
 
@@ -6542,14 +6539,15 @@ tbody td { padding:13px 14px; font-size:13px; }
 
     <!-- ONGLETS -->
     <div class="rs-tabs">
-      <div class="rs-tab on" onclick="rsSetView('calendrier',this)">📅 Calendrier</div>
-      <div class="rs-tab" onclick="rsSetView('timeline',this)">⏰ Planning heure</div>
+      <div class="rs-tab on" onclick="rsSetView(&#39;calendrier&#39;,this)">📅 Calendrier</div>
+      <div class="rs-tab" onclick="rsSetView(&#39;timeline&#39;,this)">⏰ Planning heure</div>
+      <div class="rs-tab" onclick="rsSetView(&#39;attente&#39;,this)">⏳ Attente<span id="b-attente" style="background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px"></span></div>
+      <div class="rs-tab" onclick="rsSetView(&#39;online&#39;,this)">🌐 En ligne</div>
     </div>
 
-    <!-- VUE CALENDRIER VISUEL PREMIUM -->
+    <!-- VUE CALENDRIER -->
     <div id="rs-view-calendrier">
       <div class="rsc-wrap">
-        <!-- Navigation mois -->
         <div class="rsc-nav">
           <button class="rsc-nav-btn" onclick="resaCalNav(-1)">‹</button>
           <div>
@@ -6558,8 +6556,6 @@ tbody td { padding:13px 14px; font-size:13px; }
           </div>
           <button class="rsc-nav-btn" onclick="resaCalNav(1)">›</button>
         </div>
-
-        <!-- Grille calendrier -->
         <div class="rsc-grid-wrap">
           <div class="rsc-jours-header">
             <div>Lun</div><div>Mar</div><div>Mer</div><div>Jeu</div><div>Ven</div>
@@ -6567,18 +6563,15 @@ tbody td { padding:13px 14px; font-size:13px; }
           </div>
           <div class="rsc-grid" id="resa-calendrier"></div>
         </div>
-
-        <!-- Légende -->
-        <div class="rsc-legende">
+        <div class="rsc-legend">
+          <span class="rsc-leg-item"><span class="rsc-leg-dot" style="background:var(--green)"></span>Confirmé</span>
+          <span class="rsc-leg-item"><span class="rsc-leg-dot" style="background:var(--amber)"></span>En attente</span>
           <span class="rsc-leg-item"><span class="rsc-leg-dot" style="background:var(--gold2)"></span>Réservations</span>
-          <span class="rsc-leg-item"><span class="rsc-leg-dot" style="background:#f0a060"></span>Chargé</span>
-          <span class="rsc-leg-item"><span class="rsc-leg-dot" style="background:#f07060"></span>Complet</span>
-          <span class="rsc-leg-item"><span class="rsc-leg-dot" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.1)"></span>Fermé</span>
         </div>
       </div>
     </div>
 
-    <!-- VUE PLANNING HORAIRE -->
+    <!-- VUE TIMELINE -->
     <div id="rs-view-timeline" style="display:none">
       <div class="rs-tl-wrap">
         <div class="rs-tl-legend">
@@ -6591,28 +6584,40 @@ tbody td { padding:13px 14px; font-size:13px; }
     <!-- Barre filtres -->
     <div class="rsc-filter-bar">
       <div class="rsc-filter-left">
-        <button class="rs-f on" onclick="filterResaStatut('tous',this)"><span class="rs-f-dot" style="background:var(--gold2)"></span>Tous</button>
-        <button class="rs-f" onclick="filterResaStatut('confirmé',this)"><span class="rs-f-dot" style="background:#6fcf8a"></span>Confirmé</button>
-        <button class="rs-f" onclick="filterResaStatut('en-attente',this)"><span class="rs-f-dot" style="background:#f0a060"></span>Attente</button>
-        <button class="rs-f" onclick="filterResaStatut('arrivé',this)"><span class="rs-f-dot" style="background:#6aacda"></span>Arrivé</button>
-        <button class="rs-f" onclick="filterResaStatut('no-show',this)"><span class="rs-f-dot" style="background:#f07060"></span>No-show</button>
-        <button class="rs-f" onclick="filterResaStatut('annulé',this)"><span class="rs-f-dot" style="background:var(--muted)"></span>Annulé</button>
+        <button class="rs-f on" onclick="filterResaStatut(&#39;tous&#39;,this)"><span class="rs-f-dot" style="background:var(--gold2)"></span>Tous</button>
+        <button class="rs-f" onclick="filterResaStatut(&#39;confirmé&#39;,this)"><span class="rs-f-dot" style="background:var(--green)"></span>Confirmé</button>
+        <button class="rs-f" onclick="filterResaStatut(&#39;en-attente&#39;,this)"><span class="rs-f-dot" style="background:var(--amber)"></span>En attente</button>
+        <button class="rs-f" onclick="filterResaStatut(&#39;arrivé&#39;,this)"><span class="rs-f-dot" style="background:var(--blue)"></span>Arrivé</button>
+        <button class="rs-f" onclick="filterResaStatut(&#39;no-show&#39;,this)"><span class="rs-f-dot" style="background:var(--red)"></span>No-show</button>
+        <button class="rs-f" onclick="filterResaStatut(&#39;annulé&#39;,this)"><span class="rs-f-dot" style="background:var(--muted)"></span>Annulé</button>
       </div>
       <div id="rsc-date-label" class="rsc-date-label"></div>
     </div>
 
     <!-- Liste réservations -->
     <div class="rs-list" id="resa-liste"></div>
-  </div>
-  </div>
-  <div id="page-resa-attente" class="page">
-    <div class="page-header">
-      <h2>⏳ Liste d'attente</h2>
-      <button class="btn btn-gold btn-sm" onclick="ajouterListeAttente()">+ Ajouter</button>
+
+    <!-- VUE LISTE D'ATTENTE -->
+    <div id="rs-view-attente" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0">
+        <div style="font-size:14px;font-weight:600;color:var(--txt)">⏳ Liste d&#39;attente</div>
+        <button class="btn btn-gold btn-sm" onclick="ajouterListeAttente()">+ Ajouter</button>
+      </div>
+      <div class="kpi-row" id="attente-kpi"></div>
+      <div id="attente-liste" style="margin-top:12px"></div>
     </div>
-    <div class="kpi-row" id="attente-kpi"></div>
-    <div id="attente-liste" style="margin-top:12px"></div>
+
+    <!-- VUE RÉSA EN LIGNE -->
+    <div id="rs-view-online" style="display:none">
+      <div style="padding:14px 0">
+        <div id="resa-ol-kpi" class="kpi-row" style="margin-bottom:12px"></div>
+        <div id="resa-ol-list"></div>
+      </div>
+    </div>
+
   </div>
+  </div>
+  <div id="page-resa-attente" class="page"><div style="display:none"></div></div>
 
   <!-- STOCKS -->
   <div id="page-stocks" class="page">
@@ -6950,7 +6955,6 @@ tbody td { padding:13px 14px; font-size:13px; }
         </div>
       </div>
     </div>
-  </div>
   </div>
 
   <div style="display:none">
@@ -8564,8 +8568,9 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
   </div>
-  <!-- CLÔTURE DE CAISSE -->
-  <!-- CAISSE RAPIDE MOBILE -->
+
+
+  <!-- CAISSE RAPIDE STANDALONE (gardée pour compat) -->
   <div id="page-caisseRapide" class="page" style="padding:0;display:none;flex-direction:column;height:100%;overflow:hidden">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -9025,7 +9030,7 @@ tbody td { padding:13px 14px; font-size:13px; }
       <h2>🌐 Réservation en ligne</h2>
       <button class="btn btn-gold btn-sm" onclick="copierLienResa()">🔗 Copier le lien</button>
     </div>
-    <div class="kpi-row" id="resa-ol-kpi"></div>
+    <div class="kpi-row" id="resa-ol-kpi-ol2"></div>
 
     <!-- CONFIG SECTION -->
     <div class="rol-section" style="margin-bottom:16px">
@@ -9105,7 +9110,7 @@ tbody td { padding:13px 14px; font-size:13px; }
         </div>
       </div>
       <div class="rol-section-body" style="padding-top:0">
-        <div id="resa-ol-list"></div>
+        <div id="resa-ol-list-ol2"></div>
       </div>
     </div>
   </div>
@@ -10111,6 +10116,46 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- ACCÈS & COMPTES -->
+  <div id="page-location" class="page">
+  <div style="padding:16px;max-width:900px;margin:0 auto">
+    <!-- HEADER -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:26px;color:var(--gold2);font-weight:600">🎵 Location de salle</div>
+        <div style="font-size:12px;color:var(--sub);margin-top:2px">Mariages, anniversaires, soirées privées</div>
+      </div>
+      <button class="btn btn-gold" onclick="openLocationModal()">+ Nouvelle réservation</button>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid-8" id="loc-kpi" style="margin-bottom:20px"></div>
+
+    <!-- CALENDRIER -->
+    <div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <button class="btn btn-ghost btn-sm" onclick="locCalMois(-1)">&#8249;</button>
+        <div id="loc-cal-titre" style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:18px;color:var(--gold2);font-weight:600"></div>
+        <button class="btn btn-ghost btn-sm" onclick="locCalMois(1)">&#8250;</button>
+      </div>
+      <div id="loc-cal-jours" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px"></div>
+      <div id="loc-calendrier" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
+    </div>
+
+    <!-- FILTRES STATUT -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="rs-f on" onclick="filterLoc(&#39;tous&#39;,this)"><span class="rs-f-dot" style="background:var(--gold2)"></span>Tous</button>
+      <button class="rs-f" onclick="filterLoc(&#39;option&#39;,this)"><span class="rs-f-dot" style="background:var(--amber)"></span>Option</button>
+      <button class="rs-f" onclick="filterLoc(&#39;confirmé&#39;,this)"><span class="rs-f-dot" style="background:var(--blue)"></span>Confirmé</button>
+      <button class="rs-f" onclick="filterLoc(&#39;acompte&#39;,this)"><span class="rs-f-dot" style="background:var(--gold)"></span>Acompte reçu</button>
+      <button class="rs-f" onclick="filterLoc(&#39;soldé&#39;,this)"><span class="rs-f-dot" style="background:var(--green)"></span>Soldé</button>
+      <button class="rs-f" onclick="filterLoc(&#39;annulé&#39;,this)"><span class="rs-f-dot" style="background:var(--red)"></span>Annulé</button>
+    </div>
+
+    <!-- LISTE -->
+    <div id="loc-list"></div>
+  </div>
+  </div>
+
   <div id="page-acces" class="page">
     <div class="page-header">
       <h2>🔐 Accès & Comptes</h2>
@@ -10583,6 +10628,7 @@ tbody td { padding:13px 14px; font-size:13px; }
             <option value="">— Saisie manuelle / Nouveau client —</option>
           </select>
         </div>
+        <div id="rs-fiche-client" style="display:none;margin:-8px 0 4px;padding:12px 14px;background:linear-gradient(135deg,rgba(201,151,58,.08),rgba(201,151,58,.04));border:1px solid rgba(201,151,58,.25);border-radius:12px;animation:fadeIn .2s ease;grid-column:1/-1"></div>
         <div class="form-group full"><div class="form-label">Nom *</div><input class="form-input" id="rs-nom" placeholder="M. Dupont"/></div>
         <div class="form-group"><div class="form-label">Téléphone</div><input class="form-input" id="rs-tel" placeholder="06 XX XX XX XX"/></div>
         <div class="form-group"><div class="form-label">Email</div><input class="form-input" id="rs-email" type="email" placeholder="email@exemple.fr"/></div>
@@ -11583,7 +11629,9 @@ function nav(name,el){
   if(el)el.classList.add('active');
   (document.getElementById('pt')||{}).textContent=TITLES[name]||name;
   openGrpFor(name);
-  closeSB(); render(name);
+  closeSB();
+  window.scrollTo(0,0);
+  setTimeout(()=>render(name),20);
   addRecent(name);
   if(name==='caisse') setTimeout(initPOS,50);
 }
@@ -11640,12 +11688,22 @@ function openModal(id){
       if(ttl)ttl.textContent='Nouveau client';
     }
   }
+  if(id==='mo-resa'){
+    const idResa=document.getElementById('id-resa');
+    if(!idResa||!idResa.value){
+      const f=document.getElementById('rs-fiche-client');if(f){f.style.display='none';f.innerHTML='';}
+      const rs=document.getElementById('rs-client-sel');if(rs)rs.value='';
+      const rn=document.getElementById('rs-notes');if(rn)rn.value='';
+      const ttlR=document.getElementById('ttl-resa');if(ttlR)ttlR.textContent='Nouvelle réservation';
+      document.getElementById('id-resa').value='';
+    }
+  }
   document.getElementById(id)?.classList.add('open');
 }
 function closeModal(id){
   document.getElementById(id)?.classList.remove('open');
   if(id==='mo-client'){const f=document.getElementById('id-client');if(f)f.value='';}
-  if(id==='mo-resa'){const s=document.getElementById('rs-client-sel');if(s)s.value='';}
+  if(id==='mo-resa'){const s=document.getElementById('rs-client-sel');if(s)s.value='';const f=document.getElementById('rs-fiche-client');if(f){f.style.display='none';f.innerHTML='';} const rn=document.getElementById('rs-notes');if(rn)rn.value='';}
 }
 document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
 
@@ -13000,7 +13058,7 @@ function rMenu(){
     const isTop=topVendu&&topVendu.id===p.id;
     const isMarge=topMarge&&topMarge.id===p.id;
     const photoHtml=p.photo
-      ?`<img loading="lazy" class="mn2-gcard-photo" src="${p.photo}" alt="${p.nom}" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=\'mn2-gcard-photo-placeholder\'>'+(p&&p.ico?p.ico:'🍽️')+'</div>')">`
+      ?`<img loading="lazy" class="mn2-gcard-photo" src="${p.photo}" alt="${p.nom}" onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex')">`
       :`<div class="mn2-gcard-photo-placeholder">${p.ico&&p.ico.length<=2?p.ico:'🍽️'}</div>`;
     return `<div class="mn2-gcard${p.dispo==='indispo'?' indispo':''}" style="animation-delay:${i*.03}s">
       ${photoHtml}
@@ -13035,7 +13093,7 @@ function rMenu(){
     const isMarge=topMarge&&topMarge.id===p.id;
     const safeIco=p.ico&&p.ico.length<=2?p.ico:'🍽️';
     const icoHtml=p.photo
-      ?`<div class="mn2-ico"><img loading="lazy" src="${p.photo}" alt="${p.nom}" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:22px\'>${safeIco}</span>'"/></div>`
+      ?`<div class="mn2-ico"><img loading="lazy" src="${p.photo}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><span style="display:none;font-size:22px">${safeIco}</span></div>`
       :`<div class="mn2-ico" style="font-size:22px">${safeIco}</div>`;
     return `<div class="mn2-card ${p.dispo||'dispo'}" id="mn2-card-${p.id}" style="animation-delay:${i*.02}s">
       ${icoHtml}
@@ -13580,6 +13638,36 @@ function imprimerBonCuisine(id){
 
 // ═══ CAISSE ═══
 let tkItems=[];
+function switchCaisseTab(tab){
+  const posView=document.getElementById('caisse-view-pos');
+  const rapideView=document.getElementById('caisse-view-rapide');
+  const tabPos=document.getElementById('caisse-tab-pos');
+  const tabRapide=document.getElementById('caisse-tab-rapide');
+  if(!posView||!rapideView) return;
+  if(tab==='pos'){
+    posView.style.display='';
+    rapideView.style.display='none';
+    if(tabPos){tabPos.style.borderBottomColor='var(--gold)';tabPos.style.color='var(--gold2)';}
+    if(tabRapide){tabRapide.style.borderBottomColor='transparent';tabRapide.style.color='var(--sub)';}
+  } else {
+    posView.style.display='none';
+    rapideView.style.display='flex';
+    rapideView.style.flexDirection='column';
+    if(tabPos){tabPos.style.borderBottomColor='transparent';tabPos.style.color='var(--sub)';}
+    if(tabRapide){tabRapide.style.borderBottomColor='var(--gold)';tabRapide.style.color='var(--gold2)';}
+    // Charger le contenu caisse rapide inline
+    const root=document.getElementById('cr-inline-root');
+    if(root&&!root.dataset.loaded){
+      const crPage=document.getElementById('page-caisseRapide');
+      if(crPage){
+        root.innerHTML=crPage.innerHTML;
+        root.dataset.loaded='1';
+      }
+    }
+    _crItems=[];_crCat=null;crShowCats();crUpdateTicket();
+  }
+}
+
 function rCaisse(){
   fillSels();
   // POS premium — le rendu est géré par initPOS()
@@ -13778,12 +13866,12 @@ function checkDateFermee(date){
 }
 
 function rsAutoFillClient(clientId){
+  const ficheEl=document.getElementById('rs-fiche-client');
   if(!clientId){
-    // Reset champs si on remet "saisie manuelle"
     document.getElementById('rs-nom').value='';
     document.getElementById('rs-tel').value='';
     document.getElementById('rs-email').value='';
-    // Garder date/heure
+    if(ficheEl) ficheEl.style.display='none';
     return;
   }
   const cl=(DB.clients||[]).find(x=>x.id===+clientId);
@@ -13791,26 +13879,60 @@ function rsAutoFillClient(clientId){
   document.getElementById('rs-nom').value=cl.nom||'';
   document.getElementById('rs-tel').value=cl.tel||'';
   document.getElementById('rs-email').value=cl.email||'';
+  // Couverts habituels
   if(cl.couverts) document.getElementById('rs-cvt').value=cl.couverts;
-  // Pré-remplir notes avec allergies + habitudes
+  // Table préférée
+  if(cl.prefs){
+    const tblMatch=cl.prefs.match(/[Tt]able\s*(\d+)/);
+    if(tblMatch){
+      const tblSel=document.getElementById('rs-tbl');
+      if(tblSel){
+        const tblId=(DB.tables||[]).find(t=>String(t.num)===tblMatch[1]);
+        if(tblId) tblSel.value=tblId.id;
+      }
+    }
+  }
+  // Notes auto depuis fiche client
   const infos=[];
   if(cl.allergies) infos.push('⚠ Allergies: '+cl.allergies);
-  if(cl.occasion) infos.push('🎯 '+cl.occasion);
+  if(cl.prefs) infos.push('🍷 '+cl.prefs);
   if(cl.notes) infos.push(cl.notes);
   if(infos.length){
     const notesEl=document.getElementById('rs-notes');
     if(notesEl&&!notesEl.value) notesEl.value=infos.join(' · ');
   }
-  // Badge VIP
+  // Badges
+  const totalDep=cliTotalDepense(cl);
+  const nbVisites=(cl.visites||[]).length;
+  const isVip=totalDep>=500;
+  const isFidele=nbVisites>=6;
   const badge=cliGetBadge(cl);
   if(badge.cls==='vip') toast('💎 Client VIP sélectionné : '+cl.nom,'ok');
   else if(badge.cls==='fidele') toast('🔥 Client fidèle : '+cl.nom,'ok');
-  // Vérif anniversaire
+  // Anniversaire
   const today=new Date();
   if(cl.anniversaire){
     const d=new Date(cl.anniversaire);
     if(d.getMonth()===today.getMonth()&&d.getDate()===today.getDate())
       toast('🎂 Anniversaire aujourd\'hui pour '+cl.nom+' !','ok');
+  }
+  // Afficher mini-fiche client
+  if(ficheEl){
+    const dernVisite=nbVisites>0?cl.visites[cl.visites.length-1]:null;
+    const dateDern=(dernVisite&&dernVisite.date)?dernVisite.date.slice(8)+'/'+dernVisite.date.slice(5,7)+'/'+dernVisite.date.slice(0,4):'jamais';
+    ficheEl.innerHTML=`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--amber));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000;flex-shrink:0">${(cl.nom||'?')[0].toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;color:var(--txt);font-size:14px">${cl.nom||''}
+          ${isVip?'<span style="font-size:10px;background:rgba(201,151,58,.2);color:var(--gold2);padding:2px 7px;border-radius:10px;margin-left:6px">💎 VIP</span>':isFidele?'<span style="font-size:10px;background:rgba(232,184,75,.15);color:var(--gold2);padding:2px 7px;border-radius:10px;margin-left:6px">🔥 Fidèle</span>':''}
+        </div>
+        <div style="font-size:11px;color:var(--sub);margin-top:2px">${nbVisites} visite${nbVisites>1?'s':''} · ${eur(totalDep)} dépensés · Dernière venue : ${dateDern}</div>
+      </div>
+    </div>
+    ${cl.allergies?`<div style="margin-top:8px;padding:6px 10px;background:rgba(181,57,42,.12);border:1px solid rgba(181,57,42,.3);border-radius:8px;font-size:11px;color:#e07060">⚠️ <strong>Allergies :</strong> ${cl.allergies}</div>`:''}
+    ${cl.prefs?`<div style="margin-top:6px;font-size:11px;color:var(--sub);padding:6px 10px;background:rgba(255,255,255,.03);border-radius:8px">🍷 ${cl.prefs}</div>`:''}
+    ${dernVisite&&dernVisite.plats&&dernVisite.plats.length?`<div style="margin-top:6px;font-size:11px;color:var(--muted)">Dernière commande : ${dernVisite.plats.join(', ')}</div>`:''}`;
+    ficheEl.style.display='block';
   }
 }
 
@@ -13889,6 +14011,7 @@ function editResa(id){
   const raEl=document.getElementById('rs-acompte'); if(raEl) raEl.value=r.acompte||0;
   const rasEl=document.getElementById('rs-acompte-stat'); if(rasEl) rasEl.value=r.acompteStat||'non';
   const rsCliSel=document.getElementById('rs-client-sel'); if(rsCliSel) rsCliSel.value=r.clientId||'';
+  if(r.clientId) rsAutoFillClient(r.clientId);
   openModal('mo-resa');
 }
 function delResa(id){confirmSuppr('Supprimer cette réservation ?',()=>{DB.reservations=DB.reservations.filter(r=>r.id!==id);saveDB();rResa();rDash();});}
@@ -13916,6 +14039,11 @@ function rsSetView(v,btn){
   if(btn)btn.classList.add('on');
   document.getElementById('rs-view-timeline').style.display=v==='timeline'?'':'none';
   document.getElementById('rs-view-calendrier').style.display=v==='calendrier'?'':'none';
+  const va=document.getElementById('rs-view-attente');if(va)va.style.display=v==='attente'?'':'none';
+  const vo=document.getElementById('rs-view-online');if(vo)vo.style.display=v==='online'?'':'none';
+  // Charger les données si nécessaire
+  if(v==='attente'){const f=typeof rListeAttente==='function'?rListeAttente:null;if(f)f();}
+  if(v==='online'){const f=typeof rResaOnline==='function'?rResaOnline:null;if(f)f();}
 }
 function rResa(){
   const resas=DB.reservations||[];
@@ -14022,7 +14150,7 @@ function rResa(){
       if(dr.length){
         // Afficher les 2 premières réservations
         const show=dr.slice(0,2);
-        badgesHtml=show.map(r=>`<span class="rsc-badge ${r.stat}">${r.h?r.h.slice(0,5):''} ${drVip.includes(r)?'💎 ':''}${r.nom.split(' ')[0]}</span>`).join('');
+        badgesHtml=show.map(r=>`<span class="rsc-badge ${r.stat}">${r.h?r.h.slice(0,5):''} ${drVip.includes(r)?'💎 ':''}${(r.nom||'?').split(' ')[0]}</span>`).join('');
         if(dr.length>2) badgesHtml+=`<span style="font-size:9px;color:var(--muted);padding-left:2px">+${dr.length-2}</span>`;
       }
       html+=`<div class="${cls}" data-date="${ds}" onclick="${isFerme?'':'resaSelectDay(this.dataset.date)'}" >
@@ -14091,6 +14219,7 @@ function rRendreResaListe(){
           <span class="rs-card-nom">${isAnniv?'🎂 ':''}${r.nom}</span>
           ${isVip?'<span class="rs-card-vip">💎 VIP</span>':isFidele?'<span class="rs-card-vip" style="color:var(--gold2)">🔥</span>':''}
           <span class="rs-card-badge ${r.stat}">${sl}</span>
+          ${cli?`<span onclick="event.stopPropagation();nav('clients',null);setTimeout(()=>cliOpenPanel(${cli.id}),250)" style="cursor:pointer;font-size:10px;color:var(--gold);opacity:.7;padding:1px 6px;border:1px solid rgba(201,151,58,.25);border-radius:8px">👤</span>`:''}
         </div>
         <div class="rs-card-row2">
           <span>👥 ${r.cvt} couvert${r.cvt>1?'s':''}</span>
@@ -14309,7 +14438,8 @@ function rResaAlertes(){
   // Prochaines résas (dans 30 min)
   const prochaines=resas.filter(r=>{
     if(r.date!==today||r.stat==='annulé'||r.stat==='no-show') return false;
-    const rH=parseInt(r.h);const rM=parseInt(r.h.split(':')[1]||0);
+    if(!r.h) return false;
+    const rH=parseInt(r.h);const rM=parseInt((r.h.split(':')[1])||0);
     const diff=(rH*60+rM)-(curH*60+curM);
     return diff>0&&diff<=30;
   });
@@ -14317,7 +14447,8 @@ function rResaAlertes(){
   // Clients en retard (confirmé + heure dépassée)
   const retards=resas.filter(r=>{
     if(r.date!==today||r.stat!=='confirmé') return false;
-    const rH=parseInt(r.h);const rM=parseInt(r.h.split(':')[1]||0);
+    if(!r.h) return false;
+    const rH=parseInt(r.h);const rM=parseInt((r.h.split(':')[1])||0);
     return (curH*60+curM)>(rH*60+rM+15);
   });
   if(retards.length) alertes.push({cls:'danger',txt:`🔴 ${retards.length} client(s) en retard (+15min)`});
@@ -28634,17 +28765,24 @@ function toggleGrp(id){
 }
 function openGrpFor(page){
   const map={
-    dash:'service',salle:'service',commandes:'service',caisse:'service',ecranClient:'service',qrmenu:'service',histoTables:'service',modeServeur:'service',cloture:'service',vocale:'service',
-    menu:'restaurant',menuJour:'restaurant',carteEnLigne:'restaurant',reservations:'restaurant',livraison:'restaurant',fiches:'restaurant',configCaisse:'restaurant',location:'restaurant',fidelite:'restaurant',vip:'restaurant',clients:'restaurant',
-    rh:'personnel',planning:'personnel',presence:'personnel',conges:'personnel','fiches-paie':'personnel',formation:'personnel',
-    stocks:'gestion',fournisseurs:'gestion',cmdFourn:'gestion',dechets:'gestion',todo:'gestion',
-    finance:'finance',frais:'finance',stats:'finance',marges:'finance',rapports:'finance',banque:'finance',budget:'finance',pourboires:'finance',salaires:'finance',
-    origine:'admin',avis:'admin',objectifs:'admin',haccp:'admin',allergenes:'admin',carteOrigines:'admin',
-    acces:'admin',params:'admin',etabs:'admin',sauvegarde:'admin',paramsAvances:'admin',periodes:'admin',
-    integrations:'admin',documents:'admin',maintenance:'admin',incidents:'admin',cave:'restaurant',
-    'resa-attente':'restaurant','resa-online':'restaurant',messagerie:'service',journal:'service',
-    briefing:'service',formation:'personnel',salaires:'personnel',
-    frais:'finance',banque:'finance',budget:'finance',pourboires:'finance',salaires:'finance'
+    // SERVICE
+    dash:'service',salle:'service',caisse:'service',caisseRapide:'service',reservations:'service',stocks:'service',commandes:'service',
+    // SALLE & CLIENTS
+    tablette:'restaurant',clients:'restaurant',fidelite:'restaurant',avis:'restaurant',location:'restaurant',livraison:'restaurant',histoTables:'restaurant',
+    ecranClient:'restaurant','resa-attente':'restaurant',
+    // CARTE & MENU
+    menu:'menu',menuJour:'menu',cave:'menu',fiches:'menu',allergenes:'menu',carteEnLigne:'menu',qrmenu:'menu',
+    // APPROVISIONNEMENT
+    fournisseurs:'gestion',cmdFourn:'gestion',dechets:'gestion',origine:'gestion',
+    // ÉQUIPE
+    rh:'personnel',planning:'personnel',presence:'personnel',conges:'personnel','fiches-paie':'personnel',salaires:'personnel',formation:'personnel',pourboires:'personnel',
+    // FINANCE
+    finance:'finance',rapports:'finance',stats:'finance',frais:'finance',banque:'finance',budget:'finance',marges:'finance',objectifs:'finance',
+    // ADMIN
+    params:'admin',haccp:'admin',todo:'admin',journal:'admin',incidents:'admin',maintenance:'admin',messagerie:'admin',vocale:'admin',
+    'resa-online':'admin',cloture:'admin',configCaisse:'admin',sauvegarde:'admin',acces:'admin',
+    periodes:'admin',documents:'admin',integrations:'admin',paramsAvances:'admin',etabs:'admin',
+    carteOrigines:'admin',vip:'admin',carteOrigines:'admin'
   };
   const grp=map[page];
   if(!grp) return;
