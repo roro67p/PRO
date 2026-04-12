@@ -5765,7 +5765,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   background:linear-gradient(160deg,#1c1509 0%,#120e07 100%);
   border:1px solid rgba(201,151,58,.25);border-radius:3px;
   box-shadow:0 0 0 5px rgba(201,151,58,.05),0 20px 50px rgba(0,0,0,.5);
-  padding:36px 32px;position:relative;overflow:hidden;
+  padding:36px 32px;position:relative;z-index:1;
   margin-top:12px;
 }
 .mj-carte-bg::before{content:'';position:absolute;top:10px;left:10px;width:36px;height:36px;border-top:1.5px solid rgba(201,151,58,.4);border-left:1.5px solid rgba(201,151,58,.4)}
@@ -5955,6 +5955,106 @@ tbody td { padding:13px 14px; font-size:13px; }
 .alt-card-right{text-align:right;flex-shrink:0}
 .alt-card-cat{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.2);font-weight:700;margin-bottom:4px}
 .alt-card-time{font-size:11px;color:rgba(255,255,255,.3)}
+
+
+/* ══ RAPPORTS ══ */
+.rp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.rp-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold2)}
+.rp-subtitle{font-size:12px;color:var(--sub);margin-top:3px}
+.rp-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.rp-period-tabs{display:flex;gap:0;background:var(--ink3);border-radius:10px;padding:3px;border:1px solid rgba(255,255,255,.07)}
+.rp-ptab{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--sub);transition:all .18s}
+.rp-ptab.on{background:var(--ink2);color:var(--gold2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.rp-export-btn{padding:7px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--sub);font-size:12px;cursor:pointer;transition:all .18s}
+.rp-export-btn:hover{color:var(--txt)}
+.rp-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:900px){.rp-kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.rp-kpis{grid-template-columns:repeat(2,1fr)}}
+.rp-kpi{background:var(--ink3);border-radius:16px;padding:14px 16px;border:1px solid rgba(255,255,255,.06)}
+.rp-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.3);font-weight:700;margin-bottom:6px}
+.rp-kpi-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;line-height:1;color:var(--gold2)}
+.rp-kpi-sub{font-size:11px;color:var(--sub);margin-top:4px}
+.rp-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rp-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:800px){.rp-grid-2,.rp-grid-3{grid-template-columns:1fr}}
+.rp-card{background:var(--ink3);border-radius:16px;padding:18px 20px;border:1px solid rgba(255,255,255,.06)}
+.rp-card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.35);margin-bottom:14px}
+.rp-chart-wrap{height:160px;position:relative;overflow:hidden}
+.rp-chart-svg{width:100%;height:100%}
+/* Donut */
+.rp-donut-section{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.rp-donut-wrap{flex-shrink:0}
+.rp-donut-svg{display:block}
+.rp-donut-legend{display:flex;flex-direction:column;gap:7px;flex:1}
+.rp-donut-leg-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.rp-donut-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.rp-donut-leg-nom{flex:1;color:var(--txt)}
+.rp-donut-leg-val{color:var(--gold2);font-weight:600}
+.rp-donut-leg-pct{color:var(--muted);font-size:11px;min-width:30px;text-align:right}
+/* Top plats */
+.rp-top-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.rp-top-item:last-child{border-bottom:none}
+.rp-top-nom{flex:1;font-size:13px;color:var(--txt)}
+.rp-top-cnt{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2)}
+/* Catégories */
+.rp-cat-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.rp-cat-item:last-child{border-bottom:none}
+.rp-cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rp-cat-nom{flex:1;font-size:12px;color:var(--txt)}
+.rp-cat-val{font-size:12px;color:var(--gold2);font-weight:600;min-width:60px;text-align:right}
+.rp-cat-bar-wrap{width:80px;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.rp-cat-bar{height:4px;border-radius:2px}
+/* Heures */
+.rp-hours-grid{display:flex;align-items:flex-end;gap:4px;height:100%;padding-bottom:16px}
+.rp-hour-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end}
+.rp-hour-bar{width:100%;border-radius:3px 3px 0 0;background:linear-gradient(0deg,rgba(201,151,58,.4),rgba(232,192,104,.7));min-height:2px;transition:height .4s}
+.rp-hour-lbl{font-size:8px;color:rgba(255,255,255,.25);white-space:nowrap}
+.rp-hour-val{font-size:8px;color:var(--gold2);font-weight:600}
+/* Marges */
+.rp-marges-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.rp-marge-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding:0 0 6px;border-bottom:1px solid rgba(255,255,255,.06)}
+.rp-marge-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px}
+.rp-marge-item:last-child{border-bottom:none}
+.rp-marge-nom{color:var(--txt);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px}
+.rp-marge-pct{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;flex-shrink:0}
+
+/* ══ VIP ══ */
+.vip-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.vip-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold2)}
+.vip-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:700px){.vip-kpi{grid-template-columns:repeat(2,1fr)}}
+.vip-card{background:linear-gradient(135deg,rgba(201,151,58,.08),rgba(160,100,220,.04));border:1px solid rgba(201,151,58,.2);border-radius:18px;padding:18px 20px;transition:border-color .2s;animation:fadeUp .2s ease both}
+.vip-card:hover{border-color:rgba(201,151,58,.35)}
+.vip-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.vip-avatar{width:48px;height:48px;border-radius:50%;background:rgba(201,151,58,.2);border:2px solid rgba(201,151,58,.5);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2)}
+.vip-nom{font-size:15px;font-weight:700;color:var(--txt)}
+.vip-contact{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
+.vip-badge{padding:3px 10px;border-radius:3px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;background:rgba(201,151,58,.15);color:var(--gold2);border:1px solid rgba(201,151,58,.25)}
+.vip-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.vip-stat{background:rgba(255,255,255,.04);border-radius:8px;padding:8px;text-align:center}
+.vip-stat-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.25);font-weight:700}
+.vip-stat-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2);line-height:1;margin-top:3px}
+.vip-prefs{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:8px;font-style:italic}
+.vip-actions{display:flex;gap:6px;flex-wrap:wrap}
+.vip-btn{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid;transition:all .18s}
+.vip-btn-edit{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--sub)}
+.vip-btn-visit{background:rgba(201,151,58,.12);border-color:rgba(201,151,58,.3);color:var(--gold2)}
+.vip-btn-del{background:rgba(240,112,96,.07);border-color:rgba(240,112,96,.18);color:#f07060}
+.vip-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.vip-search-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px 16px;margin-bottom:16px}
+.vip-search-input{background:transparent;border:none;outline:none;color:var(--txt);font-size:13px;flex:1}
+.vip-empty{text-align:center;padding:60px 20px;color:rgba(255,255,255,.2);font-size:13px}
+
+/* ══ BUDGET ══ */
+.bgt-progress{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-top:6px}
+.bgt-progress-fill{height:8px;border-radius:4px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.bgt-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.bgt-item:last-child{border-bottom:none}
+.bgt-item-ico{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.bgt-item-info{flex:1;min-width:0}
+.bgt-item-nom{font-size:13px;font-weight:600;color:var(--txt)}
+.bgt-item-vals{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
+.bgt-item-pct{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;flex-shrink:0}
 
 </style>
 </head>
@@ -7333,29 +7433,25 @@ tbody td { padding:13px 14px; font-size:13px; }
 <div class="pg-tabs"><span class="pg-tab" data-page="menu" onclick="nav(&#39;menu&#39;,null)">≡ Plats</span><span class="pg-tab" data-page="menuJour" onclick="nav(&#39;menuJour&#39;,null)">☀️ Menu du jour</span></div>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
-  <!-- HEADER ÉDITORIAL -->
-  <div class="mj-header">
-    <div class="mj-header-left">
+  <!-- CARTE DU JOUR — Layout éditorial -->
+  <div class="mj-carte-bg" style="position:relative">
+    <!-- Boutons actions en haut à droite de la carte -->
+    <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;z-index:20;flex-wrap:wrap">
+      <button class="mj-btn-ghost" onclick="printMenuJour()">🖨️ Imprimer</button>
+      <button class="mj-btn-ghost" onclick="mj_toggleEdit()">⚙️ Paramètres</button>
+      <button class="mj-btn-gold" onclick="openMJCat('entrees')">+ Ajouter</button>
+    </div>
+    <!-- En-tête gastronomique -->
+    <div class="mj-carte-head">
       <div class="mj-enseigne" id="mj-enseigne-nom">Chez Romu</div>
       <div class="mj-ornement">✦ ── ✦ ── ✦</div>
       <div class="mj-date-big" id="mj-date-display"></div>
       <div class="mj-chef-msg" id="mj-chef-display"></div>
     </div>
-    <div class="mj-header-right">
-      <div class="mj-actions-bar">
-        <button class="mj-btn-ghost" onclick="printMenuJour()">🖨️ Imprimer</button>
-        <button class="mj-btn-ghost" onclick="mj_toggleEdit()">⚙️ Paramètres</button>
-        <button class="mj-btn-gold" onclick="openMJCat('entrees')">+ Ajouter un plat</button>
-      </div>
-      <!-- Formules -->
-      <div class="mj-formules" id="mj-formules-row"></div>
-    </div>
-  </div>
-
-  <!-- MESSAGE SPÉCIAL -->
-  <div class="mj-msg-banner" id="mj-msg-banner" style="display:none"></div>
-
-  <!-- CARTE DU JOUR — Layout éditorial -->
+    <!-- Formules -->
+    <div class="mj-formules" id="mj-formules-row"></div>
+    <!-- Message spécial dans la carte -->
+    <div class="mj-msg-banner" id="mj-msg-banner" style="display:none"></div>
   <div class="mj-carte">
 
     <!-- Colonne gauche : Entrées + Fromages -->
@@ -7427,6 +7523,7 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
+  </div><!-- /mj-carte -->
   <!-- BAS DE CARTE : mention légale chef -->
   <div class="mj-footer-carte">
     <div class="mj-footer-line"></div>
@@ -8992,15 +9089,19 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <div id="page-vip" class="page">
 <div class="pg-tabs"><span class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)">👤 Clients</span><span class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)">💎 VIP</span><span class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)">🎁 Fidélité</span></div>
-    <div class="page-header">
-      <h2>⭐ Clients VIP</h2>
-      <button class="btn btn-gold btn-sm" onclick="openVipModal()">+ Nouveau VIP</button>
+    <div class="vip-header">
+      <div>
+        <div class="vip-title">💎 Clients VIP</div>
+        <div style="font-size:12px;color:var(--sub);margin-top:3px">Vos meilleurs clients</div>
+      </div>
+      <button class="bk-btn-credit" onclick="openVipModal()">+ Nouveau VIP</button>
     </div>
-    <div class="kpi-row" id="vip-kpi"></div>
-    <div style="margin-bottom:14px">
-      <input class="form-input" id="vip-search" placeholder="🔍 Rechercher un client VIP..." oninput="rVip()"/>
+    <div class="vip-kpi" id="vip-kpi"></div>
+    <div class="vip-search-wrap">
+      <span style="opacity:.4;font-size:14px">🔍</span>
+      <input class="vip-search-input" id="vip-search" placeholder="Rechercher un client VIP..." oninput="rVip()"/>
     </div>
-    <div id="vip-list"></div>
+    <div id="vip-list" class="vip-list"></div>
   </div>
 
 
@@ -19633,7 +19734,10 @@ function rMenuJour(){
   const dd=get('mj-date-display');
   if(dd){
     const d=new Date((mj.date||td())+'T12:00:00');
-    dd.textContent=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    const dateStr=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    dd.textContent=dateStr;
+    const ddTop=get('mj-date-display-top');
+    if(ddTop) ddTop.textContent=dateStr;
   }
 
   // Mention chef
@@ -19663,10 +19767,11 @@ function rMenuJour(){
     if(mj.formulePD) formules.push({label:'Plat · Dessert',prix:mj.formulePD,col:'#6aacda'});
     if(mj.formule) formules.push({label:'⭐ Formule complète',prix:mj.formule,col:'var(--gold2)'});
     fRow.innerHTML=formules.map(f=>`
-      <div class="mj-formule-card" style="border-color:${f.col}22;background:${f.col}08;color:${f.col}">
+      <div class="mj-formule-card" style="border-color:${f.col}22;background:${f.col}08;color:${f.col};cursor:pointer" onclick="mj_toggleEdit()" title="Cliquer pour modifier les formules">
         <div class="mj-formule-label">${f.label}</div>
         <div class="mj-formule-prix">${eur(+f.prix)}</div>
-      </div>`).join('')||'<div style="font-size:11px;color:var(--muted);font-style:italic">Aucune formule — configurez dans Paramètres</div>';
+        <div style="font-size:9px;opacity:.4;margin-top:3px">✏ modifier</div>
+      </div>`).join('')||'<div style="cursor:pointer;font-size:12px;color:rgba(201,151,58,.4);font-style:italic;padding:8px" onclick="mj_toggleEdit()">+ Définir les formules</div>'||'<div style="font-size:11px;color:var(--muted);font-style:italic">Aucune formule — configurez dans Paramètres</div>';
   }
 
   // Catégories
@@ -19809,7 +19914,8 @@ function printMenuJour(){
   if(mj.formule) html+=`<div class="formule">Formule Midi — ${eur(+mj.formule)}</div>`;
   if(mj.msg) html+=`<div class="msg">${mj.msg}</div>`;
   html+='</body></html>';
-  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+  const w=window.open('','_blank');
+  if(!w){toast('Autorisez les popups pour imprimer','warn');return;}w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
 }
 
 // ══ LIVRAISON ══
@@ -25764,7 +25870,12 @@ function genererZCaisse(){
 // ═══════════════════════════════════════════
 // ⭐ CLIENTS VIP
 // ═══════════════════════════════════════════
-if(!DB.vipClients) DB.vipClients=[];
+if(!DB.vipClients||!DB.vipClients.length) DB.vipClients=[
+  {id:1,nom:'Pierre Lefèvre',tel:'06 11 22 33 44',email:'pierre.l@email.fr',allergies:'',preferences:'Table 5, vin rouge Bordeaux',anniversaire:'1975-03-15',notes:'Client depuis l\'ouverture. Toujours avec sa femme le vendredi soir.',visites:42,caTotal:3840,derniereVisite:'2026-04-08',statut:'Or'},
+  {id:2,nom:'Sophie & Laurent Martin',tel:'06 44 55 66 77',email:'martin.couple@gmail.com',allergies:'Lactose (Sophie)',preferences:'Table ronde, bougies, vin blanc sec',anniversaire:'1982-06-20',notes:'Couple régulier le samedi soir. Aiment les suggestions du chef.',visites:28,caTotal:2940,derniereVisite:'2026-04-05',statut:'Or'},
+  {id:3,nom:'Groupe TechLyon',tel:'04 78 00 11 22',email:'events@techlyon.fr',allergies:'',preferences:'Grande table, menu dégustation, facturation entreprise',anniversaire:'',notes:'Réservations d\'entreprise mensuelles. Toujours 8-12 couverts.',visites:15,caTotal:5200,derniereVisite:'2026-03-28',statut:'Platine'},
+  {id:4,nom:'Docteur Marie Rousseau',tel:'06 77 88 99 00',email:'m.rousseau@clinique.fr',allergies:'Fruits de mer',preferences:'Menu végétarien possible, eau pétillante',anniversaire:'1968-11-08',notes:'Vient souvent avec des collègues. Apprécie les desserts.',visites:19,caTotal:1680,derniereVisite:'2026-04-02',statut:'Argent'},
+];
 
 function rVip(){
   if(!DB.vipClients) DB.vipClients=[];
