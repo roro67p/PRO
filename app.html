@@ -7737,18 +7737,8 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- PAGE FINANCE -->
   <div id="page-finance" class="page fin-page">
-
-    <!-- ONGLETS INTERNES -->
-    <div style="display:flex;gap:0;background:var(--ink2);border-bottom:2px solid var(--line);padding:0 16px;position:sticky;top:0;z-index:10;flex-wrap:wrap">
-      <div id="fin-tab-compta"   onclick="finTab('compta')"   style="padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid var(--gold);margin-bottom:-2px;color:var(--gold2);transition:all .15s">💶 Finance</div>
-      <div id="fin-tab-rapports" onclick="finTab('rapports')" style="padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--sub);transition:all .15s">📊 Rapports</div>
-      <div id="fin-tab-stats"    onclick="finTab('stats')"    style="padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--sub);transition:all .15s">▦ Stats</div>
-    </div>
-
-    <!-- VUE COMPTABILITÉ -->
-    <div id="fin-view-compta">
       <div class="fin-header">
-        <div><h2 class="fin-title">💶 Finance & Comptabilité</h2><div class="fin-subtitle">Vue consolidée · Temps réel</div></div>
+        <div><h2 class="fin-title">💶 Finance &amp; Comptabilité</h2><div class="fin-subtitle">Vue consolidée · Temps réel</div></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <input class="fin-input" id="fin-filtre-date" type="month" style="width:150px" oninput="rFin()" title="Filtrer par mois"/>
           <button class="fin-btn-sec" onclick="openSplit()">➗ Addition partagée</button>
@@ -7756,140 +7746,42 @@ tbody td { padding:13px 14px; font-size:13px; }
         </div>
       </div>
       <div class="fin-hero-grid">
-        <div class="fin-hero-card fin-ca fin-anim" style="animation-delay:.0s">
-          <div class="fin-hero-label">Chiffre d'affaires</div>
-          <div class="fin-hero-val" id="f-ca">0 €</div>
-          <div class="fin-hero-sub"><span id="f-ca-trend"></span><span id="f-ca-sub">—</span></div>
-          <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-cyan" id="f-ca-bar" style="width:0%"></div></div>
-        </div>
-        <div class="fin-hero-card fin-charges fin-anim" style="animation-delay:.08s">
-          <div class="fin-hero-label">Charges totales</div>
-          <div class="fin-hero-val" id="f-charges">0 €</div>
-          <div class="fin-hero-sub"><span id="f-charges-sub">—</span></div>
-          <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-red" id="f-charges-bar" style="width:0%"></div></div>
-        </div>
-        <div class="fin-hero-card fin-resultat fin-anim" style="animation-delay:.16s">
-          <div class="fin-hero-label">Résultat net</div>
-          <div class="fin-hero-val" id="f-resultat">0 €</div>
-          <div class="fin-hero-sub"><span id="f-marge">—</span> de marge nette</div>
-          <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-green" id="f-resultat-bar" style="width:0%"></div></div>
-        </div>
+        <div class="fin-hero-card fin-ca fin-anim"><div class="fin-hero-label">Chiffre d'affaires</div><div class="fin-hero-val" id="f-ca">0 €</div><div class="fin-hero-sub"><span id="f-ca-trend"></span><span id="f-ca-sub">—</span></div><div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-cyan" id="f-ca-bar" style="width:0%"></div></div></div>
+        <div class="fin-hero-card fin-charges fin-anim"><div class="fin-hero-label">Charges totales</div><div class="fin-hero-val" id="f-charges">0 €</div><div class="fin-hero-sub"><span id="f-charges-sub">—</span></div><div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-red" id="f-charges-bar" style="width:0%"></div></div></div>
+        <div class="fin-hero-card fin-resultat fin-anim"><div class="fin-hero-label">Résultat net</div><div class="fin-hero-val" id="f-resultat">0 €</div><div class="fin-hero-sub"><span id="f-marge">—</span> de marge nette</div><div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-green" id="f-resultat-bar" style="width:0%"></div></div></div>
       </div>
-      <div class="fin-metrics-row fin-anim" style="animation-delay:.22s">
+      <div class="fin-metrics-row fin-anim">
         <div class="fin-metric"><div class="fin-metric-ico">🧾</div><div class="fin-metric-val" id="f-tva">0 €</div><div class="fin-metric-lbl">TVA collectée</div></div>
         <div class="fin-metric"><div class="fin-metric-ico">🍽️</div><div class="fin-metric-val" id="f-tkt">—</div><div class="fin-metric-lbl">Ticket moyen</div></div>
         <div class="fin-metric"><div class="fin-metric-ico">💳</div><div class="fin-metric-val" id="f-nb">0</div><div class="fin-metric-lbl">Transactions</div></div>
         <div class="fin-metric"><div class="fin-metric-ico">📦</div><div class="fin-metric-val" id="f-achats-m">0 €</div><div class="fin-metric-lbl">Achats fourn.</div></div>
         <div class="fin-metric"><div class="fin-metric-ico">👥</div><div class="fin-metric-val" id="f-salaires-m">0 €</div><div class="fin-metric-lbl">Masse salariale</div></div>
       </div>
-      <div class="fin-mid-grid fin-anim" style="animation-delay:.28s;margin-bottom:14px">
-        <div class="fin-section">
-          <div class="fin-section-title">📈 Évolution CA — 12 derniers mois</div>
-          <div class="fin-chart-wrap">
-            <svg class="fin-chart-svg" id="fin-ca-svg" viewBox="0 0 400 120" preserveAspectRatio="none">
-              <defs><linearGradient id="finGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00d4ff" stop-opacity=".5"/><stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/></linearGradient></defs>
-              <path class="fin-chart-area" id="fin-chart-area" d=""/>
-              <path class="fin-chart-line" id="fin-chart-line" d=""/>
-              <g id="fin-chart-dots"></g><g id="fin-chart-labels"></g>
-            </svg>
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-top:4px">
-            <div style="font-size:10px;color:#3a6080">Meilleur mois: <span id="fin-best-month" style="color:#00d4ff;font-weight:700">—</span></div>
-            <div style="font-size:10px;color:#3a6080">Tendance: <span id="fin-trend-label" style="font-weight:700">—</span></div>
-          </div>
-        </div>
-        <div class="fin-section">
-          <div class="fin-section-title">🥧 Répartition des charges</div>
-          <div class="fin-donut-wrap">
-            <svg class="fin-donut-svg" id="fin-donut-svg" width="130" height="130" viewBox="0 0 130 130">
-              <g id="fin-donut-rings"></g>
-              <text class="fin-donut-center" x="65" y="60" id="fin-donut-center-val">—</text>
-              <text class="fin-donut-center-sub" x="65" y="76">Charges</text>
-            </svg>
-            <div class="fin-donut-legend" id="fin-donut-legend"></div>
-          </div>
-          <div class="fin-repartition" id="fin-repartition" style="margin-top:16px"></div>
-          <div class="fin-rep-legend" id="fin-rep-legend"></div>
-        </div>
+      <div class="fin-mid-grid fin-anim" style="margin-bottom:14px">
+        <div class="fin-section"><div class="fin-section-title">📈 Évolution CA — 12 derniers mois</div><div class="fin-chart-wrap"><svg class="fin-chart-svg" id="fin-ca-svg" viewBox="0 0 400 120" preserveAspectRatio="none"><defs><linearGradient id="finGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00d4ff" stop-opacity=".5"/><stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/></linearGradient></defs><path class="fin-chart-area" id="fin-chart-area" d=""/><path class="fin-chart-line" id="fin-chart-line" d=""/><g id="fin-chart-dots"></g><g id="fin-chart-labels"></g></svg></div><div style="display:flex;justify-content:space-between;margin-top:4px"><div style="font-size:10px;color:#3a6080">Meilleur mois: <span id="fin-best-month" style="color:#00d4ff;font-weight:700">—</span></div><div style="font-size:10px;color:#3a6080">Tendance: <span id="fin-trend-label" style="font-weight:700">—</span></div></div></div>
+        <div class="fin-section"><div class="fin-section-title">🥧 Répartition des charges</div><div class="fin-donut-wrap"><svg class="fin-donut-svg" id="fin-donut-svg" width="130" height="130" viewBox="0 0 130 130"><g id="fin-donut-rings"></g><text class="fin-donut-center" x="65" y="60" id="fin-donut-center-val">—</text><text class="fin-donut-center-sub" x="65" y="76">Charges</text></svg><div class="fin-donut-legend" id="fin-donut-legend"></div></div><div class="fin-repartition" id="fin-repartition" style="margin-top:16px"></div><div class="fin-rep-legend" id="fin-rep-legend"></div></div>
       </div>
-      <div class="fin-mid-grid fin-anim" style="animation-delay:.34s;margin-bottom:14px">
-        <div class="fin-section">
-          <div class="fin-section-title">📊 Compte de résultat</div>
-          <div class="fin-cr-row fin-cr-produit"><span class="fin-cr-lbl">Ventes restaurant</span><span class="fin-cr-val fin-green" id="cr-ventes">0 €</span></div>
-          <div class="fin-cr-sep">Charges opérationnelles</div>
-          <div class="fin-cr-row"><span class="fin-cr-lbl">📦 Achats fournisseurs</span><span class="fin-cr-val fin-red" id="cr-achats">0 €</span></div>
-          <div class="fin-cr-row"><span class="fin-cr-lbl">👥 Masse salariale</span><span class="fin-cr-val fin-red" id="cr-salaires">0 €</span></div>
-          <div class="fin-cr-row"><span class="fin-cr-lbl">🏠 Frais & charges fixes</span><span class="fin-cr-val fin-red" id="cr-frais">0 €</span></div>
-          <div class="fin-cr-total"><span>RÉSULTAT NET</span><span id="cr-net">0 €</span></div>
-        </div>
-        <div class="fin-section">
-          <div class="fin-section-title">🏦 Rapprochement bancaire</div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div><div class="fin-input-lbl">Mois</div><input class="fin-input" id="rappr-mois" type="month" onchange="rRapprochement()"/></div>
-            <div><div class="fin-input-lbl">Solde relevé bancaire (€)</div><input class="fin-input" id="rappr-solde-banque" type="number" step="0.01" placeholder="0.00" onchange="rRapprochement()"/></div>
-            <button class="fin-btn-sec" onclick="rRapprochement()" style="align-self:flex-start">🔄 Calculer l'écart</button>
-          </div>
-          <div id="rappr-result" style="margin-top:14px"></div>
-        </div>
+      <div class="fin-mid-grid fin-anim" style="margin-bottom:14px">
+        <div class="fin-section"><div class="fin-section-title">📊 Compte de résultat</div><div class="fin-cr-row fin-cr-produit"><span class="fin-cr-lbl">Ventes restaurant</span><span class="fin-cr-val fin-green" id="cr-ventes">0 €</span></div><div class="fin-cr-sep">Charges opérationnelles</div><div class="fin-cr-row"><span class="fin-cr-lbl">📦 Achats fournisseurs</span><span class="fin-cr-val fin-red" id="cr-achats">0 €</span></div><div class="fin-cr-row"><span class="fin-cr-lbl">👥 Masse salariale</span><span class="fin-cr-val fin-red" id="cr-salaires">0 €</span></div><div class="fin-cr-row"><span class="fin-cr-lbl">🏠 Frais &amp; charges fixes</span><span class="fin-cr-val fin-red" id="cr-frais">0 €</span></div><div class="fin-cr-total"><span>RÉSULTAT NET</span><span id="cr-net">0 €</span></div></div>
+        <div class="fin-section"><div class="fin-section-title">🏦 Rapprochement bancaire</div><div style="display:flex;flex-direction:column;gap:10px"><div><div class="fin-input-lbl">Mois</div><input class="fin-input" id="rappr-mois" type="month" onchange="rRapprochement()"/></div><div><div class="fin-input-lbl">Solde relevé bancaire (€)</div><input class="fin-input" id="rappr-solde-banque" type="number" step="0.01" placeholder="0.00" onchange="rRapprochement()"/></div><button class="fin-btn-sec" onclick="rRapprochement()" style="align-self:flex-start">🔄 Calculer</button></div><div id="rappr-result" style="margin-top:14px"></div></div>
       </div>
-      <div class="fin-section fin-anim" style="animation-delay:.4s">
-        <div class="fin-journal-header">
-          <div class="fin-section-title" style="margin-bottom:0">📋 Journal des ventes</div>
-          <select class="fin-input" id="fin-filtre-mode" style="width:140px" onchange="rFin()">
-            <option value="">Tous modes</option>
-            <option value="CB">💳 CB</option>
-            <option value="Espèces">💵 Espèces</option>
-            <option value="Ticket Resto">🎫 Ticket Resto</option>
-          </select>
-        </div>
-        <div class="table-wrap" style="margin-top:12px"><table>
-          <thead><tr><th>Date</th><th>Heure</th><th>Table</th><th>Cvts</th><th>HT</th><th>TTC</th><th>Paiement</th><th></th></tr></thead>
-          <tbody id="tb-ventes"></tbody>
-        </table></div>
-        <div id="fin-total-row" class="fin-total-row"></div>
-      </div>
-    </div>
+      <div class="fin-section fin-anim"><div class="fin-journal-header"><div class="fin-section-title" style="margin-bottom:0">📋 Journal des ventes</div><select class="fin-input" id="fin-filtre-mode" style="width:140px" onchange="rFin()"><option value="">Tous modes</option><option value="CB">💳 CB</option><option value="Espèces">💵 Espèces</option><option value="Ticket Resto">🎫 Ticket Resto</option></select></div><div class="table-wrap" style="margin-top:12px"><table><thead><tr><th>Date</th><th>Heure</th><th>Table</th><th>Cvts</th><th>HT</th><th>TTC</th><th>Paiement</th><th></th></tr></thead><tbody id="tb-ventes"></tbody></table></div><div id="fin-total-row" class="fin-total-row"></div></div>
+  </div>
 
-    <!-- VUE RAPPORTS -->
-    <div id="fin-view-rapports" style="display:none">
-      <div class="rp-header">
-        <div><div class="rp-title">📊 Rapports & Analyses</div><div class="rp-subtitle" id="rp-subtitle">Vue consolidée</div></div>
-        <div class="rp-actions">
-          <div class="rp-period-tabs">
-            <button class="rp-ptab on" id="rp-btn-jour"    onclick="setRapportPeriode('jour')">Aujourd'hui</button>
-            <button class="rp-ptab"    id="rp-btn-semaine" onclick="setRapportPeriode('semaine')">Semaine</button>
-            <button class="rp-ptab"    id="rp-btn-mois"    onclick="setRapportPeriode('mois')">Ce mois</button>
-          </div>
-          <button class="rp-export-btn" onclick="exportRapportCSV()">📥 Export</button>
-        </div>
-      </div>
+  <!-- PAGE RAPPORTS -->
+  <div id="page-rapports" class="page rp-page">
+      <div class="rp-header"><div><div class="rp-title">📊 Rapports &amp; Analyses</div><div class="rp-subtitle" id="rp-subtitle">Vue consolidée</div></div><div class="rp-actions"><div class="rp-period-tabs"><button class="rp-ptab on" id="rp-btn-jour" onclick="setRapportPeriode('jour')">Aujourd'hui</button><button class="rp-ptab" id="rp-btn-semaine" onclick="setRapportPeriode('semaine')">Semaine</button><button class="rp-ptab" id="rp-btn-mois" onclick="setRapportPeriode('mois')">Ce mois</button></div><button class="rp-export-btn" onclick="exportRapportCSV()">📥 Export</button></div></div>
       <div class="rp-kpis" id="rp-kpi"></div>
-      <div class="rp-grid-2" style="margin-bottom:14px">
-        <div class="rp-card"><div class="rp-card-title">📈 Évolution du CA — 30 derniers jours</div><div id="rp-graph-ca" class="rp-chart-wrap"></div></div>
-        <div class="rp-card"><div class="rp-card-title">⏰ Heures de pointe</div><div id="rp-heures" class="rp-chart-wrap" style="height:140px"></div></div>
-      </div>
-      <div class="rp-grid-3" style="margin-bottom:14px">
-        <div class="rp-card"><div class="rp-card-title">🏆 Top 10 plats</div><div id="rp-top"></div></div>
-        <div class="rp-card"><div class="rp-card-title">🍽️ CA par catégorie</div><div id="rp-cat"></div></div>
-        <div class="rp-card"><div class="rp-card-title">💳 Modes de paiement</div><div id="rp-donut-wrap" class="rp-donut-section"></div></div>
-      </div>
-      <div class="rp-card" style="margin-bottom:14px">
-        <div class="rp-card-title">📉 Analyse des marges par plat</div>
-        <div class="rp-marges-grid" id="rp-marges"></div>
-      </div>
-    </div>
+      <div class="rp-grid-2" style="margin-bottom:14px"><div class="rp-card"><div class="rp-card-title">📈 Évolution du CA — 30 derniers jours</div><div id="rp-graph-ca" class="rp-chart-wrap"></div></div><div class="rp-card"><div class="rp-card-title">⏰ Heures de pointe</div><div id="rp-heures" class="rp-chart-wrap" style="height:140px"></div></div></div>
+      <div class="rp-grid-3" style="margin-bottom:14px"><div class="rp-card"><div class="rp-card-title">🏆 Top 10 plats</div><div id="rp-top"></div></div><div class="rp-card"><div class="rp-card-title">🍽️ CA par catégorie</div><div id="rp-cat"></div></div><div class="rp-card"><div class="rp-card-title">💳 Modes de paiement</div><div id="rp-donut-wrap" class="rp-donut-section"></div></div></div>
+      <div class="rp-card" style="margin-bottom:14px"><div class="rp-card-title">📉 Analyse des marges par plat</div><div class="rp-marges-grid" id="rp-marges"></div></div>
+  </div>
 
-    <!-- VUE STATS -->
-    <div id="fin-view-stats" style="display:none">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;padding-top:16px">
-        <div>
-          <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold2)">▦ Stats mensuelles</h2>
-          <div style="font-size:12px;color:var(--sub);margin-top:2px">Analysez vos performances</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <select class="form-select" id="stats-month" onchange="rStats()" style="width:130px"></select>
-          <select class="form-select" id="stats-year"  onchange="rStats()" style="width:90px"></select>
-        </div>
+  <!-- PAGE STATS -->
+  <div id="page-stats" class="page">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+        <div><h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold2)">▦ Stats mensuelles</h2><div style="font-size:12px;color:var(--sub);margin-top:2px">Analysez vos performances</div></div>
+        <div style="display:flex;gap:8px;align-items:center"><select class="form-select" id="stats-month" onchange="rStats()" style="width:130px"></select><select class="form-select" id="stats-year" onchange="rStats()" style="width:90px"></select></div>
       </div>
       <div class="kpi-row" style="margin-bottom:20px">
         <div class="kpi-box kpi-gold"><span class="kpi-ico">💶</span><div class="kpi-val" id="st-ca">—</div><div class="kpi-lbl">CA du mois</div></div>
@@ -7899,20 +7791,11 @@ tbody td { padding:13px 14px; font-size:13px; }
         <div class="kpi-box kpi-red"><span class="kpi-ico">🏆</span><div class="kpi-val" id="st-best">—</div><div class="kpi-lbl">Meilleur jour</div></div>
         <div class="kpi-box kpi-green"><span class="kpi-ico">⚡</span><div class="kpi-val" id="st-vs">—</div><div class="kpi-lbl">vs mois préc.</div></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-        <div class="card" style="grid-column:1/-1"><div class="card-title">CA jour par jour</div><div style="overflow-x:auto"><canvas id="chart-daily" height="160"></canvas></div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-        <div class="card"><div class="card-title">🏅 Top 5 plats du mois</div><div id="st-topplats"></div></div>
-        <div class="card"><div class="card-title">💳 Modes de paiement</div><div id="st-modes"></div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div class="card"><div class="card-title">🌙 Meilleurs soirs</div><div id="st-soirs"></div></div>
-        <div class="card"><div class="card-title">⏰ Heures de rush</div><div id="st-rush"></div></div>
-      </div>
-    </div>
-
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px"><div class="card" style="grid-column:1/-1"><div class="card-title">CA jour par jour</div><div style="overflow-x:auto"><canvas id="chart-daily" height="160"></canvas></div></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px"><div class="card"><div class="card-title">🏅 Top 5 plats du mois</div><div id="st-topplats"></div></div><div class="card"><div class="card-title">💳 Modes de paiement</div><div id="st-modes"></div></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div class="card"><div class="card-title">🌙 Meilleurs soirs</div><div id="st-soirs"></div></div><div class="card"><div class="card-title">⏰ Heures de rush</div><div id="st-rush"></div></div></div>
   </div>
+
 
   <!-- PAGE FRAIS & CHARGES -->
   <div id="page-frais" class="page fin-page">
@@ -13026,7 +12909,7 @@ function render(n){
   ({dash:rDash,salle:rSalle,caisse:rCaisse,menu:rMenu,
     reservations:rResa,'resa-attente':rListeAttente,stocks:rStocks,commandes:rCmds,personnel:()=>{rPerso();rPersonnelPlanning();},
     rh:rRh,
-    fournisseurs:rFourn, finance:()=>{rFin();},rapports:()=>{nav('finance',null);setTimeout(()=>finTab('rapports'),50);},stats:()=>{nav('finance',null);setTimeout(()=>finTab('stats'),50);},
+    fournisseurs:rFourn, finance:()=>{rFin();},rapports:rRapports,stats:rStats,
     menuJour:rMenuJour, livraison:rLivraison, stats:rStats,
     configCaisse:rConfigCaisse,
     messagerie:rMessagerie,
@@ -17918,6 +17801,8 @@ function navToCmd(fournId){
 
 // ═══ FINANCE ═══
 function rFin(){
+  // Reset tab state
+  ['compta','rapports','stats'].forEach(t=>{const v=document.getElementById('fin-view-'+t);if(v)v.style.display=t==='compta'?'':'none';});
   const filtreMois=document.getElementById('fin-filtre-date')?.value||'';
   const filtreMode=document.getElementById('fin-filtre-mode')?.value||'';
   let ventes=DB.ventes||[];
