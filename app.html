@@ -6201,6 +6201,109 @@ tbody td { padding:13px 14px; font-size:13px; }
 .bgt-progress{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-top:6px}
 .bgt-progress-fill{height:8px;border-radius:4px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 
+/* ── BOTTOM NAV BAR (mobile) ── */
+#mob-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 62px;
+  background: var(--ink2);
+  border-top: 1px solid rgba(201,151,58,.2);
+  z-index: 190;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 4px;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 24px rgba(0,0,0,.4);
+}
+@media(max-width:768px) {
+  #mob-bottom-nav { display: flex; }
+  #main { padding-bottom: 70px; }
+}
+.mbn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  padding: 8px 4px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all .15s;
+  position: relative;
+  color: var(--muted);
+  border: none;
+  background: none;
+}
+.mbn-item.active {
+  color: var(--gold2);
+}
+.mbn-item:active { transform: scale(.92); }
+.mbn-ico { font-size: 20px; line-height: 1; }
+.mbn-lbl { font-size: 9px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; }
+.mbn-badge {
+  position: absolute;
+  top: 4px; right: calc(50% - 16px);
+  background: var(--red);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 5px;
+  min-width: 14px;
+  text-align: center;
+  display: none;
+}
+.mbn-badge.show { display: block; }
+/* More panel */
+#mob-more-panel {
+  display: none;
+  position: fixed;
+  bottom: 62px; left: 0; right: 0;
+  background: var(--ink2);
+  border-top: 1px solid rgba(201,151,58,.2);
+  z-index: 189;
+  max-height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 -8px 32px rgba(0,0,0,.5);
+  border-radius: 16px 16px 0 0;
+  padding: 16px 16px 8px;
+}
+#mob-more-panel.open { display: block; }
+.mob-more-title {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+.mob-more-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.mob-more-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px;
+  background: var(--ink3);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 10px;
+  color: var(--sub);
+  text-align: center;
+  transition: all .12s;
+}
+.mob-more-item:active { transform: scale(.94); background: var(--ink4); }
+.mob-more-item .mmi-ico { font-size: 20px; }
+
 </style>
 </head>
 <body>
@@ -6376,12 +6479,9 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
       <div class="nav-item" onclick="nav('tablette',this)"><span class="ni-ico">🧑‍🍳</span>Tablette serveur</div>
       <div class="nav-item" onclick="navKDS()"><span class="ni-ico">📺</span>Écran cuisine</div>
-      <div class="nav-item" onclick="nav('location',this)"><span class="ni-ico">🎵</span>Location salle</div>
-      <div class="nav-item" onclick="nav('journal',this)"><span class="ni-ico">📓</span>Journal de bord</div>
-      <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">📢</span>Message vocal</div>
-      <div class="nav-item" onclick="nav('periodes',this)"><span class="ni-ico">📅</span>Périodes fermées</div>
-      <div class="nav-item" onclick="nav('ecranClient',this)"><span class="ni-ico">🖥️</span>Écran client</div>
-      <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
+            <div class="nav-item" onclick="nav('journal',this)"><span class="ni-ico">📓</span>Journal de bord</div>
+            <div class="nav-item" onclick="nav('periodes',this)"><span class="ni-ico">📅</span>Périodes fermées</div>
+            <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
       <div class="nav-item" onclick="nav('configCaisse',this)"><span class="ni-ico">⌨</span>Config caisse</div>
       <div class="nav-item" onclick="nav('paramsAvances',this)"><span class="ni-ico">🔬</span>Params avancés</div>
       <div class="nav-item" onclick="nav('acces',this)"><span class="ni-ico">🔑</span>Accès & PIN</div>
@@ -6390,7 +6490,7 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   </div>
 </aside>
-<div id="overlay" onclick="closeSB()"></div>
+<div id="overlay" onclick="closeSB();closeMobMore()"></div>
 
 <main id="main">
 <div class="mob-header">
@@ -6447,36 +6547,15 @@ tbody td { padding:13px 14px; font-size:13px; }
     <div id="alt-list" class="alt-list"></div>
   </div>
 
-  <div id="page-surprise" class="page surp-page">
-    <div class="surp-hero">
-      <div class="surp-particles" id="surp-particles"></div>
-      <div class="surp-hero-content">
-        <div class="surp-hero-emoji" id="surp-emoji">🎲</div>
-        <div class="surp-hero-title">Mode <em>Surprise</em></div>
-        <div class="surp-hero-sub" id="surp-sub">Que voulez-vous decouvrir ?</div>
-      </div>
-    </div>
-    <div class="surp-grid">
-      <div class="surp-card surp-card-1" onclick="surprisePlat()"><div class="surp-card-ico">🍽️</div><div class="surp-card-title">Plat du hasard</div><div class="surp-card-sub">Qu'allons-nous cuisiner ce soir ?</div></div>
-      <div class="surp-card surp-card-2" onclick="surpriseClient()"><div class="surp-card-ico">👤</div><div class="surp-card-title">Client mystere</div><div class="surp-card-sub">Qui merite une attention speciale ?</div></div>
-      <div class="surp-card surp-card-3" onclick="surpriseCitation()"><div class="surp-card-ico">💬</div><div class="surp-card-title">Citation du chef</div><div class="surp-card-sub">Une inspiration pour ce soir</div></div>
-      <div class="surp-card surp-card-4" onclick="surpriseDefi()"><div class="surp-card-ico">🏆</div><div class="surp-card-title">Defi du service</div><div class="surp-card-sub">Un objectif pour pimenter la soiree</div></div>
-      <div class="surp-card surp-card-5" onclick="surpriseMusique()"><div class="surp-card-ico">🎵</div><div class="surp-card-title">Ambiance musicale</div><div class="surp-card-sub">Le bon son pour ce soir</div></div>
-      <div class="surp-card surp-card-6" onclick="surpriseAnecdote()"><div class="surp-card-ico">📖</div><div class="surp-card-title">Anecdote culinaire</div><div class="surp-card-sub">Une histoire pour vos clients</div></div>
-    </div>
-    <div class="surp-result" id="surp-result" style="display:none"></div>
-    <div style="text-align:center;margin-top:20px">
-      <button class="surp-btn-all" onclick="surpriseAll()">🎲 Tout relancer !</button>
-    </div>
-  </div>
+  
 
   <div id="page-dash" class="page active">
+  <div class="dash-wrap">
 
-    <div class="dash-wrap">
     <!-- HERO HEADER -->
     <div class="dash-hero">
       <div class="dash-hero-left">
-        <div class="dash-greeting" id="dash-greeting">Bonsoir 👋</div>
+        <div class="dash-greeting" id="dash-greeting">Bonjour 👋</div>
         <div class="dash-sub" id="dash-date"></div>
         <div class="dash-live-badge"><span class="dash-live-dot"></span>LIVE</div>
       </div>
@@ -6486,69 +6565,42 @@ tbody td { padding:13px 14px; font-size:13px; }
       </div>
       <div class="dash-actions">
         <button class="btn btn-ghost btn-sm" onclick="exportDashboardPDF()">📄 Export</button>
-        <button class="btn btn-ghost btn-sm" onclick="resetTout()">🔄 Reset</button>
-        <button id="btn-boost" onclick="toggleBoostCA()" style="background:linear-gradient(135deg,#c9973a,#f5d070);color:#0c0a04;border:none;padding:8px 16px;border-radius:9px;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(201,151,58,.3)">⚡ Boost CA</button>
         <button class="btn btn-danger btn-sm" onclick="ouvrirFinService()">🌙 Fin de service</button>
       </div>
     </div>
 
-    <!-- BOOST PANEL -->
-    <div class="boost-panel" id="boost-panel">
-      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:10px">⚡ Mode Boost CA — Actions immédiates</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px" id="boost-tips"></div>
-    </div>
-
-    <!-- KPI HERO avec gros cercles donuts -->
+    <!-- KPI HERO -->
     <div class="kpi-grid-4" id="dash-kpis"></div>
 
-    <!-- ASSISTANT + ACTIONS -->
+    <!-- ASSISTANT + ACTIONS RAPIDES -->
     <div class="dash-mid">
       <div class="ai-card">
         <div class="ai-header"><div class="ai-dot"></div><span class="ai-title">Assistant intelligent</span></div>
         <div id="dash-ai-tips"></div>
       </div>
       <div class="actions-card" style="background:transparent;border:none;padding:0">
-        <button class="dcc-gold-btn" onclick="nav(&#39;caisse&#39;,null)">
+        <button class="dcc-gold-btn" onclick="nav('caisse',null)">
           <span class="dcc-gold-ico">◇</span>
           <div class="dcc-gold-text"><div class="dcc-gold-label">Ouvrir la Caisse</div><div class="dcc-gold-sub">Encaissement &amp; tickets</div></div>
           <div class="dcc-gold-val" id="dash-act-ca">0,00 €</div>
         </button>
         <div class="dcc-grid">
-          <button class="dcc-btn dcc-btn-salle" onclick="nav(&#39;salle&#39;,null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">⬡</span><div class="dcc-btn-lbl">Salle</div><div class="dcc-btn-val" id="dash-act-tables">— tables</div></button>
-          <button class="dcc-btn dcc-btn-resa" onclick="nav(&#39;reservations&#39;,null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">📅</span><div class="dcc-btn-lbl">Réservations</div><div class="dcc-btn-val" id="dash-act-resas">— ce soir</div></button>
-          <button class="dcc-btn dcc-btn-cmd" onclick="nav(&#39;salle&#39;,null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">📋</span><div class="dcc-btn-lbl">Commande</div><div class="dcc-btn-val">Nouvelle table</div></button>
-          <button class="dcc-btn dcc-btn-stk" onclick="nav(&#39;stocks&#39;,null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">📦</span><div class="dcc-btn-lbl">Stocks</div><div class="dcc-btn-val" id="dash-act-stk">Vérifier</div></button>
-        </div>
-        <div class="dcc-sep">Actions secondaires</div>
-        <div class="dcc-sec-grid">
-          <button class="dcc-sec-btn" onclick="openModal(&#39;mo-resa&#39;)"><span class="dcc-sec-btn-ico">➕</span><div><div class="dcc-sec-btn-lbl">Nouvelle résa</div></div></button>
-          <button class="dcc-sec-btn" onclick="rapportJournalier()"><span class="dcc-sec-btn-ico">📊</span><div><div class="dcc-sec-btn-lbl">Rapport PDF</div></div></button>
-          <button class="dcc-sec-btn" onclick="nav(&#39;menu&#39;,null)"><span class="dcc-sec-btn-ico">≡</span><div><div class="dcc-sec-btn-lbl">Menu &amp; Plats</div></div></button>
-          <button class="dcc-sec-btn" onclick="ouvrirFinService()"><span class="dcc-sec-btn-ico">🌙</span><div><div class="dcc-sec-btn-lbl">Fin de service</div></div></button>
+          <button class="dcc-btn dcc-btn-salle" onclick="nav('salle',null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">⬡</span><div class="dcc-btn-lbl">Salle</div><div class="dcc-btn-val" id="dash-act-tables">— tables</div></button>
+          <button class="dcc-btn dcc-btn-resa" onclick="nav('reservations',null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">📅</span><div class="dcc-btn-lbl">Réservations</div><div class="dcc-btn-val" id="dash-act-resas">— ce soir</div></button>
+          <button class="dcc-btn dcc-btn-cmd" onclick="nav('commandes',null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">🧾</span><div class="dcc-btn-lbl">Commandes</div><div class="dcc-btn-val" id="dash-act-cmd">En cours</div></button>
+          <button class="dcc-btn dcc-btn-stk" onclick="nav('stocks',null)"><span class="dcc-btn-arrow">›</span><span class="dcc-btn-ico">📦</span><div class="dcc-btn-lbl">Stocks</div><div class="dcc-btn-val" id="dash-act-stk">Vérifier</div></button>
         </div>
       </div>
     </div>
 
-    <!-- TOP PLATS + SALLE + ALERTES -->
-    <div class="dash-bottom">
-      <div class="dash-section ds-top"><div class="dash-section-title">🏆 Performance plats</div><div id="d-top"></div>
-        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center"><span style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)">Ticket moyen</span><span style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold2)" id="d-tkt-perf">—</span></div>
-      </div>
-      <div class="dash-section ds-salle"><div class="dash-section-title">🪑 État du service</div><div id="d-salle-etat"></div></div>
+    <!-- ALERTES + RÉSERVATIONS DU SOIR -->
+    <div id="dash-mid-zone" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
       <div class="dash-section ds-alertes"><div class="dash-section-title">🚨 Alertes</div><div id="d-alertes"></div></div>
-    </div>
-
-    <!-- COMMANDES + RÉSA -->
-    <div class="dash-low">
-      <div class="dash-low-card dlc-cmd"><div class="dlc-title">📋 Commandes actives</div><div id="d-cmd"></div></div>
       <div class="dash-low-card dlc-resa"><div class="dlc-title">📅 Réservations du soir</div><div id="d-resa"></div></div>
     </div>
 
-    <!-- MÉTÉO + PÉRIODES -->
-    <div class="dash-last">
-      <div class="dash-last-card"><div class="dlc-title">🌤️ Météo & Affluence</div><div id="d-meteo"></div></div>
-      <div class="dash-last-card"><div class="dlc-title">📆 Périodes à venir</div><div id="d-periodes"></div></div>
-    </div>
+    <!-- ÉTAT SALLE -->
+    <div class="dash-section ds-salle" style="margin-top:14px"><div class="dash-section-title">🪑 État du service</div><div id="d-salle-etat"></div></div>
 
     <!-- IDs cachés compat -->
     <span id="k-cvt" style="display:none">0</span>
@@ -6559,8 +6611,13 @@ tbody td { padding:13px 14px; font-size:13px; }
     <span id="b-resa-mob" style="display:none">0</span>
     <span id="b-stk-mob" style="display:none">0</span>
     <div id="d-stk" style="display:none"></div>
-    </div>
-  </div>
+    <div id="d-top" style="display:none"></div>
+    <div id="d-tkt-perf" style="display:none"></div>
+    <div id="d-cmd" style="display:none"></div>
+    <div id="d-meteo" style="display:none"></div>
+    <div id="d-periodes" style="display:none"></div>
+              </div>
+</div>
 
   <!-- SALLE -->
   <div id="page-salle" class="page">
@@ -6749,7 +6806,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- MENU -->
   <div id="page-menu" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="menu" onclick="nav(&#39;menu&#39;,null)">≡ Plats</span><span class="pg-tab" data-page="menuJour" onclick="nav(&#39;menuJour&#39;,null)">☀️ Menu du jour</span></div>
   <div>
     <!-- HEADER -->
     <div class="mn2-header">
@@ -6791,7 +6847,6 @@ tbody td { padding:13px 14px; font-size:13px; }
   
   <!-- RÉSERVATIONS -->
   <div id="page-reservations" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)">📅 Calendrier</span><span class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)">⏳ Attente</span><span class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)">🌐 En ligne</span></div>
   <div class="rs-page">
     <!-- HEADER -->
     <div class="rs-header">
@@ -6892,7 +6947,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
   </div>
   <div id="page-resa-attente" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)">📅 Calendrier</span><span class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)">⏳ Attente</span><span class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)">🌐 En ligne</span></div><div style="display:none"></div></div>
+<div style="display:none"></div></div>
 
   <!-- STOCKS -->
   <div id="page-stocks" class="page">
@@ -7041,10 +7096,60 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- PERSONNEL -->
+
+  <!-- PAGE COMMANDES -->
+  <div id="page-commandes" class="page">
+    <div class="cmd3-assistant">
+      <div class="cmd3-header">
+        <div>
+          <div class="cmd3-title">🧾 Commandes</div>
+          <div class="cmd3-sub"><span class="cmd3-live"></span><span id="cmd3-sync">Chargement…</span></div>
+        </div>
+        <button class="btn btn-gold btn-sm" onclick="openModal('mo-commande')">+ Nouvelle commande</button>
+      </div>
+      <div class="cmd3-kpis" id="cmd3-kpis"></div>
+      <div class="cmd3-filtres">
+        <div class="cmd3-periode">
+          <button class="cmd3-p-btn on" onclick="cmd3SetPeriode('jour',this)">Aujourd'hui</button>
+          <button class="cmd3-p-btn" onclick="cmd3SetPeriode('semaine',this)">Semaine</button>
+          <button class="cmd3-p-btn" onclick="cmd3SetPeriode('mois',this)">Mois</button>
+        </div>
+        <div class="cmd3-stat-chips">
+          <button class="cmd3-chip on" onclick="cmd3SetStat('tous',this)">Tous</button>
+          <button class="cmd3-chip" onclick="cmd3SetStat('actif',this)">En cours</button>
+          <button class="cmd3-chip" onclick="cmd3SetStat('payé',this)">Payées</button>
+        </div>
+        <div class="cmd3-search">
+          <span class="cmd3-search-ico">🔍</span>
+          <input placeholder="Table, montant…" id="cmd3-q" oninput="rCmds()"/>
+        </div>
+      </div>
+      <div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:16px">
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px;font-weight:700">Activité par heure</div>
+        <div style="display:flex;gap:4px;align-items:flex-end;height:52px" id="cmd3-bars"></div>
+      </div>
+      <div class="cmd3-main">
+        <div>
+          <div class="cmd3-list-header">
+            <div class="cmd3-list-title"><span id="cmd3-list-count">0 commande(s)</span></div>
+            <button class="cmd3-sort" onclick="cmd3ToggleSort()"><span id="cmd3-sort-lbl">↓ Récent</span></button>
+          </div>
+          <div class="cmd3-list" id="cmd3-list"></div>
+        </div>
+        <div class="cmd3-detail" id="cmd3-detail">
+          <div class="cmd3-detail-empty">
+            <div style="font-size:36px;opacity:.2;margin-bottom:10px">🧾</div>
+            <div style="font-size:12px">Cliquez sur une commande<br/>pour voir le détail</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px" id="cmd3-insights"></div>
+    </div>
+  </div>
+
   <!-- PERSONNEL & PAIE -->
   <!-- PAGE PRÉSENCES -->
   <div id="page-presence" class="page prs-page">
-<div class="pg-tabs"><span class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">👥 Personnel</span><span class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">📅 Planning</span><span class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">🕐 Présences</span><span class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">🏖 Congés</span><span class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">💼 Fiches paie</span><span class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">💶 Salaires</span><span class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">🎓 Formation</span></div>
 
   <!-- HEADER -->
   <div class="prs-header">
@@ -7084,7 +7189,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
 
   <div id="page-rh" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">👥 Personnel</span><span class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">📅 Planning</span><span class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">🕐 Présences</span><span class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">🏖 Congés</span><span class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">💼 Fiches paie</span><span class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">💶 Salaires</span><span class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">🎓 Formation</span></div>
 
   <div>
     <!-- HEADER -->
@@ -7510,533 +7614,6 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- STATS MENSUELLES -->
-  <div id="page-stats" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">💶 Comptabilité</span><span class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">📊 Rapports</span><span class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">▦ Stats</span><span class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">💸 Frais</span><span class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">🏦 Banque</span><span class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">🎯 Budget</span><span class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">📈 Marges</span></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-      <div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold2)">📊 Stats mensuelles</h2>
-        <div style="font-size:12px;color:var(--sub);margin-top:2px">Analysez vos performances</div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <select class="form-select" id="stats-month" onchange="rStats()" style="width:130px"></select>
-        <select class="form-select" id="stats-year" onchange="rStats()" style="width:90px"></select>
-      </div>
-    </div>
-
-    <!-- KPIs -->
-    <div class="kpi-row" style="margin-bottom:20px">
-      <div class="kpi-box kpi-gold"><span class="kpi-ico">💶</span><div class="kpi-val" id="st-ca">—</div><div class="kpi-lbl">CA du mois</div></div>
-      <div class="kpi-box kpi-green"><span class="kpi-ico">🧾</span><div class="kpi-val" id="st-nb">—</div><div class="kpi-lbl">Transactions</div></div>
-      <div class="kpi-box kpi-blue"><span class="kpi-ico">🍽</span><div class="kpi-val" id="st-cvt">—</div><div class="kpi-lbl">Couverts</div></div>
-      <div class="kpi-box kpi-amber"><span class="kpi-ico">📈</span><div class="kpi-val" id="st-tkt">—</div><div class="kpi-lbl">Ticket moyen</div></div>
-      <div class="kpi-box kpi-red"><span class="kpi-ico">🏆</span><div class="kpi-val" id="st-best">—</div><div class="kpi-lbl">Meilleur jour</div></div>
-      <div class="kpi-box kpi-green"><span class="kpi-ico">⚡</span><div class="kpi-val" id="st-vs">—</div><div class="kpi-lbl">vs mois préc.</div></div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-      <!-- Graphique CA par jour -->
-      <div class="card" style="grid-column:1/-1">
-        <div class="card-title">CA jour par jour</div>
-        <div style="overflow-x:auto">
-          <canvas id="chart-daily" height="160"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-      <!-- Top plats -->
-      <div class="card">
-        <div class="card-title">🏅 Top 5 plats du mois</div>
-        <div id="st-topplats"></div>
-      </div>
-      <!-- Répartition modes de paiement -->
-      <div class="card">
-        <div class="card-title">💳 Modes de paiement</div>
-        <div id="st-modes"></div>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-      <!-- Meilleurs soirs -->
-      <div class="card">
-        <div class="card-title">🌙 Meilleurs soirs</div>
-        <div id="st-soirs"></div>
-      </div>
-      <!-- Heures de rush -->
-      <div class="card">
-        <div class="card-title">⏰ Heures de rush</div>
-        <div id="st-rush"></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="page-menuJour" class="page mj-page">
-<div class="pg-tabs"><span class="pg-tab" data-page="menu" onclick="nav(&#39;menu&#39;,null)">≡ Plats</span><span class="pg-tab" data-page="menuJour" onclick="nav(&#39;menuJour&#39;,null)">☀️ Menu du jour</span></div>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-
-
-
-  <!-- HEADER ACTIONS -->
-  <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:rgba(255,255,255,.3);font-style:italic;margin-right:auto" id="mj-date-display-top"></div>
-    <button class="mj-btn-ghost" onclick="printMenuJour()">Imprimer</button>
-    <button class="mj-btn-ghost" onclick="mj_toggleEdit()">Parametres</button>
-    <button class="mj-btn-gold" onclick="openMJCat('entrees')">+ Ajouter un plat</button>
-  </div>
-  <!-- CARTE DU JOUR -->
-  <div class="mj-carte-bg" style="position:relative">
-    <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;z-index:20">
-      <button class="mj-btn-ghost" onclick="printMenuJour()">🖨️</button>
-      <button class="mj-btn-ghost" onclick="mj_toggleEdit()">⚙️</button>
-      <button class="mj-btn-gold" onclick="openMJCat('entrees')">+ Ajouter</button>
-    </div>
-    <div class="mj-carte-head">
-      <div class="mj-enseigne" id="mj-enseigne-nom">Chez Romu</div>
-      <div class="mj-ornement">✦ ── ✦ ── ✦</div>
-      <div class="mj-date-big" id="mj-date-display"></div>
-      <div class="mj-chef-msg" id="mj-chef-display"></div>
-    </div>
-    <div class="mj-formules" id="mj-formules-row"></div>
-    <div class="mj-msg-banner" id="mj-msg-banner" style="display:none"></div>
-  <div class="mj-carte">
-
-    <!-- Colonne gauche : Entrées + Fromages -->
-    <div class="mj-col">
-      <div class="mj-section" id="mj-sec-entrees">
-        <div class="mj-sec-header">
-          <div class="mj-sec-ornement">✦</div>
-          <h3 class="mj-sec-title">Entrées</h3>
-          <div class="mj-sec-ornement">✦</div>
-          <button class="mj-add-btn" onclick="openMJCat('entrees')">+</button>
-        </div>
-        <div class="mj-sec-line"></div>
-        <div class="mj-items" id="mj-entrees"></div>
-      </div>
-
-      <div class="mj-section" id="mj-sec-fromages">
-        <div class="mj-sec-header">
-          <div class="mj-sec-ornement">✦</div>
-          <h3 class="mj-sec-title">Fromages</h3>
-          <div class="mj-sec-ornement">✦</div>
-          <button class="mj-add-btn" onclick="openMJCat('fromages')">+</button>
-        </div>
-        <div class="mj-sec-line"></div>
-        <div class="mj-items" id="mj-fromages"></div>
-      </div>
-    </div>
-
-    <!-- Séparateur vertical -->
-    <div class="mj-divider-v">
-      <div class="mj-divider-line"></div>
-      <div class="mj-divider-ico">🍽️</div>
-      <div class="mj-divider-line"></div>
-    </div>
-
-    <!-- Colonne droite : Plats + Desserts + Boissons -->
-    <div class="mj-col">
-      <div class="mj-section" id="mj-sec-plats">
-        <div class="mj-sec-header">
-          <div class="mj-sec-ornement">✦</div>
-          <h3 class="mj-sec-title">Plats du Jour</h3>
-          <div class="mj-sec-ornement">✦</div>
-          <button class="mj-add-btn" onclick="openMJCat('plats')">+</button>
-        </div>
-        <div class="mj-sec-line"></div>
-        <div class="mj-items" id="mj-plats"></div>
-      </div>
-
-      <div class="mj-section" id="mj-sec-desserts">
-        <div class="mj-sec-header">
-          <div class="mj-sec-ornement">✦</div>
-          <h3 class="mj-sec-title">Desserts</h3>
-          <div class="mj-sec-ornement">✦</div>
-          <button class="mj-add-btn" onclick="openMJCat('desserts')">+</button>
-        </div>
-        <div class="mj-sec-line"></div>
-        <div class="mj-items" id="mj-desserts"></div>
-      </div>
-
-      <div class="mj-section" id="mj-sec-boissons">
-        <div class="mj-sec-header">
-          <div class="mj-sec-ornement">✦</div>
-          <h3 class="mj-sec-title">Boissons & Vins</h3>
-          <div class="mj-sec-ornement">✦</div>
-          <button class="mj-add-btn" onclick="openMJCat('boissons')">+</button>
-        </div>
-        <div class="mj-sec-line"></div>
-        <div class="mj-items" id="mj-boissons"></div>
-      </div>
-    </div>
-  </div>
-
-  </div><!-- /mj-carte -->
-  <!-- BAS DE CARTE : mention légale chef -->
-  <div class="mj-footer-carte">
-    <div class="mj-footer-line"></div>
-    <div class="mj-footer-text">Tous nos plats sont préparés avec des produits frais · Fait maison</div>
-    <div class="mj-footer-line"></div>
-  </div>
-  </div><!-- /mj-carte-bg -->
-
-  <!-- PANNEAU PARAMÈTRES (masqué par défaut) -->
-  <div class="mj-params-panel" id="mj-params-panel" style="display:none">
-    <div class="mj-params-title">⚙️ Paramètres du menu du jour</div>
-    <div class="mj-params-grid">
-      <div><div class="form-label">Date</div><input class="form-input" type="date" id="mj-date"/></div>
-      <div><div class="form-label">Message spécial</div><input class="form-input" id="mj-msg" placeholder="Fermeture lundi, spécial fête…"/></div>
-      <div><div class="form-label">Formule E + P (€)</div><input class="form-input" type="number" id="mj-formule-ep" placeholder="16.90"/></div>
-      <div><div class="form-label">Formule P + D (€)</div><input class="form-input" type="number" id="mj-formule-pd" placeholder="16.90"/></div>
-      <div><div class="form-label">Formule complète E+P+D (€)</div><input class="form-input" type="number" id="mj-formule" placeholder="22.90"/></div>
-      <div><div class="form-label">Mention du chef</div><input class="form-input" id="mj-chef" placeholder="Produits de saison, fait maison…"/></div>
-    </div>
-    <button class="btn btn-gold" style="width:100%;margin-top:12px" onclick="saveMJInfos()">💾 Enregistrer</button>
-  </div>
-  </div>
-
-  
-  <!-- LIVRAISON -->
-  <div id="page-livraison" class="page liv-page">
-
-  <!-- HEADER -->
-  <div class="liv-header">
-    <div>
-      <div class="liv-title">🛵 Livraison</div>
-      <div class="liv-sub"><span class="liv-live-dot"></span><span id="liv-sub-txt">Commandes plateformes</span></div>
-    </div>
-    <div class="liv-actions">
-      <button class="liv-filter-btn on" id="fliv-tous"       onclick="filterLiv('tous')">Toutes</button>
-      <button class="liv-filter-btn"    id="fliv-en attente" onclick="filterLiv('en attente')">⏳ Attente</button>
-      <button class="liv-filter-btn"    id="fliv-en cours"   onclick="filterLiv('en cours')">🔥 En cours</button>
-      <button class="liv-filter-btn"    id="fliv-livré"      onclick="filterLiv('livré')">✅ Livré</button>
-      <button class="liv-filter-btn"    id="fliv-annulé"     onclick="filterLiv('annulé')">❌ Annulé</button>
-      <button class="liv-btn-new" onclick="openLivModal()">+ Nouvelle</button>
-    </div>
-  </div>
-
-  <!-- KPIs PLATEFORMES -->
-  <div class="liv-platforms">
-    <div class="liv-platform-card" style="--pf-col:#06c167">
-      <div class="liv-pf-logo" style="background:#06c167">UE</div>
-      <div class="liv-pf-info">
-        <div class="liv-pf-name">Uber Eats</div>
-        <div class="liv-pf-stats"><span class="liv-pf-nb" id="liv-ue-nb">0</span> cmd · <span id="liv-ue-ca">0 €</span></div>
-      </div>
-      <div class="liv-pf-bar"><div class="liv-pf-bar-fill" id="liv-ue-bar" style="background:#06c167"></div></div>
-    </div>
-    <div class="liv-platform-card" style="--pf-col:#00ccbc">
-      <div class="liv-pf-logo" style="background:#00ccbc">DR</div>
-      <div class="liv-pf-info">
-        <div class="liv-pf-name">Deliveroo</div>
-        <div class="liv-pf-stats"><span class="liv-pf-nb" id="liv-dr-nb">0</span> cmd · <span id="liv-dr-ca">0 €</span></div>
-      </div>
-      <div class="liv-pf-bar"><div class="liv-pf-bar-fill" id="liv-dr-bar" style="background:#00ccbc"></div></div>
-    </div>
-    <div class="liv-platform-card" style="--pf-col:#ff6600">
-      <div class="liv-pf-logo" style="background:#ff6600">JE</div>
-      <div class="liv-pf-info">
-        <div class="liv-pf-name">Just Eat</div>
-        <div class="liv-pf-stats"><span class="liv-pf-nb" id="liv-je-nb">0</span> cmd · <span id="liv-je-ca">0 €</span></div>
-      </div>
-      <div class="liv-pf-bar"><div class="liv-pf-bar-fill" id="liv-je-bar" style="background:#ff6600"></div></div>
-    </div>
-    <div class="liv-platform-card" style="--pf-col:var(--gold2)">
-      <div class="liv-pf-logo" style="background:rgba(201,151,58,.3);color:var(--gold2)">+</div>
-      <div class="liv-pf-info">
-        <div class="liv-pf-name">Autres</div>
-        <div class="liv-pf-stats"><span class="liv-pf-nb" id="liv-other-nb">0</span> cmd · <span id="liv-other-ca">0 €</span></div>
-      </div>
-      <div class="liv-pf-bar"><div class="liv-pf-bar-fill" id="liv-other-bar" style="background:var(--gold2)"></div></div>
-    </div>
-  </div>
-
-  <!-- GRILLE COMMANDES KANBAN -->
-  <div class="liv-kanban" id="liv-kanban">
-    <div class="liv-col" id="liv-col-attente">
-      <div class="liv-col-header" style="border-color:#f0a060">
-        <span class="liv-col-dot" style="background:#f0a060"></span>
-        <span class="liv-col-title">⏳ En attente</span>
-        <span class="liv-col-count" id="liv-cnt-attente">0</span>
-      </div>
-      <div class="liv-col-body" id="liv-cards-attente"></div>
-    </div>
-    <div class="liv-col" id="liv-col-cours">
-      <div class="liv-col-header" style="border-color:#6aacda">
-        <span class="liv-col-dot" style="background:#6aacda;animation:livDot 1.2s infinite"></span>
-        <span class="liv-col-title">🔥 En cours</span>
-        <span class="liv-col-count" id="liv-cnt-cours">0</span>
-      </div>
-      <div class="liv-col-body" id="liv-cards-cours"></div>
-    </div>
-    <div class="liv-col" id="liv-col-livre">
-      <div class="liv-col-header" style="border-color:#6fcf8a">
-        <span class="liv-col-dot" style="background:#6fcf8a"></span>
-        <span class="liv-col-title">✅ Livré</span>
-        <span class="liv-col-count" id="liv-cnt-livre">0</span>
-      </div>
-      <div class="liv-col-body" id="liv-cards-livre"></div>
-    </div>
-  </div>
-
-  <!-- VUE LISTE (masquée par défaut) -->
-  <div id="liv-list-wrap" style="display:none">
-    <div class="card"><div class="table-wrap"><table>
-      <thead><tr><th>#</th><th>Plateforme</th><th>Client</th><th>Articles</th><th>Total</th><th>Statut</th><th>Heure</th><th></th></tr></thead>
-      <tbody id="liv-tbody"></tbody>
-    </table></div></div>
-  </div>
-
-  </div>
-
-  
-  <!-- FOURNISSEURS -->
-  <div id="page-fournisseurs" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="fournisseurs" onclick="nav(&#39;fournisseurs&#39;,null)">◫ Fournisseurs</span><span class="pg-tab" data-page="cmdFourn" onclick="nav(&#39;cmdFourn&#39;,null)">📦 Commandes</span></div>
-  <div>
-    <!-- HEADER -->
-    <div class="fn-header">
-      <div>
-        <div class="fn-title">🏭 Fournisseurs</div>
-        <div class="fn-sub"><span class="fn-live"></span><span id="fn-sub-txt">Gestion des approvisionnements</span></div>
-      </div>
-      <div class="fn-actions">
-        <div class="fn-search"><span class="fn-search-ico">🔍</span><input id="fourn-search" placeholder="Rechercher..." oninput="rFourn()"/></div>
-        <button class="fn-btn-new" onclick="openModal('mo-fourn')">+ Nouveau fournisseur</button>
-      </div>
-    </div>
-
-    <!-- KPIs -->
-    <div class="kpi-grid-5" id="fourn-kpi"></div>
-
-    <!-- Alertes -->
-    <div class="fn-alertes" id="fn-alertes"></div>
-
-    <!-- Filtres -->
-    <div class="fn-filtres" id="fourn-filtres"></div>
-
-    <!-- Liste -->
-    <div class="fn-list" id="fourn-cards"></div>
-
-    <!-- Recap commandes -->
-    <div style="margin-top:16px;background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:16px">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px;font-weight:700">📦 Dernières commandes</div>
-      <div id="fourn-cmds-recap"></div>
-    </div>
-  </div>
-  </div>
-
-  <!-- FINANCE -->
-  <div id="page-finance" class="page fin-page">
-<div class="pg-tabs"><span class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">💶 Comptabilité</span><span class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">📊 Rapports</span><span class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">▦ Stats</span><span class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">💸 Frais</span><span class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">🏦 Banque</span><span class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">🎯 Budget</span><span class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">📈 Marges</span></div>
-
-    <!-- HEADER -->
-    <div class="fin-header">
-      <div>
-        <h2 class="fin-title">💶 Finance & Comptabilité</h2>
-        <div class="fin-subtitle">Vue consolidée · Temps réel</div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <input class="fin-input" id="fin-filtre-date" type="month" style="width:150px" oninput="rFin()" title="Filtrer par mois"/>
-        <button class="fin-btn-sec" onclick="openSplit()">➗ Addition partagée</button>
-        <button class="fin-btn-pri" onclick="openZCaisse()">🗒 Z de caisse</button>
-      </div>
-    </div>
-
-    <!-- HERO KPIs -->
-    <div class="fin-hero-grid">
-      <div class="fin-hero-card fin-ca fin-anim" style="animation-delay:.0s">
-        <div class="fin-hero-label">Chiffre d'affaires</div>
-        <div class="fin-hero-val" id="f-ca">0 €</div>
-        <div class="fin-hero-sub">
-          <span id="f-ca-trend"></span>
-          <span id="f-ca-sub">—</span>
-        </div>
-        <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-cyan" id="f-ca-bar" style="width:0%"></div></div>
-      </div>
-      <div class="fin-hero-card fin-charges fin-anim" style="animation-delay:.08s">
-        <div class="fin-hero-label">Charges totales</div>
-        <div class="fin-hero-val" id="f-charges">0 €</div>
-        <div class="fin-hero-sub"><span id="f-charges-sub">—</span></div>
-        <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-red" id="f-charges-bar" style="width:0%"></div></div>
-      </div>
-      <div class="fin-hero-card fin-resultat fin-anim" style="animation-delay:.16s">
-        <div class="fin-hero-label">Résultat net</div>
-        <div class="fin-hero-val" id="f-resultat">0 €</div>
-        <div class="fin-hero-sub"><span id="f-marge">—</span> de marge nette</div>
-        <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-green" id="f-resultat-bar" style="width:0%"></div></div>
-      </div>
-    </div>
-
-    <!-- MÉTRIQUES SECONDAIRES -->
-    <div class="fin-metrics-row fin-anim" style="animation-delay:.22s">
-      <div class="fin-metric"><div class="fin-metric-ico">🧾</div><div class="fin-metric-val" id="f-tva">0 €</div><div class="fin-metric-lbl">TVA collectée</div></div>
-      <div class="fin-metric"><div class="fin-metric-ico">🍽️</div><div class="fin-metric-val" id="f-tkt">—</div><div class="fin-metric-lbl">Ticket moyen</div></div>
-      <div class="fin-metric"><div class="fin-metric-ico">💳</div><div class="fin-metric-val" id="f-nb">0</div><div class="fin-metric-lbl">Transactions</div></div>
-      <div class="fin-metric"><div class="fin-metric-ico">📦</div><div class="fin-metric-val" id="f-achats-m">0 €</div><div class="fin-metric-lbl">Achats fourn.</div></div>
-      <div class="fin-metric"><div class="fin-metric-ico">👥</div><div class="fin-metric-val" id="f-salaires-m">0 €</div><div class="fin-metric-lbl">Masse salariale</div></div>
-    </div>
-
-    <!-- GRAPHIQUES : Courbe CA + Donut charges -->
-    <div class="fin-mid-grid fin-anim" style="animation-delay:.28s;margin-bottom:14px">
-
-      <!-- Courbe CA sur 12 mois -->
-      <div class="fin-section">
-        <div class="fin-section-title">📈 Évolution CA — 12 derniers mois</div>
-        <div class="fin-chart-wrap">
-          <svg class="fin-chart-svg" id="fin-ca-svg" viewBox="0 0 400 120" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="finGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#00d4ff" stop-opacity=".5"/>
-                <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path class="fin-chart-area" id="fin-chart-area" d=""/>
-            <path class="fin-chart-line" id="fin-chart-line" d=""/>
-            <g id="fin-chart-dots"></g>
-            <g id="fin-chart-labels"></g>
-          </svg>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:4px">
-          <div style="font-size:10px;color:#3a6080">Meilleur mois: <span id="fin-best-month" style="color:#00d4ff;font-weight:700">—</span></div>
-          <div style="font-size:10px;color:#3a6080">Tendance: <span id="fin-trend-label" style="font-weight:700">—</span></div>
-        </div>
-      </div>
-
-      <!-- Donut répartition charges -->
-      <div class="fin-section">
-        <div class="fin-section-title">🥧 Répartition des charges</div>
-        <div class="fin-donut-wrap">
-          <svg class="fin-donut-svg" id="fin-donut-svg" width="130" height="130" viewBox="0 0 130 130">
-            <g id="fin-donut-rings"></g>
-            <text class="fin-donut-center" x="65" y="60" id="fin-donut-center-val">—</text>
-            <text class="fin-donut-center-sub" x="65" y="76">Charges</text>
-          </svg>
-          <div class="fin-donut-legend" id="fin-donut-legend"></div>
-        </div>
-        <!-- Barre répartition -->
-        <div class="fin-repartition" id="fin-repartition" style="margin-top:16px"></div>
-        <div class="fin-rep-legend" id="fin-rep-legend"></div>
-      </div>
-    </div>
-
-    <!-- COMPTE DE RÉSULTAT + RAPPROCHEMENT -->
-    <div class="fin-mid-grid fin-anim" style="animation-delay:.34s;margin-bottom:14px">
-      <div class="fin-section">
-        <div class="fin-section-title">📊 Compte de résultat</div>
-        <div class="fin-cr-row fin-cr-produit">
-          <span class="fin-cr-lbl">Ventes restaurant</span>
-          <span class="fin-cr-val fin-green" id="cr-ventes">0 €</span>
-        </div>
-        <div class="fin-cr-sep">Charges opérationnelles</div>
-        <div class="fin-cr-row">
-          <span class="fin-cr-lbl">📦 Achats fournisseurs</span>
-          <span class="fin-cr-val fin-red" id="cr-achats">0 €</span>
-        </div>
-        <div class="fin-cr-row">
-          <span class="fin-cr-lbl">👥 Masse salariale</span>
-          <span class="fin-cr-val fin-red" id="cr-salaires">0 €</span>
-        </div>
-        <div class="fin-cr-row">
-          <span class="fin-cr-lbl">🏠 Frais & charges fixes</span>
-          <span class="fin-cr-val fin-red" id="cr-frais">0 €</span>
-        </div>
-        <div class="fin-cr-total">
-          <span>RÉSULTAT NET</span>
-          <span id="cr-net">0 €</span>
-        </div>
-      </div>
-
-      <!-- Rapprochement bancaire -->
-      <div class="fin-section">
-        <div class="fin-section-title">🏦 Rapprochement bancaire</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div><div class="fin-input-lbl">Mois</div><input class="fin-input" id="rappr-mois" type="month" onchange="rRapprochement()"/></div>
-          <div><div class="fin-input-lbl">Solde relevé bancaire (€)</div><input class="fin-input" id="rappr-solde-banque" type="number" step="0.01" placeholder="0.00" onchange="rRapprochement()"/></div>
-          <button class="fin-btn-sec" onclick="rRapprochement()" style="align-self:flex-start">🔄 Calculer l'écart</button>
-        </div>
-        <div id="rappr-result" style="margin-top:14px"></div>
-      </div>
-    </div>
-
-    <!-- JOURNAL DES VENTES -->
-    <div class="fin-section fin-anim" style="animation-delay:.4s">
-      <div class="fin-journal-header">
-        <div class="fin-section-title" style="margin-bottom:0">📋 Journal des ventes</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <select class="fin-input" id="fin-filtre-mode" style="width:140px" onchange="rFin()">
-            <option value="">Tous modes</option>
-            <option value="CB">💳 CB</option>
-            <option value="Espèces">💵 Espèces</option>
-            <option value="Ticket Resto">🎫 Ticket Resto</option>
-          </select>
-        </div>
-      </div>
-      <div class="table-wrap" style="margin-top:12px"><table>
-        <thead><tr><th>Date</th><th>Heure</th><th>Table</th><th>Cvts</th><th>HT</th><th>TTC</th><th>Paiement</th><th></th></tr></thead>
-        <tbody id="tb-ventes"></tbody>
-      </table></div>
-      <div id="fin-total-row" class="fin-total-row"></div>
-    </div>
-  </div>
-
-  
-  <!-- RAPPORTS -->
-  <div id="page-rapports" class="page rp-page">
-<div class="pg-tabs"><span class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">💶 Comptabilité</span><span class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">📊 Rapports</span><span class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">▦ Stats</span><span class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">💸 Frais</span><span class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">🏦 Banque</span><span class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">🎯 Budget</span><span class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">📈 Marges</span></div>
-
-  <!-- HEADER -->
-  <div class="rp-header">
-    <div>
-      <div class="rp-title">📊 Rapports & Analyses</div>
-      <div class="rp-subtitle" id="rp-subtitle">Vue consolidée</div>
-    </div>
-    <div class="rp-actions">
-      <div class="rp-period-tabs">
-        <button class="rp-ptab on" id="rp-btn-jour"    onclick="setRapportPeriode('jour')">Aujourd'hui</button>
-        <button class="rp-ptab"    id="rp-btn-semaine" onclick="setRapportPeriode('semaine')">Semaine</button>
-        <button class="rp-ptab"    id="rp-btn-mois"    onclick="setRapportPeriode('mois')">Ce mois</button>
-      </div>
-      <button class="rp-export-btn" onclick="exportRapportCSV()">📥 Export</button>
-    </div>
-  </div>
-
-  <!-- KPIs HERO -->
-  <div class="rp-kpis" id="rp-kpi"></div>
-
-  <!-- GRAPHIQUES LIGNE 1 : Courbe CA + Heures de pointe -->
-  <div class="rp-grid-2" style="margin-bottom:14px">
-    <div class="rp-card">
-      <div class="rp-card-title">📈 Évolution du CA — 30 derniers jours</div>
-      <div id="rp-graph-ca" class="rp-chart-wrap"></div>
-    </div>
-    <div class="rp-card">
-      <div class="rp-card-title">⏰ Heures de pointe</div>
-      <div id="rp-heures" class="rp-chart-wrap" style="height:140px"></div>
-    </div>
-  </div>
-
-  <!-- GRAPHIQUES LIGNE 2 : Top plats + CA catégorie + Modes paiement -->
-  <div class="rp-grid-3" style="margin-bottom:14px">
-    <div class="rp-card">
-      <div class="rp-card-title">🏆 Top 10 plats</div>
-      <div id="rp-top"></div>
-    </div>
-    <div class="rp-card">
-      <div class="rp-card-title">🍽️ CA par catégorie</div>
-      <div id="rp-cat"></div>
-    </div>
-    <div class="rp-card">
-      <div class="rp-card-title">💳 Modes de paiement</div>
-      <div id="rp-donut-wrap" class="rp-donut-section"></div>
-    </div>
-  </div>
-
-  <!-- MARGES -->
-  <div class="rp-card" style="margin-bottom:14px">
-    <div class="rp-card-title">📉 Analyse des marges par plat</div>
-    <div class="rp-marges-grid" id="rp-marges"></div>
-  </div>
-
-  </div><!-- /page-rapports -->
 
   <!-- PARAMS -->
   <div id="page-params" class="page">
@@ -8157,9 +7734,188 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- ANALYSE MARGES -->
+
+  <!-- PAGE FINANCE -->
+  <div id="page-finance" class="page fin-page">
+
+    <!-- ONGLETS INTERNES -->
+    <div style="display:flex;gap:0;background:var(--ink2);border-bottom:2px solid var(--line);padding:0 16px;position:sticky;top:0;z-index:10;flex-wrap:wrap">
+      <div id="fin-tab-compta"   onclick="finTab('compta')"   style="padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid var(--gold);margin-bottom:-2px;color:var(--gold2);transition:all .15s">💶 Finance</div>
+      <div id="fin-tab-rapports" onclick="finTab('rapports')" style="padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--sub);transition:all .15s">📊 Rapports</div>
+      <div id="fin-tab-stats"    onclick="finTab('stats')"    style="padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--sub);transition:all .15s">▦ Stats</div>
+    </div>
+
+    <!-- VUE COMPTABILITÉ -->
+    <div id="fin-view-compta">
+      <div class="fin-header">
+        <div><h2 class="fin-title">💶 Finance & Comptabilité</h2><div class="fin-subtitle">Vue consolidée · Temps réel</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <input class="fin-input" id="fin-filtre-date" type="month" style="width:150px" oninput="rFin()" title="Filtrer par mois"/>
+          <button class="fin-btn-sec" onclick="openSplit()">➗ Addition partagée</button>
+          <button class="fin-btn-pri" onclick="openZCaisse()">🗒 Z de caisse</button>
+        </div>
+      </div>
+      <div class="fin-hero-grid">
+        <div class="fin-hero-card fin-ca fin-anim" style="animation-delay:.0s">
+          <div class="fin-hero-label">Chiffre d'affaires</div>
+          <div class="fin-hero-val" id="f-ca">0 €</div>
+          <div class="fin-hero-sub"><span id="f-ca-trend"></span><span id="f-ca-sub">—</span></div>
+          <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-cyan" id="f-ca-bar" style="width:0%"></div></div>
+        </div>
+        <div class="fin-hero-card fin-charges fin-anim" style="animation-delay:.08s">
+          <div class="fin-hero-label">Charges totales</div>
+          <div class="fin-hero-val" id="f-charges">0 €</div>
+          <div class="fin-hero-sub"><span id="f-charges-sub">—</span></div>
+          <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-red" id="f-charges-bar" style="width:0%"></div></div>
+        </div>
+        <div class="fin-hero-card fin-resultat fin-anim" style="animation-delay:.16s">
+          <div class="fin-hero-label">Résultat net</div>
+          <div class="fin-hero-val" id="f-resultat">0 €</div>
+          <div class="fin-hero-sub"><span id="f-marge">—</span> de marge nette</div>
+          <div class="fin-hero-bar"><div class="fin-hero-bar-fill fin-bar-green" id="f-resultat-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="fin-metrics-row fin-anim" style="animation-delay:.22s">
+        <div class="fin-metric"><div class="fin-metric-ico">🧾</div><div class="fin-metric-val" id="f-tva">0 €</div><div class="fin-metric-lbl">TVA collectée</div></div>
+        <div class="fin-metric"><div class="fin-metric-ico">🍽️</div><div class="fin-metric-val" id="f-tkt">—</div><div class="fin-metric-lbl">Ticket moyen</div></div>
+        <div class="fin-metric"><div class="fin-metric-ico">💳</div><div class="fin-metric-val" id="f-nb">0</div><div class="fin-metric-lbl">Transactions</div></div>
+        <div class="fin-metric"><div class="fin-metric-ico">📦</div><div class="fin-metric-val" id="f-achats-m">0 €</div><div class="fin-metric-lbl">Achats fourn.</div></div>
+        <div class="fin-metric"><div class="fin-metric-ico">👥</div><div class="fin-metric-val" id="f-salaires-m">0 €</div><div class="fin-metric-lbl">Masse salariale</div></div>
+      </div>
+      <div class="fin-mid-grid fin-anim" style="animation-delay:.28s;margin-bottom:14px">
+        <div class="fin-section">
+          <div class="fin-section-title">📈 Évolution CA — 12 derniers mois</div>
+          <div class="fin-chart-wrap">
+            <svg class="fin-chart-svg" id="fin-ca-svg" viewBox="0 0 400 120" preserveAspectRatio="none">
+              <defs><linearGradient id="finGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00d4ff" stop-opacity=".5"/><stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/></linearGradient></defs>
+              <path class="fin-chart-area" id="fin-chart-area" d=""/>
+              <path class="fin-chart-line" id="fin-chart-line" d=""/>
+              <g id="fin-chart-dots"></g><g id="fin-chart-labels"></g>
+            </svg>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px">
+            <div style="font-size:10px;color:#3a6080">Meilleur mois: <span id="fin-best-month" style="color:#00d4ff;font-weight:700">—</span></div>
+            <div style="font-size:10px;color:#3a6080">Tendance: <span id="fin-trend-label" style="font-weight:700">—</span></div>
+          </div>
+        </div>
+        <div class="fin-section">
+          <div class="fin-section-title">🥧 Répartition des charges</div>
+          <div class="fin-donut-wrap">
+            <svg class="fin-donut-svg" id="fin-donut-svg" width="130" height="130" viewBox="0 0 130 130">
+              <g id="fin-donut-rings"></g>
+              <text class="fin-donut-center" x="65" y="60" id="fin-donut-center-val">—</text>
+              <text class="fin-donut-center-sub" x="65" y="76">Charges</text>
+            </svg>
+            <div class="fin-donut-legend" id="fin-donut-legend"></div>
+          </div>
+          <div class="fin-repartition" id="fin-repartition" style="margin-top:16px"></div>
+          <div class="fin-rep-legend" id="fin-rep-legend"></div>
+        </div>
+      </div>
+      <div class="fin-mid-grid fin-anim" style="animation-delay:.34s;margin-bottom:14px">
+        <div class="fin-section">
+          <div class="fin-section-title">📊 Compte de résultat</div>
+          <div class="fin-cr-row fin-cr-produit"><span class="fin-cr-lbl">Ventes restaurant</span><span class="fin-cr-val fin-green" id="cr-ventes">0 €</span></div>
+          <div class="fin-cr-sep">Charges opérationnelles</div>
+          <div class="fin-cr-row"><span class="fin-cr-lbl">📦 Achats fournisseurs</span><span class="fin-cr-val fin-red" id="cr-achats">0 €</span></div>
+          <div class="fin-cr-row"><span class="fin-cr-lbl">👥 Masse salariale</span><span class="fin-cr-val fin-red" id="cr-salaires">0 €</span></div>
+          <div class="fin-cr-row"><span class="fin-cr-lbl">🏠 Frais & charges fixes</span><span class="fin-cr-val fin-red" id="cr-frais">0 €</span></div>
+          <div class="fin-cr-total"><span>RÉSULTAT NET</span><span id="cr-net">0 €</span></div>
+        </div>
+        <div class="fin-section">
+          <div class="fin-section-title">🏦 Rapprochement bancaire</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div><div class="fin-input-lbl">Mois</div><input class="fin-input" id="rappr-mois" type="month" onchange="rRapprochement()"/></div>
+            <div><div class="fin-input-lbl">Solde relevé bancaire (€)</div><input class="fin-input" id="rappr-solde-banque" type="number" step="0.01" placeholder="0.00" onchange="rRapprochement()"/></div>
+            <button class="fin-btn-sec" onclick="rRapprochement()" style="align-self:flex-start">🔄 Calculer l'écart</button>
+          </div>
+          <div id="rappr-result" style="margin-top:14px"></div>
+        </div>
+      </div>
+      <div class="fin-section fin-anim" style="animation-delay:.4s">
+        <div class="fin-journal-header">
+          <div class="fin-section-title" style="margin-bottom:0">📋 Journal des ventes</div>
+          <select class="fin-input" id="fin-filtre-mode" style="width:140px" onchange="rFin()">
+            <option value="">Tous modes</option>
+            <option value="CB">💳 CB</option>
+            <option value="Espèces">💵 Espèces</option>
+            <option value="Ticket Resto">🎫 Ticket Resto</option>
+          </select>
+        </div>
+        <div class="table-wrap" style="margin-top:12px"><table>
+          <thead><tr><th>Date</th><th>Heure</th><th>Table</th><th>Cvts</th><th>HT</th><th>TTC</th><th>Paiement</th><th></th></tr></thead>
+          <tbody id="tb-ventes"></tbody>
+        </table></div>
+        <div id="fin-total-row" class="fin-total-row"></div>
+      </div>
+    </div>
+
+    <!-- VUE RAPPORTS -->
+    <div id="fin-view-rapports" style="display:none">
+      <div class="rp-header">
+        <div><div class="rp-title">📊 Rapports & Analyses</div><div class="rp-subtitle" id="rp-subtitle">Vue consolidée</div></div>
+        <div class="rp-actions">
+          <div class="rp-period-tabs">
+            <button class="rp-ptab on" id="rp-btn-jour"    onclick="setRapportPeriode('jour')">Aujourd'hui</button>
+            <button class="rp-ptab"    id="rp-btn-semaine" onclick="setRapportPeriode('semaine')">Semaine</button>
+            <button class="rp-ptab"    id="rp-btn-mois"    onclick="setRapportPeriode('mois')">Ce mois</button>
+          </div>
+          <button class="rp-export-btn" onclick="exportRapportCSV()">📥 Export</button>
+        </div>
+      </div>
+      <div class="rp-kpis" id="rp-kpi"></div>
+      <div class="rp-grid-2" style="margin-bottom:14px">
+        <div class="rp-card"><div class="rp-card-title">📈 Évolution du CA — 30 derniers jours</div><div id="rp-graph-ca" class="rp-chart-wrap"></div></div>
+        <div class="rp-card"><div class="rp-card-title">⏰ Heures de pointe</div><div id="rp-heures" class="rp-chart-wrap" style="height:140px"></div></div>
+      </div>
+      <div class="rp-grid-3" style="margin-bottom:14px">
+        <div class="rp-card"><div class="rp-card-title">🏆 Top 10 plats</div><div id="rp-top"></div></div>
+        <div class="rp-card"><div class="rp-card-title">🍽️ CA par catégorie</div><div id="rp-cat"></div></div>
+        <div class="rp-card"><div class="rp-card-title">💳 Modes de paiement</div><div id="rp-donut-wrap" class="rp-donut-section"></div></div>
+      </div>
+      <div class="rp-card" style="margin-bottom:14px">
+        <div class="rp-card-title">📉 Analyse des marges par plat</div>
+        <div class="rp-marges-grid" id="rp-marges"></div>
+      </div>
+    </div>
+
+    <!-- VUE STATS -->
+    <div id="fin-view-stats" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;padding-top:16px">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold2)">▦ Stats mensuelles</h2>
+          <div style="font-size:12px;color:var(--sub);margin-top:2px">Analysez vos performances</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select class="form-select" id="stats-month" onchange="rStats()" style="width:130px"></select>
+          <select class="form-select" id="stats-year"  onchange="rStats()" style="width:90px"></select>
+        </div>
+      </div>
+      <div class="kpi-row" style="margin-bottom:20px">
+        <div class="kpi-box kpi-gold"><span class="kpi-ico">💶</span><div class="kpi-val" id="st-ca">—</div><div class="kpi-lbl">CA du mois</div></div>
+        <div class="kpi-box kpi-green"><span class="kpi-ico">🧾</span><div class="kpi-val" id="st-nb">—</div><div class="kpi-lbl">Transactions</div></div>
+        <div class="kpi-box kpi-blue"><span class="kpi-ico">🍽</span><div class="kpi-val" id="st-cvt">—</div><div class="kpi-lbl">Couverts</div></div>
+        <div class="kpi-box kpi-amber"><span class="kpi-ico">📈</span><div class="kpi-val" id="st-tkt">—</div><div class="kpi-lbl">Ticket moyen</div></div>
+        <div class="kpi-box kpi-red"><span class="kpi-ico">🏆</span><div class="kpi-val" id="st-best">—</div><div class="kpi-lbl">Meilleur jour</div></div>
+        <div class="kpi-box kpi-green"><span class="kpi-ico">⚡</span><div class="kpi-val" id="st-vs">—</div><div class="kpi-lbl">vs mois préc.</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+        <div class="card" style="grid-column:1/-1"><div class="card-title">CA jour par jour</div><div style="overflow-x:auto"><canvas id="chart-daily" height="160"></canvas></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+        <div class="card"><div class="card-title">🏅 Top 5 plats du mois</div><div id="st-topplats"></div></div>
+        <div class="card"><div class="card-title">💳 Modes de paiement</div><div id="st-modes"></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card"><div class="card-title">🌙 Meilleurs soirs</div><div id="st-soirs"></div></div>
+        <div class="card"><div class="card-title">⏰ Heures de rush</div><div id="st-rush"></div></div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- PAGE FRAIS & CHARGES -->
   <div id="page-frais" class="page fin-page">
-<div class="pg-tabs"><span class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">💶 Comptabilité</span><span class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">📊 Rapports</span><span class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">▦ Stats</span><span class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">💸 Frais</span><span class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">🏦 Banque</span><span class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">🎯 Budget</span><span class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">📈 Marges</span></div>
     <div class="fin-header">
       <div>
         <h2 class="fin-title">💸 Frais & Charges</h2>
@@ -8369,23 +8125,9 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- PAGE CARTE ORIGINES -->
-  <div id="page-carteOrigines" class="page">
-    <div class="page-header">
-      <h2>🗺️ Carte des origines</h2>
-    </div>
-    <div style="background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;overflow:hidden">
-      <style id="carte-anim-style"></style>
-      <svg id="carte-monde-svg" viewBox="0 0 1000 500" style="width:100%;height:auto;display:block">
-        <rect width="1000" height="500" fill="var(--ink)"/>
-        <text x="500" y="250" text-anchor="middle" style="fill:var(--muted);font-size:14px">Carte en cours de chargement…</text>
-      </svg>
-      <g id="carte-pins"></g>
-    </div>
-    <div id="carte-legende" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>
-  </div>
+  
 
   <div id="page-banque" class="page fin-page">
-<div class="pg-tabs"><span class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">💶 Comptabilité</span><span class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">📊 Rapports</span><span class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">▦ Stats</span><span class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">💸 Frais</span><span class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">🏦 Banque</span><span class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">🎯 Budget</span><span class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">📈 Marges</span></div>
     <div class="fin-header">
       <div>
         <h2 class="fin-title">🏦 Banque Pro</h2>
@@ -8418,7 +8160,6 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <div id="page-marges" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">💶 Comptabilité</span><span class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">📊 Rapports</span><span class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">▦ Stats</span><span class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">💸 Frais</span><span class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">🏦 Banque</span><span class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">🎯 Budget</span><span class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">📈 Marges</span></div>
   <div class="marges-wrap">
 
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
@@ -8470,70 +8211,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
   </div>
 
-  <div id="page-vocale" class="page">
-  <div>
-
-    <!-- HEADER -->
-    <div style="margin-bottom:24px">
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--gold2)">📢 Message équipe</h2>
-      <div style="font-size:13px;color:var(--sub);margin-top:4px">Écris ton message — l'app le lit à voix haute pour toute l'équipe</div>
-    </div>
-
-    <!-- ZONE PRINCIPALE -->
-    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(201,151,58,.2);border-radius:20px;overflow:hidden;margin-bottom:16px">
-
-      <!-- Barre top -->
-      <div style="background:linear-gradient(135deg,rgba(201,151,58,.1),rgba(201,151,58,.03));padding:16px 20px;border-bottom:1px solid rgba(201,151,58,.1);display:flex;align-items:center;gap:10px">
-        <div id="msg-status-dot" style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0"></div>
-        <div style="font-size:12px;font-weight:700;color:var(--sub)" id="msg-status-txt">En attente</div>
-        <div style="margin-left:auto;font-size:11px;color:var(--muted)" id="msg-voix-info">Voix : détection auto</div>
-      </div>
-
-      <!-- Textarea gros -->
-      <div style="padding:20px">
-        <textarea id="msg-texte2"
-          style="width:100%;min-height:160px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;color:var(--txt);font-size:16px;line-height:1.7;font-family:'Outfit',sans-serif;resize:vertical;outline:none;transition:border .15s;box-sizing:border-box"
-          placeholder="Ce soir préparez-vous, gros service ! Anniversaire surprise table 12. Jean-Rachid au bar ce soir. Merci l'équipe !"
-          onfocus="this.style.borderColor='rgba(201,151,58,.4)'"
-          onblur="this.style.borderColor='rgba(255,255,255,.08)'"
-        ></textarea>
-
-        <!-- Boutons action -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
-          <button onclick="msgEffacer()" style="padding:14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--sub);font-size:13px;font-weight:700;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
-            🗑️ Effacer
-          </button>
-          <button id="btn-msg-lire" onclick="msgLire()" style="padding:14px;border-radius:12px;background:linear-gradient(135deg,rgba(201,151,58,.2),rgba(201,151,58,.1));border:1px solid rgba(201,151,58,.4);color:var(--gold2);font-size:15px;font-weight:800;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">
-            <span id="btn-msg-ico" style="font-size:20px">📢</span>
-            <span id="btn-msg-lbl">Lire à l'équipe</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- MESSAGES RAPIDES PRÉDÉFINIS -->
-    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px;margin-bottom:16px">
-      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--sub);margin-bottom:14px">⚡ Messages rapides</div>
-      <div style="display:flex;flex-direction:column;gap:8px" id="msg-rapides"></div>
-    </div>
-
-    <!-- HISTORIQUE -->
-    <div style="background:rgba(14,13,11,.95);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px">
-      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--sub);margin-bottom:14px">📜 Derniers messages</div>
-      <div id="msg-historique"></div>
-    </div>
-
-    <!-- IDs compat ancienne page -->
-    <div id="vocale-tables-rapides" style="display:none"></div>
-    <div id="vocale-top-plats" style="display:none"></div>
-    <div id="vocale-suggestions" style="display:none"></div>
-    <div id="vocale-result" style="display:none"></div>
-    <div id="vocale-parsed" style="display:none"></div>
-    <div id="vocale-exemples" style="display:none"></div>
-    <textarea id="vocale-input" style="display:none"></textarea>
-
-  </div>
-  </div>
+  
 
 <!-- TABLETTE SERVEUR -->
   <div id="page-tablette" class="page" style="padding:0;display:none;flex-direction:column;height:100%;overflow:hidden">
@@ -9144,7 +8822,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- CLIENTS -->
   <div id="page-clients" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)">👤 Clients</span><span class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)">💎 VIP</span><span class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)">🎁 Fidélité</span></div>
   <div>
     <!-- HEADER -->
     <div id="cli-anniv-alert" style="display:none;margin-bottom:12px"></div>
@@ -9221,7 +8898,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- CLIENTS VIP -->
   <div id="page-vip" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)">👤 Clients</span><span class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)">💎 VIP</span><span class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)">🎁 Fidélité</span></div>
     <div class="page-header">
       <h2>⭐ Clients VIP</h2>
       <button class="btn btn-gold btn-sm" onclick="openVipModal()">+ Nouveau VIP</button>
@@ -9316,7 +8992,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- RÉSERVATION EN LIGNE -->
   <div id="page-resa-online" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="reservations" onclick="nav(&#39;reservations&#39;,null)">📅 Calendrier</span><span class="pg-tab" data-page="resa-attente" onclick="nav(&#39;resa-attente&#39;,null)">⏳ Attente</span><span class="pg-tab" data-page="resa-online" onclick="nav(&#39;resa-online&#39;,null)">🌐 En ligne</span></div>
     <div class="page-header">
       <h2>🌐 Réservation en ligne</h2>
       <button class="btn btn-gold btn-sm" onclick="copierLienResa()">🔗 Copier le lien</button>
@@ -9408,7 +9083,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- CONGÉS & ABSENCES -->
   <div id="page-conges" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">👥 Personnel</span><span class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">📅 Planning</span><span class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">🕐 Présences</span><span class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">🏖 Congés</span><span class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">💼 Fiches paie</span><span class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">💶 Salaires</span><span class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">🎓 Formation</span></div>
     <div class="page-header">
       <h2>🏖️ Congés & Absences</h2>
       <button class="btn btn-gold btn-sm" onclick="openCongeModal()">+ Demande</button>
@@ -9436,7 +9110,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- FICHES DE PAIE -->
   <div id="page-fiches-paie" class="page fp-page">
-<div class="pg-tabs"><span class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">👥 Personnel</span><span class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">📅 Planning</span><span class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">🕐 Présences</span><span class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">🏖 Congés</span><span class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">💼 Fiches paie</span><span class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">💶 Salaires</span><span class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">🎓 Formation</span></div>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
   <!-- HEADER -->
@@ -9723,7 +9396,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- COÛTS SALARIAUX -->
   <div id="page-salaires" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">👥 Personnel</span><span class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">📅 Planning</span><span class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">🕐 Présences</span><span class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">🏖 Congés</span><span class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">💼 Fiches paie</span><span class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">💶 Salaires</span><span class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">🎓 Formation</span></div>
     <div class="page-header">
       <h2>👔 Coûts salariaux</h2>
       <button class="btn btn-ghost btn-sm" onclick="openSalModal()">⚙️ Paramètres</button>
@@ -9763,7 +9435,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- BUDGET PRÉVISIONNEL -->
   <div id="page-budget" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="finance" onclick="nav(&#39;finance&#39;,null)">💶 Comptabilité</span><span class="pg-tab" data-page="rapports" onclick="nav(&#39;rapports&#39;,null)">📊 Rapports</span><span class="pg-tab" data-page="stats" onclick="nav(&#39;stats&#39;,null)">▦ Stats</span><span class="pg-tab" data-page="frais" onclick="nav(&#39;frais&#39;,null)">💸 Frais</span><span class="pg-tab" data-page="banque" onclick="nav(&#39;banque&#39;,null)">🏦 Banque</span><span class="pg-tab" data-page="budget" onclick="nav(&#39;budget&#39;,null)">🎯 Budget</span><span class="pg-tab" data-page="marges" onclick="nav(&#39;marges&#39;,null)">📈 Marges</span></div>
   <div>
     <div class="fn-header">
       <div>
@@ -10107,7 +9778,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- CARTE DE FIDÉLITÉ -->
   <div id="page-fidelite" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="clients" onclick="nav(&#39;clients&#39;,null)">👤 Clients</span><span class="pg-tab" data-page="vip" onclick="nav(&#39;vip&#39;,null)">💎 VIP</span><span class="pg-tab" data-page="fidelite" onclick="nav(&#39;fidelite&#39;,null)">🎁 Fidélité</span></div>
     <div class="page-header">
       <h2>🎁 Carte de fidélité</h2>
       <button class="btn btn-gold" onclick="openFideliteModal()">+ Nouveau client</button>
@@ -10130,43 +9800,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- ÉCRAN CLIENT -->
-  <div id="page-ecranClient" class="page">
-    <div class="page-header">
-      <h2>🖥️ Écran client</h2>
-      <button class="btn btn-gold" onclick="lancerEcranClient()">▶ Lancer plein écran</button>
-    </div>
-    <div class="g2">
-      <div class="card">
-        <div class="card-title">⚙️ Contenu des slides</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" id="ec-heure" checked style="accent-color:var(--gold);width:16px;height:16px"/> ⏰ Heure & date en temps réel</label>
-          <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" id="ec-menujour" checked style="accent-color:var(--gold);width:16px;height:16px"/> 📋 Menu du jour</label>
-          <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" id="ec-plats" checked style="accent-color:var(--gold);width:16px;height:16px"/> 🍽️ Plats du moment (top ventes)</label>
-          <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" id="ec-promo" checked style="accent-color:var(--gold);width:16px;height:16px"/> 🎉 Message de bienvenue</label>
-          <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" id="ec-wifi" style="accent-color:var(--gold);width:16px;height:16px"/> 📶 Code WiFi</label>
-        </div>
-        <div style="margin-top:14px">
-          <div class="form-label">Message de bienvenue</div>
-          <input class="form-input" id="ec-msg" value="Bienvenue et bon appétit !" placeholder="Votre message..."/>
-        </div>
-        <div style="margin-top:10px">
-          <div class="form-label">Code WiFi (optionnel)</div>
-          <input class="form-input" id="ec-wifi-code" placeholder="Ex: Maison2024"/>
-        </div>
-        <div style="margin-top:10px">
-          <div class="form-label">Durée par slide (secondes)</div>
-          <input class="form-input" id="ec-duree" type="number" value="6" min="3" max="30"/>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">👁 Aperçu</div>
-        <div id="ec-preview" style="background:#0c0b09;border-radius:10px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px">
-          Cliquez "Lancer" pour prévisualiser
-        </div>
-        <button class="btn btn-ghost btn-sm" style="margin-top:10px;width:100%" onclick="previewEcranClient()">👁 Aperçu dans l'app</button>
-      </div>
-    </div>
-  </div>
+  
 
   <!-- QR CODE MENU -->
   <div id="page-qrmenu" class="page">
@@ -10388,7 +10022,6 @@ tbody td { padding:13px 14px; font-size:13px; }
   <!-- ÉTABLISSEMENTS -->
   <!-- PAGE PLANNING DÉDIÉ -->
   <div id="page-planning" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">👥 Personnel</span><span class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">📅 Planning</span><span class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">🕐 Présences</span><span class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">🏖 Congés</span><span class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">💼 Fiches paie</span><span class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">💶 Salaires</span><span class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">🎓 Formation</span></div>
     <div class="pl4-header">
       <div>
         <div class="pl4-title">📅 Planning hebdomadaire</div>
@@ -10413,45 +10046,7 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- ACCÈS & COMPTES -->
-  <div id="page-location" class="page">
-  <div style="padding:16px;max-width:900px;margin:0 auto">
-    <!-- HEADER -->
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-      <div>
-        <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:26px;color:var(--gold2);font-weight:600">🎵 Location de salle</div>
-        <div style="font-size:12px;color:var(--sub);margin-top:2px">Mariages, anniversaires, soirées privées</div>
-      </div>
-      <button class="btn btn-gold" onclick="openLocationModal()">+ Nouvelle réservation</button>
-    </div>
-
-    <!-- KPIs -->
-    <div class="kpi-grid-8" id="loc-kpi" style="margin-bottom:20px"></div>
-
-    <!-- CALENDRIER -->
-    <div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:20px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <button class="btn btn-ghost btn-sm" onclick="locCalMois(-1)">&#8249;</button>
-        <div id="loc-cal-titre" style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:18px;color:var(--gold2);font-weight:600"></div>
-        <button class="btn btn-ghost btn-sm" onclick="locCalMois(1)">&#8250;</button>
-      </div>
-      <div id="loc-cal-jours" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px"></div>
-      <div id="loc-calendrier" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
-    </div>
-
-    <!-- FILTRES STATUT -->
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-      <button class="rs-f on" onclick="filterLoc(&#39;tous&#39;,this)"><span class="rs-f-dot" style="background:var(--gold2)"></span>Tous</button>
-      <button class="rs-f" onclick="filterLoc(&#39;option&#39;,this)"><span class="rs-f-dot" style="background:var(--amber)"></span>Option</button>
-      <button class="rs-f" onclick="filterLoc(&#39;confirmé&#39;,this)"><span class="rs-f-dot" style="background:var(--blue)"></span>Confirmé</button>
-      <button class="rs-f" onclick="filterLoc(&#39;acompte&#39;,this)"><span class="rs-f-dot" style="background:var(--gold)"></span>Acompte reçu</button>
-      <button class="rs-f" onclick="filterLoc(&#39;soldé&#39;,this)"><span class="rs-f-dot" style="background:var(--green)"></span>Soldé</button>
-      <button class="rs-f" onclick="filterLoc(&#39;annulé&#39;,this)"><span class="rs-f-dot" style="background:var(--red)"></span>Annulé</button>
-    </div>
-
-    <!-- LISTE -->
-    <div id="loc-list"></div>
-  </div>
-  </div>
+  
 
   <div id="page-acces" class="page">
     <div class="page-header">
@@ -10532,7 +10127,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- COMMANDES FOURNISSEURS -->
   <div id="page-cmdFourn" class="page">
-<div class="pg-tabs"><span class="pg-tab" data-page="fournisseurs" onclick="nav(&#39;fournisseurs&#39;,null)">◫ Fournisseurs</span><span class="pg-tab" data-page="cmdFourn" onclick="nav(&#39;cmdFourn&#39;,null)">📦 Commandes</span></div>
   <div class="cf2-wrap">
 
     <!-- ══ HEADER ══ -->
@@ -10643,7 +10237,6 @@ tbody td { padding:13px 14px; font-size:13px; }
 
   <!-- FORMATION ÉQUIPE -->
   <div id="page-formation" class="page frm-page">
-<div class="pg-tabs"><span class="pg-tab" data-page="rh" onclick="nav(&#39;rh&#39;,null)">👥 Personnel</span><span class="pg-tab" data-page="planning" onclick="nav(&#39;planning&#39;,null)">📅 Planning</span><span class="pg-tab" data-page="presence" onclick="nav(&#39;presence&#39;,null)">🕐 Présences</span><span class="pg-tab" data-page="conges" onclick="nav(&#39;conges&#39;,null)">🏖 Congés</span><span class="pg-tab" data-page="fiches-paie" onclick="nav(&#39;fiches-paie&#39;,null)">💼 Fiches paie</span><span class="pg-tab" data-page="salaires" onclick="nav(&#39;salaires&#39;,null)">💶 Salaires</span><span class="pg-tab" data-page="formation" onclick="nav(&#39;formation&#39;,null)">🎓 Formation</span></div>
 
   <!-- HEADER -->
   <div class="frm-header">
@@ -11670,13 +11263,42 @@ function initData(){
   // Ventes de démo
   if(!DB.ventes||!DB.ventes.length){
     const today=td();
-    DB.ventes=[
-      {id:1,date:today,t:'12:30',ttc:95.50,ht:86.82,tva:8.68,cvt:4,mode:'CB',items:[{platId:1,qte:2},{platId:7,qte:2}]},
-      {id:2,date:today,t:'13:15',ttc:127.00,ht:115.45,tva:11.55,cvt:5,mode:'CB',items:[{platId:3,qte:2},{platId:8,qte:3}]},
-      {id:3,date:today,t:'20:00',ttc:78.50,ht:71.36,tva:7.14,cvt:3,mode:'Espèces',items:[{platId:2,qte:1},{platId:9,qte:2}]},
-      {id:4,date:today,t:'20:45',ttc:156.00,ht:141.82,tva:14.18,cvt:6,mode:'CB',items:[{platId:7,qte:3},{platId:10,qte:3}]},
-    ];
-    DB.ids.v=5;
+    DB.ventes=(function(){
+    var v=[];var id=1;
+    var modes=['CB','CB','CB','Espèces','CB','Ticket Resto'];
+    var platSets=[[1,7],[3,8],[2,9],[7,10],[4,8],[1,9],[3,7],[2,10],[5,8],[1,3]];
+    var now=new Date();
+    // Historique 6 mois
+    for(var m=5;m>=0;m--){
+      var base=new Date(now.getFullYear(),now.getMonth()-m,1);
+      var daysInMonth=new Date(base.getFullYear(),base.getMonth()+1,0).getDate();
+      var servicesByDay=m===0?Math.min(now.getDate(),daysInMonth):daysInMonth;
+      for(var d=1;d<=servicesByDay;d++){
+        var dt=new Date(base.getFullYear(),base.getMonth(),d);
+        var dow=dt.getDay();
+        var isWeekend=dow===0||dow===6;
+        var nMidi=isWeekend?Math.floor(Math.random()*3)+3:Math.floor(Math.random()*4)+2;
+        var nSoir=isWeekend?Math.floor(Math.random()*5)+5:Math.floor(Math.random()*4)+3;
+        var ds=dt.toISOString().slice(0,10);
+        for(var s=0;s<nMidi+nSoir;s++){
+          var isSoir=s>=nMidi;
+          var h=isSoir?(19+Math.floor(Math.random()*3)).toString().padStart(2,'0'):(12+Math.floor(Math.random()*2)).toString().padStart(2,'0');
+          var mn=Math.floor(Math.random()*6)*10;
+          var cvt=Math.floor(Math.random()*4)+1;
+          var ttc=Math.round((25+Math.random()*80+cvt*8)*100)/100;
+          var ps=platSets[s%platSets.length];
+          v.push({id:id++,date:ds,t:h+':'+mn.toString().padStart(2,'0'),ttc:ttc,ht:Math.round(ttc/1.1*100)/100,tva:Math.round(ttc*0.1/1.1*100)/100,cvt:cvt,mode:modes[s%modes.length],paiement:modes[s%modes.length],items:ps.map(function(p){return{pid:p,q:1};})});
+        }
+      }
+    }
+    // Ajoute les ventes d'aujourd'hui explicites
+    v.push({id:id++,date:today,t:'12:30',ttc:95.50,ht:86.82,tva:8.68,cvt:4,mode:'CB',paiement:'CB',items:[{pid:1,q:2},{pid:7,q:2}]});
+    v.push({id:id++,date:today,t:'13:15',ttc:127.00,ht:115.45,tva:11.55,cvt:5,mode:'CB',paiement:'CB',items:[{pid:3,q:2},{pid:8,q:3}]});
+    v.push({id:id++,date:today,t:'20:00',ttc:78.50,ht:71.36,tva:7.14,cvt:3,mode:'Espèces',paiement:'Espèces',items:[{pid:2,q:1},{pid:9,q:2}]});
+    v.push({id:id++,date:today,t:'20:45',ttc:156.00,ht:141.82,tva:14.18,cvt:6,mode:'CB',paiement:'CB',items:[{pid:7,q:3},{pid:10,q:3}]});
+    return v;
+  })();
+    DB.ids.v=DB.ventes.length+1;
   }
 }
 
@@ -11908,13 +11530,13 @@ const TITLES={
   finance:'💶 Finance',rapports:'📊 Rapports',stats:'▦ Stats',frais:'💸 Frais',
   banque:'🏦 Banque',budget:'🎯 Budget',marges:'📈 Marges',objectifs:'🎯 Objectifs',
   clients:'👤 Clients',vip:'💎 VIP',fidelite:'🎁 Fidélité',avis:'⭐ Avis',
-  livraison:'🛵 Livraison',location:'🎵 Location salle',histoTables:'🗂️ Historique',
+  livraison:'🛵 Livraison',histoTables:'🗂️ Historique',
   cave:'🍷 Cave',fiches:'📋 Fiches tech.',allergenes:'⚠️ Allergènes',
   carteEnLigne:'🌐 Carte en ligne',qrmenu:'📲 QR Code',
   haccp:'🧼 HACCP',todo:'✅ Tâches',messagerie:'💬 Communication',cloture:'🔐 Clôture',
   incidents:'⚠️ Incidents',maintenance:'🔧 Maintenance',sauvegarde:'💾 Sauvegarde',
   documents:'📋 Documents',params:'◌ Paramètres',configCaisse:'⌨️ Config caisse',
-  ecranClient:'🖥️ Écran client',journal:'📓 Journal',acces:'🔑 Accès',etabs:'🏢 Établissements',
+  journal:'📓 Journal',acces:'🔑 Accès',etabs:'🏢 Établissements',
 };
 let _recentPages=JSON.parse(localStorage.getItem('cr_recents')||'[]');
 function addRecent(name){
@@ -11956,16 +11578,16 @@ function nav(name,el){
 }
 function render(n){
   ({dash:rDash,salle:rSalle,caisse:rCaisse,menu:rMenu,
-    reservations:rResa,'resa-attente':rListeAttente,stocks:rStocks,personnel:()=>{rPerso();rPersonnelPlanning();},
+    reservations:rResa,'resa-attente':rListeAttente,stocks:rStocks,commandes:rCmds,personnel:()=>{rPerso();rPersonnelPlanning();},
     rh:rRh,
-    fournisseurs:rFourn, finance:rFin,rapports:rRapports,
+    fournisseurs:rFourn, finance:()=>{rFin();},rapports:()=>{nav('finance',null);setTimeout(()=>finTab('rapports'),50);},stats:()=>{nav('finance',null);setTimeout(()=>finTab('stats'),50);},
     menuJour:rMenuJour, livraison:rLivraison, stats:rStats,
     configCaisse:rConfigCaisse,
     messagerie:rMessagerie,
     journal:rJournal,
     objectifs:rObjectifs, cmdFourn:rCmdFourn, params:rParams,
     fiches:rFiches, origine:rOrigine, marges:rMarges, avis:rAvis, acces:rAcces,
-    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning, location:rLocation, etabs:rEtabs, ecranClient:rEcranClient, qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, cave:rCave, 'resa-online':rResaOnline, carteOrigines:rCarteOrigines, vocale:rVocale,briefing:rBriefing, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne,tablette:rTablette,caisseRapide:rCaisseRapide,alertes:rAlertes,surprise:rSurprise})[n]?.();
+    frais:rFrais, presence:rPresence, dechets:rDechets, haccp:rHaccp, banque:rBanque, planning:rPlanning,  etabs:rEtabs,  qrmenu:rQrMenu, sauvegarde:rSauvegarde,integrations:rIntegrations,documents:rDocuments,maintenance:rMaintenance,incidents:rIncidents, fidelite:rFidelite, budget:rBudget, pourboires:rPourboires, allergenes:rAllergenes, histoTables:rHistoTables, salaires:rSalaires, paramsAvances:rParamsAvances, periodes:rPeriodes, cloture:rCloture, vip:rVip, cave:rCave, 'resa-online':rResaOnline,  briefing:rBriefing, conges:rConges, 'fiches-paie':rFichesPaie, todo:rTodo, clients:rClients, formation:rFormation, carteEnLigne:rCarteEnLigne,tablette:rTablette,caisseRapide:rCaisseRapide,alertes:rAlertes,surprise:rSurprise})[n]?.();
 }
 function openSB(){document.getElementById('sidebar')?.classList.add('open');document.getElementById('overlay').style.display='block';}
 function closeSB(){document.getElementById('sidebar')?.classList.remove('open');document.getElementById('overlay').style.display='none';}
@@ -14481,7 +14103,8 @@ function rResa(){
     }
     calEl.innerHTML=html;
   }
-  rRendreResaListe();rResaAlertes();rListeAttente();
+  rRendreResaListe();rResaAlertes();
+  if(typeof rMobNavBadges==='function') rMobNavBadges();;rListeAttente();
 }
 function resaFilterHeure(h){
   resaDateFilter=td();
@@ -14781,6 +14404,69 @@ function confirmerResa(id){
 }
 
 
+
+// ── BOTTOM NAV BAR ──
+function mbnNav(page, el) {
+  nav(page, null);
+  // Update active state
+  document.querySelectorAll('.mbn-item').forEach(b => b.classList.remove('active'));
+  // Find matching button
+  const map = {dash:'mbn-dash',salle:'mbn-salle',caisse:'mbn-caisse',reservations:'mbn-resa'};
+  const btnId = map[page];
+  if (btnId) {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.classList.add('active');
+  }
+  closeMobMore();
+}
+
+function toggleMobMore() {
+  const panel = document.getElementById('mob-more-panel');
+  if (!panel) return;
+  panel.classList.toggle('open');
+  // Update more button state
+  const btn = document.getElementById('mbn-more');
+  if (btn) btn.classList.toggle('active', panel.classList.contains('open'));
+}
+
+function closeMobMore() {
+  const panel = document.getElementById('mob-more-panel');
+  if (panel) panel.classList.remove('open');
+  const btn = document.getElementById('mbn-more');
+  if (btn) btn.classList.remove('active');
+}
+
+function rMobNavBadges() {
+  // Sync badges with sidebar
+  const occ = (document.getElementById('b-occ')||{}).textContent||'';
+  const resa = (document.getElementById('b-resa')||{}).textContent||'';
+  const bOcc = document.getElementById('mbn-b-occ');
+  const bResa = document.getElementById('mbn-b-resa');
+  if (bOcc) { bOcc.textContent = occ; bOcc.classList.toggle('show', !!occ && occ !== '0'); }
+  if (bResa) { bResa.textContent = resa; bResa.classList.toggle('show', !!resa && resa !== '0'); }
+}
+
+// Update active bottom nav item when navigating
+(function patchNavForMobBar(){
+  const _origNav = typeof nav === 'function' ? nav : null;
+  if (!_origNav) return;
+  // We'll patch via the nav call in mbnNav — no need to override
+})();
+
+function finTab(tab) {
+  ['compta','rapports','stats'].forEach(t => {
+    const view = document.getElementById('fin-view-' + t);
+    const btn  = document.getElementById('fin-tab-' + t);
+    if (view) view.style.display = t === tab ? '' : 'none';
+    if (btn) {
+      btn.style.borderBottomColor = t === tab ? 'var(--gold)' : 'transparent';
+      btn.style.color = t === tab ? 'var(--gold2)' : 'var(--sub)';
+    }
+  });
+  if (tab === 'compta')   { if(typeof rFin==='function')      rFin(); }
+  if (tab === 'rapports') { if(typeof rRapports==='function') rRapports(); }
+  if (tab === 'stats')    { if(typeof rStats==='function')    rStats(); }
+}
 // ═══ STOCKS ═══
 function saveStock(){
   const nom=document.getElementById('stk-nom').value.trim();if(!nom){toast('Nom requis','err');return;}
@@ -17324,29 +17010,6 @@ function rDash(){
 }
 
 let boostOn=false;
-function toggleBoostCA(){
-  boostOn=!boostOn;
-  const panel=document.getElementById('boost-panel');
-  const btn=document.getElementById('btn-boost');
-  if(boostOn){
-    panel.style.display='block';
-    btn.textContent='⚡ Boost CA ON';
-    btn.style.boxShadow='0 0 18px rgba(201,151,58,.5)';
-    const tips=[
-      {t:'Propose un dessert maison à chaque table occupée — +8€ ticket moyen'},
-      {t:'Suggère l\'accord vin du sommelier avec chaque plat principal'},
-      {t:'Mets en avant le plat du jour à la voix — taux de commande x2'},
-      {t:'Propose une assiette de fromages AOP en fin de repas'},
-    ];
-    document.getElementById('boost-tips').innerHTML=tips.map(t=>`
-      <div style="background:rgba(0,0,0,.3);border:1px solid rgba(201,151,58,.2);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--txt)">${t.t}</div>`).join('');
-  } else {
-    panel.style.display='none';
-    btn.textContent='⚡ Mode Boost CA';
-    btn.style.boxShadow='none';
-  }
-}
-
 // ═══ PARAMS ═══
 function resetExemples(){
   // Fiche soupe à l'oignon
@@ -20397,11 +20060,14 @@ function initStatsSelects(){
   const years=[now.getFullYear()-1,now.getFullYear(),now.getFullYear()+1];
   ySel.innerHTML=years.map(y=>`<option value="${y}">${y}</option>`).join('');
   ySel.value=now.getFullYear();
+
+  setTimeout(rStats,10);
 }
 function rStats(){
   const mSel=document.getElementById('stats-month');
   const ySel=document.getElementById('stats-year');
-  if(!mSel||!ySel){initStatsSelects();return;}
+  initStatsSelects();
+  if(!mSel||!ySel) return;
   const m=+mSel.value; const y=+ySel.value;
   const pad=n=>String(n).padStart(2,'0');
   const prefix=`${y}-${pad(m)}`;
@@ -22414,72 +22080,6 @@ let locFilter='tous';
 const LOC_TYPES=['Mariage','Anniversaire','Soirée privée','Soirée DJ','Séminaire','Baby shower','Communion','Autre'];
 const LOC_STAT_COL={option:'var(--amber)',confirmé:'var(--blue)',acompte:'var(--gold)','soldé':'var(--green)',annulé:'var(--red)'};
 
-function rLocation(){
-  if(!DB.locations) DB.locations=[];
-  const total=DB.locations.filter(l=>l.stat!=='annulé').length;
-  const caTotal=DB.locations.filter(l=>l.stat==='soldé').reduce((s,l)=>s+(+l.prix||0),0);
-  const acomptes=DB.locations.filter(l=>l.acompte&&l.stat!=='annulé').reduce((s,l)=>s+(+l.acompte||0),0);
-  const prochaines=DB.locations.filter(l=>l.date>=td()&&l.stat!=='annulé').length;
-
-  const kpi=document.getElementById('loc-kpi');
-  if(kpi) kpi.innerHTML=`
-    <div class="kpi-box kpi-gold"><div class="kpi-label">RÉSERVATIONS</div><div class="kpi-val">${total}</div></div>
-    <div class="kpi-box kpi-green"><div class="kpi-label">CA LOCATIONS</div><div class="kpi-val">${eur(caTotal)}</div></div>
-    <div class="kpi-box kpi-blue"><div class="kpi-label">ACOMPTES REÇUS</div><div class="kpi-val">${eur(acomptes)}</div></div>
-    <div class="kpi-box kpi-gold"><div class="kpi-label">À VENIR</div><div class="kpi-val">${prochaines}</div></div>`;
-
-  renderLocCal();
-
-  // Liste
-  const el=document.getElementById('loc-list');
-  if(!el) return;
-  const filtered=locFilter==='tous'?DB.locations:DB.locations.filter(l=>l.stat===locFilter);
-  if(!filtered.length){
-    el.innerHTML=`<div style="color:var(--muted);font-size:13px;padding:20px;text-align:center">Aucune réservation — cliquez "+ Nouvelle réservation"</div>`;
-    return;
-  }
-  el.innerHTML=filtered.slice().sort((a,b)=>a.date>b.date?1:-1).map(l=>{
-    const past=l.date<td();
-    const reste=(+l.prix||0)-(+l.acompte||0);
-    return `<div style="background:var(--ink3);border:1px solid ${LOC_STAT_COL[l.stat]||'var(--line)'}33;border-left:3px solid ${LOC_STAT_COL[l.stat]||'var(--line)'};border-radius:8px;padding:16px;margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-size:15px;font-weight:700;color:var(--txt)">${l.client}</div>
-          <div style="font-size:12px;color:var(--sub);margin-top:2px">${l.type} · ${l.date} · ${l.hDebut||'?'}–${l.hFin||'?'}</div>
-          ${l.nbPersonnes?`<div style="font-size:11px;color:var(--muted)">👥 ${l.nbPersonnes} personnes</div>`:''}
-        </div>
-        <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:${LOC_STAT_COL[l.stat]||'var(--muted)'}22;color:${LOC_STAT_COL[l.stat]||'var(--sub)'};font-weight:600;white-space:nowrap">${l.stat}</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
-        <div style="background:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:8px;text-align:center">
-          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Prix total</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold2);font-weight:700">${eur(+l.prix||0)}</div>
-        </div>
-        <div style="background:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:8px;text-align:center">
-          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Acompte</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--green);font-weight:700">${eur(+l.acompte||0)}</div>
-        </div>
-        <div style="background:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:8px;text-align:center">
-          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Reste à payer</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:${reste>0?'var(--red)':'var(--green)'};font-weight:700">${eur(reste)}</div>
-        </div>
-      </div>
-      ${(l.optionsList&&l.optionsList.length)?`<div style="font-size:12px;color:var(--sub);margin-bottom:8px">🎵 ${getOptionsLabel(l.optionsList)} <span style="color:var(--gold2)">+${eur(getOptionsTotal(l.optionsList))}</span></div>`:(l.options?`<div style="font-size:12px;color:var(--sub);margin-bottom:8px">🎵 ${l.options}</div>`:'')}
-      ${l.optionsNote?`<div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-style:italic">📝 ${l.optionsNote}</div>`:(l.note?`<div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-style:italic">${l.note}</div>`:'')}
-      ${l.tel?`<div style="font-size:12px;color:var(--sub);margin-bottom:8px">📞 ${l.tel}</div>`:''}
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-xs" onclick="editLocation(${l.id})">✏ Modifier</button>
-        ${l.stat==='option'?`<button class="btn btn-success btn-xs" onclick="setLocStat(${l.id},'confirmé')">✅ Confirmer</button>`:''}
-        ${l.stat==='confirmé'?`<button class="btn btn-gold btn-xs" onclick="setLocStat(${l.id},'acompte')">💰 Acompte reçu</button>`:''}
-        ${l.stat==='acompte'?`<button class="btn btn-success btn-xs" onclick="setLocStat(${l.id},'soldé')">✅ Soldé</button>`:''}
-        ${l.stat!=='soldé'&&l.stat!=='annulé'?`<button class="btn btn-danger btn-xs" onclick="setLocStat(${l.id},'annulé')">✕ Annuler</button>`:''}
-        <button class="btn btn-ghost btn-xs" onclick="genDevis(${l.id})">📄 Devis</button>
-        <button class="btn btn-ghost btn-xs" onclick="genContrat(${l.id})">📝 Contrat</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
 function filterLoc(f){
   locFilter=f;
   ['tous','option','confirmé','acompte','soldé','annulé'].forEach(s=>{
@@ -22493,118 +22093,6 @@ function setLocStat(id,stat){
   const l=DB.locations.find(x=>x.id===id);
   if(l){l.stat=stat;saveDB();rLocation();toast('Statut mis à jour');}
 }
-
-function openLocationModal(id){
-  const l=id?DB.locations.find(x=>x.id===id):{};
-  const html=`<div id="loc-modal" onclick="if(event.target===this)this.remove()" style="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:flex-end;justify-content:center">
-    <div style="background:var(--ink2);border-radius:14px 14px 0 0;padding:20px;width:100%;max-width:540px;border-top:1px solid var(--line);max-height:90vh;overflow-y:auto">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold2);margin-bottom:16px">🎵 ${id?'Modifier':'Nouvelle réservation'}</div>
-      <input type="hidden" id="loc-id" value="${id||''}"/>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div><div class="form-label">Nom du client</div><input class="form-input" id="lc-client" value="${l?.client||''}" placeholder="Prénom Nom"/></div>
-          <div><div class="form-label">Téléphone</div><input class="form-input" id="lc-tel" value="${l?.tel||''}" placeholder="06 XX XX XX XX"/></div>
-        </div>
-        <div><div class="form-label">Type d'événement</div>
-          <select class="form-select" id="lc-type">${LOC_TYPES.map(t=>`<option ${l?.type===t?'selected':''}>${t}</option>`).join('')}</select>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-          <div><div class="form-label">Date</div><input class="form-input" id="lc-date" type="date" value="${l?.date||td()}"/></div>
-          <div><div class="form-label">Début</div><input class="form-input" id="lc-hdebut" type="time" value="${l?.hDebut||'18:00'}"/></div>
-          <div><div class="form-label">Fin</div><input class="form-input" id="lc-hfin" type="time" value="${l?.hFin||'02:00'}"/></div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div><div class="form-label">Nb de personnes</div><input class="form-input" id="lc-nb" type="number" value="${l?.nbPersonnes||''}" oninput="recalcPrixLocation()"/></div>
-          <div><div class="form-label">Tarif / personne (€)</div><input class="form-input" id="lc-tarif-pp" type="number" step="0.01" value="${l?.tarifPP||25}" oninput="recalcPrixLocation()"/></div>
-        </div>
-        <div style="background:var(--ink3);border:1px solid var(--line);border-radius:8px;padding:12px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span style="font-size:12px;color:var(--muted)">Base (personnes × tarif)</span>
-            <span id="lc-base-display" style="font-size:13px;color:var(--sub)">—</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span style="font-size:12px;color:var(--muted)">Options sélectionnées</span>
-            <span id="lc-opts-display" style="font-size:13px;color:var(--gold2)">—</span>
-          </div>
-          <div style="border-top:1px solid var(--line);padding-top:8px;display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:13px;font-weight:600">Prix total calculé</span>
-            <span id="lc-total-display" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2)">—</span>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div><div class="form-label">Prix total (€) <span style="color:var(--muted);font-size:10px">modifiable</span></div><input class="form-input" id="lc-prix" type="number" step="0.01" value="${l?.prix||''}"/></div>
-          <div>
-            <div class="form-label">Acompte (30% auto)</div>
-            <div style="position:relative">
-              <input class="form-input" id="lc-acompte" type="number" step="0.01" value="${l?.acompte||''}"/>
-              <button onclick="calcAcompte30()" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:rgba(201,151,58,.15);border:1px solid var(--gold);color:var(--gold2);border-radius:4px;padding:2px 7px;font-size:10px;cursor:pointer">30%</button>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="form-label" style="margin-bottom:6px">Options incluses <span id="lco-total-display" style="color:var(--gold2);font-size:12px;margin-left:8px"></span></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;max-height:280px;overflow-y:auto;padding:4px">
-            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-dj" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('dj')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🎧 DJ (prestation complète)</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+400€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-platines" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('platines')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🎚️ Location platines vinyles</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+150€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-sono" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('sono')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🔊 Sono complète</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+200€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-micro" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('micro')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🎤 Micros sans fil (x2)</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+50€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-lumieres" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('lumieres')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">💡 Jeux de lumières</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+150€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-stroboscope" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('stroboscope')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🔦 Stroboscope</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+80€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-lasers" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('lasers')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🔴 Lasers</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+100€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-fumee" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('fumee')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">💨 Machine à fumée</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+80€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-fumee_lourde" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('fumee_lourde')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🌫️ Fumée lourde (sol)</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+120€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-confettis" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('confettis')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🎊 Canon à confettis</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+60€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-etincelles" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('etincelles')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">✨ Jets d'étincelles froides</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+150€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-photobooth" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('photobooth')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">📸 Photobooth / Borne photo</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+300€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-videoproj" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('videoproj')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">📽️ Vidéoprojecteur + écran</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+150€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-karaoké" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('karaoké')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🎤 Karaoké</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+100€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-decoration" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('decoration')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🌸 Décoration florale</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+200€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-ballons" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('ballons')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🎈 Arche de ballons</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+150€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-nappe" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('nappe')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🪑 Nappage et housses</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+100€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-securite" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('securite')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">💂 Agent de sécurité</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+200€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-vestiaire" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('vestiaire')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">🧥 Service vestiaire</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+80€</span></label>
-<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt);cursor:pointer;padding:7px 10px;background:var(--ink3);border:1px solid var(--line);border-radius:6px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'"><input type="checkbox" id="lco-photographe" style="accent-color:var(--gold);width:16px;height:16px" ${(l?.optionsList||[]).includes('photographe')?'checked':''} onchange="recalcOptionsTotal()"/><span style="flex:1">📷 Photographe (3h)</span><span style="color:var(--gold2);font-size:11px;white-space:nowrap">+400€</span></label>
-          </div>
-          <div style="margin-top:8px"><div class="form-label">Note sur les options</div><input class="form-input" id="lc-options-note" value="${l?.optionsNote||''}" placeholder="Précisions, durée DJ, style musical…"/></div>
-        </div>
-        <div><div class="form-label">Notes / Demandes spéciales</div><textarea class="form-input" id="lc-note" rows="2" placeholder="Allergies, ambiance souhaitée…">${l?.note||''}</textarea></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
-          <button class="btn btn-ghost" onclick="document.getElementById('loc-modal').remove()">Annuler</button>
-          <button class="btn btn-gold" onclick="saveLocation()">Enregistrer</button>
-        </div>
-      </div>
-    </div>
-  </div>`;
-  document.body.insertAdjacentHTML('beforeend',html);
-}
-
-function editLocation(id){ openLocationModal(id); }
-
-function saveLocation(){
-  const client=document.getElementById('lc-client')?.value.trim();
-  if(!client){toast('Nom du client requis','err');return;}
-  const id=+document.getElementById('loc-id')?.value;
-  const obj={
-    client, tel:document.getElementById('lc-tel')?.value||'',
-    type:document.getElementById('lc-type')?.value||'Autre',
-    date:document.getElementById('lc-date')?.value||td(),
-    hDebut:document.getElementById('lc-hdebut')?.value||'',
-    hFin:document.getElementById('lc-hfin')?.value||'',
-    nbPersonnes:+document.getElementById('lc-nb')?.value||0,
-    tarifPP:+document.getElementById('lc-tarif-pp')?.value||25,
-    stat:document.getElementById('lc-stat')?.value||'option',
-    prix:+document.getElementById('lc-prix')?.value||0,
-    acompte:+document.getElementById('lc-acompte')?.value||0,
-    options:document.getElementById('lc-options')?.value||'',
-    optionsList:[...document.querySelectorAll('[id^="lco-"]:checked')].map(cb=>cb.id.replace('lco-','')),
-    optionsNote:document.getElementById('lc-options-note')?.value||'',
-    note:document.getElementById('lc-note')?.value||''
-  };
-  if(id){const i=DB.locations.findIndex(l=>l.id===id);DB.locations[i]={...DB.locations[i],...obj};}
-  else{obj.id=Date.now();DB.locations.push(obj);}
-  saveDB();document.getElementById('loc-modal')?.remove();rLocation();toast('Réservation enregistrée ✅');
-}
-
 
 function logoSVG(){
   const nom = DB?.params?.nom || 'Chez Romu';
@@ -22817,31 +22305,6 @@ const LOC_OPTIONS=[
   {id:'nappe',label:'🪑 Nappage',prix:100},{id:'securite',label:'💂 Sécurité',prix:200},
   {id:'vestiaire',label:'🧥 Vestiaire',prix:80},{id:'photographe',label:'📷 Photographe',prix:400},
 ];
-function recalcPrixLocation(){
-  const nb=+document.getElementById('lc-nb')?.value||0;
-  const tarif=+document.getElementById('lc-tarif-pp')?.value||0;
-  const base=nb*tarif;
-  const opts=[...document.querySelectorAll('[id^="lco-"]:checked')].map(cb=>cb.id.replace('lco-',''));
-  const optsTotal=opts.reduce((s,id)=>{const o=LOC_OPTIONS.find(x=>x.id===id);return s+(o?o.prix:0);},0);
-  const total=base+optsTotal;
-  const bd=document.getElementById('lc-base-display');
-  const od=document.getElementById('lc-opts-display');
-  const td2=document.getElementById('lc-total-display');
-  if(bd) bd.textContent=nb>0?`${nb} × ${eur(tarif)} = ${eur(base)}`:'—';
-  if(od) od.textContent=optsTotal>0?`+${eur(optsTotal)}`:'Aucune';
-  if(td2) td2.textContent=total>0?eur(total):'—';
-  // Mettre à jour le champ prix auto si nb > 0
-  if(nb>0){
-    const px=document.getElementById('lc-prix');
-    if(px) px.value=total;
-    // Recalc acompte 30%
-    const ac=document.getElementById('lc-acompte');
-    if(ac&&!+ac.value) ac.value=Math.round(total*0.3*100)/100;
-  }
-  // Maj display options
-  const el=document.getElementById('lco-total-display');
-  if(el) el.textContent=opts.length>0?`${opts.length} option(s) — +${eur(optsTotal)}`:'';
-}
 function calcAcompte30(){
   const prix=+document.getElementById('lc-prix')?.value||0;
   if(!prix){toast('Saisissez d\'abord le prix total','err');return;}
@@ -23783,7 +23246,23 @@ function delHaccp(cat,id){
 // ═══════════════════════════════════════════
 // 💸 FRAIS & CHARGES
 // ═══════════════════════════════════════════
-if(!DB.frais) DB.frais=[];
+if(!DB.frais) DB.frais=[
+    {id:1,label:'Loyer local commercial',montant:2800,date:'2026-04-01',cat:'Loyer',type:'fixe',note:'Bail 3-6-9'},
+    {id:2,label:'Électricité & gaz',montant:480,date:'2026-04-05',cat:'Énergie',type:'fixe',note:'EDF Pro'},
+    {id:3,label:'Assurance multirisque',montant:210,date:'2026-04-01',cat:'Assurance',type:'fixe',note:'Mensuelle'},
+    {id:4,label:'Abonnement téléphone & internet',montant:85,date:'2026-04-01',cat:'Équipement',type:'fixe',note:''},
+    {id:5,label:'Logiciels & licences',montant:120,date:'2026-04-02',cat:'Équipement',type:'fixe',note:'POS, compta'},
+    {id:6,label:'Produits d&#39;entretien',montant:95,date:'2026-04-03',cat:'Divers',type:'variable',note:''},
+    {id:7,label:'Publicité réseaux sociaux',montant:150,date:'2026-04-04',cat:'Marketing',type:'variable',note:'Meta Ads'},
+    {id:8,label:'Réparation four à convection',montant:320,date:'2026-04-06',cat:'Équipement',type:'exceptionnelle',note:'Technicien Rational'},
+    {id:9,label:'Loyer local commercial',montant:2800,date:'2026-03-01',cat:'Loyer',type:'fixe',note:''},
+    {id:10,label:'Électricité & gaz',montant:510,date:'2026-03-05',cat:'Énergie',type:'fixe',note:''},
+    {id:11,label:'Assurance multirisque',montant:210,date:'2026-03-01',cat:'Assurance',type:'fixe',note:''},
+    {id:12,label:'Produits d&#39;entretien',montant:88,date:'2026-03-08',cat:'Divers',type:'variable',note:''},
+    {id:13,label:'Publicité réseaux sociaux',montant:200,date:'2026-03-10',cat:'Marketing',type:'variable',note:''},
+    {id:14,label:'Abonnement téléphone & internet',montant:85,date:'2026-03-01',cat:'Équipement',type:'fixe',note:''},
+    {id:15,label:'Fournitures bureau &#38; papeterie',montant:42,date:'2026-03-15',cat:'Divers',type:'variable',note:''},
+  ];
 const FRAIS_CATS=['Loyer','Énergie','Personnel','Fournisseurs','Équipement','Assurance','Marketing','Divers'];
 let fraisFilter='tous';
 
@@ -24373,100 +23852,6 @@ const CARTE_SVG_BG=`
 <path d="M720,300 L800,290 L850,310 L840,350 L790,360 L730,340 Z" fill="#152030" stroke="#1a3040" stroke-width=".5" opacity=".8"/>
 `;
 
-function rCarteOrigines(){
-  const svg=document.getElementById('carte-monde-svg');
-  const pinsEl=document.getElementById('carte-pins');
-  const legende=document.getElementById('carte-legende');
-  if(!svg) return;
-
-  svg.innerHTML=CARTE_SVG_BG;
-
-  // Récupérer les origines depuis DB
-  const origines=DB.origines||[];
-  const plats=DB.plats||[];
-
-  // Construire la liste des points à afficher
-  const points=[];
-
-  // Depuis les origines saisies
-  origines.forEach(o=>{
-    const coords=Object.entries(COORDS_REGIONS).find(([k])=>o.region?.toLowerCase().includes(k.toLowerCase())||k.toLowerCase().includes(o.region?.toLowerCase()));
-    if(coords){
-      points.push({...coords[1],label:o.produit||o.nom,region:o.region,cat:o.cat||'default',source:'origine'});
-    }
-  });
-
-  // Depuis les plats si pas d'origines
-  if(!points.length){
-    const exemples=[
-      {x:165,y:145,label:'Homard',region:'Bretagne',cat:'Poissons'},
-      {x:175,y:180,label:'Vin rouge',region:'Bordeaux',cat:'Vins'},
-      {x:215,y:155,label:'Bœuf Charolais',region:'Bourgogne',cat:'Viandes'},
-      {x:185,y:170,label:'Foie gras',region:'Périgord',cat:'Épicerie'},
-      {x:220,y:175,label:'Herbes de Provence',region:'Provence',cat:'Légumes'},
-      {x:225,y:90,label:'Saumon',region:'Norvège',cat:'Poissons'},
-      {x:230,y:140,label:'Munster',region:'Alsace',cat:'Laitiers'},
-      {x:215,y:155,label:'Chablis',region:'Bourgogne',cat:'Vins'},
-    ];
-    points.push(...exemples);
-  }
-
-  // Dessiner les lignes d'animation vers Paris (centre gastronomique)
-  const cx=192, cy=152;
-  points.forEach((p,i)=>{
-    if(p.x===cx&&p.y===cy) return;
-    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1',cx); line.setAttribute('y1',cy);
-    line.setAttribute('x2',p.x); line.setAttribute('y2',p.y);
-    const col=COULEURS_CAT[p.cat]||COULEURS_CAT.default;
-    line.setAttribute('stroke',col);
-    line.setAttribute('stroke-width','1');
-    line.setAttribute('opacity','0.4');
-    line.setAttribute('stroke-dasharray','4 4');
-    line.style.animation=`dashMove ${2+i*0.3}s linear infinite`;
-    svg.appendChild(line);
-  });
-
-  // Ajouter l'animation CSS
-  if(!document.getElementById('carte-anim-style')){
-    const style=document.createElement('style');
-    style.id='carte-anim-style';
-    style.textContent='@keyframes dashMove{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}';
-    document.head.appendChild(style);
-  }
-
-  // Dessiner les pins
-  if(pinsEl){
-    const svgRect=svg.getBoundingClientRect();
-    const svgW=svgRect.width||300;
-    const svgH=svgRect.height||150;
-    const scaleX=svgW/1000;
-    const scaleY=svgH/500;
-
-    pinsEl.innerHTML=points.map((p,i)=>{
-      const col=COULEURS_CAT[p.cat]||COULEURS_CAT.default;
-      const px=p.x*scaleX; const py=p.y*scaleY;
-      return `<div style="position:absolute;left:${px}px;top:${py}px;transform:translate(-50%,-100%);cursor:pointer;z-index:10"
-        title="${p.label} — ${p.region}"
-        onclick="showPinInfo(${i})">
-        <div style="width:10px;height:10px;border-radius:50%;background:${col};border:2px solid #fff;animation:ping 2s ease-in-out ${i*0.3}s infinite;box-shadow:0 0 8px ${col}"></div>
-        <div style="font-size:8px;color:#fff;background:${col}cc;padding:2px 4px;border-radius:3px;white-space:nowrap;margin-top:2px;max-width:60px;overflow:hidden;text-overflow:ellipsis">${p.label}</div>
-      </div>`;
-    }).join('');
-    window._cartePoints=points;
-  }
-
-  // Légende
-  if(legende){
-    const cats=[...new Set(points.map(p=>p.cat))];
-    legende.innerHTML=cats.map(c=>`
-      <div style="display:flex;align-items:center;gap:6px;padding:4px 10px;background:var(--ink2);border-radius:20px;font-size:11px;color:var(--sub)">
-        <div style="width:10px;height:10px;border-radius:50%;background:${COULEURS_CAT[c]||COULEURS_CAT.default}"></div>
-        ${c}
-      </div>`).join('');
-  }
-}
-
 function showPinInfo(idx){
   const p=window._cartePoints?.[idx];
   if(!p) return;
@@ -24526,55 +23911,6 @@ function lancerCarteClient(){
 // 🎤 COMMANDE RAPIDE (SAISIE INTELLIGENTE)
 // ═══════════════════════════════════════════
 let vocaleCmdData=null;
-
-function rVocale(){
-  // Messages rapides prédéfinis
-  var _msgHisto = JSON.parse(localStorage.getItem('msg_equipe_histo')||'[]');
-  var rapides = [
-    {ico:'🔥', txt:"Ce soir gros service, tout le monde en alerte !"},
-    {ico:'🎂', txt:"Anniversaire surprise table 12 ce soir, ne rien dire au client !"},
-    {ico:'⚠️', txt:"Attention rupture de stock ce soir, pas de cabillaud."},
-    {ico:'👋', txt:"Réunion équipe après le service, restez tous."},
-    {ico:'💪', txt:"Excellent travail ce soir, continuez comme ça !"},
-    {ico:'🍷', txt:"On pousse le vin rouge ce soir, pensez à le proposer."},
-  ];
-
-  var el = document.getElementById('msg-rapides');
-  if(el){
-    el.innerHTML = rapides.map(function(m){
-      return '<button onclick="msgCharger('+JSON.stringify(m.txt)+')" style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;cursor:pointer;transition:all .15s;text-align:left;width:100%" onmouseover="this.style.background=\'rgba(201,151,58,.06)\';this.style.borderColor=\'rgba(201,151,58,.2)\'" onmouseout="this.style.background=\'rgba(255,255,255,.03)\';this.style.borderColor=\'rgba(255,255,255,.07)\'">'
-        +'<span style="font-size:20px;flex-shrink:0">'+m.ico+'</span>'
-        +'<span style="font-size:13px;color:var(--txt)">'+m.txt+'</span>'
-        +'<span style="margin-left:auto;font-size:16px;color:var(--muted)">›</span>'
-        +'</button>';
-    }).join('');
-  }
-
-  // Historique
-  var histoEl = document.getElementById('msg-historique');
-  if(histoEl){
-    if(!_msgHisto.length){
-      histoEl.innerHTML = '<div style="color:var(--muted);font-size:12px">Aucun message envoyé pour l\'instant</div>';
-    } else {
-      histoEl.innerHTML = _msgHisto.slice(0,5).map(function(m){
-        return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
-          +'<span style="font-size:16px">📢</span>'
-          +'<div style="flex:1;min-width:0"><div style="font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+m.txt+'</div>'
-          +'<div style="font-size:10px;color:var(--muted);margin-top:2px">'+m.date+' à '+m.heure+'</div></div>'
-          +'<button onclick="msgCharger('+JSON.stringify(m.txt)+')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--sub);border-radius:8px;padding:4px 10px;font-size:10px;cursor:pointer">↺</button>'
-          +'</div>';
-      }).join('');
-    }
-  }
-
-  // Voix dispo
-  if(window.speechSynthesis){
-    var voices = window.speechSynthesis.getVoices();
-    var vfr = voices.find(function(v){return v.lang.startsWith('fr');});
-    var infoEl = document.getElementById('msg-voix-info');
-    if(infoEl) infoEl.textContent = vfr ? 'Voix : '+vfr.name.split(' ')[0] : 'Voix : française auto';
-  }
-}
 
 function msgCharger(txt){
   var ta = document.getElementById('msg-texte');
@@ -24706,17 +24042,6 @@ function ajouterSuggestion(nomPlat){
   toast(nomPlat+' ajouté ✅');
 }
 
-function selectTableVocale(num){
-  const inp=document.getElementById('vocale-input');
-  if(!inp) return;
-  // Remplacer ou préfixer le numéro de table
-  const v=inp.value;
-  if(v.match(/^table\s+\d+/i)) inp.value=v.replace(/^table\s+\d+/i,'Table '+num);
-  else inp.value='Table '+num+', '+v;
-  inp.focus();
-  analyserTexteVocalLive(inp.value);
-}
-
 function analyserTexteVocalLive(texte){
   if(texte.length<5) return;
   // Analyse légère en live — juste montrer un aperçu
@@ -24731,12 +24056,6 @@ function analyserTexteVocal(){
   const inp=document.getElementById('vocale-input');
   const texte=inp?.value?.trim();
   if(!texte){toast('Saisissez une commande','err');return;}
-  parseCommande(texte);
-}
-
-function simulerVocale(texte){
-  const inp=document.getElementById('vocale-input');
-  if(inp) inp.value=texte;
   parseCommande(texte);
 }
 
@@ -24813,34 +24132,6 @@ function parseCommande(texte){
   }
   // Scroll vers le résultat
   resultEl?.scrollIntoView({behavior:'smooth'});
-}
-
-function validerCmdVocale(){
-  if(!vocaleCmdData) return;
-  const {table,plats,texteOriginal}=vocaleCmdData;
-  const tblSel=document.getElementById('vocale-table-sel');
-  const tblId=table?.id||(tblSel?+tblSel.value:null);
-  if(!tblId){toast('Sélectionnez une table','err');return;}
-  if(!plats.length){toast('Aucun plat détecté — ajoutez des plats d\'abord','err');return;}
-  const items=plats.map(({plat,qte})=>({pid:plat.id,q:qte,px:plat.prix}));
-  const total=items.reduce((s,x)=>s+x.px*x.q,0);
-  const cmd={id:DB.ids.c++,tbl:tblId,cvt:2,serv:0,stat:'en-attente',
-    note:'Commande rapide: '+texteOriginal.slice(0,60),items,total,t:now(),date:td()};
-  cmd.numTicket=genNumTicket();
-  DB.commandes.push(cmd);
-  setTblStat(tblId,'occupée');
-  saveDB();
-  toast('Commande créée : '+cmd.numTicket+' ✅');
-  resetVocale();
-  nav('salle',null);
-}
-
-function resetVocale(){
-  vocaleCmdData=null;
-  const resultEl=document.getElementById('vocale-result');
-  const inp=document.getElementById('vocale-input');
-  if(resultEl) resultEl.style.display='none';
-  if(inp) inp.value='';
 }
 
 // ═══════════════════════════════════════════
@@ -25448,6 +24739,64 @@ function imprimerFichePaie(empId,m,y){
 </div>
 
 <scr'+'ipt>window.onload=()=>{setTimeout(()=>window.print(),400)}<'+'/script>
+<!-- ── BOTTOM NAV BAR ── -->
+<nav id="mob-bottom-nav">
+  <button class="mbn-item active" id="mbn-dash" onclick="mbnNav('dash',this)">
+    <span class="mbn-ico">◈</span>
+    <span class="mbn-lbl">Dashboard</span>
+  </button>
+  <button class="mbn-item" id="mbn-salle" onclick="mbnNav('salle',this)">
+    <span class="mbn-ico">⬡</span>
+    <span class="mbn-lbl">Salle</span>
+    <span class="mbn-badge" id="mbn-b-occ"></span>
+  </button>
+  <button class="mbn-item" id="mbn-caisse" onclick="mbnNav('caisse',this)">
+    <span class="mbn-ico">◇</span>
+    <span class="mbn-lbl">Caisse</span>
+  </button>
+  <button class="mbn-item" id="mbn-resa" onclick="mbnNav('reservations',this)">
+    <span class="mbn-ico">◷</span>
+    <span class="mbn-lbl">Résa</span>
+    <span class="mbn-badge" id="mbn-b-resa"></span>
+  </button>
+  <button class="mbn-item" id="mbn-more" onclick="toggleMobMore()">
+    <span class="mbn-ico">⋯</span>
+    <span class="mbn-lbl">Plus</span>
+  </button>
+</nav>
+
+<!-- ── MORE PANEL ── -->
+<div id="mob-more-panel">
+  <div class="mob-more-title">Service</div>
+  <div class="mob-more-grid">
+    <div class="mob-more-item" onclick="mbnNav('stocks');toggleMobMore()"><span class="mmi-ico">▤</span>Stocks</div>
+    <div class="mob-more-item" onclick="mbnNav('commandes');toggleMobMore()"><span class="mmi-ico">🧾</span>Commandes</div>
+    <div class="mob-more-item" onclick="mbnNav('menu');toggleMobMore()"><span class="mmi-ico">≡</span>Menu</div>
+    <div class="mob-more-item" onclick="mbnNav('menuJour');toggleMobMore()"><span class="mmi-ico">☀</span>Menu jour</div>
+  </div>
+  <div class="mob-more-title">Clients</div>
+  <div class="mob-more-grid">
+    <div class="mob-more-item" onclick="mbnNav('clients');toggleMobMore()"><span class="mmi-ico">👤</span>Clients</div>
+    <div class="mob-more-item" onclick="mbnNav('avis');toggleMobMore()"><span class="mmi-ico">⭐</span>Avis</div>
+    <div class="mob-more-item" onclick="mbnNav('fidelite');toggleMobMore()"><span class="mmi-ico">🎁</span>Fidélité</div>
+    <div class="mob-more-item" onclick="mbnNav('livraison');toggleMobMore()"><span class="mmi-ico">🛵</span>Livraison</div>
+  </div>
+  <div class="mob-more-title">Finance & Équipe</div>
+  <div class="mob-more-grid">
+    <div class="mob-more-item" onclick="mbnNav('finance');toggleMobMore()"><span class="mmi-ico">💶</span>Finance</div>
+    <div class="mob-more-item" onclick="mbnNav('rapports');toggleMobMore()"><span class="mmi-ico">📊</span>Rapports</div>
+    <div class="mob-more-item" onclick="mbnNav('rh');toggleMobMore()"><span class="mmi-ico">👥</span>Équipe</div>
+    <div class="mob-more-item" onclick="mbnNav('planning');toggleMobMore()"><span class="mmi-ico">📅</span>Planning</div>
+  </div>
+  <div class="mob-more-title">Administration</div>
+  <div class="mob-more-grid">
+    <div class="mob-more-item" onclick="mbnNav('fournisseurs');toggleMobMore()"><span class="mmi-ico">◫</span>Fourn.</div>
+    <div class="mob-more-item" onclick="mbnNav('params');toggleMobMore()"><span class="mmi-ico">◌</span>Params</div>
+    <div class="mob-more-item" onclick="mbnNav('sauvegarde');toggleMobMore()"><span class="mmi-ico">💾</span>Sauvegarde</div>
+    <div class="mob-more-item" onclick="mbnNav('cloture');toggleMobMore()"><span class="mmi-ico">🔐</span>Clôture</div>
+  </div>
+</div>
+
 </body></html>`;
 
   // Ouvrir dans modal iframe in-app
@@ -28146,14 +27495,6 @@ function delClient(id){
 let ecranInterval=null;
 let ecranSlideIdx=0;
 
-function rEcranClient(){
-  // Charger les valeurs sauvegardées
-  const cfg=DB.ecranClient||{};
-  if(cfg.msg) document.getElementById('ec-msg') && (document.getElementById('ec-msg').value=cfg.msg);
-  if(cfg.wifiCode) document.getElementById('ec-wifi-code') && (document.getElementById('ec-wifi-code').value=cfg.wifiCode);
-  if(cfg.duree) document.getElementById('ec-duree') && (document.getElementById('ec-duree').value=cfg.duree);
-}
-
 function getEcranSlides(){
   const nom=DB.params?.nom||'Maison';
   const msg=document.getElementById('ec-msg')?.value||'Bienvenue !';
@@ -28247,59 +27588,6 @@ function renderSlide(slide){
     </div>`;
 
   return `<div style="${grad};width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#888">Slide</div>`;
-}
-
-function previewEcranClient(){
-  const {slides}=getEcranSlides();
-  const el=document.getElementById('ec-preview');
-  if(!el||!slides.length) return;
-  el.innerHTML=renderSlide(slides[0]);
-}
-
-function lancerEcranClient(){
-  const {slides,duree}=getEcranSlides();
-  if(!slides.length){toast('Activez au moins un type de contenu','err');return;}
-  // Sauvegarder config
-  if(!DB.ecranClient) DB.ecranClient={};
-  DB.ecranClient.msg=document.getElementById('ec-msg')?.value||'';
-  DB.ecranClient.wifiCode=document.getElementById('ec-wifi-code')?.value||'';
-  DB.ecranClient.duree=duree;
-  saveDB();
-
-  const modal=document.createElement('div');
-  modal.id='ecran-client-modal';
-  modal.style.cssText='position:fixed;inset:0;background:#0c0b09;z-index:600;display:flex;flex-direction:column';
-  // Barre de contrôle
-  const bar=document.createElement('div');
-  bar.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:rgba(0,0,0,.5);position:absolute;top:0;left:0;right:0;z-index:10;opacity:0;transition:opacity .3s';
-  bar.innerHTML=`<span style="font-size:12px;color:#c9973a" id="ec-slide-info">Slide 1/${slides.length}</span>
-    <div style="display:flex;gap:8px">
-      <button onclick="ecPrev()" style="background:rgba(255,255,255,.1);border:none;color:#fff;padding:4px 10px;border-radius:4px;cursor:pointer">◀</button>
-      <button onclick="ecNext()" style="background:rgba(255,255,255,.1);border:none;color:#fff;padding:4px 10px;border-radius:4px;cursor:pointer">▶</button>
-      <button onclick="document.getElementById('ecran-client-modal').remove();clearInterval(window._ecInterval)" style="background:rgba(181,57,42,.4);border:1px solid #e06050;color:#e06050;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:12px">✕ Fermer</button>
-    </div>`;
-  const content=document.createElement('div');
-  content.id='ec-slide-content';
-  content.style.cssText='flex:1;width:100%;height:100%;overflow:hidden';
-  modal.appendChild(bar);
-  modal.appendChild(content);
-  document.body.appendChild(modal);
-
-  // Afficher/masquer la barre au toucher
-  modal.addEventListener('touchstart',()=>{bar.style.opacity='1';clearTimeout(bar._t);bar._t=setTimeout(()=>bar.style.opacity='0',3000);});
-  modal.addEventListener('click',()=>{bar.style.opacity='1';clearTimeout(bar._t);bar._t=setTimeout(()=>bar.style.opacity='0',3000);});
-
-  let idx=0;
-  const showSlide=()=>{
-    content.innerHTML=renderSlide(slides[idx]);
-    const info=document.getElementById('ec-slide-info');
-    if(info) info.textContent='Slide '+(idx+1)+'/'+slides.length;
-  };
-  window._ecSlides=slides; window._ecIdx=0;
-  window._ecInterval=setInterval(()=>{idx=(idx+1)%slides.length;window._ecIdx=idx;showSlide();},duree*1000);
-  window.ecNext=()=>{clearInterval(window._ecInterval);idx=(idx+1)%slides.length;window._ecIdx=idx;showSlide();window._ecInterval=setInterval(()=>{idx=(idx+1)%slides.length;showSlide();},duree*1000);};
-  window.ecPrev=()=>{clearInterval(window._ecInterval);idx=(idx-1+slides.length)%slides.length;window._ecIdx=idx;showSlide();window._ecInterval=setInterval(()=>{idx=(idx+1)%slides.length;showSlide();},duree*1000);};
-  showSlide();
 }
 
 // ═══════════════════════════════════════════
@@ -30609,72 +29897,11 @@ function altClearAll(){
 }
 
 // ══ SURPRISE ══
-function rSurprise(){
-  var particles=document.getElementById('surp-particles');
-  if(particles&&!particles.children.length){
-    var cols=['#f07060','#e8c068','#6fcf8a','#6aacda','#a088d8','#78d0d0'];
-    for(var i=0;i<30;i++){
-      var p=document.createElement('div');
-      var size=3+Math.random()*6;
-      var col=cols[Math.floor(Math.random()*cols.length)];
-      p.style.cssText='position:absolute;width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+col+';opacity:'+(0.1+Math.random()*0.3)+';left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation:surpP '+(3+Math.random()*4)+'s ease-in-out '+(Math.random()*3)+'s infinite alternate';
-      particles.appendChild(p);
-    }
-    if(!document.getElementById('surp-pcss')){
-      var s=document.createElement('style');
-      s.id='surp-pcss';
-      s.textContent='@keyframes surpP{0%{transform:translate(0,0) scale(1)}100%{transform:translate(15px,-15px) scale(1.4)}}';
-      document.head.appendChild(s);
-    }
-  }
-}
-
 var CITATIONS=["La cuisine est l art de transformer des ingredients simples en emotions inoubliables.","Un bon cuisinier est d abord un bon observateur.","La perfection dans l assiette commence par la perfection dans le geste.","Cuisiner sans amour c est comme servir sans sourire.","Chaque service est une premiere. Traitez-le comme tel.","L excellence n est pas un accident.","Les meilleurs plats racontent une histoire. Quelle histoire racontez-vous ce soir ?","Un client qui repart heureux est le meilleur ingredient du succes."];
 var DEFIS=["Objectif : 0 plat retourne ce soir","Defi : chaque client repart avec un compliment du chef","Mission : temps de service < 25 min par table","Challenge : vendre 5 bouteilles de vin suggestions","Objectif : proposer le dessert a 100% des tables","Defi : zero erreur de commande sur le service","Challenge : vendre 3 menus degustation ce soir","Defi : surprendre un client avec une attention imprévue"];
 var AMBIANCES=[{nom:"Jazz manouche",desc:"Django Reinhardt — ideal pour une soiree decontractee",e:"🎷"},{nom:"Bossa Nova",desc:"Jobim, Astrud Gilberto — legerete et chaleur garanties",e:"🌴"},{nom:"Classique francais",desc:"Piaf, Gainsbourg, Brel",e:"🥐"},{nom:"Piano bar",desc:"Ambient piano solo — elegance absolue",e:"🎹"},{nom:"Soul and RnB",desc:"Marvin Gaye, Otis Redding — chaleur et groove",e:"🎤"}];
 var ANECDOTES=[{t:"La creme brulee",d:"Apparue au 17e siecle. La France et la Catalogne se disputent encore son invention !"},{t:"Le croissant",d:"Ne a Vienne pour celebrer la victoire contre les Ottomans — d ou sa forme en croissant de lune."},{t:"La sauce bechamel",d:"Inventee par le marquis de Bechamel, maitre d hotel de Louis XIV."},{t:"Le champagne",d:"Dom Perignon en le goutant : Je bois des etoiles ! Une phrase pour l eternite."},{t:"Le tiramisu",d:"Tirami su signifie remonte-moi le moral en italien."}];
 
-function surprisePlat(){
-  var plats=(DB.plats||[]).filter(function(p){return p.dispo==='dispo'&&p.prix>0;});
-  if(!plats.length){showSurpResult('🍽️','Plat du hasard','Aucun plat disponible','Ajoutez des plats dans votre carte !');return;}
-  var p=plats[Math.floor(Math.random()*plats.length)];
-  showSurpResult(p.ico||'🍽️','Plat du hasard',p.nom,p.cat+(p.prix?' · '+eur(p.prix):''));
-  animHero('🍽️','Un plat tire au sort !');
-}
-function surpriseClient(){
-  var clients=DB.clients||[];
-  if(!clients.length){showSurpResult('👤','Client mystere','Aucun client','Ajoutez des clients dans votre CRM !');return;}
-  var cl=clients[Math.floor(Math.random()*clients.length)];
-  showSurpResult('⭐','Client a chouchouter',cl.nom,(cl.prefs||'')+(cl.allergies?' · Allergies: '+cl.allergies:''));
-  animHero('💎','Un client special ce soir !');
-}
-function surpriseCitation(){
-  var cit=CITATIONS[Math.floor(Math.random()*CITATIONS.length)];
-  showSurpResult('💬','Citation du soir',cit,'Pour inspirer toute la brigade');
-  animHero('✨','Une pensee pour ce soir !');
-}
-function surpriseDefi(){
-  var d=DEFIS[Math.floor(Math.random()*DEFIS.length)];
-  showSurpResult('🏆','Defi du service',d,'Relevez le defi !');
-  animHero('🔥','Un defi lance !');
-}
-function surpriseMusique(){
-  var a=AMBIANCES[Math.floor(Math.random()*AMBIANCES.length)];
-  showSurpResult(a.e,'Ambiance recommandee',a.nom,a.desc);
-  animHero(a.e,'La bande-son de ce soir !');
-}
-function surpriseAnecdote(){
-  var a=ANECDOTES[Math.floor(Math.random()*ANECDOTES.length)];
-  showSurpResult('📖','Anecdote culinaire',a.t,a.d);
-  animHero('🎩','Une histoire a raconter !');
-}
-function surpriseAll(){
-  surprisePlat();
-  var fns=[surpriseCitation,surpriseDefi,surpriseMusique];
-  setTimeout(fns[Math.floor(Math.random()*fns.length)],400);
-  animHero('🎲','Que la surprise commence !');
-  toast('Mode Surprise active !');
-}
 function showSurpResult(ico,label,main,desc){
   var el=document.getElementById('surp-result');
   if(!el) return;
