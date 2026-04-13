@@ -6263,7 +6263,6 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
-  <!-- Panel établissements -->
   <div id="etab-panel" style="display:none;background:var(--ink3);border-bottom:1px solid var(--line);padding:8px">
     <div id="etab-selector"></div>
     <div style="padding:4px 8px;margin-top:4px">
@@ -6271,99 +6270,83 @@ tbody td { padding:13px 14px; font-size:13px; }
     </div>
   </div>
 
-  <!-- ═══ SERVICE EN COURS ═══ -->
-  <div class="sb-group" id="grp-service">
-    <div class="sb-group-hd" onclick="toggleGrp('service')" style="--grp-col:#c9973a">
-      <span class="sb-grp-ico">⚡</span><span class="sb-grp-lbl">Service</span>
-      <span class="sb-grp-arrow" id="arr-service">▾</span>
-    </div>
-    <div class="sb-group-body" id="body-service">
-      <div class="nav-item active" onclick="nav('dash',this)"><span class="ni-ico">◈</span>Dashboard</div>
-
-      <div class="nav-item" onclick="nav('salle',this)"><span class="ni-ico">⬡</span>Plan de salle<span class="ni-badge a" id="b-occ">0</span></div>
-      <div class="nav-item" onclick="nav('reservations',this)"><span class="ni-ico">◷</span>Réservations<span class="ni-badge g" id="b-resa">0</span></div>
-      <div class="nav-item" onclick="nav('caisse',this)"><span class="ni-ico">◇</span>Caisse</div>
-
-      <div class="nav-item" onclick="nav('stocks',this)"><span class="ni-ico">▤</span>Stocks<span class="ni-badge" id="b-stk">0</span></div>
-      <div class="nav-item" onclick="nav('commandes',this)"><span class="ni-ico">🧾</span>Commandes<span class="ni-badge" id="b-cmd"></span></div>
-    </div>
+  <!-- RECENTS -->
+  <div id="sb-recents" style="display:none;border-bottom:1px solid var(--line);padding:6px 8px">
+    <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:2px 4px 4px;font-weight:700">Récents</div>
+    <div id="sb-recents-list" style="display:flex;flex-direction:column;gap:1px"></div>
   </div>
 
-  <!-- ═══ SALLE & CLIENTS ═══ -->
-  <div class="sb-group" id="grp-restaurant">
-    <div class="sb-group-hd" onclick="toggleGrp('restaurant')" style="--grp-col:#3d7a4e">
-      <span class="sb-grp-ico">🥗</span><span class="sb-grp-lbl">Salle & Clients</span>
-      <span class="sb-grp-arrow" id="arr-restaurant">▸</span>
+  <!-- SERVICE — 6 ITEMS FIXES -->
+  <div style="padding:6px 0 2px">
+    <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:4px 14px 6px;font-weight:700">⚡ Service</div>
+    <div class="nav-item active" onclick="nav('dash',this)"><span class="ni-ico">◈</span>Dashboard</div>
+    <div class="nav-item" onclick="nav('salle',this)"><span class="ni-ico">⬡</span>Plan de salle<span class="ni-badge a" id="b-occ">0</span></div>
+    <div class="nav-item" onclick="nav('caisse',this)"><span class="ni-ico">◇</span>Caisse</div>
+    <div class="nav-item" onclick="nav('reservations',this)"><span class="ni-ico">◷</span>Réservations<span class="ni-badge g" id="b-resa">0</span></div>
+    <div class="nav-item" onclick="nav('stocks',this)"><span class="ni-ico">▤</span>Stocks<span class="ni-badge" id="b-stk">0</span></div>
+    <div class="nav-item" onclick="nav('commandes',this)"><span class="ni-ico">🧾</span>Commandes<span class="ni-badge" id="b-cmd"></span></div>
+  </div>
+
+  <!-- BACK OFFICE -->
+  <div style="border-top:1px solid var(--line);margin-top:4px">
+
+    <div class="sb-group-hd" onclick="toggleGrp('bo-clients')" style="--grp-col:#3d7a4e">
+      <span class="sb-grp-ico">👤</span><span class="sb-grp-lbl">Clients</span>
+      <span class="sb-grp-arrow" id="arr-bo-clients">▸</span>
     </div>
-    <div class="sb-group-body" id="body-restaurant" style="display:none">
-      <div class="nav-item" onclick="nav('tablette',this)"><span class="ni-ico">🧑‍🍳</span>Tablette serveur</div>
-      <div class="nav-item" onclick="navKDS()"><span class="ni-ico">📺</span>Écran cuisine</div>
-      <div class="nav-item" onclick="nav('clients',this)"><span class="ni-ico">👤</span>Clients<span class="ni-badge" id="b-cli" style="display:none">0</span></div>
+    <div class="sb-group-body" id="body-bo-clients" style="display:none">
+      <div class="nav-item" onclick="nav('clients',this)"><span class="ni-ico">👤</span>CRM Clients<span class="ni-badge" id="b-cli" style="display:none">0</span></div>
+      <div class="nav-item" onclick="nav('vip',this)"><span class="ni-ico">💎</span>VIP</div>
       <div class="nav-item" onclick="nav('fidelite',this)"><span class="ni-ico">🎁</span>Fidélité</div>
-      <div class="nav-item" onclick="nav('avis',this)"><span class="ni-ico">⭐</span>Avis clients</div>
-      <div class="nav-item" onclick="nav('location',this)"><span class="ni-ico">🎵</span>Location salle</div>
+      <div class="nav-item" onclick="nav('avis',this)"><span class="ni-ico">⭐</span>Avis</div>
       <div class="nav-item" onclick="nav('livraison',this)"><span class="ni-ico">🛵</span>Livraison<span class="ni-badge a" id="b-liv">0</span></div>
-      <div class="nav-item" onclick="nav('alertes',this)"><span class="ni-ico">🔔</span>Alertes<span class="ni-badge a" id="b-alertes" style="display:none">0</span></div>
-      <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
     </div>
-  </div>
 
-  <!-- ═══ CARTE & MENU ═══ -->
-  <div class="sb-group" id="grp-menu">
-    <div class="sb-group-hd" onclick="toggleGrp('menu')" style="--grp-col:#7a5c3d">
+    <div class="sb-group-hd" onclick="toggleGrp('bo-carte')" style="--grp-col:#7a5c3d">
       <span class="sb-grp-ico">≡</span><span class="sb-grp-lbl">Carte & Menu</span>
-      <span class="sb-grp-arrow" id="arr-menu">▸</span>
+      <span class="sb-grp-arrow" id="arr-bo-carte">▸</span>
     </div>
-    <div class="sb-group-body" id="body-menu" style="display:none">
+    <div class="sb-group-body" id="body-bo-carte" style="display:none">
       <div class="nav-item" onclick="nav('menu',this)"><span class="ni-ico">≡</span>Menu & Plats</div>
       <div class="nav-item" onclick="nav('menuJour',this)"><span class="ni-ico">☀</span>Menu du jour</div>
       <div class="nav-item" onclick="nav('cave',this)"><span class="ni-ico">🍷</span>Cave à vins</div>
       <div class="nav-item" onclick="nav('fiches',this)"><span class="ni-ico">📋</span>Fiches techniques</div>
       <div class="nav-item" onclick="nav('allergenes',this)"><span class="ni-ico">⚠️</span>Allergènes</div>
       <div class="nav-item" onclick="nav('carteEnLigne',this)"><span class="ni-ico">🌐</span>Carte en ligne</div>
-      <div class="nav-item" onclick="nav('qrmenu',this)"><span class="ni-ico">📲</span>QR code menu</div>
+      <div class="nav-item" onclick="nav('qrmenu',this)"><span class="ni-ico">📲</span>QR Menu</div>
     </div>
-  </div>
 
-  <!-- ═══ APPROVISIONNEMENT ═══ -->
-  <div class="sb-group" id="grp-gestion">
-    <div class="sb-group-hd" onclick="toggleGrp('gestion')" style="--grp-col:#2d5f8a">
+    <div class="sb-group-hd" onclick="toggleGrp('bo-appro')" style="--grp-col:#2d5f8a">
       <span class="sb-grp-ico">📦</span><span class="sb-grp-lbl">Approvisionnement</span>
-      <span class="sb-grp-arrow" id="arr-gestion">▸</span>
+      <span class="sb-grp-arrow" id="arr-bo-appro">▸</span>
     </div>
-    <div class="sb-group-body" id="body-gestion" style="display:none">
+    <div class="sb-group-body" id="body-bo-appro" style="display:none">
       <div class="nav-item" onclick="nav('fournisseurs',this)"><span class="ni-ico">◫</span>Fournisseurs</div>
       <div class="nav-item" onclick="nav('cmdFourn',this)"><span class="ni-ico">📦</span>Commandes fourn.</div>
       <div class="nav-item" onclick="nav('dechets',this)"><span class="ni-ico">♻️</span>Déchets</div>
-      <div class="nav-item" onclick="nav('origine',this)"><span class="ni-ico">🌿</span>Origines produits</div>
+      <div class="nav-item" onclick="nav('origine',this)"><span class="ni-ico">🌿</span>Origines</div>
     </div>
-  </div>
 
-  <!-- ═══ ÉQUIPE ═══ -->
-  <div class="sb-group" id="grp-personnel">
-    <div class="sb-group-hd" onclick="toggleGrp('personnel')" style="--grp-col:#5a7a9a">
+    <div class="sb-group-hd" onclick="toggleGrp('bo-equipe')" style="--grp-col:#5a7a9a">
       <span class="sb-grp-ico">👥</span><span class="sb-grp-lbl">Équipe</span>
-      <span class="sb-grp-arrow" id="arr-personnel">▸</span>
+      <span class="sb-grp-arrow" id="arr-bo-equipe">▸</span>
     </div>
-    <div class="sb-group-body" id="body-personnel" style="display:none">
+    <div class="sb-group-body" id="body-bo-equipe" style="display:none">
       <div class="nav-item" onclick="nav('rh',this)"><span class="ni-ico">👥</span>Personnel<span class="ni-badge g" id="b-prs">0</span></div>
       <div class="nav-item" onclick="nav('planning',this)"><span class="ni-ico">📅</span>Planning</div>
       <div class="nav-item" onclick="nav('presence',this)"><span class="ni-ico">🕐</span>Présences</div>
       <div class="nav-item" onclick="nav('conges',this)"><span class="ni-ico">🏖️</span>Congés</div>
       <div class="nav-item" onclick="nav('fiches-paie',this)"><span class="ni-ico">💼</span>Fiches de paie</div>
-      <div class="nav-item" onclick="nav('salaires',this)"><span class="ni-ico">👔</span>Coûts salariaux</div>
+      <div class="nav-item" onclick="nav('salaires',this)"><span class="ni-ico">👔</span>Salaires</div>
       <div class="nav-item" onclick="nav('formation',this)"><span class="ni-ico">🎓</span>Formation</div>
       <div class="nav-item" onclick="nav('pourboires',this)"><span class="ni-ico">💰</span>Pourboires</div>
     </div>
-  </div>
 
-  <!-- ═══ FINANCE ═══ -->
-  <div class="sb-group" id="grp-finance">
-    <div class="sb-group-hd" onclick="toggleGrp('finance')" style="--grp-col:#8a5c2d">
+    <div class="sb-group-hd" onclick="toggleGrp('bo-finance')" style="--grp-col:#8a5c2d">
       <span class="sb-grp-ico">💶</span><span class="sb-grp-lbl">Finance</span>
-      <span class="sb-grp-arrow" id="arr-finance">▸</span>
+      <span class="sb-grp-arrow" id="arr-bo-finance">▸</span>
     </div>
-    <div class="sb-group-body" id="body-finance" style="display:none">
+    <div class="sb-group-body" id="body-bo-finance" style="display:none">
       <div class="nav-item" onclick="nav('finance',this)"><span class="ni-ico">💶</span>Finance</div>
       <div class="nav-item" onclick="nav('rapports',this)"><span class="ni-ico">📊</span>Rapports</div>
       <div class="nav-item" onclick="nav('stats',this)"><span class="ni-ico">▦</span>Stats</div>
@@ -6372,41 +6355,39 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="nav-item" onclick="nav('budget',this)"><span class="ni-ico">🎯</span>Budget</div>
       <div class="nav-item" onclick="nav('marges',this)"><span class="ni-ico">📈</span>Marges</div>
       <div class="nav-item" onclick="nav('objectifs',this)"><span class="ni-ico">🎯</span>Objectifs</div>
-    </div>  </div>
-
-  <!-- ═══ ADMINISTRATION ═══ -->
-  <div class="sb-group" id="grp-admin">
-    <div class="sb-group-hd" onclick="toggleGrp('admin')" style="--grp-col:#5c5648">
-      <span class="sb-grp-ico">⚙️</span><span class="sb-grp-lbl">Administration</span>
-      <span class="sb-grp-arrow" id="arr-admin">▸</span>
     </div>
-    <div class="sb-group-body" id="body-admin" style="display:none">
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:6px 12px 2px;font-weight:700">Quotidien</div>
+
+    <div class="sb-group-hd" onclick="toggleGrp('bo-admin')" style="--grp-col:#5c5648">
+      <span class="sb-grp-ico">⚙️</span><span class="sb-grp-lbl">Administration</span>
+      <span class="sb-grp-arrow" id="arr-bo-admin">▸</span>
+    </div>
+    <div class="sb-group-body" id="body-bo-admin" style="display:none">
       <div class="nav-item" onclick="nav('todo',this)"><span class="ni-ico">✅</span>Tâches<span class="ni-badge" id="b-todo">0</span></div>
-      <div class="nav-item" onclick="nav('messagerie',this)"><span class="ni-ico">💬</span>Communication<span class="ni-badge" id="b-msg">0</span></div>
-      <div class="nav-item" onclick="nav('haccp',this)"><span class="ni-ico">🧼</span>Qualité</div>
+      <div class="nav-item" onclick="nav('messagerie',this)"><span class="ni-ico">💬</span>Messages<span class="ni-badge" id="b-msg">0</span></div>
+      <div class="nav-item" onclick="nav('alertes',this)"><span class="ni-ico">🔔</span>Alertes<span class="ni-badge a" id="b-alertes" style="display:none">0</span></div>
+      <div class="nav-item" onclick="nav('haccp',this)"><span class="ni-ico">🧼</span>HACCP</div>
       <div class="nav-item" onclick="nav('cloture',this)"><span class="ni-ico">🔐</span>Clôture caisse</div>
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:10px 12px 2px;font-weight:700">Gestion</div>
       <div class="nav-item" onclick="nav('incidents',this)"><span class="ni-ico">⚠️</span>Incidents</div>
       <div class="nav-item" onclick="nav('maintenance',this)"><span class="ni-ico">🔧</span>Maintenance</div>
       <div class="nav-item" onclick="nav('resa-online',this)"><span class="ni-ico">🌐</span>Résa en ligne</div>
       <div class="nav-item" onclick="nav('sauvegarde',this)"><span class="ni-ico">💾</span>Sauvegarde</div>
-      <div class="nav-item" onclick="nav('documents',this)"><span class="ni-ico">📋</span>Documents légaux</div>
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:10px 12px 2px;font-weight:700">Configuration</div>
+      <div class="nav-item" onclick="nav('documents',this)"><span class="ni-ico">📋</span>Documents</div>
+      <div class="nav-item" onclick="nav('integrations',this)"><span class="ni-ico">📡</span>Intégrations</div>
+      <div class="nav-item" onclick="nav('histoTables',this)"><span class="ni-ico">🗂️</span>Historique tables</div>
+      <div class="nav-item" onclick="nav('tablette',this)"><span class="ni-ico">🧑‍🍳</span>Tablette serveur</div>
+      <div class="nav-item" onclick="navKDS()"><span class="ni-ico">📺</span>Écran cuisine</div>
+      <div class="nav-item" onclick="nav('location',this)"><span class="ni-ico">🎵</span>Location salle</div>
+      <div class="nav-item" onclick="nav('journal',this)"><span class="ni-ico">📓</span>Journal de bord</div>
+      <div class="nav-item" onclick="nav('vocale',this)"><span class="ni-ico">📢</span>Message vocal</div>
+      <div class="nav-item" onclick="nav('periodes',this)"><span class="ni-ico">📅</span>Périodes fermées</div>
+      <div class="nav-item" onclick="nav('ecranClient',this)"><span class="ni-ico">🖥️</span>Écran client</div>
       <div class="nav-item" onclick="nav('params',this)"><span class="ni-ico">◌</span>Paramètres</div>
       <div class="nav-item" onclick="nav('configCaisse',this)"><span class="ni-ico">⌨</span>Config caisse</div>
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:10px 12px 2px;font-weight:700">Outils</div>
-      <div class="nav-item" onclick="openModeServeur()"><span class="ni-ico">📱</span>Mode serveur</div>
-      <div class="nav-item" onclick="nav('ecranClient',this)"><span class="ni-ico">🖥️</span>Écran client</div>
-      <div class="nav-item nav-surprise" onclick="nav('surprise',this)"><span class="ni-ico">🎲</span><span class="nav-surprise-txt">✨ Surprise</span></div>
-      <div class="nav-item" onclick="activerModeDemo()" style="color:#c9a84c"><span class="ni-ico">🎭</span>Mode Démo</div>
-    </div>  </div>
-
-  <div class="sb-status">
-    <div class="status-card">
-      <div class="status-name" id="sb-resto">Mon Restaurant</div>
-      <div class="status-indicator"><div class="status-dot"></div><span>Service en cours</span></div>
+      <div class="nav-item" onclick="nav('paramsAvances',this)"><span class="ni-ico">🔬</span>Params avancés</div>
+      <div class="nav-item" onclick="nav('acces',this)"><span class="ni-ico">🔑</span>Accès & PIN</div>
+      <div class="nav-item" onclick="nav('etabs',this)"><span class="ni-ico">🏢</span>Établissements</div>
     </div>
+
   </div>
 </aside>
 <div id="overlay" onclick="closeSB()"></div>
@@ -6820,7 +6801,6 @@ tbody td { padding:13px 14px; font-size:13px; }
       </div>
       <div class="rs-actions">
         <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="voirBlacklist()">⛔</button>
-        <button class="btn btn-ghost btn-sm" onclick="imprimerServiceResa()" title="Imprimer service" style="color:var(--gold2);border:1px solid rgba(201,151,58,.25)">🖨️</button>
         <button class="rs-btn-new" onclick="openModal(&#39;mo-resa&#39;)">+ Nouvelle réservation</button>
       </div>
     </div>
@@ -6837,7 +6817,6 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div class="rs-tab" onclick="rsSetView(&#39;timeline&#39;,this)">⏰ Planning heure</div>
       <div class="rs-tab" onclick="rsSetView(&#39;attente&#39;,this)">⏳ Attente<span id="b-attente" style="background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px"></span></div>
       <div class="rs-tab" onclick="rsSetView(&#39;online&#39;,this)">🌐 En ligne</div>
-      <div class="rs-tab" onclick="rsSetView(&#39;stats&#39;,this)">📊 Stats</div>
     </div>
 
     <!-- VUE CALENDRIER -->
@@ -6907,15 +6886,6 @@ tbody td { padding:13px 14px; font-size:13px; }
       <div style="padding:14px 0">
         <div id="resa-ol-kpi" class="kpi-row" style="margin-bottom:12px"></div>
         <div id="resa-ol-list"></div>
-      </div>
-    </div>
-
-    <!-- VUE STATS RÉSERVATIONS -->
-    <div id="rs-view-stats" style="display:none">
-      <div style="padding:14px 0">
-        <div id="resa-stats-kpi" class="kpi-grid-4" style="margin-bottom:16px"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px" id="resa-stats-charts"></div>
-        <div id="resa-stats-top"></div>
       </div>
     </div>
 
@@ -7071,71 +7041,6 @@ tbody td { padding:13px 14px; font-size:13px; }
   </div>
 
   <!-- PERSONNEL -->
-
-  <!-- PAGE COMMANDES -->
-  <div id="page-commandes" class="page">
-    <div class="cmd3-assistant">
-      <!-- HEADER -->
-      <div class="cmd3-header">
-        <div>
-          <div class="cmd3-title">🧾 Commandes</div>
-          <div class="cmd3-sub"><span class="cmd3-live"></span><span id="cmd3-sync">Chargement…</span></div>
-        </div>
-        <button class="btn btn-gold btn-sm" onclick="openModal('mo-commande')">+ Nouvelle commande</button>
-      </div>
-
-      <!-- KPIs -->
-      <div class="cmd3-kpis" id="cmd3-kpis"></div>
-
-      <!-- FILTRES -->
-      <div class="cmd3-filtres">
-        <div class="cmd3-periode">
-          <button class="cmd3-p-btn on" onclick="cmd3SetPeriode('jour',this)">Aujourd'hui</button>
-          <button class="cmd3-p-btn" onclick="cmd3SetPeriode('semaine',this)">Semaine</button>
-          <button class="cmd3-p-btn" onclick="cmd3SetPeriode('mois',this)">Mois</button>
-        </div>
-        <div class="cmd3-stat-chips">
-          <button class="cmd3-chip on" onclick="cmd3SetStat('tous',this)">Tous</button>
-          <button class="cmd3-chip" onclick="cmd3SetStat('actif',this)">En cours</button>
-          <button class="cmd3-chip" onclick="cmd3SetStat('payé',this)">Payées</button>
-        </div>
-        <div class="cmd3-search">
-          <span class="cmd3-search-ico">🔍</span>
-          <input placeholder="Table, montant…" id="cmd3-q" oninput="rCmds()"/>
-        </div>
-      </div>
-
-      <!-- GRAPHIQUE ACTIVITÉ -->
-      <div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:16px">
-        <div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px;font-weight:700">Activité par heure</div>
-        <div style="display:flex;gap:4px;align-items:flex-end;height:52px" id="cmd3-bars"></div>
-      </div>
-
-      <!-- MAIN : liste + détail -->
-      <div class="cmd3-main">
-        <!-- Liste -->
-        <div>
-          <div class="cmd3-list-header">
-            <div class="cmd3-list-title"><span id="cmd3-list-count">0 commande(s)</span></div>
-            <button class="cmd3-sort" onclick="cmd3ToggleSort()"><span id="cmd3-sort-lbl">↓ Récent</span></button>
-          </div>
-          <div class="cmd3-list" id="cmd3-list"></div>
-        </div>
-        <!-- Détail -->
-        <div class="cmd3-detail" id="cmd3-detail">
-          <div class="cmd3-detail-empty">
-            <div style="font-size:36px;opacity:.2;margin-bottom:10px">🧾</div>
-            <div style="font-size:12px">Cliquez sur une commande<br/>pour voir le détail</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- INSIGHTS -->
-      <div style="margin-top:16px" id="cmd3-insights"></div>
-
-    </div>
-  </div>
-
   <!-- PERSONNEL & PAIE -->
   <!-- PAGE PRÉSENCES -->
   <div id="page-presence" class="page prs-page">
@@ -11031,8 +10936,8 @@ tbody td { padding:13px 14px; font-size:13px; }
           <div id="rs-date-alerte" style="display:none;margin-top:4px;font-size:11px;padding:6px 10px;background:rgba(181,57,42,.15);border:1px solid var(--red);border-radius:6px;color:var(--red)"></div>
         </div>
         <div class="form-group"><div class="form-label">Heure *</div><input class="form-input" id="rs-heure" type="time"/></div>
-        <div class="form-group"><div class="form-label">Couverts *</div><input class="form-input" id="rs-cvt" type="number" placeholder="2" onchange="rSuggestTable(this.value,document.getElementById('rs-date').value,document.getElementById('rs-heure').value,+document.getElementById('id-resa').value)"/></div>
-        <div class="form-group"><div class="form-label">Table <span style="font-size:10px;color:var(--gold);opacity:.7">(auto-suggérée)</span></div><select class="form-select" id="rs-tbl"></select></div>
+        <div class="form-group"><div class="form-label">Couverts *</div><input class="form-input" id="rs-cvt" type="number" placeholder="2"/></div>
+        <div class="form-group"><div class="form-label">Table</div><select class="form-select" id="rs-tbl"></select></div>
 
         <div class="form-group full"><div class="form-label">Demandes spéciales / Occasion</div><textarea class="form-textarea" id="rs-notes" placeholder="Anniversaire, allergie, table terrasse, vue fenêtre…"></textarea></div>
         <div class="form-group"><div class="form-label">💰 Acompte demandé (€)</div><input class="form-input" id="rs-acompte" type="number" step="0.01" placeholder="0" min="0"/></div>
@@ -11609,33 +11514,21 @@ function initData(){
 
   DB.fournisseurs=[
     {id:1,nom:'Boucherie Charolais & Fils',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cont:'Jean-Pierre Charolais',tel:'04 72 33 44 55',email:'jp@charolais-boucher.fr',spec:'Viandes & Charcuterie',livr:'Mardi · Vendredi',delai:2,note:5,adresse:'Marché de Gros, Lyon 8e',siret:'452 123 456 00018',remise:3,minCmde:150,
-     produits:['Boeuf (filet)','Boeuf (côte)','Boeuf (paleron)','Magret de canard','Foie gras de canard','Carré d&#39;agneau','Viande hachée','Lardons'],
+     produits:['Filet de bœuf Charolais','Magret de canard','Côte de bœuf','Ris de veau','Foie gras frais'],
      historique:[{date:'2026-04-07',total:480,stat:'livré'},{date:'2026-03-31',total:520,stat:'livré'},{date:'2026-03-24',total:390,stat:'livré'}]},
     {id:2,nom:'Marée Fraîche Méditerranée',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cont:'Sophie Bertrand',tel:'04 78 92 11 23',email:'sophie@maree-med.fr',spec:'Poissons & Fruits de mer',livr:'Lundi · Mercredi · Vendredi',delai:1,note:5,adresse:'MIN Lyon, Corbas',siret:'389 456 789 00024',remise:0,minCmde:120,
-     produits:['Filet de sole','Cabillaud','Saumon frais','Anchois'],
+     produits:['Filet de sole de Méditerranée','Cabillaud Atlantique','Saint-Jacques Bretagne','Homard breton','Saumon Label Rouge'],
      historique:[{date:'2026-04-08',total:320,stat:'livré'},{date:'2026-04-04',total:285,stat:'livré'},{date:'2026-03-30',total:410,stat:'livré'}]},
     {id:3,nom:'Les Jardins de Provence',ico:'🥦',cont:'Marc Dupuis',tel:'06 12 87 34 56',email:'marc@jardins-provence.fr',spec:'Fruits & Légumes Bio',livr:'Lundi · Mercredi · Samedi',delai:1,note:4,adresse:'Ferme de Bellevue, Vienne (38)',siret:'567 234 891 00031',remise:5,minCmde:80,
-     produits:['Champignons Paris','Oignons','Tomates','Carottes','Courgettes','Aubergines','Poivrons','Échalotes','Épinards','Roquette','Laitue romaine','Ail','Persil','Citron','Pommes'],
+     produits:['Tomates anciennes','Mesclun Bio','Asperges vertes','Champignons de Paris','Truffe noire (saison)'],
      historique:[{date:'2026-04-07',total:145,stat:'livré'},{date:'2026-04-05',total:98,stat:'livré'},{date:'2026-04-02',total:167,stat:'livré'}]},
     {id:4,nom:'Cave Rhône Prestige',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cont:'Étienne Morel',tel:'04 74 65 23 89',email:'etienne@rhone-prestige.fr',spec:'Vins · Champagnes · Spiritueux',livr:'Jeudi',delai:3,note:5,adresse:'27 Route des Vins, Tain-l&#39;Hermitage',siret:'234 678 012 00045',remise:8,minCmde:300,
-     produits:['Bordeaux rouge','Vin blanc cuisine','Vin rouge cuisine','Château Margaux','Chablis Premier Cru','Côtes de Provence Prestige','Brut Réserve — Moët & Chandon','Crémant d&#39;Alsace Brut'],
+     produits:['Côtes du Rhône Villages 2021','Saint-Joseph Rouge 2020','Crozes-Hermitage Blanc','Champagne Brut Réserve','Côtes du Rhône Bio'],
      historique:[{date:'2026-04-03',total:680,stat:'livré'},{date:'2026-03-27',total:540,stat:'livré'},{date:'2026-03-13',total:720,stat:'livré'}]},
     {id:5,nom:'Épicerie Fine Saveurs du Monde',ico:'🧂',cont:'Isabelle Faure',tel:'04 78 42 16 78',email:'isabelle@saveurs-monde.fr',spec:'Épicerie fine · Condiments · Fromages',livr:'Mercredi',delai:2,note:4,adresse:'Zone Industrielle Nord, Lyon 9e',siret:'678 901 234 00052',remise:2,minCmde:100,
-     produits:['Parmesan affiné','Chocolat Valrhona 70%','Huile d&#39;olive AOP','Truffe noire','Câpres','Cornichons','Miel','Vinaigre balsamique','Vanille','Sel fin','Poivre noir','Herbes de Provence','Thym'],
+     produits:['Parmesan Parmigiano 24 mois','Huile d&#39;olive AOP Nyons','Chocolat Valrhona 70%','Truffe noire en conserve','Fleur de sel de Guérande'],
      historique:[{date:'2026-04-02',total:230,stat:'livré'},{date:'2026-03-26',total:195,stat:'livré'},{date:'2026-03-19',total:278,stat:'livré'}]},
-    {id:6,nom:'Fromagerie Mère Richard',ico:'🧀',photo:'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=400&q=80',cont:'Renée Vallet',tel:'04 78 28 19 03',email:'contact@mere-richard.fr',spec:'Fromages AOP · Crèmerie',livr:'Mardi · Vendredi',delai:1,note:5,adresse:'Halles Paul Bocuse, Lyon 6e',siret:'123 456 789 00061',remise:0,minCmde:60,
-     produits:['Gruyère','Crème fraîche','Beurre AOC','Lait entier','Oeufs frais','Béchamel maison'],
-     historique:[{date:'2026-04-08',total:145,stat:'livré'},{date:'2026-04-01',total:132,stat:'livré'},{date:'2026-03-25',total:118,stat:'livré'}]},
-    {id:7,nom:'Boulangerie Artisanale Perrin',ico:'🥖',cont:'François Perrin',tel:'04 72 60 34 21',email:'boulangerie.perrin@orange.fr',spec:'Pains · Viennoiseries · Pâtisseries',livr:'Tous les jours 6h30',delai:0,note:5,adresse:'14 Rue de la Paix, Caluire-et-Cuire',siret:'234 567 890 00072',remise:0,minCmde:30,
-     produits:['Pain de campagne','Croûtons','Pâte feuilletée','Pâte brisée','Pâtes fraîches'],
-     historique:[{date:'2026-04-12',total:48,stat:'livré'},{date:'2026-04-11',total:52,stat:'livré'},{date:'2026-04-10',total:45,stat:'livré'}]},
-    {id:8,nom:'Ferme Avicole des Dombes',ico:'🥚',cont:'Claudine Morin',tel:'06 78 34 56 12',email:'ferme.dombes@gmail.com',spec:'Volailles · Oeufs fermiers',livr:'Mercredi · Samedi',delai:2,note:4,adresse:'Route de Villars, Marlieux (01)',siret:'456 789 012 00094',remise:0,minCmde:50,
-     produits:['Poulet fermier'],
-     historique:[{date:'2026-04-09',total:198,stat:'livré'},{date:'2026-04-02',total:175,stat:'livré'},{date:'2026-03-26',total:210,stat:'livré'}]},
-    {id:9,nom:'Épicerie Sèche & Céréales',ico:'🌾',cont:'Paul Renaud',tel:'04 78 55 23 10',email:'paul.renaud@epicerie-seche.fr',spec:'Épicerie sèche · Farines · Riz',livr:'Lundi',delai:3,note:4,adresse:'Zone Artisanale, Villefranche-sur-Saône',siret:'789 012 345 00116',remise:5,minCmde:80,
-     produits:['Riz arborio','Farine T55','Sucre','Café arabica','Bouillon boeuf','Tomates concassées'],
-     historique:[{date:'2026-04-06',total:112,stat:'livré'},{date:'2026-03-23',total:98,stat:'livré'},{date:'2026-03-09',total:125,stat:'livré'}]},
-  ]; DB.ids.f=10;
+  ]; DB.ids.f=6;
 
   DB.clients=[
     {id:1,nom:'Pierre Lefèvre',tel:'06 11 22 33 44',email:'pierre.l@email.fr',allergies:'',prefs:'Table 5 en terrasse, vin rouge',notes:'Client fidèle depuis l\'ouverture. Anniversaire le 15 mars.',important:true,
@@ -11697,100 +11590,57 @@ function initData(){
   DB.cmdFourn=[
     {id:1,fournId:1,ref:'CF-2026-001',date:'2026-04-07',stat:'livré',total:480,notes:'Commande hebdo viandes',
      articles:[
-       {nom:'Boeuf (filet)',qte:4,unit:'kg',pu:28,total:112},
+       {nom:'Filet de bœuf Charolais',qte:4,unit:'kg',pu:28,total:112},
        {nom:'Magret de canard',qte:12,unit:'unité',pu:8.5,total:102},
-       {nom:'Boeuf (côte)',qte:6,unit:'kg',pu:32,total:192},
-       {nom:'Foie gras de canard',qte:2,unit:'kg',pu:37,total:74},
+       {nom:'Côte de bœuf',qte:6,unit:'kg',pu:32,total:192},
+       {nom:'Foie gras frais',qte:2,unit:'kg',pu:37,total:74},
      ]},
     {id:2,fournId:2,ref:'CF-2026-002',date:'2026-04-08',stat:'livré',total:320,notes:'Poissons du jour',
      articles:[
        {nom:'Filet de sole',qte:5,unit:'kg',pu:18,total:90},
-       {nom:'Cabillaud',qte:6,unit:'kg',pu:16,total:96},
-       {nom:'Saumon frais',qte:4,unit:'kg',pu:18,total:72},
-       {nom:'Anchois',qte:0.5,unit:'kg',pu:25,total:62},
+       {nom:'Cabillaud Atlantique',qte:6,unit:'kg',pu:16,total:96},
+       {nom:'Saint-Jacques Bretagne',qte:2,unit:'kg',pu:45,total:90},
+       {nom:'Saumon Label Rouge',qte:4,unit:'kg',pu:11,total:44},
      ]},
     {id:3,fournId:3,ref:'CF-2026-003',date:'2026-04-07',stat:'livré',total:145,notes:'Légumes de saison',
      articles:[
-       {nom:'Tomates',qte:8,unit:'kg',pu:2.5,total:20},
-       {nom:'Champignons Paris',qte:4,unit:'kg',pu:4.5,total:18},
-       {nom:'Courgettes',qte:6,unit:'kg',pu:2,total:12},
-       {nom:'Épinards',qte:2.5,unit:'kg',pu:5,total:12.5},
-       {nom:'Roquette',qte:1.5,unit:'kg',pu:8,total:12},
-       {nom:'Laitue romaine',qte:10,unit:'u',pu:1.2,total:12},
-       {nom:'Ail',qte:20,unit:'tête',pu:0.4,total:8},
-       {nom:'Persil',qte:10,unit:'botte',pu:0.8,total:8},
-       {nom:'Carottes',qte:6,unit:'kg',pu:1.5,total:9},
-       {nom:'Échalotes',qte:2,unit:'kg',pu:3,total:6},
-       {nom:'Citron',qte:25,unit:'u',pu:0.4,total:10},
+       {nom:'Tomates anciennes',qte:8,unit:'kg',pu:4.5,total:36},
+       {nom:'Mesclun Bio',qte:3,unit:'kg',pu:12,total:36},
+       {nom:'Asperges vertes',qte:5,unit:'kg',pu:8,total:40},
+       {nom:'Champignons Paris',qte:5,unit:'kg',pu:4.5,total:22.5},
      ]},
     {id:4,fournId:4,ref:'CF-2026-004',date:'2026-04-03',stat:'livré',total:680,notes:'Commande mensuelle vins',
      articles:[
-       {nom:'Bordeaux rouge',qte:3,unit:'caisse',pu:45,total:135},
-       {nom:'Vin blanc cuisine',qte:6,unit:'L',pu:5,total:30},
-       {nom:'Vin rouge cuisine',qte:6,unit:'L',pu:5,total:30},
-       {nom:'Brut Réserve — Moët & Chandon',qte:1,unit:'caisse',pu:264,total:264},
-       {nom:'Crémant d&#39;Alsace Brut',qte:1,unit:'caisse',pu:84,total:84},
-       {nom:'Côtes de Provence Prestige',qte:1,unit:'caisse',pu:120,total:120},
+       {nom:'Côtes du Rhône Villages 2021',qte:6,unit:'caisse',pu:58,total:348},
+       {nom:'Saint-Joseph Rouge 2020',qte:3,unit:'caisse',pu:72,total:216},
+       {nom:'Champagne Brut Réserve',qte:2,unit:'caisse',pu:58,total:116},
      ]},
     {id:5,fournId:5,ref:'CF-2026-005',date:'2026-04-02',stat:'livré',total:230,notes:'Épicerie fine',
      articles:[
-       {nom:'Parmesan affiné',qte:3,unit:'kg',pu:22,total:66},
-       {nom:'Chocolat Valrhona 70%',qte:3,unit:'kg',pu:18,total:54},
-       {nom:'Truffe noire',qte:80,unit:'g',pu:3.5,total:28},
-       {nom:'Câpres',qte:0.6,unit:'kg',pu:15,total:9},
-       {nom:'Vinaigre balsamique',qte:1.2,unit:'L',pu:15,total:18},
-       {nom:'Miel',qte:1.5,unit:'kg',pu:12,total:18},
-       {nom:'Vanille',qte:24,unit:'gousse',pu:2,total:48},
+       {nom:'Parmesan Parmigiano 24 mois',qte:3,unit:'kg',pu:22,total:66},
+       {nom:'Chocolat Valrhona 70%',qte:4,unit:'kg',pu:18,total:72},
+       {nom:'Huile d&#39;&#39;olive AOP',qte:6,unit:'L',pu:12,total:72},
+       {nom:'Fleur de sel de Guérande',qte:4,unit:'kg',pu:5,total:20},
      ]},
     {id:6,fournId:1,ref:'CF-2026-006',date:'2026-04-14',stat:'commandé',total:460,notes:'Commande semaine prochaine',
      articles:[
-       {nom:'Boeuf (filet)',qte:5,unit:'kg',pu:28,total:140},
+       {nom:'Filet de bœuf Charolais',qte:5,unit:'kg',pu:28,total:140},
        {nom:'Magret de canard',qte:10,unit:'unité',pu:8.5,total:85},
-       {nom:'Boeuf (côte)',qte:5,unit:'kg',pu:32,total:160},
-       {nom:'Carré d&#39;agneau',qte:3,unit:'kg',pu:28,total:84},
+       {nom:'Côte de bœuf',qte:5,unit:'kg',pu:32,total:160},
+       {nom:'Ris de veau',qte:2,unit:'kg',pu:37.5,total:75},
      ]},
     {id:7,fournId:2,ref:'CF-2026-007',date:'2026-04-11',stat:'commandé',total:298,notes:'Poissons weekend',
      articles:[
+       {nom:'Homard breton',qte:4,unit:'unité',pu:38,total:152},
        {nom:'Filet de sole',qte:4,unit:'kg',pu:18,total:72},
-       {nom:'Saumon frais',qte:6,unit:'kg',pu:18,total:108},
-       {nom:'Cabillaud',qte:4,unit:'kg',pu:16,total:64},
-       {nom:'Anchois',qte:0.6,unit:'kg',pu:25,total:54},
+       {nom:'Saint-Jacques Bretagne',qte:1.5,unit:'kg',pu:45,total:67.5},
      ]},
     {id:8,fournId:3,ref:'CF-2026-008',date:'2026-04-10',stat:'brouillon',total:112,notes:'À confirmer',
      articles:[
-       {nom:'Aubergines',qte:5,unit:'kg',pu:2.5,total:12.5},
-       {nom:'Poivrons',qte:4,unit:'kg',pu:3,total:12},
-       {nom:'Oignons',qte:10,unit:'kg',pu:1.2,total:12},
-       {nom:'Tomates',qte:8,unit:'kg',pu:2.5,total:20},
-       {nom:'Pommes',qte:5,unit:'kg',pu:2.5,total:12.5},
+       {nom:'Truffe noire (saison)',qte:0.2,unit:'kg',pu:350,total:70},
+       {nom:'Asperges vertes',qte:6,unit:'kg',pu:7,total:42},
      ]},
-    {id:9,fournId:6,ref:'CF-2026-009',date:'2026-04-08',stat:'livré',total:148,notes:'Laitiers semaine',
-     articles:[
-       {nom:'Crème fraîche',qte:6,unit:'L',pu:4.5,total:27},
-       {nom:'Beurre AOC',qte:4,unit:'kg',pu:8.5,total:34},
-       {nom:'Lait entier',qte:10,unit:'L',pu:1.2,total:12},
-       {nom:'Gruyère',qte:2,unit:'kg',pu:12,total:24},
-       {nom:'Oeufs frais',qte:60,unit:'unité',pu:0.35,total:21},
-     ]},
-    {id:10,fournId:7,ref:'CF-2026-010',date:'2026-04-12',stat:'livré',total:65,notes:'Pain quotidien',
-     articles:[
-       {nom:'Pain de campagne',qte:4,unit:'kg',pu:4,total:16},
-       {nom:'Croûtons',qte:1.2,unit:'kg',pu:5,total:6},
-       {nom:'Pâte feuilletée',qte:2.5,unit:'kg',pu:8,total:20},
-       {nom:'Pâte brisée',qte:2,unit:'kg',pu:6,total:12},
-     ]},
-    {id:11,fournId:9,ref:'CF-2026-011',date:'2026-04-06',stat:'livré',total:112,notes:'Épicerie sèche mensuelle',
-     articles:[
-       {nom:'Riz arborio',qte:5,unit:'kg',pu:3.5,total:17.5},
-       {nom:'Farine T55',qte:10,unit:'kg',pu:1.2,total:12},
-       {nom:'Sucre',qte:6,unit:'kg',pu:1.5,total:9},
-       {nom:'Café arabica',qte:4,unit:'kg',pu:28,total:112},
-     ]},
-    {id:12,fournId:8,ref:'CF-2026-012',date:'2026-04-09',stat:'livré',total:56,notes:'Volailles semaine',
-     articles:[
-       {nom:'Poulet fermier',qte:8,unit:'kg',pu:7,total:56},
-     ]},
-  ]; DB.ids.cf=13;
+  ]; DB.ids.cf=9;
 
   // Personnel de démo
   if(!DB.personnel||!DB.personnel.length){
@@ -11809,14 +11659,11 @@ function initData(){
     const tom=new Date(); tom.setDate(tom.getDate()+1);
     const tomStr=tom.toISOString().slice(0,10);
     DB.reservations=[
-      {id:1,nom:'Martin',tel:'06 12 34 56 78',cvt:4,date:today,h:'19:30',stat:'confirmé',notes:'Anniversaire'},
-      {id:2,nom:'Dupont',tel:'06 23 45 67 89',cvt:2,date:today,h:'20:00',stat:'confirmé',notes:'',allergies:'Gluten'},
-      {id:3,nom:'Lefèvre',tel:'06 11 22 33 44',cvt:2,date:today,h:'20:30',stat:'confirmé',notes:'VIP — table 5',tbl:5},
-      {id:4,nom:'Bernard',tel:'06 34 56 78 90',cvt:6,date:tomStr,h:'19:00',stat:'confirmé',notes:'Table ronde si possible'},
-      {id:5,nom:'Leroy',tel:'06 45 67 89 01',cvt:2,date:tomStr,h:'21:00',stat:'en-attente',notes:''},
-      {id:6,nom:'Martin & Dubois',tel:'06 44 55 66 77',cvt:4,date:tomStr,h:'20:00',stat:'confirmé',notes:'Anniversaire 🎂'},
+      {id:1,nom:'Martin',prenom:'Jean',cvt:4,date:today,heure:'19:30',tel:'06 12 34 56 78',stat:'confirmé',notes:'Anniversaire',allergies:''},
+      {id:2,nom:'Dupont',prenom:'Sophie',cvt:2,date:today,heure:'20:00',tel:'06 23 45 67 89',stat:'confirmé',notes:'',allergies:'Gluten'},
+      {id:3,nom:'Bernard',prenom:'Pierre',cvt:6,date:tomStr,heure:'19:00',tel:'06 34 56 78 90',stat:'confirmé',notes:'Table ronde si possible',allergies:''},
+      {id:4,nom:'Leroy',prenom:'Marie',cvt:2,date:tomStr,heure:'21:00',tel:'06 45 67 89 01',stat:'en attente',notes:'',allergies:''},
     ];
-    DB.ids.r=7;
     DB.ids.r=5;
   }
 
@@ -12109,7 +11956,7 @@ function nav(name,el){
 }
 function render(n){
   ({dash:rDash,salle:rSalle,caisse:rCaisse,menu:rMenu,
-    reservations:rResa,'resa-attente':rListeAttente,stocks:rStocks,commandes:rCmds,personnel:()=>{rPerso();rPersonnelPlanning();},
+    reservations:rResa,'resa-attente':rListeAttente,stocks:rStocks,personnel:()=>{rPerso();rPersonnelPlanning();},
     rh:rRh,
     fournisseurs:rFourn, finance:rFin,rapports:rRapports,
     menuJour:rMenuJour, livraison:rLivraison, stats:rStats,
@@ -14513,11 +14360,9 @@ function rsSetView(v,btn){
   document.getElementById('rs-view-calendrier').style.display=v==='calendrier'?'':'none';
   const va=document.getElementById('rs-view-attente');if(va)va.style.display=v==='attente'?'':'none';
   const vo=document.getElementById('rs-view-online');if(vo)vo.style.display=v==='online'?'':'none';
-  const vs=document.getElementById('rs-view-stats');if(vs)vs.style.display=v==='stats'?'':'none';
   // Charger les données si nécessaire
   if(v==='attente'){const f=typeof rListeAttente==='function'?rListeAttente:null;if(f)f();}
   if(v==='online'){const f=typeof rResaOnline==='function'?rResaOnline:null;if(f)f();}
-  if(v==='stats') rResaStats();
 }
 function rResa(){
   const resas=DB.reservations||[];
@@ -14708,7 +14553,6 @@ function rRendreResaListe(){
       </div>
       <div class="rs-card-acts">
         <button class="rs-act ed" onclick="event.stopPropagation();editResa(${r.id})" title="Modifier">✏</button>
-        ${r.email?`<button class="rs-act" onclick="event.stopPropagation();envoyerConfirmResa(${r.id})" title="Envoyer confirmation email" style="color:#6aacda;font-size:13px">📧</button>`:''}
         ${r.stat==='en-attente'?`<button class="rs-act ok" onclick="event.stopPropagation();confirmerResa(${r.id})" title="Confirmer">✓</button>`:''}
         ${r.stat==='confirmé'?`<button class="rs-act go" onclick="event.stopPropagation();arriverResa(${r.id})" title="Arrivé">🏁</button>`:''}
         ${r.stat==='arrivé'?`<button class="rs-act ok" onclick="event.stopPropagation();asseoirResa(${r.id})" title="Asseoir">🪑</button>`:''}
@@ -14936,300 +14780,6 @@ function confirmerResa(id){
   if(i>=0){DB.reservations[i].stat='confirmé';saveDB();rResa();toast('Réservation confirmée ✅');}
 }
 
-
-
-// ═══════════════════════════════════════════════════════
-// 📊 STATS RÉSERVATIONS
-// ═══════════════════════════════════════════════════════
-function rResaStats(){
-  const resas=DB.reservations||[];
-  const today=td();
-  const now=new Date();
-  // Période : 30 derniers jours
-  const d30=new Date(now);d30.setDate(d30.getDate()-30);
-  const d30s=d30.toISOString().slice(0,10);
-  const d7=new Date(now);d7.setDate(d7.getDate()-7);
-  const d7s=d7.toISOString().slice(0,10);
-
-  const r30=resas.filter(r=>r.date>=d30s&&r.date<=today);
-  const r7=resas.filter(r=>r.date>=d7s&&r.date<=today);
-  const rAll=resas.filter(r=>r.date<=today);
-
-  const total30=r30.filter(r=>r.stat!=='annulé').length;
-  const noshow30=r30.filter(r=>r.stat==='no-show').length;
-  const cvt30=r30.filter(r=>r.stat!=='annulé').reduce((s,r)=>s+(+r.cvt||0),0);
-  const tauxNoShow=total30?Math.round((noshow30/total30)*100):0;
-  const tauxConf=total30?Math.round((r30.filter(r=>r.stat==='confirmé'||r.stat==='arrivé'||r.stat==='assis'||r.stat==='terminé').length/total30)*100):0;
-
-  // KPIs
-  const kpiEl=document.getElementById('resa-stats-kpi');
-  if(kpiEl) kpiEl.innerHTML=
-    kpiCard('📅',total30,'Resas (30j)','gold',{delay:0,sub:'7j: '+r7.filter(r=>r.stat!=='annulé').length})+
-    kpiCard('👥',cvt30,'Couverts (30j)','blue',{delay:40,sub:total30?'Moy. '+Math.round(cvt30/Math.max(total30,1))+'cvt/résa':''})+
-    kpiCard('👻',tauxNoShow+'%','Taux no-show','red',{delay:80,sub:noshow30+' no-show(s)',bar:{pct:tauxNoShow}})+
-    kpiCard('✅',tauxConf+'%','Taux confirm.','green',{delay:120,bar:{pct:tauxConf}});
-
-  // Charts
-  const chartsEl=document.getElementById('resa-stats-charts');
-  if(!chartsEl) return;
-
-  // Jours forts (7 derniers jours + moyenne)
-  const jours=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-  const jourCounts=[0,0,0,0,0,0,0];
-  rAll.filter(r=>r.stat!=='annulé').forEach(r=>{
-    const d=new Date(r.date+'T12:00');
-    const dow=(d.getDay()+6)%7; // 0=lun
-    jourCounts[dow]++;
-  });
-  const maxJour=Math.max(...jourCounts,1);
-
-  // Heures de pointe
-  const hCounts={};
-  for(let h=11;h<=23;h++) hCounts[h]=0;
-  rAll.filter(r=>r.stat!=='annulé'&&r.h).forEach(r=>{
-    const h=parseInt(r.h);
-    if(h>=11&&h<=23) hCounts[h]=(hCounts[h]||0)+1;
-  });
-  const maxH=Math.max(...Object.values(hCounts),1);
-
-  const barStyle=(pct,col)=>`height:${Math.max(pct,2)}%;background:${col};border-radius:4px 4px 0 0;transition:height .5s ease;flex:1;min-width:0;cursor:default;position:relative`;
-
-  // Chart jours
-  const jourBars=jours.map((j,i)=>{
-    const pct=Math.round((jourCounts[i]/maxJour)*100);
-    const col=i>=5?'var(--gold2)':'rgba(201,151,58,.5)';
-    return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">
-      <div style="font-size:9px;color:var(--sub);font-weight:700">${jourCounts[i]}</div>
-      <div style="display:flex;align-items:flex-end;height:80px;width:100%">
-        <div style="${barStyle(pct,col)}" title="${j}: ${jourCounts[i]}"></div>
-      </div>
-      <div style="font-size:10px;color:var(--muted)">${j}</div>
-    </div>`;
-  }).join('');
-
-  // Chart heures (11h-23h)
-  const hKeys=Object.keys(hCounts);
-  const hBars=hKeys.map(h=>{
-    const pct=Math.round((hCounts[h]/maxH)*100);
-    const isRush=hCounts[h]===Math.max(...Object.values(hCounts));
-    const col=isRush?'#f07060':hCounts[h]>maxH*0.6?'#f0a060':'rgba(201,151,58,.4)';
-    return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">
-      <div style="font-size:8px;color:var(--sub)">${hCounts[h]||''}</div>
-      <div style="display:flex;align-items:flex-end;height:80px;width:100%">
-        <div style="${barStyle(pct,col)}"></div>
-      </div>
-      <div style="font-size:9px;color:var(--muted)">${h}h</div>
-    </div>`;
-  }).join('');
-
-  chartsEl.innerHTML=`
-    <div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px">
-      <div style="font-size:11px;font-weight:700;color:var(--gold2);letter-spacing:1px;margin-bottom:12px">JOURS LES PLUS CHARGÉS</div>
-      <div style="display:flex;gap:4px;align-items:flex-end;height:110px">${jourBars}</div>
-    </div>
-    <div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px">
-      <div style="font-size:11px;font-weight:700;color:var(--gold2);letter-spacing:1px;margin-bottom:12px">HEURES DE POINTE</div>
-      <div style="display:flex;gap:2px;align-items:flex-end;height:110px">${hBars}</div>
-    </div>`;
-
-  // Top clients (par nb visites)
-  const topEl=document.getElementById('resa-stats-top');
-  if(!topEl) return;
-  const clientMap={};
-  rAll.filter(r=>r.stat!=='annulé'&&r.nom).forEach(r=>{
-    if(!clientMap[r.nom]) clientMap[r.nom]={nom:r.nom,tel:r.tel||'',count:0,cvt:0,noshow:0};
-    clientMap[r.nom].count++;
-    clientMap[r.nom].cvt+=(+r.cvt||0);
-    if(r.stat==='no-show') clientMap[r.nom].noshow++;
-  });
-  const top=Object.values(clientMap).sort((a,b)=>b.count-a.count).slice(0,8);
-  if(!top.length){topEl.innerHTML='';return;}
-  topEl.innerHTML=`<div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:0">
-    <div style="font-size:11px;font-weight:700;color:var(--gold2);letter-spacing:1px;margin-bottom:12px">🏆 CLIENTS LES PLUS FIDÈLES</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      ${top.map((c,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--ink3);border-radius:8px">
-        <div style="width:24px;height:24px;border-radius:50%;background:${i===0?'var(--gold)':i===1?'rgba(180,180,180,.3)':i===2?'rgba(180,100,40,.3)':'rgba(255,255,255,.06)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:${i<3?'#fff':'var(--muted)'};flex-shrink:0">${i+1}</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:13px;font-weight:700;color:var(--txt)">${c.nom}</div>
-          <div style="font-size:11px;color:var(--sub)">${c.tel||'—'}</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:13px;font-weight:700;color:var(--gold2)">${c.count} visites</div>
-          <div style="font-size:10px;color:var(--muted)">${c.cvt} couverts${c.noshow?' · '+c.noshow+' no-show':''}</div>
-        </div>
-      </div>`).join('')}
-    </div>
-  </div>`;
-}
-
-// ═══════════════════════════════════════════════════════
-// 🖨️ IMPRESSION CARNET DU SOIR
-// ═══════════════════════════════════════════════════════
-function imprimerServiceResa(){
-  const date=resaDateFilter||td();
-  const resas=(DB.reservations||[]).filter(r=>r.date===date&&r.stat!=='annulé').sort((a,b)=>a.h>b.h?1:-1);
-  const dt=new Date(date+'T12:00');
-  const jours=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-  const mois=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-  const dateLabel=jours[dt.getDay()]+' '+dt.getDate()+' '+mois[dt.getMonth()]+' '+dt.getFullYear();
-  const cvtTotal=resas.reduce((s,r)=>s+(+r.cvt||0),0);
-  const nom=(DB.params&&DB.params.nom)||'Chez Romu';
-
-  const rows=resas.length?resas.map(r=>{
-    const tbl=r.tbl?(gT(r.tbl).num||r.tbl):'—';
-    const statLabel={'confirmé':'Confirmé','en-attente':'Attente','arrivé':'Arrivé','assis':'Assis','terminé':'Terminé'}[r.stat]||r.stat;
-    const notes=[r.notes,r.acompte>0?'Acompte '+(r.acompteStat==='oui'?'✓ encaissé':eur(r.acompte)+' à encaisser'):''].filter(Boolean).join(' • ');
-    return `<tr>
-      <td style="font-weight:700;font-size:15px;color:#222">${r.h||'—'}</td>
-      <td style="font-weight:700">${r.nom}</td>
-      <td style="text-align:center">${r.cvt}</td>
-      <td style="text-align:center">${tbl}</td>
-      <td style="font-size:11px;color:#555">${r.tel||'—'}</td>
-      <td><span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:${r.stat==='confirmé'?'#d4edda':r.stat==='en-attente'?'#fff3cd':'#d1ecf1'};color:${r.stat==='confirmé'?'#1a5c2a':r.stat==='en-attente'?'#7d5a00':'#0c5460'}">${statLabel}</span></td>
-      <td style="font-size:11px;color:#666;max-width:180px">${notes}</td>
-    </tr>`;
-  }).join(''):`<tr><td colspan="7" style="text-align:center;padding:20px;color:#999">Aucune réservation ce soir</td></tr>`;
-
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
-  <title>Carnet du soir — ${dateLabel}</title>
-  <style>
-    body{font-family:Georgia,serif;margin:0;padding:24px;color:#222;background:#fff}
-    h1{font-size:22px;margin:0 0 4px;color:#222}
-    .sub{color:#666;font-size:13px;margin-bottom:20px}
-    .info-bar{display:flex;gap:20px;margin-bottom:20px;padding:12px 16px;background:#f8f6f2;border-radius:8px;border-left:4px solid #c9973a}
-    .info-bar span{font-size:13px;font-weight:700;color:#555}
-    .info-bar strong{color:#c9973a}
-    table{width:100%;border-collapse:collapse;margin-top:0}
-    th{background:#c9973a;color:#fff;padding:10px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-    td{padding:10px 12px;border-bottom:1px solid #eee;vertical-align:top;font-size:13px}
-    tr:nth-child(even) td{background:#fafaf8}
-    tr:hover td{background:#f5f0e6}
-    .footer{margin-top:24px;padding-top:12px;border-top:1px solid #eee;font-size:11px;color:#999;display:flex;justify-content:space-between}
-    @media print{body{padding:12px}tr:hover td{background:transparent}}
-  </style></head><body>
-  <h1>${nom} · Service du soir</h1>
-  <div class="sub">Carnet imprimé le ${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})} à ${new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</div>
-  <div class="info-bar">
-    <span>📅 <strong>${dateLabel}</strong></span>
-    <span>👥 <strong>${resas.length}</strong> réservation${resas.length>1?'s':''}</span>
-    <span>🍽️ <strong>${cvtTotal}</strong> couvert${cvtTotal>1?'s':''}</span>
-    <span>✅ <strong>${resas.filter(r=>r.stat==='confirmé').length}</strong> confirmé(s)</span>
-    <span>⏳ <strong>${resas.filter(r=>r.stat==='en-attente').length}</strong> en attente</span>
-  </div>
-  <table>
-    <thead><tr><th>Heure</th><th>Client</th><th>Cvt</th><th>Table</th><th>Téléphone</th><th>Statut</th><th>Notes</th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table>
-  <div class="footer"><span>${nom} · Service du ${dateLabel}</span><span>🖨️ Carnet généré par l'appli de gestion</span></div>
-  <script>window.onload=function(){window.print();}<\/script>
-  </body></html>`;
-  const w=window.open('','_blank','width=900,height=700');
-  if(w){w.document.write(html);w.document.close();}
-}
-
-// ═══════════════════════════════════════════════════════
-// 📧 EMAIL CONFIRMATION RÉSERVATION
-// ═══════════════════════════════════════════════════════
-function envoyerConfirmResa(id){
-  const r=(DB.reservations||[]).find(x=>x.id===id);
-  if(!r){toast('Réservation introuvable','err');return;}
-  if(!r.email){toast('Pas d\'email pour ce client','err');return;}
-  const nom=(DB.params&&DB.params.nom)||'Chez Romu';
-  const dt=new Date(r.date+'T12:00');
-  const jours=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-  const mois=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-  const dateLabel=jours[dt.getDay()]+' '+dt.getDate()+' '+mois[dt.getMonth()]+' '+dt.getFullYear();
-  // Modal d'aperçu
-  document.getElementById('email-conf-modal')?.remove();
-  const html=`<div id="email-conf-modal" onclick="if(event.target===this)this.remove()" style="position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px">
-    <div style="background:var(--ink2);border:1px solid rgba(201,151,58,.3);border-radius:16px;padding:24px;width:100%;max-width:460px;max-height:80vh;overflow-y:auto">
-      <div style="font-size:18px;font-weight:700;color:var(--gold2);margin-bottom:16px">📧 Confirmation par email</div>
-      <div style="background:var(--ink3);border-radius:10px;padding:16px;font-size:13px;line-height:1.7;color:var(--sub);margin-bottom:16px">
-        <div style="margin-bottom:8px"><strong style="color:var(--txt)">À :</strong> ${r.email}</div>
-        <div style="margin-bottom:8px"><strong style="color:var(--txt)">Objet :</strong> Confirmation de votre réservation — ${nom}</div>
-        <hr style="border-color:var(--line);margin:12px 0"/>
-        <div>Bonjour <strong style="color:var(--txt)">${r.nom}</strong>,</div>
-        <br/>
-        <div>Nous avons le plaisir de confirmer votre réservation chez <strong style="color:var(--gold2)">${nom}</strong> :</div>
-        <br/>
-        <div>📅 <strong style="color:var(--txt)">${dateLabel}</strong> à <strong style="color:var(--txt)">${r.h}</strong></div>
-        <div>👥 <strong style="color:var(--txt)">${r.cvt} couvert${r.cvt>1?'s':''}</strong></div>
-        ${r.tbl?`<div>🪑 Table <strong style="color:var(--txt)">${gT(r.tbl).num||r.tbl}</strong></div>`:''}
-        ${r.notes?`<br/><div>📝 Demande spéciale : <em>${r.notes}</em></div>`:''}
-        ${r.acompte>0?`<br/><div>💰 Acompte demandé : <strong style="color:var(--txt)">${eur(r.acompte)}</strong> ${r.acompteStat==='oui'?'(encaissé ✅)':'(à régler à l\'arrivée)'}</div>`:''}
-        <br/>
-        <div>En cas d'empêchement, merci de nous prévenir le plus tôt possible.</div>
-        <br/>
-        <div>À très bientôt,<br/><strong style="color:var(--txt)">${nom}</strong></div>
-      </div>
-      <div style="background:rgba(201,151,58,.06);border:1px solid rgba(201,151,58,.2);border-radius:8px;padding:10px 14px;font-size:11px;color:var(--sub);margin-bottom:16px">
-        💡 Pour activer l'envoi réel, configurez <strong style="color:var(--gold2)">EmailJS</strong> dans le module Intégrations. L'aperçu ci-dessus montre le contenu qui sera envoyé.
-      </div>
-      <div style="display:flex;gap:8px">
-        <button onclick="document.getElementById('email-conf-modal').remove()" class="btn btn-ghost" style="flex:1">Fermer</button>
-        <button onclick="_envoyerEmailResa(${id})" class="btn btn-gold" style="flex:1">📤 Envoyer</button>
-      </div>
-    </div>
-  </div>`;
-  document.body.insertAdjacentHTML('beforeend',html);
-}
-
-function _envoyerEmailResa(id){
-  const r=(DB.reservations||[]).find(x=>x.id===id); if(!r) return;
-  const cfg=DB.params||{};
-  // Vérifier config EmailJS
-  if(!cfg.emailjsService||!cfg.emailjsTemplate||!cfg.emailjsPublic){
-    toast('EmailJS non configuré — allez dans Intégrations','err');
-    document.getElementById('email-conf-modal')?.remove();
-    return;
-  }
-  const nom=cfg.nom||'Chez Romu';
-  const dt=new Date(r.date+'T12:00');
-  const jours=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-  const mois=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-  const dateLabel=jours[dt.getDay()]+' '+dt.getDate()+' '+mois[dt.getMonth()]+' '+dt.getFullYear();
-  if(typeof emailjs==='undefined'){toast('EmailJS non chargé','err');return;}
-  emailjs.send(cfg.emailjsService,cfg.emailjsTemplate,{
-    to_email:r.email,
-    to_name:r.nom,
-    resto_name:nom,
-    date_resa:dateLabel,
-    heure_resa:r.h,
-    cvt_resa:r.cvt,
-    notes_resa:r.notes||'—'
-  },cfg.emailjsPublic).then(()=>{
-    toast('✅ Email envoyé à '+r.email);
-    document.getElementById('email-conf-modal')?.remove();
-  }).catch(e=>{
-    toast('Erreur envoi : '+e.text,'err');
-  });
-}
-
-// ═══════════════════════════════════════════════════════
-// 💡 SUGGESTION TABLE AUTO
-// ═══════════════════════════════════════════════════════
-function rSuggestTable(cvt,date,h,currentId){
-  const tblSelect=document.getElementById('rs-tbl');
-  if(!tblSelect) return;
-  cvt=parseInt(cvt)||2;
-  // Tables disponibles : capacité >= cvt, pas de conflit horaire
-  const dispo=(DB.tables||[]).filter(t=>{
-    if(t.cap&&t.cap<cvt) return false;
-    if(!date||!h) return true;
-    const conflit=(DB.reservations||[]).find(r=>
-      r.id!==(currentId||0)&&r.tbl===t.id&&r.date===date&&r.stat!=='annulé'&&Math.abs(parseInt(r.h)-parseInt(h))<2
-    );
-    return !conflit;
-  }).sort((a,b)=>{
-    // Préférer table avec capacité la plus proche du nb couverts
-    const da=(a.cap||99)-cvt;const db=(b.cap||99)-cvt;
-    return Math.abs(da)-Math.abs(db);
-  });
-  if(dispo.length){
-    tblSelect.value=dispo[0].id;
-    toast('💡 Table '+dispo[0].num+' suggérée ('+cvt+' cvt)');
-  }
-}
 
 // ═══ STOCKS ═══
 function saveStock(){
@@ -17829,132 +17379,23 @@ function resetExemples(){
   ];
   // Fournisseurs
   DB.fournisseurs=[
-    {id:1,nom:'Boucherie Charolais & Fils',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cont:'Jean-Pierre Charolais',tel:'04 72 33 44 55',email:'jp@charolais-boucher.fr',spec:'Viandes & Charcuterie',livr:'Mardi · Vendredi',delai:2,note:5,adresse:'Marché de Gros, Lyon 8e',siret:'452 123 456 00018',remise:3,minCmde:150,
-     produits:['Boeuf (filet)','Boeuf (côte)','Boeuf (paleron)','Magret de canard','Foie gras de canard','Carré d&#39;agneau','Viande hachée','Lardons'],
-     historique:[{date:'2026-04-07',total:480,stat:'livré'},{date:'2026-03-31',total:520,stat:'livré'},{date:'2026-03-24',total:390,stat:'livré'}]},
-    {id:2,nom:'Marée Fraîche Méditerranée',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cont:'Sophie Bertrand',tel:'04 78 92 11 23',email:'sophie@maree-med.fr',spec:'Poissons & Fruits de mer',livr:'Lundi · Mercredi · Vendredi',delai:1,note:5,adresse:'MIN Lyon, Corbas',siret:'389 456 789 00024',remise:0,minCmde:120,
-     produits:['Filet de sole','Cabillaud','Saumon frais','Anchois'],
-     historique:[{date:'2026-04-08',total:320,stat:'livré'},{date:'2026-04-04',total:285,stat:'livré'},{date:'2026-03-30',total:410,stat:'livré'}]},
-    {id:3,nom:'Les Jardins de Provence',ico:'🥦',cont:'Marc Dupuis',tel:'06 12 87 34 56',email:'marc@jardins-provence.fr',spec:'Fruits & Légumes Bio',livr:'Lundi · Mercredi · Samedi',delai:1,note:4,adresse:'Ferme de Bellevue, Vienne (38)',siret:'567 234 891 00031',remise:5,minCmde:80,
-     produits:['Champignons Paris','Oignons','Tomates','Carottes','Courgettes','Aubergines','Poivrons','Échalotes','Épinards','Roquette','Laitue romaine','Ail','Persil','Citron','Pommes'],
-     historique:[{date:'2026-04-07',total:145,stat:'livré'},{date:'2026-04-05',total:98,stat:'livré'},{date:'2026-04-02',total:167,stat:'livré'}]},
-    {id:4,nom:'Cave Rhône Prestige',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cont:'Étienne Morel',tel:'04 74 65 23 89',email:'etienne@rhone-prestige.fr',spec:'Vins · Champagnes · Spiritueux',livr:'Jeudi',delai:3,note:5,adresse:'27 Route des Vins, Tain-l&#39;Hermitage',siret:'234 678 012 00045',remise:8,minCmde:300,
-     produits:['Bordeaux rouge','Vin blanc cuisine','Vin rouge cuisine','Château Margaux','Chablis Premier Cru','Côtes de Provence Prestige','Brut Réserve — Moët & Chandon','Crémant d&#39;Alsace Brut'],
-     historique:[{date:'2026-04-03',total:680,stat:'livré'},{date:'2026-03-27',total:540,stat:'livré'},{date:'2026-03-13',total:720,stat:'livré'}]},
-    {id:5,nom:'Épicerie Fine Saveurs du Monde',ico:'🧂',cont:'Isabelle Faure',tel:'04 78 42 16 78',email:'isabelle@saveurs-monde.fr',spec:'Épicerie fine · Condiments · Fromages',livr:'Mercredi',delai:2,note:4,adresse:'Zone Industrielle Nord, Lyon 9e',siret:'678 901 234 00052',remise:2,minCmde:100,
-     produits:['Parmesan affiné','Chocolat Valrhona 70%','Huile d&#39;olive AOP','Truffe noire','Câpres','Cornichons','Miel','Vinaigre balsamique','Vanille','Sel fin','Poivre noir','Herbes de Provence','Thym'],
-     historique:[{date:'2026-04-02',total:230,stat:'livré'},{date:'2026-03-26',total:195,stat:'livré'},{date:'2026-03-19',total:278,stat:'livré'}]},
-    {id:6,nom:'Fromagerie Mère Richard',ico:'🧀',photo:'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=400&q=80',cont:'Renée Vallet',tel:'04 78 28 19 03',email:'contact@mere-richard.fr',spec:'Fromages AOP · Crèmerie',livr:'Mardi · Vendredi',delai:1,note:5,adresse:'Halles Paul Bocuse, Lyon 6e',siret:'123 456 789 00061',remise:0,minCmde:60,
-     produits:['Gruyère','Crème fraîche','Beurre AOC','Lait entier','Oeufs frais','Béchamel maison'],
-     historique:[{date:'2026-04-08',total:145,stat:'livré'},{date:'2026-04-01',total:132,stat:'livré'},{date:'2026-03-25',total:118,stat:'livré'}]},
-    {id:7,nom:'Boulangerie Artisanale Perrin',ico:'🥖',cont:'François Perrin',tel:'04 72 60 34 21',email:'boulangerie.perrin@orange.fr',spec:'Pains · Viennoiseries · Pâtisseries',livr:'Tous les jours 6h30',delai:0,note:5,adresse:'14 Rue de la Paix, Caluire-et-Cuire',siret:'234 567 890 00072',remise:0,minCmde:30,
-     produits:['Pain de campagne','Croûtons','Pâte feuilletée','Pâte brisée','Pâtes fraîches'],
-     historique:[{date:'2026-04-12',total:48,stat:'livré'},{date:'2026-04-11',total:52,stat:'livré'},{date:'2026-04-10',total:45,stat:'livré'}]},
-    {id:8,nom:'Ferme Avicole des Dombes',ico:'🥚',cont:'Claudine Morin',tel:'06 78 34 56 12',email:'ferme.dombes@gmail.com',spec:'Volailles · Oeufs fermiers',livr:'Mercredi · Samedi',delai:2,note:4,adresse:'Route de Villars, Marlieux (01)',siret:'456 789 012 00094',remise:0,minCmde:50,
-     produits:['Poulet fermier'],
-     historique:[{date:'2026-04-09',total:198,stat:'livré'},{date:'2026-04-02',total:175,stat:'livré'},{date:'2026-03-26',total:210,stat:'livré'}]},
-    {id:9,nom:'Épicerie Sèche & Céréales',ico:'🌾',cont:'Paul Renaud',tel:'04 78 55 23 10',email:'paul.renaud@epicerie-seche.fr',spec:'Épicerie sèche · Farines · Riz',livr:'Lundi',delai:3,note:4,adresse:'Zone Artisanale, Villefranche-sur-Saône',siret:'789 012 345 00116',remise:5,minCmde:80,
-     produits:['Riz arborio','Farine T55','Sucre','Café arabica','Bouillon boeuf','Tomates concassées'],
-     historique:[{date:'2026-04-06',total:112,stat:'livré'},{date:'2026-03-23',total:98,stat:'livré'},{date:'2026-03-09',total:125,stat:'livré'}]},
-  ]; DB.ids.f=10;
+    {id:1,nom:'Boucherie Charolais & Fils',ico:'🥩',photo:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&q=80',cont:'Jean-Pierre Charolais',tel:'04 72 33 44 55',email:'jp@charolais-boucher.fr',spec:'Viandes & Charcuterie',livr:'Mardi · Vendredi',delai:2,note:5,adresse:'Marché de Gros, Lyon 8e',siret:'452 123 456 00018',remise:3,minCmde:150,produits:['Filet de bœuf Charolais','Magret de canard','Côte de bœuf','Ris de veau','Foie gras frais']},
+    {id:2,nom:'Marée Fraîche Méditerranée',ico:'🐟',photo:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',cont:'Sophie Bertrand',tel:'04 78 92 11 23',email:'sophie@maree-med.fr',spec:'Poissons & Fruits de mer',livr:'Lundi · Mercredi · Vendredi',delai:1,note:5,adresse:'MIN Lyon, Corbas',siret:'389 456 789 00024',remise:0,minCmde:120,produits:['Filet de sole','Cabillaud Atlantique','Saint-Jacques Bretagne','Homard breton','Saumon Label Rouge']},
+    {id:3,nom:'Les Jardins de Provence',ico:'🥦',cont:'Marc Dupuis',tel:'06 12 87 34 56',email:'marc@jardins-provence.fr',spec:'Fruits & Légumes Bio',livr:'Lundi · Mercredi · Samedi',delai:1,note:4,adresse:'Ferme de Bellevue, Vienne (38)',siret:'567 234 891 00031',remise:5,minCmde:80,produits:['Tomates anciennes','Mesclun Bio','Asperges vertes','Champignons de Paris','Truffe noire (saison)']},
+    {id:4,nom:'Cave Rhône Prestige',ico:'🍷',photo:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80',cont:'Étienne Morel',tel:'04 74 65 23 89',email:'etienne@rhone-prestige.fr',spec:'Vins · Champagnes · Spiritueux',livr:'Jeudi',delai:3,note:5,adresse:'27 Route des Vins, Tain',siret:'234 678 012 00045',remise:8,minCmde:300,produits:['Côtes du Rhône Villages 2021','Saint-Joseph Rouge 2020','Crozes-Hermitage Blanc','Champagne Brut Réserve']},
+    {id:5,nom:'Épicerie Fine Saveurs du Monde',ico:'🧂',cont:'Isabelle Faure',tel:'04 78 42 16 78',email:'isabelle@saveurs-monde.fr',spec:'Épicerie fine · Condiments · Fromages',livr:'Mercredi',delai:2,note:4,adresse:'Zone Industrielle Nord, Lyon 9e',siret:'678 901 234 00052',remise:2,minCmde:100,produits:['Parmesan Parmigiano 24 mois','Chocolat Valrhona 70%','Fleur de sel de Guérande']},
+  ]; DB.ids.f=6;
   // Commandes fournisseurs
   DB.cmdFourn=[
-    {id:1,fournId:1,ref:'CF-2026-001',date:'2026-04-07',stat:'livré',total:480,notes:'Commande hebdo viandes',
-     articles:[
-       {nom:'Boeuf (filet)',qte:4,unit:'kg',pu:28,total:112},
-       {nom:'Magret de canard',qte:12,unit:'unité',pu:8.5,total:102},
-       {nom:'Boeuf (côte)',qte:6,unit:'kg',pu:32,total:192},
-       {nom:'Foie gras de canard',qte:2,unit:'kg',pu:37,total:74},
-     ]},
-    {id:2,fournId:2,ref:'CF-2026-002',date:'2026-04-08',stat:'livré',total:320,notes:'Poissons du jour',
-     articles:[
-       {nom:'Filet de sole',qte:5,unit:'kg',pu:18,total:90},
-       {nom:'Cabillaud',qte:6,unit:'kg',pu:16,total:96},
-       {nom:'Saumon frais',qte:4,unit:'kg',pu:18,total:72},
-       {nom:'Anchois',qte:0.5,unit:'kg',pu:25,total:62},
-     ]},
-    {id:3,fournId:3,ref:'CF-2026-003',date:'2026-04-07',stat:'livré',total:145,notes:'Légumes de saison',
-     articles:[
-       {nom:'Tomates',qte:8,unit:'kg',pu:2.5,total:20},
-       {nom:'Champignons Paris',qte:4,unit:'kg',pu:4.5,total:18},
-       {nom:'Courgettes',qte:6,unit:'kg',pu:2,total:12},
-       {nom:'Épinards',qte:2.5,unit:'kg',pu:5,total:12.5},
-       {nom:'Roquette',qte:1.5,unit:'kg',pu:8,total:12},
-       {nom:'Laitue romaine',qte:10,unit:'u',pu:1.2,total:12},
-       {nom:'Ail',qte:20,unit:'tête',pu:0.4,total:8},
-       {nom:'Persil',qte:10,unit:'botte',pu:0.8,total:8},
-       {nom:'Carottes',qte:6,unit:'kg',pu:1.5,total:9},
-       {nom:'Échalotes',qte:2,unit:'kg',pu:3,total:6},
-       {nom:'Citron',qte:25,unit:'u',pu:0.4,total:10},
-     ]},
-    {id:4,fournId:4,ref:'CF-2026-004',date:'2026-04-03',stat:'livré',total:680,notes:'Commande mensuelle vins',
-     articles:[
-       {nom:'Bordeaux rouge',qte:3,unit:'caisse',pu:45,total:135},
-       {nom:'Vin blanc cuisine',qte:6,unit:'L',pu:5,total:30},
-       {nom:'Vin rouge cuisine',qte:6,unit:'L',pu:5,total:30},
-       {nom:'Brut Réserve — Moët & Chandon',qte:1,unit:'caisse',pu:264,total:264},
-       {nom:'Crémant d&#39;Alsace Brut',qte:1,unit:'caisse',pu:84,total:84},
-       {nom:'Côtes de Provence Prestige',qte:1,unit:'caisse',pu:120,total:120},
-     ]},
-    {id:5,fournId:5,ref:'CF-2026-005',date:'2026-04-02',stat:'livré',total:230,notes:'Épicerie fine',
-     articles:[
-       {nom:'Parmesan affiné',qte:3,unit:'kg',pu:22,total:66},
-       {nom:'Chocolat Valrhona 70%',qte:3,unit:'kg',pu:18,total:54},
-       {nom:'Truffe noire',qte:80,unit:'g',pu:3.5,total:28},
-       {nom:'Câpres',qte:0.6,unit:'kg',pu:15,total:9},
-       {nom:'Vinaigre balsamique',qte:1.2,unit:'L',pu:15,total:18},
-       {nom:'Miel',qte:1.5,unit:'kg',pu:12,total:18},
-       {nom:'Vanille',qte:24,unit:'gousse',pu:2,total:48},
-     ]},
-    {id:6,fournId:1,ref:'CF-2026-006',date:'2026-04-14',stat:'commandé',total:460,notes:'Commande semaine prochaine',
-     articles:[
-       {nom:'Boeuf (filet)',qte:5,unit:'kg',pu:28,total:140},
-       {nom:'Magret de canard',qte:10,unit:'unité',pu:8.5,total:85},
-       {nom:'Boeuf (côte)',qte:5,unit:'kg',pu:32,total:160},
-       {nom:'Carré d&#39;agneau',qte:3,unit:'kg',pu:28,total:84},
-     ]},
-    {id:7,fournId:2,ref:'CF-2026-007',date:'2026-04-11',stat:'commandé',total:298,notes:'Poissons weekend',
-     articles:[
-       {nom:'Filet de sole',qte:4,unit:'kg',pu:18,total:72},
-       {nom:'Saumon frais',qte:6,unit:'kg',pu:18,total:108},
-       {nom:'Cabillaud',qte:4,unit:'kg',pu:16,total:64},
-       {nom:'Anchois',qte:0.6,unit:'kg',pu:25,total:54},
-     ]},
-    {id:8,fournId:3,ref:'CF-2026-008',date:'2026-04-10',stat:'brouillon',total:112,notes:'À confirmer',
-     articles:[
-       {nom:'Aubergines',qte:5,unit:'kg',pu:2.5,total:12.5},
-       {nom:'Poivrons',qte:4,unit:'kg',pu:3,total:12},
-       {nom:'Oignons',qte:10,unit:'kg',pu:1.2,total:12},
-       {nom:'Tomates',qte:8,unit:'kg',pu:2.5,total:20},
-       {nom:'Pommes',qte:5,unit:'kg',pu:2.5,total:12.5},
-     ]},
-    {id:9,fournId:6,ref:'CF-2026-009',date:'2026-04-08',stat:'livré',total:148,notes:'Laitiers semaine',
-     articles:[
-       {nom:'Crème fraîche',qte:6,unit:'L',pu:4.5,total:27},
-       {nom:'Beurre AOC',qte:4,unit:'kg',pu:8.5,total:34},
-       {nom:'Lait entier',qte:10,unit:'L',pu:1.2,total:12},
-       {nom:'Gruyère',qte:2,unit:'kg',pu:12,total:24},
-       {nom:'Oeufs frais',qte:60,unit:'unité',pu:0.35,total:21},
-     ]},
-    {id:10,fournId:7,ref:'CF-2026-010',date:'2026-04-12',stat:'livré',total:65,notes:'Pain quotidien',
-     articles:[
-       {nom:'Pain de campagne',qte:4,unit:'kg',pu:4,total:16},
-       {nom:'Croûtons',qte:1.2,unit:'kg',pu:5,total:6},
-       {nom:'Pâte feuilletée',qte:2.5,unit:'kg',pu:8,total:20},
-       {nom:'Pâte brisée',qte:2,unit:'kg',pu:6,total:12},
-     ]},
-    {id:11,fournId:9,ref:'CF-2026-011',date:'2026-04-06',stat:'livré',total:112,notes:'Épicerie sèche mensuelle',
-     articles:[
-       {nom:'Riz arborio',qte:5,unit:'kg',pu:3.5,total:17.5},
-       {nom:'Farine T55',qte:10,unit:'kg',pu:1.2,total:12},
-       {nom:'Sucre',qte:6,unit:'kg',pu:1.5,total:9},
-       {nom:'Café arabica',qte:4,unit:'kg',pu:28,total:112},
-     ]},
-    {id:12,fournId:8,ref:'CF-2026-012',date:'2026-04-09',stat:'livré',total:56,notes:'Volailles semaine',
-     articles:[
-       {nom:'Poulet fermier',qte:8,unit:'kg',pu:7,total:56},
-     ]},
-  ]; DB.ids.cf=13;
+    {id:1,fournId:1,ref:'CF-2026-001',date:'2026-04-07',stat:'livré',total:480,notes:'Commande hebdo viandes',articles:[{nom:'Filet de bœuf Charolais',qte:4,unit:'kg',pu:28,total:112},{nom:'Magret de canard',qte:12,unit:'unité',pu:8.5,total:102},{nom:'Côte de bœuf',qte:6,unit:'kg',pu:32,total:192},{nom:'Foie gras frais',qte:2,unit:'kg',pu:37,total:74}]},
+    {id:2,fournId:2,ref:'CF-2026-002',date:'2026-04-08',stat:'livré',total:320,notes:'Poissons du jour',articles:[{nom:'Filet de sole',qte:5,unit:'kg',pu:18,total:90},{nom:'Cabillaud Atlantique',qte:6,unit:'kg',pu:16,total:96},{nom:'Saint-Jacques Bretagne',qte:2,unit:'kg',pu:45,total:90},{nom:'Saumon Label Rouge',qte:4,unit:'kg',pu:11,total:44}]},
+    {id:3,fournId:3,ref:'CF-2026-003',date:'2026-04-07',stat:'livré',total:145,notes:'Légumes de saison',articles:[{nom:'Tomates anciennes',qte:8,unit:'kg',pu:4.5,total:36},{nom:'Mesclun Bio',qte:3,unit:'kg',pu:12,total:36},{nom:'Asperges vertes',qte:5,unit:'kg',pu:8,total:40},{nom:'Champignons Paris',qte:5,unit:'kg',pu:4.5,total:22.5}]},
+    {id:4,fournId:4,ref:'CF-2026-004',date:'2026-04-03',stat:'livré',total:680,notes:'Commande mensuelle vins',articles:[{nom:'Côtes du Rhône Villages 2021',qte:6,unit:'caisse',pu:58,total:348},{nom:'Saint-Joseph Rouge 2020',qte:3,unit:'caisse',pu:72,total:216},{nom:'Champagne Brut Réserve',qte:2,unit:'caisse',pu:58,total:116}]},
+    {id:5,fournId:5,ref:'CF-2026-005',date:'2026-04-02',stat:'livré',total:230,notes:'Épicerie fine',articles:[{nom:'Parmesan Parmigiano 24 mois',qte:3,unit:'kg',pu:22,total:66},{nom:'Chocolat Valrhona 70%',qte:4,unit:'kg',pu:18,total:72},{nom:'Fleur de sel de Guérande',qte:4,unit:'kg',pu:5,total:20}]},
+    {id:6,fournId:1,ref:'CF-2026-006',date:'2026-04-14',stat:'commandé',total:460,notes:'Commande semaine prochaine',articles:[{nom:'Filet de bœuf Charolais',qte:5,unit:'kg',pu:28,total:140},{nom:'Magret de canard',qte:10,unit:'unité',pu:8.5,total:85},{nom:'Côte de bœuf',qte:5,unit:'kg',pu:32,total:160}]},
+    {id:7,fournId:2,ref:'CF-2026-007',date:'2026-04-11',stat:'commandé',total:298,notes:'Poissons weekend',articles:[{nom:'Homard breton',qte:4,unit:'unité',pu:38,total:152},{nom:'Filet de sole',qte:4,unit:'kg',pu:18,total:72},{nom:'Saint-Jacques Bretagne',qte:1.5,unit:'kg',pu:45,total:67.5}]},
+    {id:8,fournId:3,ref:'CF-2026-008',date:'2026-04-10',stat:'brouillon',total:112,notes:'A confirmer',articles:[{nom:'Asperges vertes',qte:6,unit:'kg',pu:7,total:42}]},
+  ]; DB.ids.cf=9;
   saveDB();
   toast('Exemples rechargés ✅');
   nav('cmdFourn', null);
@@ -29673,30 +29114,20 @@ function toggleGrp(id){
 }
 function openGrpFor(page){
   const map={
-    // SERVICE
-    dash:'service',salle:'service',caisse:'service',caisseRapide:'service',reservations:'service',stocks:'service',commandes:'service',
-    // SALLE & CLIENTS
-    tablette:'restaurant',clients:'restaurant',fidelite:'restaurant',avis:'restaurant',location:'restaurant',livraison:'restaurant',histoTables:'restaurant',
-    ecranClient:'restaurant','resa-attente':'restaurant',
-    // CARTE & MENU
-    menu:'menu',menuJour:'menu',cave:'menu',fiches:'menu',allergenes:'menu',carteEnLigne:'menu',qrmenu:'menu',
-    // APPROVISIONNEMENT
-    fournisseurs:'gestion',cmdFourn:'gestion',dechets:'gestion',origine:'gestion',
-    // ÉQUIPE
-    rh:'personnel',planning:'personnel',presence:'personnel',conges:'personnel','fiches-paie':'personnel',salaires:'personnel',formation:'personnel',pourboires:'personnel',
-    // FINANCE
-    finance:'finance',rapports:'finance',stats:'finance',frais:'finance',banque:'finance',budget:'finance',marges:'finance',objectifs:'finance',
-    // ADMIN
-    params:'admin',haccp:'admin',todo:'admin',journal:'admin',incidents:'admin',maintenance:'admin',messagerie:'admin',vocale:'admin',
-    'resa-online':'admin',cloture:'admin',configCaisse:'admin',sauvegarde:'admin',acces:'admin',
-    periodes:'admin',documents:'admin',integrations:'admin',paramsAvances:'admin',etabs:'admin',
-    carteOrigines:'admin',vip:'admin',carteOrigines:'admin'
+    dash:'',salle:'',caisse:'',reservations:'',stocks:'',commandes:'',caisseRapide:'',
+    clients:'bo-clients',vip:'bo-clients',fidelite:'bo-clients',avis:'bo-clients',livraison:'bo-clients',
+    menu:'bo-carte',menuJour:'bo-carte',cave:'bo-carte',fiches:'bo-carte',allergenes:'bo-carte',carteEnLigne:'bo-carte',qrmenu:'bo-carte',carteOrigines:'bo-carte',
+    fournisseurs:'bo-appro',cmdFourn:'bo-appro',dechets:'bo-appro',origine:'bo-appro',
+    rh:'bo-equipe',planning:'bo-equipe',presence:'bo-equipe','resa-attente':'bo-equipe',conges:'bo-equipe','fiches-paie':'bo-equipe',salaires:'bo-equipe',formation:'bo-equipe',pourboires:'bo-equipe',
+    finance:'bo-finance',rapports:'bo-finance',stats:'bo-finance',frais:'bo-finance',banque:'bo-finance',budget:'bo-finance',marges:'bo-finance',objectifs:'bo-finance',
+    todo:'bo-admin',messagerie:'bo-admin',haccp:'bo-admin',cloture:'bo-admin',incidents:'bo-admin',maintenance:'bo-admin','resa-online':'bo-admin',sauvegarde:'bo-admin',documents:'bo-admin',integrations:'bo-admin',alertes:'bo-admin',histoTables:'bo-admin',tablette:'bo-admin',location:'bo-admin',journal:'bo-admin',vocale:'bo-admin',periodes:'bo-admin',ecranClient:'bo-admin',params:'bo-admin',configCaisse:'bo-admin',paramsAvances:'bo-admin',acces:'bo-admin',etabs:'bo-admin',briefing:'bo-admin',
   };
   const grp=map[page];
   if(!grp) return;
   const body=document.getElementById('body-'+grp);
   const arr=document.getElementById('arr-'+grp);
-  if(body&&body.style.display==='none'){body.style.display='block';if(arr)arr.textContent='▾';}
+  if(body) body.style.display='block';
+  if(arr) arr.textContent='▾';
 }
 function setGrpColor(){}
 function loadGrpColors(){}
