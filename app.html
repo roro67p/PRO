@@ -3587,7 +3587,81 @@ tbody td { padding:13px 14px; font-size:13px; }
 .kpi-card-bar-fill{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.4,0,.2,1);background:var(--kpi-accent,#6fcf8a);box-shadow:0 0 10px var(--kpi-accent,rgba(111,207,138,.3))}
 
 /* ── SECTIONS DASHBOARD ── */
-/* ══ TROMBINOSCOPE ÉQUIPE ══ */
+/* ══ INBOX EMPLOYÉ ══ */
+@keyframes inboxIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.inbox-wrap{
+  background:linear-gradient(135deg,rgba(106,172,218,.06),rgba(10,8,5,.97));
+  border:1px solid rgba(106,172,218,.2);border-radius:20px;
+  padding:22px 26px;animation:inboxIn .4s ease both;
+  position:relative;overflow:hidden;
+}
+.inbox-wrap::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(106,172,218,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.inbox-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.inbox-avatar{
+  width:48px;height:48px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;
+  background:rgba(106,172,218,.1);border:1px solid rgba(106,172,218,.25);
+  color:#6aacda;
+}
+.inbox-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#6aacda}
+.inbox-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.inbox-badge{
+  margin-left:auto;background:#6aacda;color:#0c0b09;
+  font-size:9px;font-weight:800;padding:3px 9px;border-radius:12px;
+}
+.inbox-empty{
+  padding:28px 0;text-align:center;
+  font-size:12px;color:var(--muted);
+}
+.inbox-empty-ico{font-size:32px;opacity:.2;margin-bottom:8px}
+.inbox-msgs{display:flex;flex-direction:column;gap:8px}
+.inbox-msg{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:12px 16px;
+  display:flex;align-items:flex-start;gap:12px;
+  transition:border-color .2s;
+  position:relative;
+}
+.inbox-msg.unread{border-color:rgba(106,172,218,.25);background:rgba(106,172,218,.04)}
+.inbox-msg.unread::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  border-radius:12px 0 0 12px;background:#6aacda;
+}
+.inbox-msg-ico{font-size:18px;flex-shrink:0;margin-top:2px}
+.inbox-msg-body{flex:1;min-width:0}
+.inbox-msg-from{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;margin-bottom:3px}
+.inbox-msg-txt{font-size:13px;color:var(--txt);line-height:1.5}
+.inbox-msg-date{font-size:9px;color:var(--muted);margin-top:5px}
+.inbox-msg-read{
+  flex-shrink:0;padding:4px 10px;border-radius:8px;
+  font-size:9px;font-weight:700;cursor:pointer;
+  border:1px solid rgba(106,172,218,.2);background:rgba(106,172,218,.06);
+  color:#6aacda;font-family:'Outfit',sans-serif;transition:all .15s;
+}
+.inbox-msg-read:hover{background:rgba(106,172,218,.15)}
+.inbox-reply-form{margin-top:10px;display:none}
+.inbox-msg.open .inbox-reply-form{display:flex;gap:6px}
+.inbox-reply-input{
+  flex:1;background:rgba(255,255,255,.04);border:1px solid var(--line2);
+  border-radius:8px;padding:7px 11px;font-size:12px;color:var(--txt);
+  font-family:'Outfit',sans-serif;outline:none;
+}
+.inbox-reply-input:focus{border-color:rgba(106,172,218,.4)}
+.inbox-reply-send{
+  padding:7px 14px;border-radius:8px;font-size:10px;font-weight:700;
+  cursor:pointer;border:1px solid rgba(106,172,218,.3);
+  background:rgba(106,172,218,.1);color:#6aacda;
+  font-family:'Outfit',sans-serif;transition:all .15s;white-space:nowrap;
+}
+.inbox-reply-send:hover{background:rgba(106,172,218,.2)}
+
+/* ══ FIN CSS INBOX ══ */
 @keyframes trombiCardIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes trombiPanelIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
 @keyframes trombiPresencePulse{0%,100%{box-shadow:0 0 0 0 rgba(111,207,138,.4)}70%{box-shadow:0 0 0 6px rgba(111,207,138,0)}}
@@ -7102,7 +7176,7 @@ table tr:nth-child(even) td{background:rgba(255,255,255,.015)!important}
 <body>
 
 <!-- ÉCRAN DE CONNEXION PIN -->
-<div id="pin-screen" style="display:none">
+<div id="pin-screen">
   <div class="pin-logo">
     <div class="pin-logo-name">CHEZ ROMU</div>
     <div class="pin-logo-sub">✦ Restaurant ✦</div>
@@ -7381,6 +7455,9 @@ table tr:nth-child(even) td{background:rgba(255,255,255,.015)!important}
         <button class="btn btn-danger btn-sm" onclick="ouvrirFinService()">🌙 Fin de service</button>
       </div>
     </div>
+
+    <!-- INBOX EMPLOYÉ (visible uniquement si connecté en tant qu'employé) -->
+    <div id="inbox-employe" style="display:none"></div>
 
     <!-- PATRON AVATAR RH -->
     <div class="patron-section" id="patron-section">
@@ -19533,6 +19610,124 @@ function rRap(){
   </div>`).join('');
 }
 
+// ═══ INBOX EMPLOYÉ ═══
+
+function afficherInboxEmploye(u){
+  var wrap=document.getElementById('inbox-employe');
+  if(!wrap) return;
+  wrap.style.display='block';
+  renderInbox(u);
+}
+
+function renderInbox(u){
+  var wrap=document.getElementById('inbox-employe');
+  if(!wrap) return;
+  var empId=u.id;
+  var msgs=JSON.parse(localStorage.getItem('patron_demandes')||'[]');
+  // Messages destinés à cet employé (envoyés via trombi) + réponses
+  var mesMessages=msgs.filter(function(m){
+    return m.dest===empId || m.destNom===(u.prenom||u.nom);
+  });
+  // Marquer comme lus depuis localStorage
+  var lus=JSON.parse(localStorage.getItem('inbox_lus_'+empId)||'[]');
+
+  var initiales=((u.prenom||'').charAt(0)+(u.nom||'').charAt(0)).toUpperCase()||'?';
+  var nonLus=mesMessages.filter(function(m){return lus.indexOf(m.id)<0;}).length;
+
+  var html='<div class="inbox-wrap">';
+  html+='<div class="inbox-header">';
+  html+='<div class="inbox-avatar">'+initiales+'</div>';
+  html+='<div><div class="inbox-title">Bonjour '+(u.prenom||u.nom)+' !</div>';
+  html+='<div class="inbox-sub">'+(u.poste||'Employé')+' · Vos messages</div></div>';
+  if(nonLus>0) html+='<div class="inbox-badge">'+nonLus+' nouveau'+(nonLus>1?'x':'')+'</div>';
+  html+='</div>';
+
+  if(mesMessages.length===0){
+    html+='<div class="inbox-empty"><div class="inbox-empty-ico">📭</div>Aucun message pour l\'instant</div>';
+  } else {
+    html+='<div class="inbox-msgs">';
+    mesMessages.slice().reverse().forEach(function(m){
+      var lu=lus.indexOf(m.id)>=0;
+      var dt=new Date(m.date);
+      var dateStr=dt.toLocaleDateString('fr-FR',{day:'numeric',month:'short'})+' à '+dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      html+='<div class="inbox-msg'+(lu?'':' unread')+'" id="imsg-'+m.id+'">';
+      html+='<div class="inbox-msg-ico">✉️</div>';
+      html+='<div class="inbox-msg-body">';
+      html+='<div class="inbox-msg-from">Le Patron · Direction</div>';
+      html+='<div class="inbox-msg-txt">'+(m.contenu||m.titre||'Message')+'</div>';
+      html+='<div class="inbox-msg-date">'+dateStr+'</div>';
+      // Réponses
+      var repKey='inbox_rep_'+empId+'_'+m.id;
+      var reps=JSON.parse(localStorage.getItem(repKey)||'[]');
+      reps.forEach(function(r){
+        html+='<div style="margin-top:8px;padding:8px 12px;background:rgba(201,151,58,.06);border-radius:8px;font-size:12px;color:var(--sub)">';
+        html+='<span style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)">Votre réponse</span><br>'+r.txt;
+        html+='</div>';
+      });
+      html+='<div class="inbox-reply-form" id="rep-form-'+m.id+'">';
+      html+='<input class="inbox-reply-input" id="rep-inp-'+m.id+'" placeholder="Répondre au patron..." />';
+      html+='<button class="inbox-reply-send" onclick="inboxReply('+m.id+','+empId+')">Envoyer</button>';
+      html+='</div>';
+      html+='</div>';
+      if(!lu) html+='<button class="inbox-msg-read" onclick="inboxMarquerLu('+m.id+','+empId+')">✓ Lu</button>';
+      html+='</div>';
+    });
+    html+='</div>';
+  }
+  html+='</div>';
+  wrap.innerHTML=html;
+}
+
+function inboxMarquerLu(msgId,empId){
+  var lus=JSON.parse(localStorage.getItem('inbox_lus_'+empId)||'[]');
+  if(lus.indexOf(msgId)<0) lus.push(msgId);
+  localStorage.setItem('inbox_lus_'+empId,JSON.stringify(lus));
+  var el=document.getElementById('imsg-'+msgId);
+  if(el){el.classList.remove('unread');var btn=el.querySelector('.inbox-msg-read');if(btn)btn.remove();}
+  // Toggle reply form
+  var form=document.getElementById('rep-form-'+msgId);
+  if(form) form.style.display=form.style.display==='flex'?'none':'flex';
+  // Re-render badge
+  var msgs=JSON.parse(localStorage.getItem('patron_demandes')||'[]');
+  var lus2=JSON.parse(localStorage.getItem('inbox_lus_'+empId)||'[]');
+  var mesMessages=msgs.filter(function(m){return m.dest===empId;});
+  var nonLus=mesMessages.filter(function(m){return lus2.indexOf(m.id)<0;}).length;
+  var badge=document.querySelector('.inbox-badge');
+  if(badge){if(nonLus>0){badge.textContent=nonLus+' nouveau'+(nonLus>1?'x':'');}else badge.remove();}
+}
+
+function inboxReply(msgId,empId){
+  var inp=document.getElementById('rep-inp-'+msgId);
+  if(!inp||!inp.value.trim()) return;
+  var repKey='inbox_rep_'+empId+'_'+msgId;
+  var reps=JSON.parse(localStorage.getItem(repKey)||'[]');
+  reps.push({txt:inp.value.trim(),date:new Date().toISOString()});
+  localStorage.setItem(repKey,JSON.stringify(reps));
+  // Aussi sauvegarder comme demande pour que le patron voit la réponse
+  var demandes=JSON.parse(localStorage.getItem('patron_demandes')||'[]');
+  var emp=(DB.personnel||[]).find(function(e){return e.id===empId;})||{};
+  demandes.push({
+    id:Date.now(),type:'message',
+    titre:'Réponse de '+(emp.prenom||'Employé'),
+    contenu:inp.value.trim(),
+    date:new Date().toISOString(),
+    statut:'en_attente',
+    dest:0, // vers patron
+    destNom:'Admin'
+  });
+  localStorage.setItem('patron_demandes',JSON.stringify(demandes));
+  inp.value='';
+  // Toast
+  var toast=document.createElement('div');
+  toast.className='patron-toast';
+  toast.innerHTML='<div class="patron-toast-ico">✉️</div><div class="patron-toast-txt"><div class="patron-toast-title">Réponse envoyée !</div>Le patron recevra votre message.</div>';
+  document.body.appendChild(toast);
+  setTimeout(function(){toast.style.transition='opacity .3s';toast.style.opacity='0';setTimeout(function(){if(toast.parentNode)toast.parentNode.removeChild(toast);},300);},2500);
+  // Re-render
+  var u=(DB.personnel||[]).find(function(e){return e.id===empId;})||{id:empId};
+  renderInbox(u);
+}
+
 // ═══ TROMBINOSCOPE ÉQUIPE ═══
 
 var _trombiFiltre='tous';
@@ -19860,9 +20055,18 @@ function trombiSendMsg(empId){
   var txt=document.getElementById('tp-msg-txt');
   if(!txt||!txt.value.trim()) return;
   var emp=(DB.personnel||[]).find(function(e){return e.id===empId;});
-  // Sauvegarde message
+  // Sauvegarde message avec dest = id employé
   var msgs=JSON.parse(localStorage.getItem('patron_demandes')||'[]');
-  msgs.push({id:Date.now(),type:'message',titre:'Message à '+(emp?emp.prenom:'?'),contenu:txt.value.trim(),date:new Date().toISOString(),statut:'approuve',dest:empId});
+  msgs.push({
+    id:Date.now(),
+    type:'message',
+    titre:'Message à '+(emp?emp.prenom:'?'),
+    contenu:txt.value.trim(),
+    date:new Date().toISOString(),
+    statut:'approuve',
+    dest:empId,
+    destNom:emp?emp.prenom:''
+  });
   localStorage.setItem('patron_demandes',JSON.stringify(msgs));
   txt.value='';
   // Toast
@@ -21516,15 +21720,27 @@ function pinEnter(welcomeEl){
   }
   // Selon le rôle : Admin → dashboard, Employé → tablette serveur
   const u = _pinCurrentUser;
+
+  // Sauvegarder session
+  if(u){
+    if(u.id===0){
+      setSession({id:0,nom:'Admin',prenom:'',poste:'Manager'}, 'patron');
+    } else {
+      const emp=(DB.personnel||[]).find(e=>e.id===u.id)||u;
+      setSession(emp, 'employe');
+    }
+  }
+
   if(u && u.id !== 0){
-    // Employé → tablette serveur directement + masquer sidebar
+    // Employé → dashboard employé avec boîte de réception
     setTimeout(()=>{
-      nav('tablette', null);
+      nav('dash', null);
+      // Afficher la boîte de réception en haut du dashboard
+      setTimeout(()=>{ afficherInboxEmploye(u); }, 300);
       const mobBtn=document.getElementById('mob-btn');
       const sidebar=document.getElementById('sidebar');
-      // Garder le bouton menu mais filtrer les nav items
       if(sidebar){
-        const allowed=['tablette','salle','commandes','reservations'];
+        const allowed=['dash','tablette','salle','commandes','reservations'];
         sidebar.querySelectorAll('.nav-item').forEach(item=>{
           const onclick=item.getAttribute('onclick')||'';
           const match=onclick.match(/nav\('([^']+)'/);
@@ -21533,7 +21749,6 @@ function pinEnter(welcomeEl){
             item.style.display='none';
           }
         });
-        // Masquer les groupes vides
         sidebar.querySelectorAll('.sb-group').forEach(grp=>{
           const visible=[...grp.querySelectorAll('.nav-item')].filter(i=>i.style.display!=='none');
           if(!visible.length) grp.style.display='none';
@@ -21543,7 +21758,7 @@ function pinEnter(welcomeEl){
       const badge=document.createElement('div');
       badge.id='serveur-badge';
       badge.style.cssText='position:fixed;top:8px;right:12px;z-index:999;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:#c9a84c;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:.05em;pointer-events:none';
-      badge.textContent='🧑\u200d🍳 Mode Serveur — '+(u.prenom||u.nom);
+      badge.textContent='👤 '+(u.prenom||u.nom)+' · '+(u.poste||'Employé');
       document.body.appendChild(badge);
     }, 450);
   } else {
@@ -21684,9 +21899,8 @@ document.addEventListener('DOMContentLoaded', function(){
   }, 300);
   // Init récents
   setTimeout(renderRecents, 200);
-  // Init écran PIN (désactivé - pour réactiver décommenter la ligne suivante)
-  // // pinInit désactivé
-  const pinScr=document.getElementById('pin-screen');if(pinScr)pinScr.style.display='none';
+  // Init écran PIN — actif
+  pinInit();
   const rsDate = document.getElementById('rs-date');
   const rsHeure = document.getElementById('rs-heure');
   if(rsDate) rsDate.value=td();
