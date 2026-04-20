@@ -7825,7 +7825,113 @@ table tr:nth-child(even) td{background:rgba(255,255,255,.015)!important}
   </div>
   </div>
 
-  
+  <!-- MENU DU JOUR -->
+  <div id="page-menuJour" class="page">
+  <div>
+
+    <!-- PARAMS PANEL -->
+    <div class="mj-params-panel">
+      <div class="mj-params-title">⚙ Paramètres du menu</div>
+      <div class="mj-params-grid">
+        <div class="form-group"><div class="form-label">Date</div><input class="form-input" id="mj-date" type="date" oninput="mjSave()"/></div>
+        <div class="form-group"><div class="form-label">Message spécial</div><input class="form-input" id="mj-msg" placeholder="Ex : Spécial fête des mères…" oninput="mjSave()"/></div>
+        <div class="form-group"><div class="form-label">Formule Entrée+Plat (€)</div><input class="form-input" id="mj-formule-ep" type="number" placeholder="22" oninput="mjSave()"/></div>
+        <div class="form-group"><div class="form-label">Formule Plat+Dessert (€)</div><input class="form-input" id="mj-formule-pd" type="number" placeholder="22" oninput="mjSave()"/></div>
+        <div class="form-group"><div class="form-label">Formule complète (€)</div><input class="form-input" id="mj-formule" type="number" placeholder="28" oninput="mjSave()"/></div>
+        <div class="form-group"><div class="form-label">Mention chef</div><input class="form-input" id="mj-chef" placeholder="Ex : Sélection du Chef" oninput="mjSave()"/></div>
+      </div>
+    </div>
+
+    <!-- CARTE -->
+    <div style="background:var(--ink2);border:1px solid rgba(201,151,58,.15);border-radius:20px;padding:28px 32px;max-width:720px;margin:0 auto">
+
+      <!-- En-tête -->
+      <div class="mj-carte-head">
+        <div class="mj-enseigne" id="mj-enseigne-nom">Chez Romu</div>
+        <div class="mj-ornement">— ✦ —</div>
+        <div class="mj-date-big" id="mj-date-display"></div>
+        <div class="mj-chef-msg" id="mj-chef-display"></div>
+      </div>
+
+      <!-- Message bannière -->
+      <div class="mj-msg-banner" id="mj-msg-banner" style="display:none"></div>
+
+      <!-- Formules -->
+      <div class="mj-formules-row" id="mj-formules-row"></div>
+
+      <div class="mj-ornement" style="text-align:center;margin:12px 0">— ✦ —</div>
+
+      <!-- Sections plats -->
+      <div class="mj-carte">
+        <div class="mj-col">
+          <div class="mj-section">
+            <div class="mj-sec-header">
+              <div class="mj-sec-ornement">✦</div>
+              <div class="mj-sec-title">Entrées</div>
+              <button class="mj-add-btn" onclick="mjOpenAdd('entrees')" title="Ajouter">+</button>
+            </div>
+            <div class="mj-sec-line"></div>
+            <div class="mj-items" id="mj-items-entrees"></div>
+          </div>
+          <div class="mj-section">
+            <div class="mj-sec-header">
+              <div class="mj-sec-ornement">✦</div>
+              <div class="mj-sec-title">Fromages</div>
+              <button class="mj-add-btn" onclick="mjOpenAdd('fromages')" title="Ajouter">+</button>
+            </div>
+            <div class="mj-sec-line"></div>
+            <div class="mj-items" id="mj-items-fromages"></div>
+          </div>
+          <div class="mj-section">
+            <div class="mj-sec-header">
+              <div class="mj-sec-ornement">✦</div>
+              <div class="mj-sec-title">Boissons</div>
+              <button class="mj-add-btn" onclick="mjOpenAdd('boissons')" title="Ajouter">+</button>
+            </div>
+            <div class="mj-sec-line"></div>
+            <div class="mj-items" id="mj-items-boissons"></div>
+          </div>
+        </div>
+
+        <div class="mj-divider-v">
+          <div class="mj-divider-line"></div>
+          <div class="mj-divider-ico">✦</div>
+          <div class="mj-divider-line"></div>
+        </div>
+
+        <div class="mj-col">
+          <div class="mj-section">
+            <div class="mj-sec-header">
+              <div class="mj-sec-ornement">✦</div>
+              <div class="mj-sec-title">Plats</div>
+              <button class="mj-add-btn" onclick="mjOpenAdd('plats')" title="Ajouter">+</button>
+            </div>
+            <div class="mj-sec-line"></div>
+            <div class="mj-items" id="mj-items-plats"></div>
+          </div>
+          <div class="mj-section">
+            <div class="mj-sec-header">
+              <div class="mj-sec-ornement">✦</div>
+              <div class="mj-sec-title">Desserts</div>
+              <button class="mj-add-btn" onclick="mjOpenAdd('desserts')" title="Ajouter">+</button>
+            </div>
+            <div class="mj-sec-line"></div>
+            <div class="mj-items" id="mj-items-desserts"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer carte -->
+      <div class="mj-footer-carte">
+        <div class="mj-footer-line"></div>
+        <div class="mj-footer-text">Prix nets · Service compris · TVA incluse</div>
+        <div class="mj-footer-line"></div>
+      </div>
+    </div>
+
+  </div>
+  </div><!-- fin page-menuJour -->
+
   <!-- RÉSERVATIONS -->
   <div id="page-reservations" class="page">
   <div class="rs-page">
@@ -8727,7 +8833,6 @@ table tr:nth-child(even) td{background:rgba(255,255,255,.015)!important}
         </div>
         <button class="btn btn-gold" style="margin-top:16px" onclick="saveParams()">Sauvegarder</button>
       </div>
-    </div>
 
   <!-- CARD IMPRIMANTE THERMIQUE -->
   <div class="card" style="margin-top:14px">
@@ -8777,6 +8882,7 @@ table tr:nth-child(even) td{background:rgba(255,255,255,.015)!important}
       <div id="print-status" style="font-size:12px;color:var(--muted)"></div>
     </div>
   </div>
+  </div><!-- fin page-params -->
 
   <!-- FICHES TECHNIQUES -->
   <div id="page-fiches" class="page">
@@ -23130,7 +23236,7 @@ function rMenuJour(){
   ];
 
   CATS.forEach((cat,catIdx)=>{
-    const el=get('mj-'+cat.id);
+    const el=get('mj-items-'+cat.id);
     if(!el) return;
     const items=(mj.plats||[]).filter(p=>p.cat===cat.id);
 
@@ -23186,8 +23292,29 @@ function openMenuJourModal(){
   filtrerPlatsMJ();
   openModal('mo-menuJour');
 }
+function mjOpenAdd(cat){
+  var sel=document.getElementById('mjm-cat');
+  if(sel) sel.value=cat;
+  openModal('mo-menuJour');
+}
+
+function mjSave(){
+  var mj=DB.menuJour||{};
+  var get=function(id){return document.getElementById(id);};
+  if(get('mj-date')) mj.date=get('mj-date').value;
+  if(get('mj-msg')) mj.msg=get('mj-msg').value;
+  if(get('mj-formule')) mj.formule=get('mj-formule').value;
+  if(get('mj-formule-ep')) mj.formuleEP=get('mj-formule-ep').value;
+  if(get('mj-formule-pd')) mj.formulePD=get('mj-formule-pd').value;
+  if(get('mj-chef')) mj.chef=get('mj-chef').value;
+  DB.menuJour=mj;
+  saveDB();
+  rMenuJour();
+}
+
+function saveMJ(){ mjSave(); }
+
 function saveMJPlat(){
-  const nom=document.getElementById('mjm-nom').value.trim();
   if(!nom){toast('Saisissez un nom de plat','err');return;}
   if(!DB.menuJour) DB.menuJour={date:'',msg:'',formule:'',formuleEP:'',formulePD:'',chef:'',plats:[]};
   // Option : sélectionner depuis le menu existant
