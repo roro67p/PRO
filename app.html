@@ -661,9 +661,9 @@ tbody tr { transition:background .12s; }
 /* Filtres + recherche */
 .mn2-toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .mn2-cats{display:flex;gap:5px;flex-wrap:wrap;flex:1}
-.mn2-cat-btn{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:rgba(255,255,255,.04);transition:all .15s;white-space:nowrap}
-.mn2-cat-btn.on{background:rgba(201,151,58,.16);border-color:rgba(201,151,58,.35);color:var(--gold3)}
-.mn2-cat-btn:hover:not(.on){border-color:rgba(255,255,255,.15);color:var(--txt)}
+.mn2-cat-btn{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid;transition:all .15s;white-space:nowrap}
+.mn2-cat-btn.on{opacity:1!important;filter:brightness(1.15)}
+.mn2-cat-btn:hover{opacity:1!important;filter:brightness(1.2)}
 .mn2-search{position:relative;min-width:160px}
 .mn2-search input{width:100%;background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:7px 10px 7px 28px;color:var(--txt);font-size:12px;outline:none;transition:border-color .15s}
 .mn2-search input:focus{border-color:rgba(201,151,58,.3)}
@@ -2247,9 +2247,9 @@ tbody td { padding:13px 14px; font-size:13px; }
 /* Filtres + recherche */
 .mn2-toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .mn2-cats{display:flex;gap:5px;flex-wrap:wrap;flex:1}
-.mn2-cat-btn{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--line);color:var(--sub);background:rgba(255,255,255,.04);transition:all .15s;white-space:nowrap}
-.mn2-cat-btn.on{background:rgba(201,151,58,.16);border-color:rgba(201,151,58,.35);color:var(--gold3)}
-.mn2-cat-btn:hover:not(.on){border-color:rgba(255,255,255,.15);color:var(--txt)}
+.mn2-cat-btn{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid;transition:all .15s;white-space:nowrap}
+.mn2-cat-btn.on{opacity:1!important;filter:brightness(1.15)}
+.mn2-cat-btn:hover{opacity:1!important;filter:brightness(1.2)}
 .mn2-search{position:relative;min-width:160px}
 .mn2-search input{width:100%;background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:7px 10px 7px 28px;color:var(--txt);font-size:12px;outline:none;transition:border-color .15s}
 .mn2-search input:focus{border-color:rgba(201,151,58,.3)}
@@ -3325,15 +3325,19 @@ tbody td { padding:13px 14px; font-size:13px; }
 }
 .p3-cat{
   padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;
-  cursor:pointer;border:1px solid rgba(255,255,255,.08);
-  color:var(--sub);background:rgba(255,255,255,.04);
-  transition:all .15s;
+  cursor:pointer;border:1px solid;
+  transition:all .2s;
+  position:relative;overflow:hidden;
+  background-size:200% 100%;
 }
-.p3-cat:hover{background:rgba(255,255,255,.08);color:var(--txt)}
-.p3-cat.on{
-  background:rgba(201,151,58,.15);border-color:rgba(201,151,58,.4);
-  color:var(--gold3);box-shadow:0 0 10px rgba(201,151,58,.15);
+.p3-cat::after{
+  content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transition:left .4s;
 }
+.p3-cat:hover::after{left:150%;}
+.p3-cat:hover{filter:brightness(1.25);opacity:1!important;transform:translateY(-1px);}
+.p3-cat.on{opacity:1!important;transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,255,255,.1);}
 .p3-search-row{padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.04)}
 .p3-search{
   width:100%;background:rgba(255,255,255,.05);
@@ -7171,6 +7175,137 @@ table tr:nth-child(even) td{background:rgba(255,255,255,.015)!important}
 /* Bouton ouvrir/fermer */
 #cd-open-btn{background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.3);color:var(--gold2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s;letter-spacing:.3px}
 #cd-open-btn:hover{background:rgba(201,151,58,.2)}
+
+/* ══ TABLES 3D CSS ══ */
+.t3d-wrap{
+  perspective:900px;
+  width:130px;height:130px;
+  cursor:pointer;
+  position:relative;
+  transition:filter .2s;
+}
+.t3d-wrap:hover{filter:brightness(1.18);}
+.t3d-wrap:hover .t3d-scene{transform:rotateX(52deg) rotateZ(-40deg) scale(1.07);}
+.t3d-scene{
+  width:100%;height:100%;
+  transform-style:preserve-3d;
+  transform:rotateX(55deg) rotateZ(-42deg);
+  transition:transform .25s cubic-bezier(.4,0,.2,1);
+  position:relative;
+}
+/* Plateau de table */
+.t3d-top{
+  position:absolute;
+  width:76px;height:76px;
+  left:27px;top:27px;
+  border-radius:10px;
+  transform-style:preserve-3d;
+  transform:translateZ(18px);
+  box-shadow:0 0 0 2px rgba(255,255,255,.08);
+}
+.t3d-top-face{
+  position:absolute;inset:0;
+  border-radius:10px;
+}
+/* Épaisseur table (côtés) */
+.t3d-side-front,.t3d-side-right,.t3d-side-back,.t3d-side-left{
+  position:absolute;
+  background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.6));
+  border-radius:0;
+}
+.t3d-side-front{width:76px;height:18px;left:27px;top:85px;transform-origin:top;transform:rotateX(-90deg);}
+.t3d-side-right{width:18px;height:76px;left:101px;top:27px;transform-origin:left;transform:rotateY(90deg);}
+.t3d-side-back{width:76px;height:18px;left:27px;top:27px;transform-origin:bottom;transform:rotateX(90deg);}
+.t3d-side-left{width:18px;height:76px;left:27px;top:27px;transform-origin:right;transform:rotateY(-90deg);}
+/* Chaises */
+.t3d-chair{
+  position:absolute;
+  width:22px;height:22px;
+  border-radius:4px;
+  transform:translateZ(8px);
+}
+/* Sol / ombre */
+.t3d-shadow{
+  position:absolute;
+  width:80px;height:80px;
+  left:25px;top:25px;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,0,0,.35) 0%,transparent 70%);
+  transform:translateZ(-2px) scaleX(1.1) scaleY(.8);
+  filter:blur(4px);
+}
+/* Décos sur la table */
+.t3d-deco{
+  position:absolute;
+  transform:translateZ(22px);
+  font-size:13px;
+  pointer-events:none;
+  line-height:1;
+}
+/* Label numéro */
+.t3d-label{
+  position:absolute;
+  transform:translateZ(24px);
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-weight:700;
+  text-align:center;
+  pointer-events:none;
+  line-height:1;
+  text-shadow:0 1px 4px rgba(0,0,0,.8);
+}
+/* Personnages stylisés (bonhomme SVG inline) */
+.t3d-person{
+  position:absolute;
+  transform:translateZ(26px);
+  font-size:16px;
+  pointer-events:none;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));
+}
+/* Bougie animée */
+@keyframes t3dFlicker{0%,100%{opacity:1;transform:translateZ(26px) scale(1)}50%{opacity:.7;transform:translateZ(26px) scale(.92)}}
+.t3d-candle{
+  position:absolute;
+  transform:translateZ(26px);
+  font-size:14px;
+  animation:t3dFlicker 1.6s ease-in-out infinite;
+  pointer-events:none;
+  filter:drop-shadow(0 0 4px rgba(255,200,80,.7));
+}
+/* Statut glow */
+.t3d-wrap.libre .t3d-top-face{background:linear-gradient(135deg,#1a2a4a,#1e3a6a);}
+.t3d-wrap.libre .t3d-chair{background:linear-gradient(135deg,#1e3060,#162448);border:1px solid rgba(80,140,255,.3);}
+.t3d-wrap.occupee .t3d-top-face{background:linear-gradient(135deg,#3a1e1e,#5c2a2a);}
+.t3d-wrap.occupee .t3d-chair{background:linear-gradient(135deg,#4a2020,#3a1a1a);border:1px solid rgba(240,112,96,.35);}
+.t3d-wrap.reservee .t3d-top-face{background:linear-gradient(135deg,#1e2a3a,#1a3050);}
+.t3d-wrap.reservee .t3d-chair{background:linear-gradient(135deg,#1a2a40,#152236);border:1px solid rgba(106,172,218,.35);}
+/* Badge statut */
+.t3d-badge{
+  position:absolute;
+  bottom:-20px;left:50%;transform:translateX(-50%);
+  font-size:9px;font-weight:700;
+  padding:2px 8px;border-radius:10px;
+  white-space:nowrap;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.t3d-badge.libre{background:rgba(80,140,255,.2);color:#6aacff;border:1px solid rgba(80,140,255,.35);}
+.t3d-badge.occupee{background:rgba(240,112,96,.2);color:#f07060;border:1px solid rgba(240,112,96,.35);}
+.t3d-badge.reservee{background:rgba(106,172,218,.2);color:#6aacda;border:1px solid rgba(106,172,218,.35);}
+/* Pulse ring occupée */
+@keyframes t3dRing{0%{box-shadow:0 0 0 0 rgba(240,112,96,.4)}70%{box-shadow:0 0 0 8px rgba(240,112,96,0)}100%{box-shadow:0 0 0 0 rgba(240,112,96,0)}}
+.t3d-wrap.occupee .t3d-top{animation:t3dRing 2.2s ease-out infinite;}
+/* Info flottante */
+.t3d-info{
+  position:absolute;
+  top:-28px;left:50%;transform:translateX(-50%);
+  font-size:10px;font-weight:700;color:var(--gold2);
+  white-space:nowrap;
+  background:rgba(10,9,7,.85);
+  padding:2px 7px;border-radius:6px;
+  border:1px solid rgba(201,151,58,.3);
+  pointer-events:none;
+  opacity:0;transition:opacity .2s;
+}
+.t3d-wrap:hover .t3d-info{opacity:1;}
 </style>
 </head>
 <body>
@@ -12237,6 +12372,7 @@ function initData(){
      produits:['Parmesan Parmigiano 24 mois','Huile d&#39;olive AOP Nyons','Chocolat Valrhona 70%','Truffe noire en conserve','Fleur de sel de Guérande'],
      historique:[{date:'2026-04-02',total:230,stat:'livré'},{date:'2026-03-26',total:195,stat:'livré'},{date:'2026-03-19',total:278,stat:'livré'}]},
   ]; DB.ids.f=6;
+  if(typeof DB_FOURN_DEFAULT==='undefined') window.DB_FOURN_DEFAULT=JSON.parse(JSON.stringify(DB.fournisseurs));
 
   DB.clients=[
     {id:1,nom:'Pierre Lefèvre',tel:'06 11 22 33 44',email:'pierre.l@email.fr',allergies:'',prefs:'Table 5 en terrasse, vin rouge',notes:'Client fidèle depuis l\'ouverture. Anniversaire le 15 mars.',important:true,
@@ -13987,6 +14123,7 @@ function loadDB(){
     if(!DB.commandes||!Array.isArray(DB.commandes)) DB.commandes=[];
     if(!DB.reservations||!Array.isArray(DB.reservations)) DB.reservations=[];
     if(!DB.fournisseurs||!Array.isArray(DB.fournisseurs)) DB.fournisseurs=[];
+    if(!DB.fournisseurs.length){DB.fournisseurs=JSON.parse(JSON.stringify(DB_FOURN_DEFAULT||[]));DB.ids.f=DB.fournisseurs.length+1;}
     // Données de démo — forcer si vide (localStorage peut avoir [] sauvegardé)
     if(!DB.personnel||!DB.personnel.length){
       DB.personnel=JSON.parse(JSON.stringify(DB_PERSONNEL_DEFAULT||[]));
@@ -14412,7 +14549,8 @@ function fillSels(){
   if(catsPick&&!catsPick.dataset.built){
     catsPick.dataset.built='1';
     const cats=['Tous',...new Set(DB.plats.filter(p=>p.dispo==='dispo').map(p=>p.cat).filter(Boolean))];
-    catsPick.innerHTML=cats.map(c=>`<span onclick="cmdPickSetCat('${c}',this)" style="padding:3px 10px;border-radius:14px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid;transition:all .12s;background:${c==='Tous'?'rgba(201,151,58,.16)':'rgba(255,255,255,.05)'};color:${c==='Tous'?'var(--gold3)':'var(--sub)'};border-color:${c==='Tous'?'rgba(201,151,58,.4)':'var(--line)'}">${c}</span>`).join('');
+    const CAT_COL2={'Tous':{bg:'rgba(201,151,58,.15)',bd:'rgba(201,151,58,.4)',c:'#e8c87a',ico:'🍽️'},'Entrées':{bg:'rgba(111,207,138,.12)',bd:'rgba(111,207,138,.35)',c:'#6fcf8a',ico:'🥗'},'Viandes':{bg:'rgba(220,80,60,.15)',bd:'rgba(220,80,60,.4)',c:'#f08070',ico:'🥩'},'Poissons':{bg:'rgba(80,160,220,.14)',bd:'rgba(80,160,220,.4)',c:'#6ab8e8',ico:'🐟'},'Végétarien':{bg:'rgba(90,200,90,.13)',bd:'rgba(90,200,90,.38)',c:'#7dcc7d',ico:'🥦'},'Plats':{bg:'rgba(230,140,50,.14)',bd:'rgba(230,140,50,.4)',c:'#f0a060',ico:'🍲'},'Desserts':{bg:'rgba(220,100,180,.14)',bd:'rgba(220,100,180,.4)',c:'#e878cc',ico:'🍰'},'Boissons':{bg:'rgba(60,150,220,.14)',bd:'rgba(60,150,220,.4)',c:'#60a8e8',ico:'🥤'},'Vins':{bg:'rgba(160,60,120,.16)',bd:'rgba(160,60,120,.42)',c:'#cc88b8',ico:'🍷'},'Apéritifs':{bg:'rgba(240,180,60,.14)',bd:'rgba(240,180,60,.4)',c:'#f0cc60',ico:'🥂'},'Formules':{bg:'rgba(100,100,240,.14)',bd:'rgba(100,100,240,.4)',c:'#9090f0',ico:'📋'},'Accompagnements':{bg:'rgba(150,120,80,.14)',bd:'rgba(150,120,80,.38)',c:'#c8a870',ico:'🥗'}};
+    catsPick.innerHTML=cats.map(c=>{const b=CAT_COL2[c]||{bg:'rgba(255,255,255,.06)',bd:'rgba(255,255,255,.18)',c:'var(--sub)',ico:'•'};return `<span onclick="cmdPickSetCat('${c}',this)" style="padding:3px 10px;border-radius:14px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid;transition:all .12s;background:${b.bg};color:${b.c};border-color:${b.bd}">${b.ico} ${c}</span>`;}).join('');
   }
   rCmdPlatsPick();
 }
@@ -14734,124 +14872,113 @@ function rSallePlan(){
 }
 
 function sv3MakePlanTable(t){
-  const stat = t.stat||'libre';
-  const col = stat==='libre'?'#6fcf8a':stat==='occupée'?'#f07060':'#6aacda';
-  const fill = stat==='libre'?'rgba(61,122,78,.18)':stat==='occupée'?'rgba(181,57,42,.18)':'rgba(45,95,138,.18)';
-  const stroke = stat==='libre'?'rgba(111,207,138,.7)':stat==='occupée'?'rgba(240,112,96,.7)':'rgba(106,172,218,.6)';
-  const glowColor = stat==='libre'?'rgba(111,207,138,.4)':stat==='occupée'?'rgba(240,112,96,.4)':'rgba(106,172,218,.35)';
+  const stat=t.stat||'libre';
+  const statCls=stat==='occupée'?'occupee':stat==='réservée'?'reservee':'libre';
+  const col=stat==='libre'?'#6aacff':stat==='occupée'?'#f07060':'#6aacda';
+  const cvt=t.cvt||2;
 
-  const cmdsT = (DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payée');
-  const total = cmdsT.reduce((s,c)=>s+(+c.total||0),0);
-  const ti = stat==='occupée'?_timerInfo(t.id):null;
+  const cmdsT=(DB.commandes||[]).filter(c=>c.tbl===t.id&&c.stat!=='payée');
+  const total=cmdsT.reduce(function(s,c){return s+(+c.total||0);},0);
+  const ti=stat==='occupée'?_timerInfo(t.id):null;
 
-  // Dimensions selon couverts
-  const cvt = t.cvt||2;
-  const isRound = cvt<=4;
-  const size = isRound ? 90 : cvt<=6 ? 110 : 130;
+  const div=document.createElement('div');
+  div.className='sv3-plan-table';
+  div.dataset.id=t.id;
+  div.style.cssText='left:'+t.planX+'px;top:'+t.planY+'px;z-index:'+(stat==='occupée'?10:5)+';width:130px;height:160px;';
 
-  // SVG table plan (plus grand, plus lisible)
-  const svgContent = sv3PlanTableSVG(t, size, col, fill, stroke);
+  div.innerHTML=t3dBuildHTML(t,statCls,col,cvt,ti,total);
 
-  // Texte overlay
-  const timerTxt = ti ? (ti.mins>=90?'🔴':ti.mins>=60?'⚠️':'⏱')+' '+ti.str : '';
-  const totalTxt = total>0 ? eur(total) : '';
-
-  const div = document.createElement('div');
-  div.className = 'sv3-plan-table';
-  div.dataset.id = t.id;
-  const glowAnim=stat==='occupée'?'animation:sv3tableGlow 2.5s ease-in-out infinite;':'';
-  div.style.cssText = `left:${t.planX}px;top:${t.planY}px;z-index:${stat==='occupée'?10:5};${glowAnim}`;
-  div.innerHTML = `
-    <svg class="sv3-ptbl-svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
-      ${svgContent}
-      <!-- Numéro table -->
-      <text x="${size/2}" y="${size/2+2}" text-anchor="middle" dominant-baseline="middle"
-        font-family="'Cormorant Garamond',serif" font-size="${size>100?22:18}" font-weight="700"
-        fill="${col}" filter="url(#glow${t.id})">T${t.num}</text>
-      ${timerTxt?`<text x="${size/2}" y="${size/2+20}" text-anchor="middle" dominant-baseline="middle"
-        font-family="'Outfit',sans-serif" font-size="9" font-weight="600" fill="${col}" opacity=".8">${timerTxt}</text>`:''}
-      ${totalTxt?`<text x="${size/2}" y="${size/2+(timerTxt?33:20)}" text-anchor="middle" dominant-baseline="middle"
-        font-family="'Cormorant Garamond',serif" font-size="11" font-weight="700" fill="${col}" opacity=".9">${totalTxt}</text>`:''}
-      <defs>
-        <filter id="glow${t.id}" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="2" result="blur"/>
-          <feFlood flood-color="${col}" flood-opacity=".5" result="color"/>
-          <feComposite in="color" in2="blur" operator="in" result="shadow"/>
-          <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-    </svg>
-    ${stat==='occupée'&&ti?.mins>=90?`<div style="position:absolute;top:-6px;right:-6px;width:14px;height:14px;background:#f07060;border-radius:50%;border:2px solid var(--ink);animation:sv3blink 1s infinite"></div>`:''}
-    ${stat==='réservée'?`<div style="position:absolute;top:-6px;right:-6px;width:14px;height:14px;background:#6aacda;border-radius:50%;border:2px solid var(--ink)"></div>`:''}
-  `;
-
-  // Clic = popup (si pas en mode drag)
-  div.addEventListener('click', e=>{
+  div.addEventListener('click',function(e){
     if(div.dataset.dragged==='1'){div.dataset.dragged='0';return;}
     e.stopPropagation();
-    sv3OpenPlanPopup(t.id, div);
+    sv3OpenPlanPopup(t.id,div);
   });
-
   return div;
 }
 
-function sv3PlanTableSVG(t, size, col, fill, stroke){
-  const cvt = t.cvt||2;
-  const isRound = cvt<=4;
-  const cx = size/2, cy = size/2;
-  const chairs = [];
-  const uid = 'g'+t.id+'_'+Math.random().toString(36).slice(2,6);
+function t3dBuildHTML(t,statCls,col,cvt,ti,total){
+  // Chaises : positions autour de la table carrée
+  // Haut : jusqu'à 3, Bas : jusqu'à 3, Gauche : 1, Droite : 1
+  const perSide=Math.ceil(cvt/2);
+  const topN=Math.min(perSide,3);
+  const botN=Math.min(Math.floor(cvt/2),3);
+  const leftN=(cvt>6)?1:0;
+  const rightN=(cvt>8)?1:0;
 
-  if(isRound){
-    const tableR = size*0.24;
-    const chairR = size*0.4;
-    const n = Math.min(cvt,8);
-    for(let i=0;i<n;i++){
-      const angle = (i/n)*2*Math.PI - Math.PI/2;
-      const x = cx+chairR*Math.cos(angle);
-      const y = cy+chairR*Math.sin(angle);
-      // Chaise premium - ellipse orientée vers la table
-      chairs.push(`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${size*0.08}" ry="${size*0.065}"
-        fill="${fill}" stroke="${stroke}" stroke-width="1.5" opacity=".9"
-        transform="rotate(${(Math.atan2(y-cy,x-cx)*180/Math.PI+90).toFixed(1)},${x.toFixed(1)},${y.toFixed(1)})"/>`);
-    }
-    return `<defs>
-      <radialGradient id="${uid}" cx="40%" cy="35%" r="60%">
-        <stop offset="0%" stop-color="${col}" stop-opacity=".35"/>
-        <stop offset="100%" stop-color="${col}" stop-opacity=".08"/>
-      </radialGradient>
-    </defs>`+
-    chairs.join('')+
-    `<circle cx="${cx}" cy="${cy}" r="${tableR}" fill="url(#${uid})" stroke="${stroke}" stroke-width="2"/>
-     <circle cx="${cx}" cy="${cy}" r="${tableR*0.75}" fill="none" stroke="${col}" stroke-width=".8" opacity=".2"/>
-     <circle cx="${cx-tableR*0.25}" cy="${cy-tableR*0.25}" r="${tableR*0.15}" fill="${col}" opacity=".06"/>`;
-  } else {
-    // Rectangle premium
-    const tw = size*0.52, th = size*0.34;
-    const tx = cx-tw/2, ty = cy-th/2;
-    const perTop = Math.ceil(cvt/2);
-    const perBot = Math.floor(cvt/2);
-    for(let j=0;j<perTop;j++){
-      const x = tx + (j+0.5+0.5)*tw/(perTop+0.5);
-      chairs.push(`<rect x="${(x-size*0.07).toFixed(1)}" y="${(ty-size*0.13).toFixed(1)}" width="${(size*0.13).toFixed(1)}" height="${(size*0.1).toFixed(1)}" rx="4"
-        fill="${fill}" stroke="${stroke}" stroke-width="1.5" opacity=".9"/>`);
-    }
-    for(let j=0;j<perBot;j++){
-      const x = tx + (j+0.5+0.5)*tw/(perBot+0.5);
-      chairs.push(`<rect x="${(x-size*0.07).toFixed(1)}" y="${(ty+th+size*0.03).toFixed(1)}" width="${(size*0.13).toFixed(1)}" height="${(size*0.1).toFixed(1)}" rx="4"
-        fill="${fill}" stroke="${stroke}" stroke-width="1.5" opacity=".9"/>`);
-    }
-    return `<defs>
-      <linearGradient id="${uid}" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="${col}" stop-opacity=".3"/>
-        <stop offset="100%" stop-color="${col}" stop-opacity=".07"/>
-      </linearGradient>
-    </defs>`+
-    chairs.join('')+
-    `<rect x="${tx}" y="${ty}" width="${tw}" height="${th}" rx="10" fill="url(#${uid})" stroke="${stroke}" stroke-width="2"/>
-     <rect x="${tx+4}" y="${ty+4}" width="${tw-8}" height="${th-8}" rx="7" fill="none" stroke="${col}" stroke-width=".6" opacity=".25"/>
-     <rect x="${tx+tw*0.35}" y="${ty+4}" width="${tw*0.3}" height="2" rx="1" fill="${col}" opacity=".15"/>`;
+  let chairs='';
+  // Chaises haut
+  for(let i=0;i<topN;i++){
+    const x=27+8+(i*(72/Math.max(topN,1)))+4;
+    chairs+='<div class="t3d-chair" style="left:'+(x-11)+'px;top:7px;width:22px;height:14px;border-radius:3px 3px 2px 2px;"></div>';
   }
+  // Chaises bas
+  for(let i=0;i<botN;i++){
+    const x=27+8+(i*(72/Math.max(botN,1)))+4;
+    chairs+='<div class="t3d-chair" style="left:'+(x-11)+'px;top:109px;width:22px;height:14px;border-radius:2px 2px 3px 3px;"></div>';
+  }
+  // Chaise gauche
+  if(leftN) chairs+='<div class="t3d-chair" style="left:7px;top:50px;width:14px;height:22px;border-radius:3px 2px 2px 3px;"></div>';
+  // Chaise droite
+  if(rightN) chairs+='<div class="t3d-chair" style="left:109px;top:50px;width:14px;height:22px;border-radius:2px 3px 3px 2px;"></div>';
+
+  // Décos sur le plateau selon statut
+  let decos='';
+  if(statCls==='occupee'){
+    // Assiettes
+    decos+='<div class="t3d-deco" style="left:36px;top:35px;font-size:12px">🍽️</div>';
+    if(cvt>1) decos+='<div class="t3d-deco" style="left:72px;top:35px;font-size:12px">🍽️</div>';
+    // Verres
+    decos+='<div class="t3d-deco" style="left:30px;top:55px;font-size:11px">🥂</div>';
+    if(cvt>1) decos+='<div class="t3d-deco" style="left:78px;top:55px;font-size:11px">🥂</div>';
+    // Couverts
+    decos+='<div class="t3d-deco" style="left:50px;top:45px;font-size:10px" title="couverts">🍴</div>';
+    // Bougie
+    decos+='<div class="t3d-candle" style="left:60px;top:33px;">🕯️</div>';
+    // Personnages (1 par couvert, max 4)
+    const pCount=Math.min(cvt,4);
+    const pPos=[[32,18],[80,18],[80,82],[32,82]];
+    for(let pi=0;pi<pCount;pi++){
+      decos+='<div class="t3d-person" style="left:'+pPos[pi][0]+'px;top:'+pPos[pi][1]+'px;">🧑</div>';
+    }
+  } else if(statCls==='reservee'){
+    // Couverts pré-dressés + bougie éteinte
+    decos+='<div class="t3d-deco" style="left:38px;top:38px;font-size:11px;opacity:.7">🍽️</div>';
+    if(cvt>1) decos+='<div class="t3d-deco" style="left:72px;top:38px;font-size:11px;opacity:.7">🍽️</div>';
+    decos+='<div class="t3d-deco" style="left:52px;top:50px;font-size:11px;opacity:.6">🕯️</div>';
+    decos+='<div class="t3d-deco" style="left:45px;top:60px;font-size:10px;opacity:.5">📅</div>';
+  } else {
+    // Libre — table propre, juste un petit détail
+    decos+='<div class="t3d-deco" style="left:54px;top:48px;font-size:14px;opacity:.25">✨</div>';
+  }
+
+  // Info hover (timer + total)
+  const infoTxt=ti?('⏱ '+ti.str+(total?' · '+eur(total):'')):(total?eur(total):'');
+
+  // Badge bas
+  const badgeLbl=statCls==='occupee'?'Occupée':statCls==='reservee'?'Réservée':'Libre';
+
+  return '<div class="t3d-wrap '+statCls+'" title="Table '+t.num+' · '+cvt+' cvt">'+
+    (infoTxt?'<div class="t3d-info">'+infoTxt+'</div>':'')+
+    '<div class="t3d-scene">'+
+      '<div class="t3d-shadow"></div>'+
+      chairs+
+      '<div class="t3d-top">'+
+        '<div class="t3d-top-face"></div>'+
+        '<div class="t3d-side-front" style="background:linear-gradient(180deg,'+(statCls==='occupee'?'rgba(80,20,20,.7),rgba(50,10,10,.9)':statCls==='reservee'?'rgba(20,40,70,.7),rgba(10,25,50,.9)':'rgba(20,50,30,.7),rgba(10,30,20,.9)')+')"></div>'+
+        '<div class="t3d-side-right" style="background:linear-gradient(90deg,'+(statCls==='occupee'?'rgba(60,15,15,.8),rgba(40,8,8,.95)':statCls==='reservee'?'rgba(15,30,60,.8),rgba(8,18,45,.95)':'rgba(15,40,22,.8),rgba(8,22,14,.95)')+')"></div>'+
+        '<div class="t3d-side-back" style="background:linear-gradient(180deg,'+(statCls==='occupee'?'rgba(70,18,18,.6),rgba(45,10,10,.8)':statCls==='reservee'?'rgba(18,35,65,.6),rgba(10,22,48,.8)':'rgba(18,45,26,.6),rgba(10,28,18,.8)')+')"></div>'+
+        '<div class="t3d-side-left" style="background:linear-gradient(270deg,'+(statCls==='occupee'?'rgba(65,16,16,.7),rgba(42,9,9,.9)':statCls==='reservee'?'rgba(16,32,62,.7),rgba(9,20,46,.9)':'rgba(16,42,24,.7),rgba(9,25,16,.9)')+')"></div>'+
+        decos+
+        '<div class="t3d-label" style="left:0;right:0;top:50%;margin-top:-8px;color:'+col+'">T'+t.num+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="t3d-badge '+statCls+'">'+badgeLbl+'</div>'+
+  '</div>';
+}
+
+function sv3PlanTableSVG(t,size,col,fill,stroke){
+  // Conservé pour compatibilité — non utilisé en mode 3D
+  return '';
 }
 
 function sv3OpenPlanPopup(id, el){
@@ -15699,7 +15826,28 @@ function rMenu(){
   const catsEl=document.getElementById('mn2-cats');
   if(catsEl){
     const cats=['Tous',...new Set(plats.map(p=>p.cat).filter(Boolean))];
-    catsEl.innerHTML=cats.map(c=>`<button class="mn2-cat-btn${_mn2Cat===c?' on':''}" onclick="mn2SetCat('${c}',this)">${c}${c!=='Tous'?` <span style="font-size:9px;opacity:.6">${plats.filter(p=>p.cat===c).length}</span>`:''}</button>`).join('');
+    const CAT_COLORS={
+      'Tous':     {bg:'rgba(201,151,58,.15)',border:'rgba(201,151,58,.4)',color:'#e8c87a',ico:'🍽️'},
+      'Entrées':  {bg:'rgba(111,207,138,.12)',border:'rgba(111,207,138,.35)',color:'#6fcf8a',ico:'🥗'},
+      'Viandes':  {bg:'rgba(220,80,60,.15)',border:'rgba(220,80,60,.4)',color:'#f08070',ico:'🥩'},
+      'Poissons': {bg:'rgba(80,160,220,.14)',border:'rgba(80,160,220,.4)',color:'#6ab8e8',ico:'🐟'},
+      'Végétarien':{bg:'rgba(90,200,90,.13)',border:'rgba(90,200,90,.38)',color:'#7dcc7d',ico:'🥦'},
+      'Plats':    {bg:'rgba(230,140,50,.14)',border:'rgba(230,140,50,.4)',color:'#f0a060',ico:'🍲'},
+      'Desserts': {bg:'rgba(220,100,180,.14)',border:'rgba(220,100,180,.4)',color:'#e878cc',ico:'🍰'},
+      'Boissons': {bg:'rgba(60,150,220,.14)',border:'rgba(60,150,220,.4)',color:'#60a8e8',ico:'🥤'},
+      'Vins':     {bg:'rgba(160,60,120,.16)',border:'rgba(160,60,120,.42)',color:'#cc88b8',ico:'🍷'},
+      'Apéritifs':{bg:'rgba(240,180,60,.14)',border:'rgba(240,180,60,.4)',color:'#f0cc60',ico:'🥂'},
+      'Formules': {bg:'rgba(100,100,240,.14)',border:'rgba(100,100,240,.4)',color:'#9090f0',ico:'📋'},
+      'Accompagnements':{bg:'rgba(150,120,80,.14)',border:'rgba(150,120,80,.38)',color:'#c8a870',ico:'🥗'},
+    };
+    catsEl.innerHTML=cats.map(c=>{
+      const base=CAT_COLORS[c]||{bg:'rgba(255,255,255,.06)',border:'rgba(255,255,255,.18)',color:'var(--sub)',ico:'•'};
+      const isOn=_mn2Cat===c;
+      const style=isOn
+        ?`background:${base.bg}!important;border-color:${base.border}!important;color:${base.color}!important;box-shadow:0 0 12px ${base.border};`
+        :`background:${base.bg}!important;border-color:${base.border}!important;color:${base.color}!important;opacity:.7;`;
+      return `<button class="mn2-cat-btn${isOn?' on':''}" onclick="mn2SetCat('${c}',this)" style="${style}transition:all .15s;border-radius:20px;border:1px solid;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;">${base.ico} ${c}${c!=='Tous'?` <span style="font-size:9px;opacity:.55">${plats.filter(p=>p.cat===c).length}</span>`:''}</button>`;
+    }).join('');
   }
 
   // Filtrer
@@ -20892,7 +21040,28 @@ function posBuildCats(){
   const wrap=document.getElementById('pos-cats');
   if(!wrap) return;
   const cats=['tous',...new Set((DB.plats||[]).map(p=>p.cat).filter(Boolean))];
-  wrap.innerHTML=cats.map(c=>`<button class="p3-cat${c===posCatActive?' on':''}" onclick="posCat('${c}',this)">${c==='tous'?'Tous':c}</button>`).join('');
+  const CAT_PC={
+    'tous':        {g:'#b8860b,#e8c87a,#f5e09a,#e8c87a,#b8860b', glow:'rgba(232,200,122,.5)', c:'#3a2800', ico:'🍽️'},
+    'Entrées':     {g:'#1a6b35,#4fcf7a,#7ded9a,#4fcf7a,#1a6b35',  glow:'rgba(79,207,122,.45)', c:'#003315', ico:'🥗'},
+    'Viandes':     {g:'#8b1a0e,#e05040,#f57868,#e05040,#8b1a0e',  glow:'rgba(224,80,64,.45)',  c:'#2d0000', ico:'🥩'},
+    'Poissons':    {g:'#0e508b,#4090d8,#70b8f0,#4090d8,#0e508b',  glow:'rgba(64,144,216,.45)', c:'#001830', ico:'🐟'},
+    'Végétarien':  {g:'#1a6b1a,#50c850,#78e878,#50c850,#1a6b1a',  glow:'rgba(80,200,80,.45)',  c:'#002800', ico:'🥦'},
+    'Plats':       {g:'#7a4200,#d87828,#f0a050,#d87828,#7a4200',  glow:'rgba(216,120,40,.45)', c:'#2a1400', ico:'🍲'},
+    'Desserts':    {g:'#7a1a68,#d050b8,#f078d8,#d050b8,#7a1a68',  glow:'rgba(208,80,184,.45)', c:'#280018', ico:'🍰'},
+    'Boissons':    {g:'#0a4a8a,#2880d0,#50a8f0,#2880d0,#0a4a8a',  glow:'rgba(40,128,208,.45)', c:'#001428', ico:'🥤'},
+    'Vins':        {g:'#5a1040,#a84080,#cc70a8,#a84080,#5a1040',  glow:'rgba(168,64,128,.45)', c:'#1e0010', ico:'🍷'},
+    'Apéritifs':   {g:'#8a6200,#d8a800,#f8d040,#d8a800,#8a6200',  glow:'rgba(216,168,0,.45)',  c:'#281800', ico:'🥂'},
+    'Formules':    {g:'#2828a0,#5858e0,#8080f8,#5858e0,#2828a0',  glow:'rgba(88,88,224,.45)',  c:'#080828', ico:'📋'},
+    'Accompagnements':{g:'#5a3a10,#a07838,#c8a060,#a07838,#5a3a10',glow:'rgba(160,120,56,.45)',c:'#1e1000', ico:'🥗'},
+  };
+  wrap.innerHTML=cats.map(c=>{
+    const b=CAT_PC[c]||{g:'#333,#666,#999,#666,#333',glow:'rgba(255,255,255,.2)',c:'#ccc',ico:'•'};
+    const isOn=c===posCatActive;
+    const grad=`linear-gradient(108deg,${b.g})`;
+    const style=`background:${grad};background-size:200% 100%;color:${b.c};border:none;`+
+      (isOn?`box-shadow:0 4px 18px ${b.glow},inset 0 1px 0 rgba(255,255,255,.25);filter:brightness(1.1);`:`opacity:.65;`);
+    return `<button class="p3-cat${isOn?' on':''}" onclick="posCat('${c}',this)" style="${style}">${b.ico} ${c==='tous'?'Tous':c}</button>`;
+  }).join('');
 }
 
 function posCat(cat,el){
